@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Fuse from 'fuse.js'
-import { getPokemonList, getAllPokemonNames, getPokemonDetails } from './lib/api'
+import { getPokemonList, getAllPokemonNames, getPokemonDetails, getCollection, addToCollection, removeFromCollection } from './lib/api'
 import { PokemonCard } from './components/PokemonCard'
 import { SearchBar } from './components/SearchBar'
 import { PokemonModal } from './components/PokemonModal'
@@ -13,10 +13,7 @@ function App() {
   const [pokemonList, setPokemonList] = useState([]);
   const [allPokemonNames, setAllPokemonNames] = useState([]);
   const [searchResults, setSearchResults] = useState(null);
-  const [ownedIds, setOwnedIds] = useState(() => {
-    const saved = localStorage.getItem('felix-pokemon-collection');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [ownedIds, setOwnedIds] = useState([]); // Start empty, load from DB
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -36,6 +33,7 @@ function App() {
       if (ignore) return;
       await loadPokemon();
       await loadAllNames();
+      await loadCollection();
     };
     init();
 
@@ -44,16 +42,21 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('felix-pokemon-collection', JSON.stringify(ownedIds));
-  }, [ownedIds]);
-
   const loadAllNames = async () => {
     try {
       const names = await getAllPokemonNames();
       setAllPokemonNames(names);
     } catch (error) {
       console.error("Failed to load all pokemon names", error);
+    }
+  };
+
+  const loadCollection = async () => {
+    try {
+      const ids = await getCollection();
+      setOwnedIds(ids);
+    } catch (error) {
+      console.error("Failed to load collection", error);
     }
   };
 
@@ -105,14 +108,23 @@ function App() {
     }
   };
 
-  const toggleOwned = (id) => {
+  const toggleOwned = async (id) => {
+    // Optimistic update
+    const isOwned = ownedIds.includes(id);
     setOwnedIds(prev => {
-      if (prev.includes(id)) {
+      if (isOwned) {
         return prev.filter(pId => pId !== id);
       } else {
         return [...prev, id];
       }
     });
+
+    // Sync with DB
+    if (isOwned) {
+      await removeFromCollection(id);
+    } else {
+      await addToCollection(id);
+    }
   };
 
   const handleCardClick = async (pokemon) => {

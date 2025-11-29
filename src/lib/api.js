@@ -41,3 +41,43 @@ export async function getAllPokemonNames() {
   const data = await response.json();
   return data.results.map(p => p.name);
 }
+
+// Collection Persistence (JSON Server)
+const DB_URL = 'http://localhost:3001/collection';
+
+export async function getCollection() {
+  try {
+    const response = await fetch(DB_URL);
+    if (!response.ok) throw new Error('Failed to fetch collection');
+    const data = await response.json();
+    return data.map(item => item.id);
+  } catch (error) {
+    console.error("Error fetching collection:", error);
+    return [];
+  }
+}
+
+export async function addToCollection(id) {
+  try {
+    await fetch(DB_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    });
+  } catch (error) {
+    console.error("Error adding to collection:", error);
+  }
+}
+
+export async function removeFromCollection(id) {
+  try {
+    // First find the item ID (json-server assigns a unique id to each entry, which might differ from pokemon id if we didn't set it explicitly, but here we used 'id' as the pokemon id)
+    // However, json-server expects DELETE /collection/:id where :id is the id of the record.
+    // Since we stored { "id": 6 }, the record ID IS the pokemon ID.
+    await fetch(`${DB_URL}/${id}`, {
+      method: 'DELETE'
+    });
+  } catch (error) {
+    console.error("Error removing from collection:", error);
+  }
+}
