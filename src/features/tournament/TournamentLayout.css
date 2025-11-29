@@ -221,6 +221,7 @@
         transform: translateY(-10px);
     }
 }
+
 .champion-actions {
     display: flex;
     gap: 1rem;
@@ -245,4 +246,79 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.4);
     background: linear-gradient(45deg, #f472b6, #ec4899);
+}
+
+/* Story Modal */
+.story-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    animation: fade-in 0.5s ease-out;
+}
+
+.story-modal {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    animation: slide-up 0.5s ease-out;
+}
+
+.story-modal p {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+}
+
+.story-modal button {
+    background: linear-gradient(45deg, #3b82f6, #2563eb);
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.story-modal button:hover {
+    transform: scale(1.05);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

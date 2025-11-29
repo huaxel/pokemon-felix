@@ -13,28 +13,42 @@ export function TournamentLayout({ allPokemon }) {
     const [champion, setChampion] = useState(null);
     const [view, setView] = useState('setup'); // setup, bracket, battle, champion
 
+    const [story, setStory] = useState(null); // { text: "...", onContinue: () => {} }
+
+    const showStoryModal = (text, onContinue) => {
+        setStory({ text, onContinue });
+    };
+
+    const handleStoryContinue = () => {
+        const onContinue = story.onContinue;
+        setStory(null);
+        if (onContinue) onContinue();
+    };
+
     const startTournament = () => {
         if (participants.length !== 8) return;
 
-        // Create Quarter Finals
-        const quarterFinals = [];
-        for (let i = 0; i < 8; i += 2) {
-            quarterFinals.push({
-                p1: participants[i],
-                p2: participants[i + 1],
-                winner: null
-            });
-        }
+        showStoryModal("¡Bienvenidos a la Liga Félix! 8 entrenadores, 1 campeón. ¿Tienes lo que se necesita?", () => {
+            // Create Quarter Finals
+            const quarterFinals = [];
+            for (let i = 0; i < 8; i += 2) {
+                quarterFinals.push({
+                    p1: participants[i],
+                    p2: participants[i + 1],
+                    winner: null
+                });
+            }
 
-        const initialRounds = [
-            { name: 'Cuartos de Final', matches: quarterFinals },
-            { name: 'Semifinales', matches: Array(2).fill({ p1: null, p2: null, winner: null }) },
-            { name: 'Final', matches: Array(1).fill({ p1: null, p2: null, winner: null }) }
-        ];
+            const initialRounds = [
+                { name: 'Cuartos de Final', matches: quarterFinals },
+                { name: 'Semifinales', matches: Array(2).fill({ p1: null, p2: null, winner: null }) },
+                { name: 'Final', matches: Array(1).fill({ p1: null, p2: null, winner: null }) }
+            ];
 
-        setRounds(initialRounds);
-        setView('bracket');
-        setCurrentMatch({ roundIndex: 0, matchIndex: 0 });
+            setRounds(initialRounds);
+            setView('bracket');
+            setCurrentMatch({ roundIndex: 0, matchIndex: 0 });
+        });
     };
 
     const autoFill = () => {
@@ -59,7 +73,18 @@ export function TournamentLayout({ allPokemon }) {
     };
 
     const startNextMatch = () => {
-        setView('battle');
+        const roundName = rounds[currentMatch.roundIndex].name;
+        let msg = `¡Es hora del duelo! ${roundName}`;
+
+        if (currentMatch.roundIndex === 1 && currentMatch.matchIndex === 0) {
+            msg = "¡Las Semifinales! Solo los mejores permanecen.";
+        } else if (currentMatch.roundIndex === 2) {
+            msg = "¡La Gran Final! El destino te espera.";
+        }
+
+        showStoryModal(msg, () => {
+            setView('battle');
+        });
     };
 
     const handleMatchEnd = (winner) => {
@@ -112,6 +137,14 @@ export function TournamentLayout({ allPokemon }) {
     if (view === 'setup') {
         return (
             <div className="tournament-layout">
+                {story && (
+                    <div className="story-overlay">
+                        <div className="story-modal">
+                            <p>{story.text}</p>
+                            <button onClick={handleStoryContinue}>Continuar</button>
+                        </div>
+                    </div>
+                )}
                 <h1>Torneo Pokémon</h1>
                 <div className="setup-controls">
                     <button className="autofill-btn" onClick={autoFill} disabled={!allPokemon || allPokemon.length === 0}>
@@ -183,6 +216,14 @@ export function TournamentLayout({ allPokemon }) {
     // Bracket View
     return (
         <div className="tournament-layout">
+            {story && (
+                <div className="story-overlay">
+                    <div className="story-modal">
+                        <p>{story.text}</p>
+                        <button onClick={handleStoryContinue}>Continuar</button>
+                    </div>
+                </div>
+            )}
             <h1>Torneo en Progreso</h1>
             <Bracket rounds={rounds} currentMatch={currentMatch} />
             <div className="action-area">
