@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Library, Swords, Trophy } from 'lucide-react';
-import pokeballLogo from '../assets/pokeball_modern.png';
+import pokeballLogo from '../assets/pokeball_transparent.png';
 import './Navbar.css';
 
 export function Navbar({ onExport, onImport }) {
