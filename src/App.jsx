@@ -4,7 +4,7 @@ import { usePokemonContext } from './contexts/PokemonContext';
 import { getPokemonDetails, addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
-import { Navbar } from './components/Navbar';
+
 import { PokemonModal } from './components/PokemonModal';
 import { CollectionPage } from './components/CollectionPage';
 import { BattlePage } from './components/BattlePage';
