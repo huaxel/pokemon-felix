@@ -27,12 +27,12 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
 
     // Stats mapping
     const statLabels = {
-        hp: 'HP',
-        attack: 'Attack',
-        defense: 'Defense',
-        'special-attack': 'Sp. Atk',
-        'special-defense': 'Sp. Def',
-        speed: 'Speed'
+        hp: 'PS',
+        attack: 'Ataque',
+        defense: 'Defensa',
+        'special-attack': 'Atq. Esp.',
+        'special-defense': 'Def. Esp.',
+        speed: 'Velocidad'
     };
 
     return (
@@ -43,9 +43,27 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
                 <div className="modal-header">
                     <h2>{currentName} <span className="modal-id">#{String(pokemon.id).padStart(3, '0')}</span></h2>
                     <div className="language-selector">
-                        <button className={language === 'en' ? 'active' : ''} onClick={() => setLanguage('en')}>EN</button>
-                        <button className={language === 'fr' ? 'active' : ''} onClick={() => setLanguage('fr')}>FR</button>
-                        <button className={language === 'es' ? 'active' : ''} onClick={() => setLanguage('es')}>ES</button>
+                        <button
+                            className={language === 'en' ? 'active' : ''}
+                            onClick={() => setLanguage('en')}
+                            title="English"
+                        >
+                            🇺🇸
+                        </button>
+                        <button
+                            className={language === 'fr' ? 'active' : ''}
+                            onClick={() => setLanguage('fr')}
+                            title="Français"
+                        >
+                            🇫🇷
+                        </button>
+                        <button
+                            className={language === 'es' ? 'active' : ''}
+                            onClick={() => setLanguage('es')}
+                            title="Español"
+                        >
+                            🇪🇸
+                        </button>
                     </div>
                 </div>
 
@@ -59,7 +77,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
                             className={`collection-btn ${isOwned ? 'owned' : ''}`}
                             onClick={() => onToggleOwned(pokemon.id)}
                         >
-                            {isOwned ? 'In Collection' : 'Add to Collection'}
+                            {isOwned ? 'En la Colección' : 'Añadir a la Colección'}
                         </button>
                     </div>
 
@@ -75,7 +93,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
                         <p className="flavor-text">{currentDescription}</p>
 
                         <div className="stats-container">
-                            <h3>Stats</h3>
+                            <h3>Estadísticas</h3>
                             {pokemon.stats.map(stat => (
                                 <div key={stat.stat.name} className="stat-row">
                                     <span className="stat-label">{statLabels[stat.stat.name] || stat.stat.name}</span>

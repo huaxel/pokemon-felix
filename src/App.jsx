@@ -143,7 +143,7 @@ function App() {
         <Route path="/" element={
           <>
             <div className="header-stats">
-              <h1>Pokemon Felix</h1>
+              <h1>Pokémon Félix</h1>
             </div>
 
             <SearchBar allPokemon={allPokemonNames} onSearch={handleSearch} />
@@ -151,7 +151,7 @@ function App() {
             {searchResults && (
               <div className="search-status">
                 <button className="clear-search" onClick={() => setSearchResults(null)}>
-                  RESET SEARCH
+                  REINICIAR BÚSQUEDA
                 </button>
               </div>
             )}
@@ -175,7 +175,7 @@ function App() {
                   onClick={loadPokemon}
                   disabled={loading}
                 >
-                  {loading ? 'Loading...' : 'Load More Pokemon'}
+                  {loading ? 'Cargando...' : 'Cargar Más Pokémon'}
                 </button>
               </div>
             )}

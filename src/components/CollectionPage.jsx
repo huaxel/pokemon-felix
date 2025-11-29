@@ -52,15 +52,15 @@ export function CollectionPage({ ownedIds, onToggleOwned }) {
     };
 
     if (loading) {
-        return <div className="collection-loading">Loading your collection...</div>;
+        return <div className="collection-loading">Cargando tu colección...</div>;
     }
 
     if (ownedIds.length === 0) {
         return (
             <div className="empty-collection">
-                <h2>Your collection is empty!</h2>
-                <p>Go back to the home page to catch some Pokemon.</p>
-                <Link to="/" className="go-home-btn">Find Pokemon</Link>
+                <h2>¡Tu colección está vacía!</h2>
+                <p>Vuelve al inicio para atrapar algunos Pokémon.</p>
+                <Link to="/" className="go-home-btn">Buscar Pokémon</Link>
             </div>
         );
     }
@@ -68,7 +68,7 @@ export function CollectionPage({ ownedIds, onToggleOwned }) {
     return (
         <div className="collection-page">
             <div className="collection-header">
-                <h2>My Collection</h2>
+                <h2>Mi Colección</h2>
                 <div className="collection-stats">
                     <span>Total: {collectedPokemon.length}</span>
                 </div>

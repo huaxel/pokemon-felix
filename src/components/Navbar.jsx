@@ -8,20 +8,20 @@ export function Navbar({ collectionCount }) {
         <nav className="navbar">
             <div className="navbar-content">
                 <Link to="/" className="navbar-logo">
-                    Pokemon Felix
+                    Pokémon Félix
                 </Link>
                 <div className="navbar-links">
                     <Link
                         to="/"
                         className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
                     >
-                        Home
+                        Inicio
                     </Link>
                     <Link
                         to="/collection"
                         className={`nav-link ${location.pathname === '/collection' ? 'active' : ''}`}
                     >
-                        My Collection
+                        Mi Colección
                         {collectionCount > 0 && (
                             <span className="collection-badge">{collectionCount}</span>
                         )}
