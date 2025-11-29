@@ -147,83 +147,97 @@
     border-radius: 20px;
     font-size: 0.75rem;
     text-transform: uppercase;
-    background-color: rgba(255, 255, 255, 0.95);
+    color: white;
+    /* Default text color */
     font-weight: 800;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 2px solid currentColor;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    /* White border for contrast */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Type Colors - Text Color for Contrast */
+/* Type Colors - Backgrounds & Text Contrast */
 .type-badge.grass {
-    color: #5ca935;
+    background-color: #78c850;
 }
 
 .type-badge.fire {
-    color: #dd6610;
+    background-color: #f08030;
 }
 
 .type-badge.water {
-    color: #445e9c;
+    background-color: #6890f0;
 }
 
 .type-badge.bug {
-    color: #8d9a1b;
+    background-color: #a8b820;
 }
 
 .type-badge.normal {
-    color: #8a8a59;
+    background-color: #a8a878;
 }
 
 .type-badge.poison {
-    color: #803380;
+    background-color: #a040a0;
 }
 
 .type-badge.electric {
-    color: #e0b700;
+    background-color: #f8d030;
+    color: #333;
+    /* Dark text for light background */
+    text-shadow: none;
 }
 
 .type-badge.ground {
-    color: #c4a444;
+    background-color: #e0c068;
+    color: #333;
+    text-shadow: none;
 }
 
 .type-badge.fairy {
-    color: #d6768b;
+    background-color: #ee99ac;
+    color: #333;
+    text-shadow: none;
 }
 
 .type-badge.fighting {
-    color: #9d2621;
+    background-color: #c03028;
 }
 
 .type-badge.psychic {
-    color: #d63666;
+    background-color: #f85888;
 }
 
 .type-badge.rock {
-    color: #93802d;
+    background-color: #b8a038;
 }
 
 .type-badge.ghost {
-    color: #554374;
+    background-color: #705898;
 }
 
 .type-badge.ice {
-    color: #69c6c6;
+    background-color: #98d8d8;
+    color: #333;
+    text-shadow: none;
 }
 
 .type-badge.dragon {
-    color: #4c08d4;
+    background-color: #7038f8;
 }
 
 .type-badge.steel {
-    color: #9797b5;
+    background-color: #b8b8d0;
+    color: #333;
+    text-shadow: none;
 }
 
 .type-badge.dark {
-    color: #513f34;
+    background-color: #705848;
 }
 
 .type-badge.flying {
-    color: #8d6ce5;
+    background-color: #a890f0;
 }
 
 /* Card Backgrounds based on Type (First Type) */
