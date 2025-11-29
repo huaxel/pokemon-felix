@@ -8,10 +8,16 @@
   --background-color: #f0f8ff;
   /* Light Alice Blue */
   --text-color: #1a1a1a;
-  --text-secondary: #4a4a4a;
+  --text-secondary: #595959;
+  /* Improved for WCAG AA contrast */
   --card-bg: #ffffff;
   --font-family: 'Inter', sans-serif;
   --header-font: 'Luckiest Guy', cursive;
+
+  /* Battle health colors */
+  --health-critical: #ff0000;
+  --health-good: #00ff00;
+  --health-warning: #ffaa00;
 }
 
 * {
@@ -29,11 +35,25 @@ body {
   line-height: 1.6;
 }
 
+/* Accessible focus indicators */
+*:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 .app-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 1rem;
+  }
 }
 
 h1 {
@@ -44,6 +64,14 @@ h1 {
   font-size: 4rem;
   letter-spacing: 3px;
   -webkit-text-stroke: 2px #2a75bb;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 0px var(--secondary-color), -1px -1px 0px var(--accent-color);
+    -webkit-text-stroke: 1px #2a75bb;
+  }
 }
 
 .pokemon-card {

@@ -11,6 +11,15 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
         <div
             className={`pokemon-card type-${mainType}`}
             onClick={() => onClick(pokemon)}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onClick(pokemon);
+                }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={`View details for ${displayName}, number ${pokemon.id}`}
             style={{ animationDelay: `${index * 0.05}s` }}
         >
             <div className="card-header">
@@ -33,6 +42,11 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
                     alt={pokemon.name}
                     className="pokemon-image"
                     loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                        e.target.onerror = null; // Prevent infinite loop
+                        e.target.src = pokemon.sprites.front_default;
+                    }}
                 />
             </div>
 
