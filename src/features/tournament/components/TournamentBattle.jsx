@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PokemonCard } from '../../../components/PokemonCard';
 import { getStat, calculateMaxHP, calculateDamage } from '../../../lib/battle-logic';
+import { getMoveDetails } from '../../../lib/api';
 import './TournamentBattle.css';
 
 export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
@@ -19,45 +20,82 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
     const [f1MaxHP] = useState(calculateMaxHP(fighter1));
     const [f2MaxHP] = useState(calculateMaxHP(fighter2));
 
-    const quickSim = () => {
-        setIsBattling(true);
-        setBattleLog([]);
+    // Moves State
+    const [f1Moves, setF1Moves] = useState([]);
+    const [f2Moves, setF2Moves] = useState([]);
+    const [loadingMoves, setLoadingMoves] = useState(true);
+    const [turn, setTurn] = useState('player'); // 'player' | 'opponent'
 
-        // Instant calculation
-        let currentF1HP = f1HP;
-        let currentF2HP = f2HP;
-        const log = ["¡Simulación Rápida!"];
+    // Fetch Moves on Mount
+    useEffect(() => {
+        const fetchMoves = async () => {
+            setLoadingMoves(true);
+            try {
+                // Helper to get 4 random moves
+                const getRandomMoves = async (pokemon) => {
+                    const allMoves = pokemon.moves;
+                    const selected = allMoves.sort(() => 0.5 - Math.random()).slice(0, 4);
+                    const moveDetails = await Promise.all(selected.map(m => getMoveDetails(m.move.url)));
+                    return moveDetails.filter(m => m !== null);
+                };
 
-        while (currentF1HP > 0 && currentF2HP > 0) {
-            // F1 Attack
-            const res1 = calculateDamage(fighter1, fighter2);
-            currentF2HP = Math.max(0, currentF2HP - res1.damage);
-            log.push(`${fighter1.name} inflige ${res1.damage}`);
+                const [m1, m2] = await Promise.all([
+                    getRandomMoves(fighter1),
+                    getRandomMoves(fighter2)
+                ]);
 
-            if (currentF2HP <= 0) {
-                setF2HP(0);
-                setWinner(fighter1);
-                log.push(`¡${fighter1.name} gana!`);
-                setBattleLog(log);
-                onBattleEnd(fighter1);
-                break;
+                setF1Moves(m1);
+                setF2Moves(m2);
+            } catch (error) {
+                console.error("Error fetching moves", error);
+            } finally {
+                setLoadingMoves(false);
             }
+        };
+        fetchMoves();
+    }, [fighter1, fighter2]);
 
-            // F2 Attack
-            const res2 = calculateDamage(fighter2, fighter1);
-            currentF1HP = Math.max(0, currentF1HP - res2.damage);
-            log.push(`${fighter2.name} inflige ${res2.damage}`);
-
-            if (currentF1HP <= 0) {
-                setF1HP(0);
-                setWinner(fighter2);
-                log.push(`¡${fighter2.name} gana!`);
-                setBattleLog(log);
-                onBattleEnd(fighter2);
-                break;
-            }
+    // Opponent Turn Logic
+    useEffect(() => {
+        if (turn === 'opponent' && !winner && f2Moves.length > 0) {
+            const timer = setTimeout(async () => {
+                // Pick random move
+                const move = f2Moves[Math.floor(Math.random() * f2Moves.length)];
+                await executeTurn(fighter2, fighter1, move, setF1HP, setTurn);
+            }, 1500);
+            return () => clearTimeout(timer);
         }
-        setIsBattling(false);
+    }, [turn, winner, f2Moves]);
+
+    const executeTurn = async (attacker, defender, move, setDefenderHP, setNextTurn) => {
+        const res = calculateDamage(attacker, defender, move);
+
+        // Log
+        setBattleLog(prev => [...prev, `${attacker.name} usa ${move.name}!`]);
+
+        // Animate
+        await triggerAttackAnimation(attacker, defender, res);
+
+        // Apply Damage
+        setDefenderHP(prev => {
+            const newHP = Math.max(0, prev - res.damage);
+            if (newHP <= 0) {
+                setWinner(attacker);
+                setBattleLog(prev => [...prev, `¡${attacker.name} gana!`]);
+                setTimeout(() => onBattleEnd(attacker), 2000);
+            }
+            return newHP;
+        });
+
+        // Switch Turn (if no winner)
+        if (defender === fighter1 ? (f1HP - res.damage > 0) : (f2HP - res.damage > 0)) {
+            setNextTurn(attacker === fighter1 ? 'opponent' : 'player');
+        }
+    };
+
+    const handleMoveClick = async (move) => {
+        if (turn !== 'player' || winner) return;
+        await executeTurn(fighter1, fighter2, move, setF2HP, setTurn);
     };
 
     const triggerAttackAnimation = async (attacker, defender, result) => {
@@ -78,55 +116,6 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
         await new Promise(r => setTimeout(r, 400)); // Wait for shake
         setDamagedFighter(null);
         setEffectivenessMsg(null);
-    };
-
-    const startBattle = async () => {
-        setIsBattling(true);
-        setBattleLog([]);
-
-        const addLog = (msg) => setBattleLog(prev => [...prev, msg]);
-        addLog("¡Comienza la batalla!");
-
-        let currentF1HP = f1HP;
-        let currentF2HP = f2HP;
-
-        // Battle Loop
-        while (currentF1HP > 0 && currentF2HP > 0) {
-            await new Promise(r => setTimeout(r, 1000));
-
-            // Fighter 1 Attacks
-            const res1 = calculateDamage(fighter1, fighter2);
-            await triggerAttackAnimation(fighter1, fighter2, res1);
-
-            currentF2HP = Math.max(0, currentF2HP - res1.damage);
-            setF2HP(currentF2HP);
-            addLog(`${fighter1.name} ataca e inflige ${res1.damage} de daño!`);
-
-            if (currentF2HP <= 0) {
-                setWinner(fighter1);
-                addLog(`¡${fighter1.name} gana!`);
-                setTimeout(() => onBattleEnd(fighter1), 2000);
-                break;
-            }
-
-            await new Promise(r => setTimeout(r, 1000));
-
-            // Fighter 2 Attacks
-            const res2 = calculateDamage(fighter2, fighter1);
-            await triggerAttackAnimation(fighter2, fighter1, res2);
-
-            currentF1HP = Math.max(0, currentF1HP - res2.damage);
-            setF1HP(currentF1HP);
-            addLog(`${fighter2.name} ataca e inflige ${res2.damage} de daño!`);
-
-            if (currentF1HP <= 0) {
-                setWinner(fighter2);
-                addLog(`¡${fighter2.name} gana!`);
-                setTimeout(() => onBattleEnd(fighter2), 2000);
-                break;
-            }
-        }
-        setIsBattling(false);
     };
 
     return (
@@ -180,12 +169,24 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
             </div>
 
             <div className="battle-controls">
-                {!isBattling && !winner && (
-                    <>
-                        <button className="fight-btn" onClick={startBattle}>¡PELEAR!</button>
-                        <button className="quick-sim-btn" onClick={quickSim}>Simular Rápido</button>
-                    </>
+                {loadingMoves ? (
+                    <div className="loading-moves">Cargando movimientos...</div>
+                ) : (
+                    <div className="moves-grid">
+                        {f1Moves.map((move, i) => (
+                            <button
+                                key={i}
+                                className={`move-btn type-${move.type}`}
+                                onClick={() => handleMoveClick(move)}
+                                disabled={turn !== 'player' || !!winner}
+                            >
+                                <span className="move-name">{move.name}</span>
+                                <span className="move-details">{move.type} | Pwr: {move.power}</span>
+                            </button>
+                        ))}
+                    </div>
                 )}
+                {turn === 'opponent' && !winner && <div className="turn-indicator">Turno del Oponente...</div>}
             </div>
 
             {battleLog.length > 0 && (

@@ -40,20 +40,28 @@ export const getEffectiveness = (attackerType, defenderType) => {
 };
 
 // Calculate damage for a single attack
-export const calculateDamage = (attacker, defender) => {
+export const calculateDamage = (attacker, defender, move) => {
     const att = getStat(attacker, 'attack');
     const def = getStat(defender, 'defense');
 
-    // Get primary types (simplified to first type for now)
-    const attackerType = attacker.types[0].type.name;
+    // Use move type if available, otherwise fallback to Pokemon type
+    const attackType = move ? move.type : attacker.types[0].type.name;
     const defenderType = defender.types[0].type.name;
 
-    const effectiveness = getEffectiveness(attackerType, defenderType);
+    const effectiveness = getEffectiveness(attackType, defenderType);
 
-    // Damage formula: (Attack * 1.5) - (Defense * 0.5) + Random(0-10)
-    // Multiplied by Type Effectiveness
-    let baseDamage = Math.max(5, Math.floor((att * 1.5) - (def * 0.5) + (Math.random() * 10)));
-    const finalDamage = Math.floor(baseDamage * effectiveness);
+    // Damage formula: 
+    // ((2 * Level / 5 + 2) * Power * A / D / 50 + 2) * Modifier
+    // Simplified: (Attack * Power / Defense / 10) * Random * Effectiveness
+
+    const power = move ? move.power : 40;
+
+    let baseDamage = (att * power / def / 5) + 5;
+
+    // Random factor (0.85 to 1.0)
+    const random = (Math.floor(Math.random() * 16) + 85) / 100;
+
+    const finalDamage = Math.floor(baseDamage * random * effectiveness);
 
     return { damage: finalDamage, effectiveness };
 };
