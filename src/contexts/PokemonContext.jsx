@@ -21,6 +21,7 @@ export function PokemonProvider({ children }) {
 
         // Collection
         ownedIds: collection.ownedIds,
+        setOwnedIds: collection.setOwnedIds,
         toggleOwned: collection.toggleOwned,
 
         // Search
