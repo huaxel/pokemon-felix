@@ -8,6 +8,7 @@ import { SearchBar } from './components/SearchBar'
 import { PokemonModal } from './components/PokemonModal'
 import { CollectionPage } from './components/CollectionPage'
 import { BattlePage } from './components/BattlePage'
+import { TournamentLayout } from './features/tournament/TournamentLayout'
 import './App.css'
 
 function App() {
@@ -171,6 +172,9 @@ function App() {
         } />
         <Route path="/battle" element={
           <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
+        } />
+        <Route path="/tournament" element={
+          <TournamentLayout allPokemon={pokemonList} />
         } />
       </Routes>
 
