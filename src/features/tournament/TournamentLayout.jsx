@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { Bracket } from './components/Bracket';
 import { TournamentBattle } from './components/TournamentBattle';
@@ -145,15 +146,22 @@ export function TournamentLayout({ allPokemon }) {
         return (
             <div className="tournament-layout champion-view">
                 <h1>¡Tenemos un Campeón!</h1>
-                <div className="champion-display">
-                    <img src={champion.sprites.front_default} alt={champion.name} className="champion-img" />
-                    <h2>{champion.name}</h2>
+                <div className="champion-card">
+                    <img src={champion.sprites.other['official-artwork'].front_default} alt={champion.name} />
+                    <h3>{champion.name}</h3>
+                    <div className="winner-badge">🏆 Ganador 🏆</div>
+                    <p className="reward-text">+200 Monedas</p>
                 </div>
-                <button className="reset-btn" onClick={() => {
-                    setParticipants([]);
-                    setChampion(null);
-                    setView('setup');
-                }}>Nuevo Torneo</button>
+                <div className="champion-actions">
+                    <Link to="/gacha" className="spend-btn">
+                        🎁 Gastar Ganancias
+                    </Link>
+                    <button className="reset-btn" onClick={() => {
+                        setParticipants([]);
+                        setChampion(null);
+                        setView('setup');
+                    }}>Nuevo Torneo</button>
+                </div>
             </div>
         );
     }

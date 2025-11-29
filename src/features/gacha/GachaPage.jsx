@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { addToCollection } from '../../lib/api';
 import pokeballImage from '../../assets/pokeball_transparent.png';
 import './GachaPage.css';
 
 export function GachaPage() {
-    const { coins, spendCoins, setOwnedIds, pokemonList } = usePokemonContext();
+    const { coins, spendCoins, addCoins, setOwnedIds, pokemonList, addToSquad, squadIds } = usePokemonContext();
     const [isAnimating, setIsAnimating] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const [autoEquipped, setAutoEquipped] = useState(false);
 
     const COST = 100;
 
@@ -22,6 +24,7 @@ export function GachaPage() {
         if (spendCoins(COST)) {
             setIsAnimating(true);
             setResult(null);
+            setAutoEquipped(false);
 
             // Simulate network/animation delay
             setTimeout(async () => {
@@ -36,6 +39,12 @@ export function GachaPage() {
 
                 await addToCollection(randomPokemon.id);
                 setOwnedIds(prev => [...prev, randomPokemon.id]);
+
+                // Auto-equip if squad has space
+                if (squadIds.length < 6) {
+                    addToSquad(randomPokemon.id);
+                    setAutoEquipped(true);
+                }
 
                 setResult({ ...randomPokemon, rarity });
                 setIsAnimating(false);
@@ -84,9 +93,21 @@ export function GachaPage() {
                         <img src={result.sprites.front_default} alt={result.name} className="result-pokemon" />
                         <h2>{result.name}</h2>
                         <span className="rarity-badge">{result.rarity}</span>
-                        <button className="reset-gacha-btn" onClick={() => setResult(null)}>
-                            Invocar de nuevo
-                        </button>
+
+                        {autoEquipped && (
+                            <div className="auto-equip-msg">
+                                ⚔️ ¡Añadido a tu equipo!
+                            </div>
+                        )}
+
+                        <div className="gacha-actions">
+                            <button className="reset-gacha-btn" onClick={() => setResult(null)}>
+                                Invocar de nuevo
+                            </button>
+                            <Link to="/squad" className="squad-link-btn">
+                                ⚔️ Ver Equipo
+                            </Link>
+                        </div>
                     </div>
                 )}
             </div>

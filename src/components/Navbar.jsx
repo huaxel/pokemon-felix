@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Library, Swords, Trophy, Gift, Book } from 'lucide-react';
+import { Home, Library, Swords, Trophy, Gift, Book, Users } from 'lucide-react';
 import { usePokemonContext } from '../contexts/PokemonContext';
 import pokeballLogo from '../assets/pokeball_transparent.png';
 import './Navbar.css';
@@ -43,7 +43,7 @@ export function Navbar({ onExport, onImport }) {
                         to="/squad"
                         className={`toggle-btn ${location.pathname === '/squad' ? 'active' : ''}`}
                     >
-                        <Swords size={20} />
+                        <Users size={20} />
                         <span>Equipo</span>
                     </Link>
                     <Link

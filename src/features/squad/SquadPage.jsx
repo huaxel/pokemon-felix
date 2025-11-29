@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { getPokemonDetails } from '../../lib/api';
 import { PokemonCard } from '../../components/PokemonCard';
@@ -48,6 +49,14 @@ export function SquadPage() {
                 <div className="squad-count">
                     {squadPokemon.length} / 6
                 </div>
+
+                {squadPokemon.length > 0 && (
+                    <div className="squad-actions" style={{ marginTop: '1.5rem' }}>
+                        <Link to="/tournament" className="tournament-btn">
+                            🏆 Ir al Torneo
+                        </Link>
+                    </div>
+                )}
             </div>
 
             <div className="active-squad-section">
