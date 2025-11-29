@@ -1,30 +1,36 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-export function Navbar({ collectionCount, onExport, onImport }) {
+export function Navbar({ onExport, onImport }) {
     const location = useLocation();
 
     return (
         <nav className="navbar">
-            <div className="navbar-content">
-                <Link to="/" className="navbar-logo">
-                    Pokémon Félix
-                </Link>
-                <div className="navbar-links">
+            <div className="nav-brand">
+                <img src="/pokeball.png" alt="Pokeball" className="nav-logo" />
+                <h1>Pokédex de Félix</h1>
+            </div>
+
+            <div className="nav-controls">
+                <div className="view-toggle">
                     <Link
                         to="/"
-                        className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+                        className={`toggle-btn ${location.pathname === '/' ? 'active' : ''}`}
                     >
                         Inicio
                     </Link>
                     <Link
                         to="/collection"
-                        className={`nav-link ${location.pathname === '/collection' ? 'active' : ''}`}
+                        className={`toggle-btn ${location.pathname === '/collection' ? 'active' : ''}`}
                     >
                         Mi Colección
-                        {collectionCount > 0 && (
-                            <span className="collection-badge">{collectionCount}</span>
-                        )}
+                    </Link>
+                    <Link
+                        to="/battle"
+                        className={`toggle-btn ${location.pathname === '/battle' ? 'active' : ''}`}
+                    >
+                        Arena de Batalla
                     </Link>
                 </div>
                 <div className="navbar-actions">

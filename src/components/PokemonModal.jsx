@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { typeTranslations } from '../lib/utils';
 import './PokemonModal.css';
 
 export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
@@ -19,7 +20,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
         // Find the first entry in the language, preferring later versions (usually more recent games)
         const entries = speciesData.flavor_text_entries.filter(f => f.language.name === lang);
         // Reverse to get latest gen text usually
-        return entries.length > 0 ? entries[entries.length - 1].flavor_text.replace(/[\n\f]/g, ' ') : 'No description available.';
+        return entries.length > 0 ? entries[entries.length - 1].flavor_text.replace(/[\n\f]/g, ' ') : 'Descripción no disponible.';
     };
 
     const currentName = getName(language);
@@ -85,7 +86,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
                         <div className="types">
                             {pokemon.types.map(t => (
                                 <span key={t.type.name} className={`type-badge ${t.type.name}`}>
-                                    {t.type.name}
+                                    {typeTranslations[t.type.name] || t.type.name}
                                 </span>
                             ))}
                         </div>

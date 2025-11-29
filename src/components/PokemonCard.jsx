@@ -1,10 +1,11 @@
+import { typeTranslations } from '../lib/utils';
 import './PokemonCard.css';
 
 export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 0 }) {
     // Determine the main type for styling
     const mainType = pokemon.types[0].type.name;
-    // Determine the display name, preferring French if available
-    const displayName = pokemon.speciesData?.names.find(n => n.language.name === 'fr')?.name || pokemon.name;
+    // Determine the display name, preferring Spanish if available
+    const displayName = pokemon.speciesData?.names.find(n => n.language.name === 'es')?.name || pokemon.name;
 
     return (
         <div
@@ -20,7 +21,7 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
                         e.stopPropagation();
                         onToggleOwned(pokemon.id);
                     }}
-                    aria-label={isOwned ? "Remove from collection" : "Add to collection"}
+                    aria-label={isOwned ? "Eliminar de la colección" : "Añadir a la colección"}
                 >
                     ★
                 </button>
@@ -42,7 +43,7 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
                 <div className="pokemon-types">
                     {pokemon.types.map((type) => (
                         <span key={type.type.name} className={`type-badge ${type.type.name}`}>
-                            {type.type.name}
+                            {typeTranslations[type.type.name] || type.type.name}
                         </span>
                     ))}
                 </div>
