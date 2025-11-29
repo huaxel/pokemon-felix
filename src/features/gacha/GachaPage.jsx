@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { addToCollection } from '../../lib/api';
 import pokeballImage from '../../assets/pokeball_transparent.png';
+import greatballImage from '../../assets/great_ball.png';
+import ultraballImage from '../../assets/ultra_ball.png';
 import './GachaPage.css';
 
 export function GachaPage() {
@@ -26,7 +28,7 @@ export function GachaPage() {
             id: 'greatball',
             name: 'Super Ball',
             cost: 300,
-            image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png',
+            image: greatballImage,
             rates: { common: 0.3, rare: 0.5, epic: 0.18, legendary: 0.02 },
             color: '#3b82f6'
         },
@@ -34,7 +36,7 @@ export function GachaPage() {
             id: 'ultraball',
             name: 'Ultra Ball',
             cost: 1000,
-            image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png',
+            image: ultraballImage,
             rates: { common: 0, rare: 0.4, epic: 0.5, legendary: 0.1 },
             color: '#eab308'
         }
