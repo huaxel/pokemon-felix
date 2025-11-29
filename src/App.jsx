@@ -4,8 +4,7 @@ import { usePokemonContext } from './contexts/PokemonContext';
 import { getPokemonDetails, addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
-import { PokemonCard } from './components/PokemonCard';
-import { SearchBar } from './components/SearchBar';
+import { Navbar } from './components/Navbar';
 import { PokemonModal } from './components/PokemonModal';
 import { CollectionPage } from './components/CollectionPage';
 import { BattlePage } from './components/BattlePage';
@@ -13,6 +12,7 @@ import { TournamentLayout } from './features/tournament/TournamentLayout';
 import { GachaPage } from './features/gacha/GachaPage';
 import { StarterPage } from './features/onboarding/StarterPage';
 import { SquadPage } from './features/squad/SquadPage';
+import { PokedexPage } from './features/pokedex/PokedexPage';
 import './App.css';
 
 function App() {
@@ -32,13 +32,6 @@ function App() {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Redirect to starter selection if no pokemon owned
-  useEffect(() => {
-    if (!loading && ownedIds.length === 0 && location.pathname !== '/starter') {
-      navigate('/starter');
-    }
-  }, [loading, ownedIds, location, navigate]);
 
   const handleExportFavorites = () => {
     exportFavoritesToJson(ownedIds);
@@ -63,21 +56,6 @@ function App() {
     }
   };
 
-  const handleCardClick = async (pokemon) => {
-    if (pokemon.speciesData) {
-      setSelectedPokemon(pokemon);
-    } else {
-      try {
-        const fullDetails = await getPokemonDetails(pokemon.name);
-        setSelectedPokemon(fullDetails);
-      } catch (error) {
-        console.error("Failed to load details", error);
-      }
-    }
-  };
-
-  const displayList = (searchResults && searchResults.length > 0) ? searchResults : pokemonList;
-
   return (
     <div className="app-container">
       <Navbar
@@ -85,40 +63,8 @@ function App() {
         onImport={handleImportFavorites}
       />
       <Routes>
-        <Route path="/" element={
-          <>
-            <SearchBar allPokemon={allPokemonNames} onSearch={handleSearch} />
-
-            {searchResults && (
-              <div className="search-status">
-                <button className="clear-search" onClick={clearSearch}>
-                  REINICIAR BÚSQUEDA
-                </button>
-              </div>
-            )}
-
-            <div className="pokemon-grid">
-              {displayList.map((pokemon, index) => (
-                <PokemonCard
-                  key={pokemon.id}
-                  index={index}
-                  pokemon={pokemon}
-                  isOwned={ownedIds.includes(pokemon.id)}
-                  onToggleOwned={toggleOwned}
-                  onClick={handleCardClick}
-                />
-              ))}
-            </div>
-
-            {!searchResults && (
-              <div className="load-more-container">
-                <button className="load-more-btn" onClick={loadPokemon} disabled={loading}>
-                  {loading ? 'Cargando...' : 'Cargar Más Pokémon'}
-                </button>
-              </div>
-            )}
-          </>
-        } />
+        <Route path="/" element={<StarterPage />} />
+        <Route path="/pokedex" element={<PokedexPage />} />
         <Route path="/collection" element={
           <CollectionPage
             ownedIds={ownedIds}
@@ -128,7 +74,6 @@ function App() {
         <Route path="/battle" element={
           <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
         } />
-        <Route path="/starter" element={<StarterPage />} />
         <Route path="/tournament" element={
           <TournamentLayout allPokemon={pokemonList} />
         } />

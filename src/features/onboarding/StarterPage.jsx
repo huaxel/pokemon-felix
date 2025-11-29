@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { addToCollection } from '../../lib/api';
@@ -12,10 +12,16 @@ const STARTERS = [
 ];
 
 export function StarterPage() {
-    const { setOwnedIds, addToSquad, addCoins, pokemonList } = usePokemonContext();
+    const { setOwnedIds, addToSquad, addCoins, pokemonList, ownedIds } = usePokemonContext();
     const navigate = useNavigate();
     const [selectedStarter, setSelectedStarter] = useState(null);
     const [isChoosing, setIsChoosing] = useState(false);
+
+    useEffect(() => {
+        if (ownedIds.length > 0) {
+            navigate('/squad');
+        }
+    }, [ownedIds, navigate]);
 
     const handleChoose = async () => {
         if (!selectedStarter || isChoosing) return;
@@ -31,9 +37,9 @@ export function StarterPage() {
         // Bonus coins
         addCoins(100);
 
-        // Navigate to home
+        // Navigate to squad (since it's the new home for players)
         setTimeout(() => {
-            navigate('/');
+            navigate('/squad');
         }, 1500);
     };
 

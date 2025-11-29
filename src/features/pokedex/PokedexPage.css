@@ -1,0 +1,8 @@
+.pokedex-page {
+    padding: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Reusing global styles from App.css for grid and buttons */
+/* .pokemon-grid, .load-more-btn, etc. are globally defined */
