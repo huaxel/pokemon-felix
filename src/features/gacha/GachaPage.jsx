@@ -84,7 +84,7 @@ export function GachaPage() {
                 setOwnedIds(prev => [...prev, pokemon.id]);
 
                 // Auto-equip if squad has space
-                if (squadIds.length < 6) {
+                if (squadIds.length < 4) {
                     addToSquad(pokemon.id);
                     setAutoEquipped(true);
                 }

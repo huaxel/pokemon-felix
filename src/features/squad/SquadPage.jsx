@@ -87,7 +87,7 @@ export function SquadPage() {
                         <h1>Gestión de Equipo</h1>
                         <p>Arrastra Pokémon para organizar tu equipo.</p>
                         <div className="squad-count">
-                            {squadPokemon.length} / 6
+                            {squadPokemon.length} / 4
                         </div>
 
                         {squadPokemon.length > 0 && (
@@ -102,7 +102,7 @@ export function SquadPage() {
                     <div className="active-squad-section">
                         <h2>Equipo Activo</h2>
                         <div className="squad-grid">
-                            {Array.from({ length: 6 }).map((_, index) => {
+                            {Array.from({ length: 4 }).map((_, index) => {
                                 const pokemon = squadPokemon[index];
                                 return (
                                     <DroppableSlot key={index} id={`slot-${index}`} isFilled={!!pokemon}>

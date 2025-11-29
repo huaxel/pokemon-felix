@@ -51,7 +51,7 @@ export function TournamentLayout({ allPokemon }) {
 
         // Combine squad + opponents
         // If squad is empty, it will just be randoms
-        // If squad has 6, we add 2 randoms
+        // If squad has 4, we add 4 randoms
         const tournamentParticipants = [...userSquad, ...opponents];
 
         // Shuffle positions so user isn't always first

@@ -11,7 +11,7 @@ export function useSquad(initialSquad = []) {
     }, [squadIds]);
 
     const addToSquad = (pokemonId) => {
-        if (squadIds.length < 6 && !squadIds.includes(pokemonId)) {
+        if (squadIds.length < 4 && !squadIds.includes(pokemonId)) {
             setSquadIds(prev => [...prev, pokemonId]);
             return true;
         }
@@ -31,6 +31,6 @@ export function useSquad(initialSquad = []) {
         addToSquad,
         removeFromSquad,
         isInSquad,
-        isSquadFull: squadIds.length >= 6
+        isSquadFull: squadIds.length >= 4
     };
 }
