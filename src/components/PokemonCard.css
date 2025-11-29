@@ -147,84 +147,83 @@
     border-radius: 20px;
     font-size: 0.75rem;
     text-transform: uppercase;
-    color: white;
+    background-color: rgba(255, 255, 255, 0.95);
     font-weight: 800;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid currentColor;
 }
 
-/* Type Colors - Vibrant */
+/* Type Colors - Text Color for Contrast */
 .type-badge.grass {
-    background-color: #78c850;
+    color: #5ca935;
 }
 
 .type-badge.fire {
-    background-color: #f08030;
+    color: #dd6610;
 }
 
 .type-badge.water {
-    background-color: #6890f0;
+    color: #445e9c;
 }
 
 .type-badge.bug {
-    background-color: #a8b820;
+    color: #8d9a1b;
 }
 
 .type-badge.normal {
-    background-color: #a8a878;
+    color: #8a8a59;
 }
 
 .type-badge.poison {
-    background-color: #a040a0;
+    color: #803380;
 }
 
 .type-badge.electric {
-    background-color: #f8d030;
+    color: #e0b700;
 }
 
 .type-badge.ground {
-    background-color: #e0c068;
+    color: #c4a444;
 }
 
 .type-badge.fairy {
-    background-color: #ee99ac;
+    color: #d6768b;
 }
 
 .type-badge.fighting {
-    background-color: #c03028;
+    color: #9d2621;
 }
 
 .type-badge.psychic {
-    background-color: #f85888;
+    color: #d63666;
 }
 
 .type-badge.rock {
-    background-color: #b8a038;
+    color: #93802d;
 }
 
 .type-badge.ghost {
-    background-color: #705898;
+    color: #554374;
 }
 
 .type-badge.ice {
-    background-color: #98d8d8;
+    color: #69c6c6;
 }
 
 .type-badge.dragon {
-    background-color: #7038f8;
+    color: #4c08d4;
 }
 
 .type-badge.steel {
-    background-color: #b8b8d0;
+    color: #9797b5;
 }
 
 .type-badge.dark {
-    background-color: #705848;
+    color: #513f34;
 }
 
 .type-badge.flying {
-    background-color: #a890f0;
+    color: #8d6ce5;
 }
 
 /* Card Backgrounds based on Type (First Type) */
