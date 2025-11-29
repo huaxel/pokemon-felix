@@ -14,6 +14,47 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
     const [f1MaxHP] = useState(calculateMaxHP(fighter1));
     const [f2MaxHP] = useState(calculateMaxHP(fighter2));
 
+    const quickSim = () => {
+        setIsBattling(true);
+        setBattleLog([]);
+
+        // Instant calculation
+        let currentF1HP = f1HP;
+        let currentF2HP = f2HP;
+        const log = ["¡Simulación Rápida!"];
+
+        while (currentF1HP > 0 && currentF2HP > 0) {
+            // F1 Attack
+            const damage1 = calculateDamage(fighter1, fighter2);
+            currentF2HP = Math.max(0, currentF2HP - damage1);
+            log.push(`${fighter1.name} inflige ${damage1}`);
+
+            if (currentF2HP <= 0) {
+                setF2HP(0);
+                setWinner(fighter1);
+                log.push(`¡${fighter1.name} gana!`);
+                setBattleLog(log);
+                onBattleEnd(fighter1);
+                break;
+            }
+
+            // F2 Attack
+            const damage2 = calculateDamage(fighter2, fighter1);
+            currentF1HP = Math.max(0, currentF1HP - damage2);
+            log.push(`${fighter2.name} inflige ${damage2}`);
+
+            if (currentF1HP <= 0) {
+                setF1HP(0);
+                setWinner(fighter2);
+                log.push(`¡${fighter2.name} gana!`);
+                setBattleLog(log);
+                onBattleEnd(fighter2);
+                break;
+            }
+        }
+        setIsBattling(false);
+    };
+
     const startBattle = async () => {
         setIsBattling(true);
         setBattleLog([]);
@@ -105,7 +146,10 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
 
             <div className="battle-controls">
                 {!isBattling && !winner && (
-                    <button className="fight-btn" onClick={startBattle}>¡PELEAR!</button>
+                    <>
+                        <button className="fight-btn" onClick={startBattle}>¡PELEAR!</button>
+                        <button className="quick-sim-btn" onClick={quickSim}>Simular Rápido</button>
+                    </>
                 )}
             </div>
 
