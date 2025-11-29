@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Library, Swords, Trophy } from 'lucide-react';
+import pokeballLogo from '../assets/pokeball_modern.png';
 import './Navbar.css';
 
 export function Navbar({ onExport, onImport }) {
@@ -9,7 +10,7 @@ export function Navbar({ onExport, onImport }) {
     return (
         <nav className="navbar">
             <div className="nav-brand">
-                <img src={`${import.meta.env.BASE_URL}pokeball.png`} alt="Pokeball" className="nav-logo" />
+                <img src={pokeballLogo} alt="Pokeball" className="nav-logo" />
                 <h1>Pokédex de Félix</h1>
             </div>
 
