@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PokemonCard } from './PokemonCard';
 import './BattleArena.css';
 
-export function BattleArena({ allPokemon }) {
+export function BattleArena({ allPokemon, onLoadMore }) {
     const [fighter1, setFighter1] = useState(null);
     const [fighter2, setFighter2] = useState(null);
     const [battleLog, setBattleLog] = useState([]);
@@ -180,13 +180,20 @@ export function BattleArena({ allPokemon }) {
             <div className="selection-area">
                 <h3>Elige un Pokémon</h3>
                 <div className="pokemon-grid-mini">
-                    {validPokemon.slice(0, 10).map(p => (
+                    {validPokemon.map(p => (
                         <div key={p.id} onClick={() => !isBattling && handleSelect(p)} className="mini-card">
                             <img src={p.sprites.front_default} alt={p.name} />
                             <span>{p.name}</span>
                         </div>
                     ))}
                 </div>
+                {onLoadMore && (
+                    <div className="load-more-mini-container">
+                        <button className="load-more-mini-btn" onClick={onLoadMore}>
+                            Cargar Más
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
