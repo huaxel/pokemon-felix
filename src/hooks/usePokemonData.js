@@ -9,7 +9,6 @@ export function usePokemonData() {
     const [pokemonList, setPokemonList] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [initialLoad, setInitialLoad] = useState(false);
 
     const loadPokemon = async () => {
         if (loading) return;
@@ -32,11 +31,9 @@ export function usePokemonData() {
 
     // Load initial Pokemon on mount
     useEffect(() => {
-        if (!initialLoad) {
-            setInitialLoad(true);
-            loadPokemon();
-        }
-    }, [initialLoad]);
+        loadPokemon();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Empty array - run only once on mount
 
     return {
         pokemonList,
