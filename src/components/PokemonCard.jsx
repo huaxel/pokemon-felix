@@ -1,8 +1,12 @@
 import './PokemonCard.css';
 
-export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick }) {
+export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 0 }) {
     return (
-        <div className={`pokemon-card ${pokemon.types[0].type.name}`} onClick={() => onClick(pokemon)}>
+        <div
+            className={`pokemon-card ${pokemon.types[0].type.name}`}
+            onClick={() => onClick(pokemon)}
+            style={{ animationDelay: `${index * 0.05}s` }}
+        >
             <div className="card-inner">
                 <div className="card-header">
                     <span className="pokemon-id">#{String(pokemon.id).padStart(3, '0')}</span>

@@ -154,9 +154,10 @@ function App() {
             )}
 
             <div className="pokemon-grid">
-              {displayList.map((pokemon) => (
+              {displayList.map((pokemon, index) => (
                 <PokemonCard
                   key={pokemon.id}
+                  index={index}
                   pokemon={pokemon}
                   isOwned={ownedIds.includes(pokemon.id)}
                   onToggleOwned={toggleOwned}
