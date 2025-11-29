@@ -172,19 +172,28 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                 {loadingMoves ? (
                     <div className="loading-moves">Cargando movimientos...</div>
                 ) : (
-                    <div className="moves-grid">
-                        {f1Moves.map((move, i) => (
-                            <button
-                                key={i}
-                                className={`move-btn type-${move.type}`}
-                                onClick={() => handleMoveClick(move)}
-                                disabled={turn !== 'player' || !!winner}
-                            >
-                                <span className="move-name">{move.name}</span>
-                                <span className="move-details">{move.type} | Pwr: {move.power}</span>
-                            </button>
-                        ))}
-                    </div>
+                    <>
+                        {turn === 'player' && !winner && (
+                            <div className="your-turn-banner">¡TU TURNO! 👇</div>
+                        )}
+                        <div className={`moves-grid ${turn === 'player' ? 'active-turn' : ''}`}>
+                            {f1Moves.map((move, i) => (
+                                <button
+                                    key={i}
+                                    className={`move-btn type-${move.type}`}
+                                    onClick={() => handleMoveClick(move)}
+                                    disabled={turn !== 'player' || !!winner}
+                                >
+                                    <span className="move-name">{move.name}</span>
+                                    <div className="move-power">
+                                        <span className="power-icon">💥</span>
+                                        <span className="power-val">{move.power}</span>
+                                    </div>
+                                    <span className="move-type-badge">{move.type}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </>
                 )}
                 {turn === 'opponent' && !winner && <div className="turn-indicator">Turno del Oponente...</div>}
             </div>
