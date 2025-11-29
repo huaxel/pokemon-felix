@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './PokemonModal.css';
 
 export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
-    const [language, setLanguage] = useState('en'); // 'en', 'fr', 'es'
+    const [language, setLanguage] = useState('es'); // Default to Spanish
 
     if (!pokemon) return null;
 

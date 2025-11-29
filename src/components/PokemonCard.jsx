@@ -21,7 +21,9 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick }) {
                     alt={pokemon.name}
                     className="pokemon-image"
                 />
-                <h3 className="pokemon-name">{pokemon.name}</h3>
+                <h3 className="pokemon-name">
+                    {pokemon.speciesData?.names.find(n => n.language.name === 'fr')?.name || pokemon.name}
+                </h3>
                 <div className="pokemon-types">
                     {pokemon.types.map((type) => (
                         <span key={type.type.name} className={`type-badge ${type.type.name}`}>

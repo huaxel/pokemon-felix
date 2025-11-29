@@ -4,10 +4,19 @@ export async function getPokemonList(limit = 20, offset = 0) {
   const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`);
   const data = await response.json();
   
-  // Fetch details for each pokemon to get the image
+  // Fetch details for each pokemon to get the image AND species data for names
   const detailedPromises = data.results.map(async (pokemon) => {
     const res = await fetch(pokemon.url);
-    return res.json();
+    const details = await res.json();
+    
+    // Fetch species data
+    const speciesRes = await fetch(details.species.url);
+    const speciesData = await speciesRes.json();
+    
+    return {
+      ...details,
+      speciesData
+    };
   });
 
   return Promise.all(detailedPromises);
