@@ -3,15 +3,15 @@
   /* Pokemon Yellow */
   --secondary-color: #2a75bb;
   /* Pokemon Blue */
-  --accent-color: #3c5aa6;
-  /* Darker Blue for better contrast */
-  --background-color: #f0f0f0;
+  --accent-color: #ff0000;
+  /* Pokemon Red */
+  --background-color: #f0f8ff;
+  /* Light Alice Blue */
   --text-color: #1a1a1a;
-  /* Darker black for better contrast */
-  --text-secondary: #555555;
-  /* Darker gray for better contrast */
+  --text-secondary: #4a4a4a;
   --card-bg: #ffffff;
   --font-family: 'Inter', sans-serif;
+  --header-font: 'Luckiest Guy', cursive;
 }
 
 * {
@@ -23,6 +23,8 @@
 body {
   font-family: var(--font-family);
   background-color: var(--background-color);
+  background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+  background-size: 20px 20px;
   color: var(--text-color);
   line-height: 1.6;
 }
@@ -35,10 +37,11 @@ body {
 }
 
 h1 {
-  color: var(--secondary-color);
+  font-family: var(--header-font);
+  color: var(--primary-color);
   margin-bottom: 1rem;
-  text-shadow: 2px 2px 0px #ffcb05;
-  /* Pokemon style shadow */
-  font-size: 3rem;
-  letter-spacing: 2px;
+  text-shadow: 4px 4px 0px var(--secondary-color), -2px -2px 0px var(--accent-color);
+  font-size: 4rem;
+  letter-spacing: 3px;
+  -webkit-text-stroke: 2px #2a75bb;
 }
