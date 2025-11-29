@@ -41,7 +41,7 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
                 </h3>
                 <div className="pokemon-types">
                     {pokemon.types.map((type) => (
-                        <span key={type.type.name} className="type-badge">
+                        <span key={type.type.name} className={`type-badge ${type.type.name}`}>
                             {type.type.name}
                         </span>
                     ))}
