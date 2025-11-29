@@ -33,6 +33,13 @@ export function Navbar({ onExport, onImport }) {
                         <span>Mi Colección</span>
                     </Link>
                     <Link
+                        to="/squad"
+                        className={`toggle-btn ${location.pathname === '/squad' ? 'active' : ''}`}
+                    >
+                        <Swords size={20} />
+                        <span>Equipo</span>
+                    </Link>
+                    <Link
                         to="/battle"
                         className={`toggle-btn ${location.pathname === '/battle' ? 'active' : ''}`}
                     >

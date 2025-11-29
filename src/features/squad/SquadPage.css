@@ -1,0 +1,116 @@
+.squad-page {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: white;
+}
+
+.squad-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.squad-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.squad-count {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fbbf24;
+    margin-top: 1rem;
+    background: rgba(251, 191, 36, 0.1);
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.active-squad-section {
+    margin-bottom: 4rem;
+}
+
+.active-squad-section h2,
+.bench-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.squad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+}
+
+.squad-slot {
+    aspect-ratio: 2/3;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.squad-slot.filled {
+    border: none;
+    background: transparent;
+}
+
+.empty-slot-content {
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.squad-member {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.squad-member .pokemon-card {
+    height: 100%;
+}
+
+.remove-btn {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.squad-member:hover .remove-btn {
+    opacity: 1;
+    bottom: 10px;
+}
+
+.bench-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+}
+
+.squad-loading {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.5rem;
+    color: #94a3b8;
+}
