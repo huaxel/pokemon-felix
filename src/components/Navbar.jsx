@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Library, Swords, Trophy } from 'lucide-react';
+import { Home, Library, Swords, Trophy, Gift } from 'lucide-react';
+import { usePokemonContext } from '../contexts/PokemonContext';
 import pokeballLogo from '../assets/pokeball_transparent.png';
 import './Navbar.css';
 
 export function Navbar({ onExport, onImport }) {
     const location = useLocation();
+    const { coins } = usePokemonContext();
 
     return (
         <nav className="navbar">
@@ -44,7 +46,20 @@ export function Navbar({ onExport, onImport }) {
                         <Trophy size={20} />
                         <span>Torneo</span>
                     </Link>
+                    <Link
+                        to="/gacha"
+                        className={`toggle-btn ${location.pathname === '/gacha' ? 'active' : ''}`}
+                    >
+                        <Gift size={20} />
+                        <span>Gacha</span>
+                    </Link>
                 </div>
+
+                <div className="nav-coins">
+                    <span>🪙</span>
+                    <span>{coins}</span>
+                </div>
+
                 <div className="navbar-actions">
                     <button className="nav-btn" onClick={onImport} title="Importar favoritos">
                         📥

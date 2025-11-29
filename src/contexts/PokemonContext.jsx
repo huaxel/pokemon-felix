@@ -2,6 +2,7 @@ import React, { createContext, useContext } from 'react';
 import { usePokemonData } from '../hooks/usePokemonData';
 import { useCollection } from '../hooks/useCollection';
 import { usePokemonSearch } from '../hooks/usePokemonSearch';
+import { useCoins } from '../hooks/useCoins';
 
 const PokemonContext = createContext(null);
 
@@ -12,6 +13,7 @@ export function PokemonProvider({ children }) {
     const pokemonData = usePokemonData();
     const collection = useCollection();
     const search = usePokemonSearch();
+    const { coins, addCoins, spendCoins } = useCoins();
 
     const value = {
         // Pokemon data
@@ -29,7 +31,12 @@ export function PokemonProvider({ children }) {
         searchResults: search.searchResults,
         searchTerm: search.searchTerm,
         handleSearch: search.handleSearch,
-        clearSearch: search.clearSearch
+        clearSearch: search.clearSearch,
+
+        // Economy
+        coins,
+        addCoins,
+        spendCoins
     };
 
     return (
