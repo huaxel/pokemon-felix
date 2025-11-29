@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { getPokemonDetails } from '../../lib/api';
 import { PokemonCard } from '../../components/PokemonCard';
+import squadBg from '../../assets/squad_bg.png';
 import './SquadPage.css';
 
 export function SquadPage() {
@@ -42,74 +43,77 @@ export function SquadPage() {
     if (loading) return <div className="squad-loading">Cargando equipo...</div>;
 
     return (
-        <div className="squad-page">
-            <div className="squad-header">
-                <h1>Gestión de Equipo</h1>
-                <p>Selecciona hasta 6 Pokémon para tus batallas.</p>
-                <div className="squad-count">
-                    {squadPokemon.length} / 6
-                </div>
-
-                {squadPokemon.length > 0 && (
-                    <div className="squad-actions" style={{ marginTop: '1.5rem' }}>
-                        <Link to="/tournament" className="tournament-btn">
-                            🏆 Ir al Torneo
-                        </Link>
+        <div className="squad-page" style={{ backgroundImage: `url(${squadBg})` }}>
+            <div className="squad-overlay"></div>
+            <div className="squad-content">
+                <div className="squad-header">
+                    <h1>Gestión de Equipo</h1>
+                    <p>Selecciona hasta 6 Pokémon para tus batallas.</p>
+                    <div className="squad-count">
+                        {squadPokemon.length} / 6
                     </div>
-                )}
-            </div>
 
-            <div className="active-squad-section">
-                <h2>Equipo Activo</h2>
-                <div className="squad-grid">
-                    {/* Render 6 slots, some might be empty */}
-                    {Array.from({ length: 6 }).map((_, index) => {
-                        const pokemon = squadPokemon[index];
-                        return (
-                            <div key={index} className={`squad-slot ${pokemon ? 'filled' : 'empty'}`}>
-                                {pokemon ? (
-                                    <div className="squad-member">
-                                        <PokemonCard
-                                            pokemon={pokemon}
-                                            isOwned={true}
-                                            onToggleOwned={() => { }} // Disable favorite toggle here
-                                            onClick={() => { }}
-                                            isInSquad={true}
-                                            onToggleSquad={() => removeFromSquad(pokemon.id)}
-                                        />
-                                        <button className="remove-btn" onClick={() => removeFromSquad(pokemon.id)}>
-                                            Quitar
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div className="empty-slot-content">
-                                        <span>Vacío</span>
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
+                    {squadPokemon.length > 0 && (
+                        <div className="squad-actions" style={{ marginTop: '1.5rem' }}>
+                            <Link to="/tournament" className="tournament-btn">
+                                🏆 Ir al Torneo
+                            </Link>
+                        </div>
+                    )}
                 </div>
-            </div>
 
-            <div className="bench-section">
-                <h2>Banca ({benchPokemon.length})</h2>
-                <div className="bench-grid">
-                    {benchPokemon.map(pokemon => (
-                        <PokemonCard
-                            key={pokemon.id}
-                            pokemon={pokemon}
-                            isOwned={true}
-                            onToggleOwned={() => { }}
-                            onClick={() => { }}
-                            isInSquad={false}
-                            onToggleSquad={() => {
-                                if (!addToSquad(pokemon.id)) {
-                                    alert("¡Tu equipo está lleno!");
-                                }
-                            }}
-                        />
-                    ))}
+                <div className="active-squad-section">
+                    <h2>Equipo Activo</h2>
+                    <div className="squad-grid">
+                        {/* Render 6 slots, some might be empty */}
+                        {Array.from({ length: 6 }).map((_, index) => {
+                            const pokemon = squadPokemon[index];
+                            return (
+                                <div key={index} className={`squad-slot ${pokemon ? 'filled' : 'empty'}`}>
+                                    {pokemon ? (
+                                        <div className="squad-member">
+                                            <PokemonCard
+                                                pokemon={pokemon}
+                                                isOwned={true}
+                                                onToggleOwned={() => { }} // Disable favorite toggle here
+                                                onClick={() => { }}
+                                                isInSquad={true}
+                                                onToggleSquad={() => removeFromSquad(pokemon.id)}
+                                            />
+                                            <button className="remove-btn" onClick={() => removeFromSquad(pokemon.id)}>
+                                                Quitar
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="empty-slot-content">
+                                            <span>Vacío</span>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="bench-section">
+                    <h2>Banca ({benchPokemon.length})</h2>
+                    <div className="bench-grid">
+                        {benchPokemon.map(pokemon => (
+                            <PokemonCard
+                                key={pokemon.id}
+                                pokemon={pokemon}
+                                isOwned={true}
+                                onToggleOwned={() => { }}
+                                onClick={() => { }}
+                                isInSquad={false}
+                                onToggleSquad={() => {
+                                    if (!addToSquad(pokemon.id)) {
+                                        alert("¡Tu equipo está lleno!");
+                                    }
+                                }}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
