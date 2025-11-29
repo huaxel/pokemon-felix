@@ -42,62 +42,88 @@
 .card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0.2rem 0.5rem;
-    border-radius: 20px;
+    align-items: flex-start;
+    margin-bottom: 5px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    z-index: 10;
 }
 
 .pokemon-id {
-    color: #555;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
     font-size: 0.9rem;
-    font-weight: 800;
-    font-family: monospace;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px 6px;
+    border-radius: 10px;
 }
 
-.collection-btn {
-    background: transparent;
-    border: none;
-    width: auto;
-    height: auto;
-    display: block;
-    font-size: 2.5rem;
+.favorite-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #ddd;
     cursor: pointer;
-    color: rgba(255, 255, 255, 0.8);
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.2rem;
+    color: #ccc;
+    transition: all 0.2s;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0;
     line-height: 1;
-    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.collection-btn:hover {
-    transform: scale(1.2) rotate(15deg);
-    color: white;
-    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+.favorite-btn:hover {
+    transform: scale(1.1);
+    border-color: #ffcb05;
 }
 
-.collection-btn.owned {
+.favorite-btn.active {
     color: #ffcb05;
-    filter: drop-shadow(0 0 5px rgba(255, 203, 5, 0.8));
+    /* Pokemon Yellow */
+    border-color: #ffcb05;
+    background: white;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.card-image-container {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    margin: 35px 10px 10px 10px;
+    /* More top margin for header */
+    flex: 1;
+    /* Take up available space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    /* Allow shrinking */
 }
 
 .pokemon-image {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
+    width: 80%;
+    height: 80%;
     object-fit: contain;
-    margin-bottom: 0.5rem;
-    filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.3));
     transition: transform 0.3s ease;
+    max-height: 180px;
 }
 
 .pokemon-card:hover .pokemon-image {
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(5deg);
+}
+
+.card-info {
+    padding: 5px 5px 15px 5px;
+    background: rgba(255, 255, 255, 0.9);
+    /* Slight background for readability */
+    margin: 0 10px 10px 10px;
+    border-radius: 8px;
 }
 
 .pokemon-name {
