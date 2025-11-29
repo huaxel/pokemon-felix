@@ -80,15 +80,13 @@ export async function getAllPokemonNames() {
   return data.results.map(p => p.name);
 }
 
-// Collection Persistence (JSON Server)
-const DB_URL = import.meta.env.VITE_DB_URL || 'http://localhost:3001/collection';
+// Collection Persistence (localStorage)
+const STORAGE_KEY = 'pokemon_collection';
 
 export async function getCollection() {
   try {
-    const response = await fetch(DB_URL);
-    if (!response.ok) throw new Error('Failed to fetch collection');
-    const data = await response.json();
-    return data.map(item => item.id);
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
   } catch (error) {
     console.error("Error fetching collection:", error);
     return [];
@@ -97,11 +95,11 @@ export async function getCollection() {
 
 export async function addToCollection(id) {
   try {
-    await fetch(DB_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    });
+    const current = await getCollection();
+    if (!current.includes(id)) {
+      const updated = [...current, id];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    }
   } catch (error) {
     console.error("Error adding to collection:", error);
   }
@@ -109,12 +107,9 @@ export async function addToCollection(id) {
 
 export async function removeFromCollection(id) {
   try {
-    // First find the item ID (json-server assigns a unique id to each entry, which might differ from pokemon id if we didn't set it explicitly, but here we used 'id' as the pokemon id)
-    // However, json-server expects DELETE /collection/:id where :id is the id of the record.
-    // Since we stored { "id": 6 }, the record ID IS the pokemon ID.
-    await fetch(`${DB_URL}/${id}`, {
-      method: 'DELETE'
-    });
+    const current = await getCollection();
+    const updated = current.filter(itemId => itemId !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   } catch (error) {
     console.error("Error removing from collection:", error);
   }
