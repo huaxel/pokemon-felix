@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { usePokemonContext } from '../../contexts/PokemonContext';
 import { Bracket } from './components/Bracket';
 import { TournamentBattle } from './components/TournamentBattle';
 import './TournamentLayout.css';
 
 export function TournamentLayout({ allPokemon }) {
+    const { addCoins, squadIds } = usePokemonContext();
     const [participants, setParticipants] = useState([]);
     const [rounds, setRounds] = useState([]);
     const [currentMatch, setCurrentMatch] = useState(null); // { roundIndex, matchIndex }
@@ -36,8 +38,23 @@ export function TournamentLayout({ allPokemon }) {
 
     const autoFill = () => {
         if (!allPokemon || allPokemon.length === 0) return;
-        const shuffled = [...allPokemon].sort(() => 0.5 - Math.random());
-        setParticipants(shuffled.slice(0, 8));
+
+        // Get user's squad
+        const userSquad = allPokemon.filter(p => squadIds.includes(p.id));
+
+        // Get random opponents (excluding squad)
+        const opponents = allPokemon
+            .filter(p => !squadIds.includes(p.id))
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 8 - userSquad.length);
+
+        // Combine squad + opponents
+        // If squad is empty, it will just be randoms
+        // If squad has 6, we add 2 randoms
+        const tournamentParticipants = [...userSquad, ...opponents];
+
+        // Shuffle positions so user isn't always first
+        setParticipants(tournamentParticipants.sort(() => 0.5 - Math.random()));
     };
 
     const startNextMatch = () => {
@@ -66,6 +83,7 @@ export function TournamentLayout({ allPokemon }) {
         } else {
             // Champion!
             setChampion(winner);
+            addCoins(200);
             setView('champion');
             return;
         }
@@ -96,7 +114,7 @@ export function TournamentLayout({ allPokemon }) {
                 <h1>Torneo Pokémon</h1>
                 <div className="setup-controls">
                     <button className="autofill-btn" onClick={autoFill} disabled={!allPokemon || allPokemon.length === 0}>
-                        {(!allPokemon || allPokemon.length === 0) ? 'Cargando...' : 'Relleno Automático (8)'}
+                        {(!allPokemon || allPokemon.length === 0) ? 'Cargando...' : 'Entrar con Equipo + Rellenar'}
                     </button>
                     <button
                         className="start-btn"

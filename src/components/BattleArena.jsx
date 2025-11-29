@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { usePokemonContext } from '../contexts/PokemonContext';
 import { PokemonCard } from './PokemonCard';
 import { getStat, calculateMaxHP, calculateDamage } from '../lib/battle-logic';
 import './BattleArena.css';
 
 export function BattleArena({ allPokemon, onLoadMore }) {
+    const { addCoins, squadIds } = usePokemonContext();
     const [fighter1, setFighter1] = useState(null);
     const [fighter2, setFighter2] = useState(null);
     const [battleLog, setBattleLog] = useState([]);
@@ -17,7 +19,8 @@ export function BattleArena({ allPokemon, onLoadMore }) {
     const [f2MaxHP, setF2MaxHP] = useState(0);
 
     // Filter out incomplete pokemon data if necessary
-    const validPokemon = allPokemon.filter(p => p.stats && p.types);
+    // AND filter by Squad IDs
+    const validPokemon = allPokemon.filter(p => p.stats && p.types && squadIds.includes(p.id));
 
     const handleSelect = (pokemon) => {
         if (!fighter1) {
@@ -70,7 +73,8 @@ export function BattleArena({ allPokemon, onLoadMore }) {
 
             if (currentF2HP <= 0) {
                 setWinner(fighter1);
-                addLog(`¡${fighter1.name} gana!`);
+                addCoins(50);
+                addLog(`¡${fighter1.name} gana! (+50 🪙)`);
                 break;
             }
 
@@ -84,7 +88,8 @@ export function BattleArena({ allPokemon, onLoadMore }) {
 
             if (currentF1HP <= 0) {
                 setWinner(fighter2);
-                addLog(`¡${fighter2.name} gana!`);
+                addCoins(50);
+                addLog(`¡${fighter2.name} gana! (+50 🪙)`);
                 break;
             }
         }
@@ -96,10 +101,12 @@ export function BattleArena({ allPokemon, onLoadMore }) {
 
             if (f1Percentage > f2Percentage) {
                 setWinner(fighter1);
-                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter1.name} gana por mayor HP restante.`);
+                addCoins(50);
+                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter1.name} gana. (+50 🪙)`);
             } else if (f2Percentage > f1Percentage) {
                 setWinner(fighter2);
-                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter2.name} gana por mayor HP restante.`);
+                addCoins(50);
+                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter2.name} gana. (+50 🪙)`);
             } else {
                 addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! Es un empate.`);
             }
@@ -199,8 +206,13 @@ export function BattleArena({ allPokemon, onLoadMore }) {
             )}
 
             <div className="selection-area">
-                <h3>Elige un Pokémon</h3>
+                <h3>Elige un Pokémon de tu Equipo</h3>
                 <div className="pokemon-grid-mini">
+                    {validPokemon.length === 0 && (
+                        <div className="empty-squad-msg">
+                            <p>Tu equipo está vacío. Ve a "Mi Colección" para añadir combatientes.</p>
+                        </div>
+                    )}
                     {validPokemon.map(p => (
                         <div key={p.id} onClick={() => !isBattling && handleSelect(p)} className="mini-card">
                             <img src={p.sprites.front_default} alt={p.name} />

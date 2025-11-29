@@ -501,30 +501,6 @@
 
 .load-more-mini-container {
     margin-top: 2rem;
-    text-align: center;
-    width: 100%;
-    grid-column: 1 / -1;
-}
-
-.load-more-mini-btn {
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-    color: white;
-    border: none;
-    padding: 0.8rem 2rem;
-    font-size: 1rem;
-    border-radius: 2rem;
-    cursor: pointer;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
-}
-
-.load-more-mini-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(79, 70, 229, 0.4);
-    background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
 }
 
 .load-more-mini-btn:active {

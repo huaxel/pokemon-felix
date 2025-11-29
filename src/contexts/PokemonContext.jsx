@@ -3,6 +3,7 @@ import { usePokemonData } from '../hooks/usePokemonData';
 import { useCollection } from '../hooks/useCollection';
 import { usePokemonSearch } from '../hooks/usePokemonSearch';
 import { useCoins } from '../hooks/useCoins';
+import { useSquad } from '../hooks/useSquad';
 
 const PokemonContext = createContext(null);
 
@@ -14,6 +15,7 @@ export function PokemonProvider({ children }) {
     const collection = useCollection();
     const search = usePokemonSearch();
     const { coins, addCoins, spendCoins } = useCoins();
+    const squad = useSquad();
 
     const value = {
         // Pokemon data
@@ -25,6 +27,13 @@ export function PokemonProvider({ children }) {
         ownedIds: collection.ownedIds,
         setOwnedIds: collection.setOwnedIds,
         toggleOwned: collection.toggleOwned,
+
+        // Squad
+        squadIds: squad.squadIds,
+        addToSquad: squad.addToSquad,
+        removeFromSquad: squad.removeFromSquad,
+        isInSquad: squad.isInSquad,
+        isSquadFull: squad.isSquadFull,
 
         // Search
         allPokemonNames: search.allPokemonNames,

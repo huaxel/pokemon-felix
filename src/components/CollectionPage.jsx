@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { usePokemonContext } from '../contexts/PokemonContext';
 import { getPokemonDetails } from '../lib/api';
 import { PokemonCard } from './PokemonCard';
 import { PokemonModal } from './PokemonModal';
 import './CollectionPage.css';
 
 export function CollectionPage({ ownedIds, onToggleOwned }) {
+    const { addToSquad, removeFromSquad, isInSquad, squadIds } = usePokemonContext();
     const [collectedPokemon, setCollectedPokemon] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -71,6 +73,7 @@ export function CollectionPage({ ownedIds, onToggleOwned }) {
                 <h2>Mi Colección</h2>
                 <div className="collection-stats">
                     <span>Total: {collectedPokemon.length}</span>
+                    <span style={{ marginLeft: '1rem', color: '#fbbf24' }}>Equipo: {squadIds.length}/6</span>
                 </div>
             </div>
 
@@ -82,6 +85,16 @@ export function CollectionPage({ ownedIds, onToggleOwned }) {
                         isOwned={true}
                         onToggleOwned={onToggleOwned}
                         onClick={handleCardClick}
+                        isInSquad={isInSquad(pokemon.id)}
+                        onToggleSquad={() => {
+                            if (isInSquad(pokemon.id)) {
+                                removeFromSquad(pokemon.id);
+                            } else {
+                                if (!addToSquad(pokemon.id)) {
+                                    alert('¡Tu equipo está lleno! (Máx. 6)');
+                                }
+                            }
+                        }}
                     />
                 ))}
             </div>

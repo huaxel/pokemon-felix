@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { usePokemonContext } from './contexts/PokemonContext';
 import { getPokemonDetails, addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
@@ -11,6 +11,7 @@ import { CollectionPage } from './components/CollectionPage';
 import { BattlePage } from './components/BattlePage';
 import { TournamentLayout } from './features/tournament/TournamentLayout';
 import { GachaPage } from './features/gacha/GachaPage';
+import { StarterPage } from './features/onboarding/StarterPage';
 import './App.css';
 
 function App() {
@@ -28,6 +29,15 @@ function App() {
   } = usePokemonContext();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Redirect to starter selection if no pokemon owned
+  useEffect(() => {
+    if (!loading && ownedIds.length === 0 && location.pathname !== '/starter') {
+      navigate('/starter');
+    }
+  }, [loading, ownedIds, location, navigate]);
 
   const handleExportFavorites = () => {
     exportFavoritesToJson(ownedIds);
@@ -117,6 +127,7 @@ function App() {
         <Route path="/battle" element={
           <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
         } />
+        <Route path="/starter" element={<StarterPage />} />
         <Route path="/tournament" element={
           <TournamentLayout allPokemon={pokemonList} />
         } />
