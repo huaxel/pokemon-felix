@@ -9,7 +9,7 @@ export function Navbar({ onExport, onImport }) {
     return (
         <nav className="navbar">
             <div className="nav-brand">
-                <img src="/pokeball.png" alt="Pokeball" className="nav-logo" />
+                <img src={`${import.meta.env.BASE_URL}pokeball.png`} alt="Pokeball" className="nav-logo" />
                 <h1>Pokédex de Félix</h1>
             </div>
 
