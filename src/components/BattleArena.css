@@ -7,9 +7,60 @@
 .fighters-stage {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+    /* Align bottom so cards line up */
     gap: 2rem;
     margin-bottom: 2rem;
+    min-height: 450px;
+    /* Ensure space for HP bars */
+}
+
+.fighter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 250px;
+}
+
+.health-bar-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.health-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+}
+
+.health-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.health-bar-fill {
+    height: 100%;
+    background: #00ff00;
+    transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.stat-badge {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    background: #333;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+    display: inline-block;
 }
 
 .fighter-slot {
@@ -21,12 +72,14 @@
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.5);
 }
 
-.fighter-slot.winner {
+.fighter-container.winner .fighter-slot {
     border-color: #ffd700;
     box-shadow: 0 0 20px #ffd700;
     transform: scale(1.05);
+    background: rgba(255, 215, 0, 0.1);
 }
 
 .empty-slot {
@@ -35,9 +88,11 @@
 }
 
 .vs-badge {
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 900;
     color: #ff0000;
+    align-self: center;
+    text-shadow: 2px 2px 0px white;
 }
 
 .battle-controls {
@@ -55,10 +110,17 @@
     cursor: pointer;
     font-weight: bold;
     transition: transform 0.2s;
+    box-shadow: 0 4px 0 #cc0000;
 }
 
 .fight-btn:hover {
     transform: scale(1.1);
+}
+
+.fight-btn:active {
+    transform: scale(1.0);
+    box-shadow: 0 2px 0 #cc0000;
+    transform: translateY(2px);
 }
 
 .battle-log {
@@ -67,11 +129,20 @@
     border-radius: 0.5rem;
     margin-bottom: 2rem;
     text-align: center;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
 }
 
 .battle-log ul {
     list-style: none;
     padding: 0;
+}
+
+.battle-log li {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.5rem;
 }
 
 .pokemon-grid-mini {
@@ -87,8 +158,9 @@
     text-align: center;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
 }
 
 .mini-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-5px);
 }
