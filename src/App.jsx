@@ -142,9 +142,6 @@ function App() {
       <Routes>
         <Route path="/" element={
           <>
-            <div className="header-stats">
-              <h1>Pokémon Félix</h1>
-            </div>
 
             <SearchBar allPokemon={allPokemonNames} onSearch={handleSearch} />
 
