@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Home, Library, Swords } from 'lucide-react';
 import './Navbar.css';
 
 export function Navbar() {
@@ -18,19 +19,22 @@ export function Navbar() {
                         to="/"
                         className={`toggle-btn ${location.pathname === '/' ? 'active' : ''}`}
                     >
-                        Inicio
+                        <Home size={20} />
+                        <span>Inicio</span>
                     </Link>
                     <Link
                         to="/collection"
                         className={`toggle-btn ${location.pathname === '/collection' ? 'active' : ''}`}
                     >
-                        Mi Colección
+                        <Library size={20} />
+                        <span>Mi Colección</span>
                     </Link>
                     <Link
                         to="/battle"
                         className={`toggle-btn ${location.pathname === '/battle' ? 'active' : ''}`}
                     >
-                        Arena de Batalla
+                        <Swords size={20} />
+                        <span>Arena de Batalla</span>
                     </Link>
                 </div>
             </div>

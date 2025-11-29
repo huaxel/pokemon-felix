@@ -170,7 +170,7 @@ function App() {
           />
         } />
         <Route path="/battle" element={
-          <BattlePage allPokemon={pokemonList} />
+          <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
         } />
       </Routes>
 

@@ -1,102 +1,94 @@
 .navbar {
-    background: linear-gradient(to bottom, #ff0000 50%, #ffffff 50%);
-    padding: 0.5rem 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 0.8rem 2rem;
     position: sticky;
     top: 0;
-    z-index: 100;
-    border-bottom: 4px solid #1a1a1a;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.navbar-content {
-    max-width: 1200px;
-    margin: 0 auto;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #1a1a1a;
-    /* Center strip */
-    padding: 0.5rem 2rem;
-    border-radius: 50px;
-    border: 4px solid #ffffff;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.navbar-logo {
-    font-family: var(--header-font);
-    font-size: 1.8rem;
-    color: #ffcb05;
-    /* Yellow */
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 0 #2a75bb;
-    /* Blue shadow */
-    -webkit-text-stroke: 1px #2a75bb;
-}
-
-.navbar-links {
+.nav-brand {
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
 }
 
-.nav-link {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 700;
-    transition: all 0.2s;
-    position: relative;
+.nav-brand:hover {
+    opacity: 0.8;
+}
+
+.nav-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.nav-brand h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #dc2626;
+    /* Solid Pokemon Red */
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 0.5rem;
+    background: #f1f5f9;
+    padding: 0.3rem;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+.toggle-btn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--header-font);
-    letter-spacing: 1px;
-    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    background: transparent;
+    color: #64748b;
+    text-decoration: none;
 }
 
-.nav-link:hover,
-.nav-link.active {
-    color: #ffcb05;
+.toggle-btn:hover {
+    color: #1e293b;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.toggle-btn.active {
+    background: white;
+    color: #dc2626;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-weight: 700;
+}
+
+.toggle-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.toggle-btn:hover svg {
     transform: scale(1.1);
-}
-
-.nav-link.active::after {
-    display: none;
-    /* Remove old underline */
-}
-
-.collection-badge {
-    background-color: #ff0000;
-    color: white;
-    font-size: 0.8rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 50%;
-    font-weight: bold;
-    min-width: 1.5rem;
-    text-align: center;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-@media (max-width: 600px) {
-    .navbar {
-        padding: 0.5rem;
-    }
-
-    .navbar-content {
-        padding: 0.5rem 1rem;
-        flex-direction: column;
-        gap: 0.5rem;
-        border-radius: 20px;
-    }
-
-    .navbar-logo {
-        font-size: 1.5rem;
-    }
-
-    .navbar-links {
-        gap: 1rem;
-        width: 100%;
-        justify-content: center;
-    }
 }
