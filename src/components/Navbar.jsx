@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-export function Navbar({ collectionCount }) {
+export function Navbar({ collectionCount, onExport, onImport }) {
     const location = useLocation();
 
     return (
@@ -26,6 +26,14 @@ export function Navbar({ collectionCount }) {
                             <span className="collection-badge">{collectionCount}</span>
                         )}
                     </Link>
+                </div>
+                <div className="navbar-actions">
+                    <button className="nav-btn" onClick={onImport} title="Importar favoritos">
+                        📥
+                    </button>
+                    <button className="nav-btn" onClick={onExport} title="Exportar favoritos">
+                        📤
+                    </button>
                 </div>
             </div>
         </nav>

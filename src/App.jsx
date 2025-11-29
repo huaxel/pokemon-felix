@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Fuse from 'fuse.js'
 import { getPokemonList, getAllPokemonNames, getPokemonDetails, getCollection, addToCollection, removeFromCollection } from './lib/api'
+import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites'
 import { PokemonCard } from './components/PokemonCard'
 import { SearchBar } from './components/SearchBar'
 import { PokemonModal } from './components/PokemonModal'
@@ -41,6 +42,29 @@ function App() {
       ignore = true;
     };
   }, []);
+
+  const handleExportFavorites = () => {
+    exportFavoritesToJson(ownedIds);
+  };
+
+  const handleImportFavorites = async () => {
+    try {
+      const imported = await importFavoritesFromJson();
+      // Sync imported favorites with DB
+      // First, clear existing collection
+      for (const id of ownedIds) {
+        await removeFromCollection(id);
+      }
+      // Then add all imported ones
+      for (const id of imported) {
+        await addToCollection(id);
+      }
+      setOwnedIds(imported);
+    } catch (error) {
+      console.error('Failed to import favorites:', error);
+      alert('Error al importar favoritos: ' + error.message);
+    }
+  };
 
   const loadAllNames = async () => {
     try {
@@ -149,7 +173,11 @@ function App() {
 
   return (
     <div className="app-container">
-      <Navbar collectionCount={ownedIds.length} />
+      <Navbar 
+        collectionCount={ownedIds.length} 
+        onExport={handleExportFavorites}
+        onImport={handleImportFavorites}
+      />
 
       <Routes>
         <Route path="/" element={
