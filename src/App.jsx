@@ -1,9 +1,12 @@
 import { useState, useEffect, useMemo } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import Fuse from 'fuse.js'
 import { getPokemonList, getAllPokemonNames, getPokemonDetails } from './lib/api'
 import { PokemonCard } from './components/PokemonCard'
 import { SearchBar } from './components/SearchBar'
 import { PokemonModal } from './components/PokemonModal'
+import { Navbar } from './components/Navbar'
+import { CollectionPage } from './components/CollectionPage'
 import './App.css'
 
 function App() {
@@ -134,45 +137,58 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Pokemon Felix</h1>
+      <Navbar collectionCount={ownedIds.length} />
 
-      <div className="header-stats">
-        Collection: {ownedIds.length} cards
-      </div>
+      <Routes>
+        <Route path="/" element={
+          <>
+            <div className="header-stats">
+              <h1>Pokemon Felix</h1>
+            </div>
 
-      <SearchBar allPokemon={allPokemonNames} onSearch={handleSearch} />
+            <SearchBar allPokemon={allPokemonNames} onSearch={handleSearch} />
 
-      {searchResults && (
-        <div className="search-status">
-          <button className="clear-search" onClick={() => setSearchResults(null)}>
-            RESET SEARCH
-          </button>
-        </div>
-      )}
+            {searchResults && (
+              <div className="search-status">
+                <button className="clear-search" onClick={() => setSearchResults(null)}>
+                  RESET SEARCH
+                </button>
+              </div>
+            )}
 
-      <div className="pokemon-grid">
-        {displayList.map((pokemon) => (
-          <PokemonCard
-            key={pokemon.id}
-            pokemon={pokemon}
-            isOwned={ownedIds.includes(pokemon.id)}
+            <div className="pokemon-grid">
+              {displayList.map((pokemon) => (
+                <PokemonCard
+                  key={pokemon.id}
+                  pokemon={pokemon}
+                  isOwned={ownedIds.includes(pokemon.id)}
+                  onToggleOwned={toggleOwned}
+                  onClick={handleCardClick}
+                />
+              ))}
+            </div>
+
+            {!searchResults && (
+              <div className="load-more-container">
+                <button
+                  className="load-more-btn"
+                  onClick={loadPokemon}
+                  disabled={loading}
+                >
+                  {loading ? 'Loading...' : 'Load More Pokemon'}
+                </button>
+              </div>
+            )}
+          </>
+        } />
+
+        <Route path="/collection" element={
+          <CollectionPage
+            ownedIds={ownedIds}
             onToggleOwned={toggleOwned}
-            onClick={handleCardClick}
           />
-        ))}
-      </div>
-
-      {!searchResults && (
-        <div className="load-more-container">
-          <button
-            className="load-more-btn"
-            onClick={loadPokemon}
-            disabled={loading}
-          >
-            {loading ? 'Loading...' : 'Load More Pokemon'}
-          </button>
-        </div>
-      )}
+        } />
+      </Routes>
 
       {selectedPokemon && (
         <PokemonModal
