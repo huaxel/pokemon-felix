@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PokemonCard } from './PokemonCard';
+import { getStat, calculateMaxHP, calculateDamage } from '../lib/battle-logic';
 import './BattleArena.css';
 
 export function BattleArena({ allPokemon, onLoadMore }) {
@@ -18,20 +19,15 @@ export function BattleArena({ allPokemon, onLoadMore }) {
     // Filter out incomplete pokemon data if necessary
     const validPokemon = allPokemon.filter(p => p.stats && p.types);
 
-    const getStat = (pokemon, statName) => {
-        const stat = pokemon.stats.find(s => s.stat.name === statName);
-        return stat ? stat.base_stat : 10; // Default fallback
-    };
-
     const handleSelect = (pokemon) => {
         if (!fighter1) {
             setFighter1(pokemon);
-            const hp = getStat(pokemon, 'hp') * 3; // Boost HP for longer battles
+            const hp = calculateMaxHP(pokemon);
             setF1HP(hp);
             setF1MaxHP(hp);
         } else if (!fighter2 && pokemon.id !== fighter1.id) {
             setFighter2(pokemon);
-            const hp = getStat(pokemon, 'hp') * 3;
+            const hp = calculateMaxHP(pokemon);
             setF2HP(hp);
             setF2MaxHP(hp);
         }
@@ -47,17 +43,6 @@ export function BattleArena({ allPokemon, onLoadMore }) {
         setF2HP(0);
     };
 
-    const attack = async (attacker, defender, setDefenderHP, defenderMaxHP, defenderName) => {
-        const att = getStat(attacker, 'attack');
-        const def = getStat(defender, 'defense');
-
-        // Damage formula (simplified)
-        const damage = Math.max(5, Math.floor((att * 1.5) - (def * 0.5) + (Math.random() * 10)));
-
-        setDefenderHP(prev => Math.max(0, prev - damage));
-        return damage;
-    };
-
     const startBattle = async () => {
         if (!fighter1 || !fighter2) return;
         setIsBattling(true);
@@ -69,14 +54,18 @@ export function BattleArena({ allPokemon, onLoadMore }) {
 
         let currentF1HP = f1HP;
         let currentF2HP = f2HP;
+        let turnCount = 0;
+        const MAX_TURNS = 100;
 
         // Battle Loop
-        while (currentF1HP > 0 && currentF2HP > 0) {
+        while (currentF1HP > 0 && currentF2HP > 0 && turnCount < MAX_TURNS) {
+            turnCount++;
             await new Promise(r => setTimeout(r, 1000));
 
             // Fighter 1 Attacks
-            const damage1 = await attack(fighter1, fighter2, setF2HP, f2MaxHP, fighter2.name);
-            currentF2HP -= damage1;
+            const damage1 = calculateDamage(fighter1, fighter2);
+            currentF2HP = Math.max(0, currentF2HP - damage1);
+            setF2HP(currentF2HP);
             addLog(`${fighter1.name} ataca e inflige ${damage1} de daño!`);
 
             if (currentF2HP <= 0) {
@@ -88,8 +77,9 @@ export function BattleArena({ allPokemon, onLoadMore }) {
             await new Promise(r => setTimeout(r, 1000));
 
             // Fighter 2 Attacks
-            const damage2 = await attack(fighter2, fighter1, setF1HP, f1MaxHP, fighter1.name);
-            currentF1HP -= damage2;
+            const damage2 = calculateDamage(fighter2, fighter1);
+            currentF1HP = Math.max(0, currentF1HP - damage2);
+            setF1HP(currentF1HP);
             addLog(`${fighter2.name} ataca e inflige ${damage2} de daño!`);
 
             if (currentF1HP <= 0) {
@@ -98,6 +88,23 @@ export function BattleArena({ allPokemon, onLoadMore }) {
                 break;
             }
         }
+
+        // If max turns reached, determine winner by remaining HP percentage
+        if (turnCount >= MAX_TURNS) {
+            const f1Percentage = (currentF1HP / f1MaxHP) * 100;
+            const f2Percentage = (currentF2HP / f2MaxHP) * 100;
+
+            if (f1Percentage > f2Percentage) {
+                setWinner(fighter1);
+                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter1.name} gana por mayor HP restante.`);
+            } else if (f2Percentage > f1Percentage) {
+                setWinner(fighter2);
+                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter2.name} gana por mayor HP restante.`);
+            } else {
+                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! Es un empate.`);
+            }
+        }
+
         setIsBattling(false);
     };
 
@@ -115,7 +122,14 @@ export function BattleArena({ allPokemon, onLoadMore }) {
                             <div className="health-bar-bg">
                                 <div
                                     className="health-bar-fill"
-                                    style={{ width: `${(f1HP / f1MaxHP) * 100}%`, backgroundColor: f1HP < f1MaxHP * 0.2 ? '#ff0000' : '#00ff00' }}
+                                    style={{
+                                        width: `${(f1HP / f1MaxHP) * 100}%`,
+                                        backgroundColor: f1HP < f1MaxHP * 0.2
+                                            ? 'var(--health-critical)'
+                                            : f1HP < f1MaxHP * 0.5
+                                                ? 'var(--health-warning)'
+                                                : 'var(--health-good)'
+                                    }}
                                 ></div>
                             </div>
                             <div className="stat-badge">ATK: {getStat(fighter1, 'attack')}</div>
@@ -143,7 +157,14 @@ export function BattleArena({ allPokemon, onLoadMore }) {
                             <div className="health-bar-bg">
                                 <div
                                     className="health-bar-fill"
-                                    style={{ width: `${(f2HP / f2MaxHP) * 100}%`, backgroundColor: f2HP < f2MaxHP * 0.2 ? '#ff0000' : '#00ff00' }}
+                                    style={{
+                                        width: `${(f2HP / f2MaxHP) * 100}%`,
+                                        backgroundColor: f2HP < f2MaxHP * 0.2
+                                            ? 'var(--health-critical)'
+                                            : f2HP < f2MaxHP * 0.5
+                                                ? 'var(--health-warning)'
+                                                : 'var(--health-good)'
+                                    }}
                                 ></div>
                             </div>
                             <div className="stat-badge">ATK: {getStat(fighter2, 'attack')}</div>

@@ -17,7 +17,7 @@ export function SearchBar({ allPokemon, onSearch }) {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [wrapperRef]);
+    }, []); // Empty dependency array - setup once
 
     const handleInputChange = (e) => {
         const value = e.target.value;
@@ -34,6 +34,17 @@ export function SearchBar({ allPokemon, onSearch }) {
             setIsOpen(false);
         }
     };
+
+    // Debounced version for actual search
+    const debouncedSearch = React.useCallback((value) => {
+        const timeoutId = setTimeout(() => {
+            if (value) {
+                onSearch(value);
+            }
+        }, 300); // 300ms delay
+
+        return () => clearTimeout(timeoutId);
+    }, [onSearch]);
 
     const handleSelect = (name) => {
         setQuery(name);
