@@ -202,74 +202,74 @@
 }
 
 /* Card Backgrounds based on Type (First Type) */
-.pokemon-card.grass {
+.pokemon-card.type-grass {
     background: linear-gradient(to bottom right, #78c850, #5ca935);
 }
 
-.pokemon-card.fire {
+.pokemon-card.type-fire {
     background: linear-gradient(to bottom right, #f08030, #dd6610);
 }
 
-.pokemon-card.water {
+.pokemon-card.type-water {
     background: linear-gradient(to bottom right, #6890f0, #445e9c);
 }
 
-.pokemon-card.bug {
+.pokemon-card.type-bug {
     background: linear-gradient(to bottom right, #a8b820, #8d9a1b);
 }
 
-.pokemon-card.normal {
+.pokemon-card.type-normal {
     background: linear-gradient(to bottom right, #a8a878, #8a8a59);
 }
 
-.pokemon-card.poison {
+.pokemon-card.type-poison {
     background: linear-gradient(to bottom right, #a040a0, #803380);
 }
 
-.pokemon-card.electric {
+.pokemon-card.type-electric {
     background: linear-gradient(to bottom right, #f8d030, #e0b700);
 }
 
-.pokemon-card.ground {
+.pokemon-card.type-ground {
     background: linear-gradient(to bottom right, #e0c068, #c4a444);
 }
 
-.pokemon-card.fairy {
+.pokemon-card.type-fairy {
     background: linear-gradient(to bottom right, #ee99ac, #d6768b);
 }
 
-.pokemon-card.fighting {
+.pokemon-card.type-fighting {
     background: linear-gradient(to bottom right, #c03028, #9d2621);
 }
 
-.pokemon-card.psychic {
+.pokemon-card.type-psychic {
     background: linear-gradient(to bottom right, #f85888, #d63666);
 }
 
-.pokemon-card.rock {
+.pokemon-card.type-rock {
     background: linear-gradient(to bottom right, #b8a038, #93802d);
 }
 
-.pokemon-card.ghost {
+.pokemon-card.type-ghost {
     background: linear-gradient(to bottom right, #705898, #554374);
 }
 
-.pokemon-card.ice {
+.pokemon-card.type-ice {
     background: linear-gradient(to bottom right, #98d8d8, #69c6c6);
 }
 
-.pokemon-card.dragon {
+.pokemon-card.type-dragon {
     background: linear-gradient(to bottom right, #7038f8, #4c08d4);
 }
 
-.pokemon-card.steel {
+.pokemon-card.type-steel {
     background: linear-gradient(to bottom right, #b8b8d0, #9797b5);
 }
 
-.pokemon-card.dark {
+.pokemon-card.type-dark {
     background: linear-gradient(to bottom right, #705848, #513f34);
 }
 
-.pokemon-card.flying {
+.pokemon-card.type-flying {
     background: linear-gradient(to bottom right, #a890f0, #8d6ce5);
 }
