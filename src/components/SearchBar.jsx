@@ -55,7 +55,7 @@ export function SearchBar({ allPokemon, onSearch }) {
                 <input
                     type="text"
                     className="search-input"
-                    placeholder="Search Pokemon..."
+                    placeholder="Buscar Pokémon..."
                     value={query}
                     onChange={handleInputChange}
                     onFocus={() => query.length > 1 && setIsOpen(true)}
