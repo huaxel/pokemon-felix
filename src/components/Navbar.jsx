@@ -47,18 +47,11 @@ export function Navbar({ onExport, onImport }) {
                         <span>Equipo</span>
                     </Link>
                     <Link
-                        to="/battle"
-                        className={`toggle-btn ${location.pathname === '/battle' ? 'active' : ''}`}
+                        to="/battle-modes"
+                        className={`toggle-btn ${location.pathname.includes('/battle') || location.pathname === '/tournament' ? 'active' : ''}`}
                     >
                         <Swords size={20} />
-                        <span>Arena de Batalla</span>
-                    </Link>
-                    <Link
-                        to="/tournament"
-                        className={`toggle-btn ${location.pathname === '/tournament' ? 'active' : ''}`}
-                    >
-                        <Trophy size={20} />
-                        <span>Torneo</span>
+                        <span>Batallas</span>
                     </Link>
                     <Link
                         to="/gacha"

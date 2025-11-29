@@ -1,0 +1,92 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { usePokemonContext } from '../../contexts/PokemonContext';
+import { TournamentBattle } from '../tournament/components/TournamentBattle';
+import './SingleBattlePage.css';
+
+export function SingleBattlePage({ allPokemon }) {
+    const { squadIds, addCoins } = usePokemonContext();
+    const [opponent, setOpponent] = useState(null);
+    const [playerPokemon, setPlayerPokemon] = useState(null);
+    const [battleState, setBattleState] = useState('loading'); // loading, battle, victory, defeat
+
+    useEffect(() => {
+        if (allPokemon && allPokemon.length > 0 && squadIds.length > 0) {
+            startBattle();
+        }
+    }, [allPokemon, squadIds]);
+
+    const startBattle = () => {
+        // Get user's first squad member (or random from squad)
+        const userSquad = allPokemon.filter(p => squadIds.includes(p.id));
+        const player = userSquad[0]; // Simple: use first pokemon
+
+        // Get random opponent (excluding squad)
+        const potentialOpponents = allPokemon.filter(p => !squadIds.includes(p.id));
+        const randomOpponent = potentialOpponents[Math.floor(Math.random() * potentialOpponents.length)];
+
+        setPlayerPokemon(player);
+        setOpponent(randomOpponent);
+        setBattleState('battle');
+    };
+
+    const handleBattleEnd = (winner) => {
+        if (winner.id === playerPokemon.id) {
+            setBattleState('victory');
+            addCoins(50);
+        } else {
+            setBattleState('defeat');
+        }
+    };
+
+    if (battleState === 'loading' || !playerPokemon || !opponent) {
+        return <div className="single-battle-page loading">Preparando batalla...</div>;
+    }
+
+    if (battleState === 'victory') {
+        return (
+            <div className="single-battle-page result victory">
+                <h1>¡Victoria!</h1>
+                <div className="result-card">
+                    <img src={playerPokemon.sprites.other['official-artwork'].front_default} alt={playerPokemon.name} />
+                    <p>¡{playerPokemon.name} ha ganado!</p>
+                    <div className="reward-badge">+50 Monedas</div>
+                </div>
+                <div className="actions">
+                    <button className="replay-btn" onClick={startBattle}>Otra Batalla</button>
+                    <Link to="/battle-modes" className="back-btn">Volver al Menú</Link>
+                </div>
+            </div>
+        );
+    }
+
+    if (battleState === 'defeat') {
+        return (
+            <div className="single-battle-page result defeat">
+                <h1>Derrota</h1>
+                <div className="result-card">
+                    <img src={opponent.sprites.other['official-artwork'].front_default} alt={opponent.name} />
+                    <p>{opponent.name} te ha vencido.</p>
+                </div>
+                <div className="actions">
+                    <button className="replay-btn" onClick={startBattle}>Intentar de Nuevo</button>
+                    <Link to="/battle-modes" className="back-btn">Volver al Menú</Link>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="single-battle-page">
+            <div className="battle-header-simple">
+                <h2>Batalla Rápida</h2>
+                <Link to="/battle-modes" className="close-btn">✕</Link>
+            </div>
+            <TournamentBattle
+                fighter1={playerPokemon}
+                fighter2={opponent}
+                onBattleEnd={handleBattleEnd}
+            />
+        </div>
+    );
+}

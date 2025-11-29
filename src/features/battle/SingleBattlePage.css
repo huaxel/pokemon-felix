@@ -1,0 +1,120 @@
+.single-battle-page {
+    min-height: 100vh;
+    background: #1e293b;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.single-battle-page.loading {
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #94a3b8;
+}
+
+.battle-header-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: white;
+}
+
+.single-battle-page.result {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.single-battle-page.victory {
+    background: linear-gradient(135deg, #166534 0%, #14532d 100%);
+}
+
+.single-battle-page.defeat {
+    background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+}
+
+.result h1 {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.result-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 2rem;
+    backdrop-filter: blur(10px);
+    margin-bottom: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.result-card img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+}
+
+.result-card p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.reward-badge {
+    background: #fbbf24;
+    color: #78350f;
+    padding: 0.5rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.replay-btn,
+.back-btn {
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s;
+}
+
+.replay-btn {
+    background: white;
+    color: #0f172a;
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.replay-btn:hover,
+.back-btn:hover {
+    transform: scale(1.05);
+}

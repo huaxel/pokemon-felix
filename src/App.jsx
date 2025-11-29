@@ -13,6 +13,8 @@ import { GachaPage } from './features/gacha/GachaPage';
 import { StarterPage } from './features/onboarding/StarterPage';
 import { SquadPage } from './features/squad/SquadPage';
 import { PokedexPage } from './features/pokedex/PokedexPage';
+import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
+import { SingleBattlePage } from './features/battle/SingleBattlePage';
 import './App.css';
 
 function App() {
@@ -74,9 +76,9 @@ function App() {
         <Route path="/battle" element={
           <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
         } />
-        <Route path="/tournament" element={
-          <TournamentLayout allPokemon={pokemonList} />
-        } />
+        <Route path="/battle-modes" element={<BattleSelectionPage />} />
+        <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
+        <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
         <Route path="/gacha" element={<GachaPage />} />
         <Route path="/squad" element={<SquadPage />} />
       </Routes>
