@@ -95,8 +95,8 @@
 .card-image-container {
     background: rgba(255, 255, 255, 0.6);
     border-radius: 8px;
-    margin: 35px 10px 10px 10px;
-    /* More top margin for header */
+    margin: 50px 10px 10px 10px;
+    /* Increased top margin to prevent overlap */
     flex: 1;
     /* Take up available space */
     display: flex;
