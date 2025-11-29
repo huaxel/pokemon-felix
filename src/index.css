@@ -1,0 +1,33 @@
+:root {
+  --primary-color: #ffcb05; /* Pokemon Yellow */
+  --secondary-color: #2a75bb; /* Pokemon Blue */
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --card-bg: #ffffff;
+  --font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+h1 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
