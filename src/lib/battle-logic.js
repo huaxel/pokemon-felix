@@ -5,12 +5,12 @@ export const getStat = (pokemon, statName) => {
     return stat ? stat.base_stat : 10;
 };
 
-// Calculate max HP for battle (boosted by 3x for longer fights)
+// Calculate max HP for battle (TCG Style: ~20 HP)
 export const calculateMaxHP = (pokemon) => {
-    return getStat(pokemon, 'hp') * 3;
+    // Base HP usually ranges 40-100. Dividing by 5 gives ~8-20 HP.
+    return Math.floor(getStat(pokemon, 'hp') / 4) + 10;
 };
 
-// Calculate damage for a single attack
 // Simplified Type Chart
 const TYPE_CHART = {
     normal: { rock: 0.5, ghost: 0, steel: 0.5 },
@@ -39,29 +39,42 @@ export const getEffectiveness = (attackerType, defenderType) => {
     return attackerChart[defenderType.toLowerCase()] !== undefined ? attackerChart[defenderType.toLowerCase()] : 1;
 };
 
-// Calculate damage for a single attack
+// Calculate damage for a single attack (TCG Style: 1-5 Damage)
 export const calculateDamage = (attacker, defender, move) => {
-    const att = getStat(attacker, 'attack');
-    const def = getStat(defender, 'defense');
-
     // Use move type if available, otherwise fallback to Pokemon type
     const attackType = move ? move.type : attacker.types[0].type.name;
     const defenderType = defender.types[0].type.name;
 
     const effectiveness = getEffectiveness(attackType, defenderType);
 
-    // Damage formula: 
-    // ((2 * Level / 5 + 2) * Power * A / D / 50 + 2) * Modifier
-    // Simplified: (Attack * Power / Defense / 10) * Random * Effectiveness
+    // TCG Damage Scale based on Power
+    // Power < 50: 1 Dmg
+    // Power < 75: 2 Dmg
+    // Power < 100: 3 Dmg
+    // Power < 125: 4 Dmg
+    // Power >= 125: 5 Dmg
 
     const power = move ? move.power : 40;
+    let baseDamage = 1;
 
-    let baseDamage = (att * power / def / 5) + 5;
+    if (power >= 125) baseDamage = 5;
+    else if (power >= 100) baseDamage = 4;
+    else if (power >= 75) baseDamage = 3;
+    else if (power >= 50) baseDamage = 2;
 
-    // Random factor (0.85 to 1.0)
-    const random = (Math.floor(Math.random() * 16) + 85) / 100;
+    // Apply Effectiveness (TCG Style: +1 or -1 Damage, min 1)
+    let finalDamage = baseDamage;
 
-    const finalDamage = Math.floor(baseDamage * random * effectiveness);
+    if (effectiveness > 1) finalDamage += 1; // Super effective = +1 Dmg
+    else if (effectiveness < 1 && effectiveness > 0) finalDamage = Math.max(1, finalDamage - 1); // Not very effective = -1 Dmg (min 1)
+    else if (effectiveness === 0) finalDamage = 0; // Immune
 
-    return { damage: finalDamage, effectiveness };
+    return { damage: finalDamage, effectiveness, baseDamage };
+};
+
+// Calculate Energy Cost based on Damage (1-3 Energy)
+export const calculateEnergyCost = (baseDamage) => {
+    if (baseDamage >= 4) return 3;
+    if (baseDamage >= 2) return 2;
+    return 1;
 };

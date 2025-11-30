@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PokemonCard } from '../../../components/PokemonCard';
-import { getStat, calculateMaxHP, calculateDamage } from '../../../lib/battle-logic';
+import { getStat, calculateMaxHP, calculateDamage, calculateEnergyCost } from '../../../lib/battle-logic';
 import { getMoveDetails } from '../../../lib/api';
 import './TournamentBattle.css';
 
@@ -20,6 +20,11 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
     const [f1MaxHP] = useState(calculateMaxHP(fighter1));
     const [f2MaxHP] = useState(calculateMaxHP(fighter2));
 
+    // Energy State (TCG Style)
+    const [f1Energy, setF1Energy] = useState(2); // Start with 2 Energy
+    const [f2Energy, setF2Energy] = useState(2);
+    const MAX_ENERGY = 5;
+
     // Moves State
     const [f1Moves, setF1Moves] = useState([]);
     const [f2Moves, setF2Moves] = useState([]);
@@ -36,7 +41,12 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                     const allMoves = pokemon.moves;
                     const selected = allMoves.sort(() => 0.5 - Math.random()).slice(0, 4);
                     const moveDetails = await Promise.all(selected.map(m => getMoveDetails(m.move.url)));
-                    return moveDetails.filter(m => m !== null);
+                    return moveDetails.filter(m => m !== null).map(m => {
+                        // Calculate base damage and cost for UI
+                        const { baseDamage } = calculateDamage(pokemon, pokemon, m); // Mock call for base stats
+                        const cost = calculateEnergyCost(baseDamage);
+                        return { ...m, baseDamage, cost };
+                    });
                 };
 
                 const [m1, m2] = await Promise.all([
@@ -59,15 +69,26 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
     useEffect(() => {
         if (turn === 'opponent' && !winner && f2Moves.length > 0) {
             const timer = setTimeout(async () => {
-                // Pick random move
-                const move = f2Moves[Math.floor(Math.random() * f2Moves.length)];
-                await executeTurn(fighter2, fighter1, move, setF1HP, setTurn);
+                // AI Logic: Filter moves we can afford
+                const affordableMoves = f2Moves.filter(m => m.cost <= f2Energy);
+
+                if (affordableMoves.length > 0 && Math.random() > 0.2) {
+                    // 80% chance to attack if possible
+                    const move = affordableMoves[Math.floor(Math.random() * affordableMoves.length)];
+                    await executeTurn(fighter2, fighter1, move, setF1HP, setTurn, setF2Energy, f2Energy);
+                } else {
+                    // Reload if no energy or random chance
+                    await handleReload(fighter2, setF2Energy, setTurn);
+                }
             }, 1500);
             return () => clearTimeout(timer);
         }
-    }, [turn, winner, f2Moves]);
+    }, [turn, winner, f2Moves, f2Energy]);
 
-    const executeTurn = async (attacker, defender, move, setDefenderHP, setNextTurn) => {
+    const executeTurn = async (attacker, defender, move, setDefenderHP, setNextTurn, setAttackerEnergy, currentEnergy) => {
+        // Deduct Energy
+        setAttackerEnergy(prev => Math.max(0, prev - move.cost));
+
         const res = calculateDamage(attacker, defender, move);
 
         // Log
@@ -93,9 +114,25 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
         }
     };
 
+    const handleReload = async (fighter, setEnergy, setNextTurn) => {
+        setBattleLog(prev => [...prev, `${fighter.name} recarga energía!`]);
+
+        // Animation placeholder (could be a glow effect)
+        await new Promise(r => setTimeout(r, 800));
+
+        setEnergy(prev => Math.min(MAX_ENERGY, prev + 2));
+        setNextTurn(fighter === fighter1 ? 'opponent' : 'player');
+    };
+
     const handleMoveClick = async (move) => {
         if (turn !== 'player' || winner) return;
-        await executeTurn(fighter1, fighter2, move, setF2HP, setTurn);
+        if (f1Energy < move.cost) return; // Should be disabled in UI, but safety check
+        await executeTurn(fighter1, fighter2, move, setF2HP, setTurn, setF1Energy, f1Energy);
+    };
+
+    const handlePlayerReload = async () => {
+        if (turn !== 'player' || winner) return;
+        await handleReload(fighter1, setF1Energy, setTurn);
     };
 
     const triggerAttackAnimation = async (attacker, defender, result) => {
@@ -108,9 +145,9 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
         setDamagedFighter(defender);
 
         if (result.effectiveness > 1) {
-            setEffectivenessMsg({ fighter: defender, msg: "¡Super Efectivo!", type: "super-effective" });
+            setEffectivenessMsg({ fighter: defender, msg: "¡Super Efectivo! +1 Dmg", type: "super-effective" });
         } else if (result.effectiveness < 1 && result.effectiveness > 0) {
-            setEffectivenessMsg({ fighter: defender, msg: "No es muy efectivo...", type: "not-very-effective" });
+            setEffectivenessMsg({ fighter: defender, msg: "No es muy efectivo... -1 Dmg", type: "not-very-effective" });
         }
 
         await new Promise(r => setTimeout(r, 400)); // Wait for shake
@@ -128,8 +165,8 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                     )}
                     <div className="health-bar-container">
                         <div className="health-bar-label">
-                            <span>HP</span>
-                            <span>{f1HP}/{f1MaxHP}</span>
+                            <span>{fighter1.name}</span>
+                            <span>{f1HP}/{f1MaxHP} HP</span>
                         </div>
                         <div className="health-bar-bg">
                             <div
@@ -137,13 +174,19 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                                 style={{ width: `${(f1HP / f1MaxHP) * 100}%`, backgroundColor: f1HP < f1MaxHP * 0.2 ? '#ff0000' : '#00ff00' }}
                             ></div>
                         </div>
+                        <div className="energy-bar">
+                            {[...Array(MAX_ENERGY)].map((_, i) => (
+                                <span key={i} className={`energy-pip ${i < f1Energy ? 'filled' : ''}`}>⚡</span>
+                            ))}
+                        </div>
                     </div>
                     <div className="fighter-slot">
-                        <PokemonCard pokemon={fighter1} isOwned={false} onToggleOwned={() => { }} />
+                        <img src={fighter1.sprites.front_default} alt={fighter1.name} className="fighter-sprite" />
                     </div>
                 </div>
 
-                <div className="vs-badge">VS</div>
+                {/* VS Badge */}
+                {!winner && <div className="vs-badge">VS</div>}
 
                 {/* Fighter 2 */}
                 <div className={`fighter-container ${winner === fighter2 ? 'winner' : ''} ${attackingFighter === fighter2 ? 'attacking-left' : ''} ${damagedFighter === fighter2 ? 'damaged' : ''}`}>
@@ -152,8 +195,8 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                     )}
                     <div className="health-bar-container">
                         <div className="health-bar-label">
-                            <span>HP</span>
-                            <span>{f2HP}/{f2MaxHP}</span>
+                            <span>{fighter2.name}</span>
+                            <span>{f2HP}/{f2MaxHP} HP</span>
                         </div>
                         <div className="health-bar-bg">
                             <div
@@ -161,9 +204,14 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                                 style={{ width: `${(f2HP / f2MaxHP) * 100}%`, backgroundColor: f2HP < f2MaxHP * 0.2 ? '#ff0000' : '#00ff00' }}
                             ></div>
                         </div>
+                        <div className="energy-bar">
+                            {[...Array(MAX_ENERGY)].map((_, i) => (
+                                <span key={i} className={`energy-pip ${i < f2Energy ? 'filled' : ''}`}>⚡</span>
+                            ))}
+                        </div>
                     </div>
                     <div className="fighter-slot">
-                        <PokemonCard pokemon={fighter2} isOwned={false} onToggleOwned={() => { }} />
+                        <img src={fighter2.sprites.front_default} alt={fighter2.name} className="fighter-sprite" />
                     </div>
                 </div>
             </div>
@@ -182,16 +230,28 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                                     key={i}
                                     className={`move-btn type-${move.type}`}
                                     onClick={() => handleMoveClick(move)}
-                                    disabled={turn !== 'player' || !!winner}
+                                    disabled={turn !== 'player' || !!winner || f1Energy < move.cost}
                                 >
                                     <span className="move-name">{move.name}</span>
-                                    <div className="move-power">
-                                        <span className="power-icon">💥</span>
-                                        <span className="power-val">{move.power}</span>
+                                    <div className="move-stats">
+                                        <div className="move-stat dmg">
+                                            <span>⚔️</span> {move.baseDamage}
+                                        </div>
+                                        <div className="move-stat cost">
+                                            <span>⚡</span> {move.cost}
+                                        </div>
                                     </div>
                                     <span className="move-type-badge">{move.type}</span>
                                 </button>
                             ))}
+                            <button
+                                className="reload-btn"
+                                onClick={handlePlayerReload}
+                                disabled={turn !== 'player' || !!winner || f1Energy >= MAX_ENERGY}
+                            >
+                                <span className="reload-icon">🔋</span>
+                                <span className="reload-text">RECARGAR (+2)</span>
+                            </button>
                         </div>
                     </>
                 )}

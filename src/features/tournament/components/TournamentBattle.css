@@ -101,258 +101,423 @@
                 to {
                     opacity: 1;
                     transform: translateX(0);
-                }
-            }
-        }
-    }
-}
 
-/* Move Grid */
-.moves-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 700px;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 2.5rem;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-}
+                    .tournament-battle {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2rem;
+                        max-width: 900px;
 
-.moves-grid.active-turn {
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.15), 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 215, 0, 0.3);
-}
+                        .health-bar-fill {
+                            height: 100%;
+                            background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+                            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+                            border-radius: 6px;
+                            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+                            position: relative;
+                        }
 
-.move-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    border: none;
-    border-radius: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    color: white;
-    position: relative;
-    overflow: hidden;
-    height: 160px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background-size: 200% 200%;
-    animation: gradient-shift 5s ease infinite;
-}
+                        .health-bar-fill::after {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            height: 50%;
+                            background: rgba(255, 255, 255, 0.3);
+                            border-radius: 6px 6px 0 0;
+                        }
 
-@keyframes gradient-shift {
-    0% {
-        background-position: 0% 50%;
-    }
+                        .fighter-slot {
+                            transform-style: preserve-3d;
+                            transition: transform 0.3s ease;
+                        }
 
-    50% {
-        background-position: 100% 50%;
-    }
+                        .fighter-container.winner .fighter-slot {
+                            transform: scale(1.1) translateY(-20px);
+                            filter: drop-shadow(0 0 30px rgba(234, 179, 8, 0.6));
+                        }
 
-    100% {
-        background-position: 0% 50%;
-    }
-}
+                        .vs-badge {
+                            font-size: 5rem;
+                            font-weight: 900;
+                            background: linear-gradient(45deg, #ef4444, #f97316);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
 
-.moves-grid.active-turn .move-btn {
-    animation: pulse-glow 3s infinite;
-}
+                            .tournament-battle {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 2rem;
+                                max-width: 900px;
+                                margin: 0 auto;
+                            }
 
-@keyframes pulse-glow {
-    0% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
-    }
+                            .fighters-stage {
+                                display: flex;
+                                justify-content: center;
+                                align-items: flex-end;
+                                gap: 4rem;
+                                margin-bottom: 2rem;
+                                min-height: 400px;
+                                padding-top: 2rem;
+                                perspective: 1000px;
+                            }
 
-    70% {
-        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-    }
+                            .fighter-container {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                gap: 1.5rem;
+                                width: 280px;
+                                transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                            }
 
-    100% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    }
-}
+                            .health-bar-container {
+                                width: 100%;
+                                background: rgba(255, 255, 255, 0.9);
+                                padding: 0.8rem;
+                                border-radius: 1rem;
+                                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                                border: 2px solid white;
+                                position: relative;
+                                z-index: 10;
+                                backdrop-filter: blur(5px);
+                            }
 
-.move-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    filter: grayscale(0.9);
-    transform: scale(0.95);
-    box-shadow: none;
-}
+                            .health-bar-label {
+                                display: flex;
+                                justify-content: space-between;
 
-.move-btn:not(:disabled):hover {
-    transform: translateY(-8px) scale(1.02);
-    filter: brightness(1.15);
-    z-index: 10;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.4);
-}
+                                .battle-log li:last-child {
+                                    color: #fff;
+                                    font-weight: bold;
+                                    border-bottom: none;
+                                    animation: slideIn 0.3s ease-out;
+                                }
 
-.move-btn:not(:disabled):active {
-    transform: scale(0.98);
-}
+                                @keyframes slideIn {
+                                    from {
+                                        opacity: 0;
+                                        transform: translateX(-10px);
+                                    }
 
-.move-name {
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 1.6rem;
-    text-transform: capitalize;
-    margin-bottom: 0.8rem;
-    line-height: 1.1;
-    text-align: center;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
+                                    to {
+                                        opacity: 1;
+                                        transform: translateX(0);
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-.move-power {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 0.5rem 1.2rem;
-    border-radius: 3rem;
-    margin-bottom: 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(4px);
-}
+                    /* Energy Bar */
+                    .energy-bar {
+                        display: flex;
+                        gap: 0.2rem;
+                        margin-top: 0.5rem;
+                        justify-content: center;
+                    }
 
-.power-icon {
-    font-size: 1.6rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
+                    .energy-pip {
+                        font-size: 1.2rem;
+                        opacity: 0.3;
+                        filter: grayscale(1);
+                        transition: all 0.3s;
+                    }
 
-.power-val {
-    font-size: 2rem;
-    font-weight: 800;
-    font-family: 'Outfit', sans-serif;
-    letter-spacing: -1px;
-}
+                    .energy-pip.filled {
+                        opacity: 1;
+                        filter: grayscale(0);
+                        text-shadow: 0 0 10px #fbbf24;
+                        transform: scale(1.1);
+                    }
 
-.move-type-badge {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    opacity: 0.95;
-    letter-spacing: 1.5px;
-    font-weight: 800;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
+                    /* Move Grid */
+                    .moves-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 1rem;
+                        width: 100%;
+                        max-width: 700px;
+                        padding: 1.5rem;
+                        background: rgba(255, 255, 255, 0.03);
+                        backdrop-filter: blur(16px);
+                        border: 1px solid rgba(255, 255, 255, 0.08);
+                        border-radius: 2rem;
+                        transition: all 0.4s ease;
+                        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+                    }
 
-.your-turn-banner {
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 3.5rem;
-    background: linear-gradient(to bottom, #fbbf24, #d97706);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.2));
-    margin-bottom: 2rem;
-    animation: float 2s ease-in-out infinite;
-    text-align: center;
-    width: 100%;
-    letter-spacing: 2px;
-}
+                    .moves-grid.active-turn {
+                        box-shadow: 0 0 40px rgba(255, 215, 0, 0.15), 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+                        border-color: rgba(255, 215, 0, 0.3);
+                    }
 
-@keyframes float {
+                    .move-btn {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 1rem;
+                        border: none;
+                        border-radius: 1.2rem;
+                        cursor: pointer;
+                        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+                        color: white;
+                        position: relative;
+                        overflow: hidden;
+                        height: 120px;
+                        /* Compact height */
+                        border: 1px solid rgba(255, 255, 255, 0.15);
+                        background-size: 200% 200%;
+                        animation: gradient-shift 5s ease infinite;
+                    }
 
-    0%,
-    100% {
-        transform: translateY(0);
-    }
+                    @keyframes gradient-shift {
+                        0% {
+                            background-position: 0% 50%;
+                        }
 
-    50% {
-        transform: translateY(-10px);
-    }
-}
+                        50% {
+                            background-position: 100% 50%;
+                        }
 
-.turn-indicator {
-    margin-top: 1.5rem;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    color: #94a3b8;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    opacity: 0.8;
-}
+                        100% {
+                            background-position: 0% 50%;
+                        }
+                    }
 
-/* Move Types Colors with Modern Gradients */
-.move-btn.type-normal {
-    background: linear-gradient(135deg, #a8a878 0%, #6d6d4e 100%);
-}
+                    .moves-grid.active-turn .move-btn {
+                        animation: pulse-glow 3s infinite;
+                    }
 
-.move-btn.type-fire {
-    background: linear-gradient(135deg, #f08030 0%, #c03028 100%);
-}
+                    @keyframes pulse-glow {
+                        0% {
+                            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+                        }
 
-.move-btn.type-water {
-    background: linear-gradient(135deg, #6890f0 0%, #445e9c 100%);
-}
+                        70% {
+                            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+                        }
 
-.move-btn.type-electric {
-    background: linear-gradient(135deg, #f8d030 0%, #b8a038 100%);
-    color: #1a1a1a;
-}
+                        100% {
+                            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+                        }
+                    }
 
-.move-btn.type-grass {
-    background: linear-gradient(135deg, #78c850 0%, #4e8234 100%);
-}
+                    .move-btn:disabled {
+                        opacity: 0.4;
+                        cursor: not-allowed;
+                        filter: grayscale(0.9);
+                        transform: scale(0.95);
+                        box-shadow: none;
+                    }
 
-.move-btn.type-ice {
-    background: linear-gradient(135deg, #98d8d8 0%, #698e8e 100%);
-    color: #1a1a1a;
-}
+                    .move-btn:not(:disabled):hover {
+                        transform: translateY(-4px) scale(1.02);
+                        filter: brightness(1.15);
+                        z-index: 10;
+                        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.4);
+                        border-color: rgba(255, 255, 255, 0.4);
+                    }
 
-.move-btn.type-fighting {
-    background: linear-gradient(135deg, #c03028 0%, #7d1f1a 100%);
-}
+                    .move-btn:not(:disabled):active {
+                        transform: scale(0.98);
+                    }
 
-.move-btn.type-poison {
-    background: linear-gradient(135deg, #a040a0 0%, #682a68 100%);
-}
+                    .move-name {
+                        font-family: 'Luckiest Guy', cursive;
+                        font-size: 1.3rem;
+                        text-transform: capitalize;
+                        margin-bottom: 0.5rem;
+                        line-height: 1.1;
+                        text-align: center;
+                        letter-spacing: 1px;
+                        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+                    }
 
-.move-btn.type-ground {
-    background: linear-gradient(135deg, #e0c068 0%, #927d44 100%);
-}
+                    .move-stats {
+                        display: flex;
+                        gap: 0.8rem;
+                        margin-bottom: 0.5rem;
+                    }
 
-.move-btn.type-flying {
-    background: linear-gradient(135deg, #a890f0 0%, #6d5e9c 100%);
-}
+                    .move-stat {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.3rem;
+                        background: rgba(0, 0, 0, 0.25);
+                        padding: 0.3rem 0.6rem;
+                        border-radius: 1rem;
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        font-family: 'Outfit', sans-serif;
+                        font-weight: 800;
+                        font-size: 1.1rem;
+                    }
 
-.move-btn.type-psychic {
-    background: linear-gradient(135deg, #f85888 0%, #a13959 100%);
-}
+                    .move-stat.cost {
+                        color: #fbbf24;
+                    }
 
-.move-btn.type-bug {
-    background: linear-gradient(135deg, #a8b820 0%, #6d7815 100%);
-}
+                    .move-type-badge {
+                        font-family: 'Outfit', sans-serif;
+                        font-size: 0.75rem;
+                        text-transform: uppercase;
+                        opacity: 0.95;
+                        letter-spacing: 1px;
+                        font-weight: 800;
+                        background: rgba(255, 255, 255, 0.15);
+                        padding: 2px 8px;
+                        border-radius: 10px;
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                    }
 
-.move-btn.type-rock {
-    background: linear-gradient(135deg, #b8a038 0%, #786824 100%);
-}
+                    /* Reload Button */
+                    .reload-btn {
+                        grid-column: span 2;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 1rem;
+                        padding: 1rem;
+                        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                        border: none;
+                        border-radius: 1.5rem;
+                        cursor: pointer;
+                        color: white;
+                        font-family: 'Luckiest Guy', cursive;
+                        font-size: 1.5rem;
+                        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+                        box-shadow: 0 4px 0 #047857, 0 8px 10px rgba(0, 0, 0, 0.2);
+                        transition: all 0.2s;
+                    }
 
-.move-btn.type-ghost {
-    background: linear-gradient(135deg, #705898 0%, #493963 100%);
-}
+                    .reload-btn:hover {
+                        transform: translateY(-2px);
+                        filter: brightness(1.1);
+                        box-shadow: 0 6px 0 #047857, 0 12px 15px rgba(0, 0, 0, 0.2);
+                    }
 
-.move-btn.type-dragon {
-    background: linear-gradient(135deg, #7038f8 0%, #4924a1 100%);
-}
+                    .reload-btn:active {
+                        transform: translateY(4px);
+                        box-shadow: 0 0 0 #047857, 0 0 0 rgba(0, 0, 0, 0.2);
+                    }
 
-.move-btn.type-steel {
-    background: linear-gradient(135deg, #b8b8d0 0%, #787887 100%);
-    color: #1a1a1a;
-}
+                    .reload-btn:disabled {
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                        filter: grayscale(1);
+                        transform: none;
+                        box-shadow: none;
+                    }
 
-.move-btn.type-fairy {
-    background: linear-gradient(135deg, #ee99ac 0%, #9b6470 100%);
-}
+                    .your-turn-banner {
+                        font-family: 'Luckiest Guy', cursive;
+                        font-size: 3.5rem;
+                        background: linear-gradient(to bottom, #fbbf24, #d97706);
+                        -webkit-background-clip: text;
+                        background-clip: text;
+                        color: transparent;
+                        filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.2));
+                        margin-bottom: 2rem;
+                        animation: float 2s ease-in-out infinite;
+                        text-align: center;
+                        width: 100%;
+                        letter-spacing: 2px;
+                    }
+
+                    @keyframes float {
+
+                        0%,
+                        100% {
+                            transform: translateY(0);
+                        }
+
+                        50% {
+                            transform: translateY(-10px);
+                        }
+                    }
+
+                    .turn-indicator {
+                        margin-top: 1.5rem;
+                        font-family: 'Outfit', sans-serif;
+                        font-weight: 600;
+                        color: #94a3b8;
+                        font-size: 1.1rem;
+                        text-transform: uppercase;
+                        letter-spacing: 2px;
+                        opacity: 0.8;
+                    }
+
+                    /* Move Types Colors with Modern Gradients */
+                    .move-btn.type-normal {
+                        background: linear-gradient(135deg, #a8a878 0%, #6d6d4e 100%);
+                    }
+
+                    .move-btn.type-fire {
+                        background: linear-gradient(135deg, #f08030 0%, #c03028 100%);
+                    }
+
+                    .move-btn.type-water {
+                        background: linear-gradient(135deg, #6890f0 0%, #445e9c 100%);
+                    }
+
+                    .move-btn.type-electric {
+                        background: linear-gradient(135deg, #f8d030 0%, #b8a038 100%);
+                        color: #1a1a1a;
+                    }
+
+                    .move-btn.type-grass {
+                        background: linear-gradient(135deg, #78c850 0%, #4e8234 100%);
+                    }
+
+                    .move-btn.type-ice {
+                        background: linear-gradient(135deg, #98d8d8 0%, #698e8e 100%);
+                        color: #1a1a1a;
+                    }
+
+                    .move-btn.type-fighting {
+                        background: linear-gradient(135deg, #c03028 0%, #7d1f1a 100%);
+                    }
+
+                    .move-btn.type-poison {
+                        background: linear-gradient(135deg, #a040a0 0%, #682a68 100%);
+                    }
+
+                    .move-btn.type-ground {
+                        background: linear-gradient(135deg, #e0c068 0%, #927d44 100%);
+                    }
+
+                    .move-btn.type-flying {
+                        background: linear-gradient(135deg, #a890f0 0%, #6d5e9c 100%);
+                    }
+
+                    .move-btn.type-psychic {
+                        background: linear-gradient(135deg, #f85888 0%, #a13959 100%);
+                    }
+
+                    .move-btn.type-bug {
+                        background: linear-gradient(135deg, #a8b820 0%, #6d7815 100%);
+                    }
+
+                    .move-btn.type-rock {
+                        background: linear-gradient(135deg, #b8a038 0%, #786824 100%);
+                    }
+
+                    .move-btn.type-ghost {
+                        background: linear-gradient(135deg, #705898 0%, #493963 100%);
+                    }
+
+                    .move-btn.type-dragon {
+                        background: linear-gradient(135deg, #7038f8 0%, #4924a1 100%);
+                    }
+
+                    .move-btn.type-steel {
+                        background: linear-gradient(135deg, #b8b8d0 0%, #787887 100%);
+                        color: #1a1a1a;
+                    }
+
+                    .move-btn.type-fairy {
+                        background: linear-gradient(135deg, #ee99ac 0%, #9b6470 100%);
+                    }
