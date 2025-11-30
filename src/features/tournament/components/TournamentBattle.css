@@ -103,3 +103,256 @@
                     transform: translateX(0);
                 }
             }
+        }
+    }
+}
+
+/* Move Grid */
+.moves-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 700px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2.5rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.moves-grid.active-turn {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.15), 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.move-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    border: none;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    height: 160px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-size: 200% 200%;
+    animation: gradient-shift 5s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.moves-grid.active-turn .move-btn {
+    animation: pulse-glow 3s infinite;
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.move-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    filter: grayscale(0.9);
+    transform: scale(0.95);
+    box-shadow: none;
+}
+
+.move-btn:not(:disabled):hover {
+    transform: translateY(-8px) scale(1.02);
+    filter: brightness(1.15);
+    z-index: 10;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.move-btn:not(:disabled):active {
+    transform: scale(0.98);
+}
+
+.move-name {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 1.6rem;
+    text-transform: capitalize;
+    margin-bottom: 0.8rem;
+    line-height: 1.1;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.move-power {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.5rem 1.2rem;
+    border-radius: 3rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+}
+
+.power-icon {
+    font-size: 1.6rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.power-val {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -1px;
+}
+
+.move-type-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    opacity: 0.95;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.your-turn-banner {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 3.5rem;
+    background: linear-gradient(to bottom, #fbbf24, #d97706);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.2));
+    margin-bottom: 2rem;
+    animation: float 2s ease-in-out infinite;
+    text-align: center;
+    width: 100%;
+    letter-spacing: 2px;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.turn-indicator {
+    margin-top: 1.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+/* Move Types Colors with Modern Gradients */
+.move-btn.type-normal {
+    background: linear-gradient(135deg, #a8a878 0%, #6d6d4e 100%);
+}
+
+.move-btn.type-fire {
+    background: linear-gradient(135deg, #f08030 0%, #c03028 100%);
+}
+
+.move-btn.type-water {
+    background: linear-gradient(135deg, #6890f0 0%, #445e9c 100%);
+}
+
+.move-btn.type-electric {
+    background: linear-gradient(135deg, #f8d030 0%, #b8a038 100%);
+    color: #1a1a1a;
+}
+
+.move-btn.type-grass {
+    background: linear-gradient(135deg, #78c850 0%, #4e8234 100%);
+}
+
+.move-btn.type-ice {
+    background: linear-gradient(135deg, #98d8d8 0%, #698e8e 100%);
+    color: #1a1a1a;
+}
+
+.move-btn.type-fighting {
+    background: linear-gradient(135deg, #c03028 0%, #7d1f1a 100%);
+}
+
+.move-btn.type-poison {
+    background: linear-gradient(135deg, #a040a0 0%, #682a68 100%);
+}
+
+.move-btn.type-ground {
+    background: linear-gradient(135deg, #e0c068 0%, #927d44 100%);
+}
+
+.move-btn.type-flying {
+    background: linear-gradient(135deg, #a890f0 0%, #6d5e9c 100%);
+}
+
+.move-btn.type-psychic {
+    background: linear-gradient(135deg, #f85888 0%, #a13959 100%);
+}
+
+.move-btn.type-bug {
+    background: linear-gradient(135deg, #a8b820 0%, #6d7815 100%);
+}
+
+.move-btn.type-rock {
+    background: linear-gradient(135deg, #b8a038 0%, #786824 100%);
+}
+
+.move-btn.type-ghost {
+    background: linear-gradient(135deg, #705898 0%, #493963 100%);
+}
+
+.move-btn.type-dragon {
+    background: linear-gradient(135deg, #7038f8 0%, #4924a1 100%);
+}
+
+.move-btn.type-steel {
+    background: linear-gradient(135deg, #b8b8d0 0%, #787887 100%);
+    color: #1a1a1a;
+}
+
+.move-btn.type-fairy {
+    background: linear-gradient(135deg, #ee99ac 0%, #9b6470 100%);
+}
