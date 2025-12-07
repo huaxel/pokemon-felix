@@ -1,5 +1,5 @@
 .pokemon-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -10,6 +10,7 @@
     flex-direction: column;
     animation: fadeIn 0.5s ease-out forwards;
     opacity: 0;
+    border: 8px solid var(--primary-color);
 }
 
 .pokemon-card:hover {
@@ -30,10 +31,10 @@
 }
 
 .pokemon-id {
-    font-family: monospace;
+    font-family: 'Outfit', sans-serif;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.5);
-    background: rgba(255, 255, 255, 0.5);
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.8);
     padding: 0.2rem 0.4rem;
     border-radius: 0.5rem;
     font-size: 0.8rem;
@@ -123,9 +124,11 @@
     margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
     text-transform: capitalize;
-    color: #1e293b;
+    color: var(--text-color);
     font-weight: 700;
     text-align: center;
+    font-family: var(--header-font);
+    letter-spacing: 0.5px;
 }
 
 .pokemon-types {

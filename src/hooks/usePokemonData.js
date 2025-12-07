@@ -14,13 +14,13 @@ export function usePokemonData() {
         if (loading) return;
         setLoading(true);
         try {
-            const newPokemon = await getPokemonList(20, offsetRef.current);
+            const newPokemon = await getPokemonList(50, offsetRef.current);
             setPokemonList(prev => {
                 const existingIds = new Set(prev.map(p => p.id));
                 const uniqueNew = newPokemon.filter(p => !existingIds.has(p.id));
                 return [...prev, ...uniqueNew];
             });
-            offsetRef.current += 20;
+            offsetRef.current += 50;
         } catch (error) {
             console.error("Failed to load pokemon", error);
         } finally {
