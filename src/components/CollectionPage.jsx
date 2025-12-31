@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { getPokemonDetails } from '../lib/api';
 import { PokemonCard } from './PokemonCard';
-import { PokemonModal } from './PokemonModal';
+const PokemonModal = lazy(() => import('./PokemonModal').then(mod => ({ default: mod.PokemonModal })));
 import './CollectionPage.css';
 
 export function CollectionPage({ ownedIds, onToggleOwned }) {
@@ -87,12 +87,14 @@ export function CollectionPage({ ownedIds, onToggleOwned }) {
             </div>
 
             {selectedPokemon && (
-                <PokemonModal
-                    pokemon={selectedPokemon}
-                    onClose={() => setSelectedPokemon(null)}
-                    isOwned={ownedIds.includes(selectedPokemon.id)}
-                    onToggleOwned={onToggleOwned}
-                />
+                <Suspense fallback={null}>
+                    <PokemonModal
+                        pokemon={selectedPokemon}
+                        onClose={() => setSelectedPokemon(null)}
+                        isOwned={ownedIds.includes(selectedPokemon.id)}
+                        onToggleOwned={onToggleOwned}
+                    />
+                </Suspense>
             )}
         </div>
     );

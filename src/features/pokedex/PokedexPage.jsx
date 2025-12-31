@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { getPokemonDetails } from '../../lib/api';
 import { SearchBar } from '../../components/SearchBar';
 import { PokemonCard } from '../../components/PokemonCard';
-import { PokemonModal } from '../../components/PokemonModal';
+const PokemonModal = lazy(() => import('../../components/PokemonModal').then(mod => ({ default: mod.PokemonModal })));
 import './PokedexPage.css';
 
 export function PokedexPage() {
@@ -70,12 +70,14 @@ export function PokedexPage() {
             )}
 
             {selectedPokemon && (
-                <PokemonModal
-                    pokemon={selectedPokemon}
-                    onClose={() => setSelectedPokemon(null)}
-                    isOwned={ownedIds.includes(selectedPokemon.id)}
-                    onToggleOwned={toggleOwned}
-                />
+                <Suspense fallback={null}>
+                    <PokemonModal
+                        pokemon={selectedPokemon}
+                        onClose={() => setSelectedPokemon(null)}
+                        isOwned={ownedIds.includes(selectedPokemon.id)}
+                        onToggleOwned={toggleOwned}
+                    />
+                </Suspense>
             )}
         </div>
     );

@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { PokemonContext } from './PokemonContext';
+import { CollectionContext } from './CollectionContext';
+import { BattleContext } from './BattleContext';
+import { UIContext } from './UIContext';
 import { usePokemonData } from '../hooks/usePokemonData';
 import { useCollection } from '../hooks/useCollection';
 import { usePokemonSearch } from '../hooks/usePokemonSearch';
@@ -38,8 +41,33 @@ export function PokemonProvider({ children }) {
         return false;
     };
 
+    const toggleOwnedWithQuest = (id) => {
+        const wasOwned = collection.ownedIds.includes(id);
+        collection.toggleOwned(id);
+        if (!wasOwned) updateQuestProgress('catch');
+    };
+
+    const collectionValue = {
+        ownedIds: collection.ownedIds,
+        setOwnedIds: collection.setOwnedIds,
+        toggleOwned: toggleOwnedWithQuest
+    };
+
+    const battleValue = {
+        squadIds: squad.squadIds,
+        addToSquad: squad.addToSquad,
+        removeFromSquad: squad.removeFromSquad,
+        isInSquad: squad.isInSquad,
+        isSquadFull: squad.isSquadFull
+    };
+
+    const uiValue = {
+        isConsoleOpen,
+        toggleConsole
+    };
+
     const value = {
-        // UI State
+        // UI State (also available via UIContext)
         isConsoleOpen,
         toggleConsole,
 
@@ -48,16 +76,12 @@ export function PokemonProvider({ children }) {
         loading: pokemonData.loading || search.loading,
         loadPokemon: pokemonData.loadPokemon,
 
-        // Collection
+        // Collection (also available via CollectionContext)
         ownedIds: collection.ownedIds,
         setOwnedIds: collection.setOwnedIds,
-        toggleOwned: (id) => {
-            const wasOwned = collection.ownedIds.includes(id);
-            collection.toggleOwned(id);
-            if (!wasOwned) updateQuestProgress('catch');
-        },
+        toggleOwned: toggleOwnedWithQuest,
 
-        // Squad
+        // Squad (also available via BattleContext)
         squadIds: squad.squadIds,
         addToSquad: squad.addToSquad,
         removeFromSquad: squad.removeFromSquad,
@@ -121,7 +145,13 @@ export function PokemonProvider({ children }) {
 
     return (
         <PokemonContext.Provider value={value}>
-            {children}
+            <UIContext.Provider value={uiValue}>
+                <CollectionContext.Provider value={collectionValue}>
+                    <BattleContext.Provider value={battleValue}>
+                        {children}
+                    </BattleContext.Provider>
+                </CollectionContext.Provider>
+            </UIContext.Provider>
         </PokemonContext.Provider>
     );
 }

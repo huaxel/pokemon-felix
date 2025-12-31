@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { usePokemonContext } from './hooks/usePokemonContext';
 import { addToCollection, removeFromCollection } from './lib/api';
@@ -6,7 +6,7 @@ import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites'
 import { Navbar } from './components/Navbar';
 import { GameConsole } from './components/GameConsole';
 
-import { PokemonModal } from './components/PokemonModal';
+const PokemonModal = lazy(() => import('./components/PokemonModal').then(mod => ({ default: mod.PokemonModal })));
 import { CollectionPage } from './components/CollectionPage';
 import { BattlePage } from './components/BattlePage';
 import { TournamentLayout } from './features/tournament/TournamentLayout';
@@ -111,12 +111,14 @@ function App() {
       </Routes>
 
       {selectedPokemon && (
-        <PokemonModal
-          pokemon={selectedPokemon}
-          onClose={() => setSelectedPokemon(null)}
-          isOwned={ownedIds.includes(selectedPokemon.id)}
-          onToggleOwned={toggleOwned}
-        />
+        <Suspense fallback={null}>
+          <PokemonModal
+            pokemon={selectedPokemon}
+            onClose={() => setSelectedPokemon(null)}
+            isOwned={ownedIds.includes(selectedPokemon.id)}
+            onToggleOwned={toggleOwned}
+          />
+        </Suspense>
       )}
 
       {isConsoleOpen && (
