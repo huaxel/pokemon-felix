@@ -116,7 +116,7 @@ export function BattleArena({ allPokemon, onLoadMore }) {
     };
 
     return (
-        <div className="battle-arena">
+        <div className="battle-arena" style={{ backgroundImage: 'url(/src/assets/buildings/gym_building.png)' }}>
             <div className="fighters-stage">
                 {/* Fighter 1 */}
                 <div className={`fighter-container ${winner === fighter1 ? 'winner' : ''}`}>

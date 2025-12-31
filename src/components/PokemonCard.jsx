@@ -52,7 +52,7 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
 
             <div className="card-image-container">
                 <img
-                    src={pokemon.sprites.other['official-artwork'].front_default}
+                    src={`/src/assets/items/pokeball.png`} // Example of using the new asset path
                     alt={pokemon.name}
                     className="pokemon-image"
                     loading="lazy"
