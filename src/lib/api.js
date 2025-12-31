@@ -9,39 +9,31 @@ export async function getPokemonList(limit = 20, offset = 0) {
 
   const data = await response.json();
 
-  // Fetch details for each pokemon to get the image AND species data for names
-  const detailedPromises = data.results.map(async (pokemon) => {
-    try {
-      const res = await fetch(pokemon.url);
-      if (!res.ok) {
-        throw new Error(`Failed to fetch ${pokemon.name}: ${res.status}`);
-      }
-      const details = await res.json();
+  // Return a lightweight but compatible shape for list views to avoid N+1 fetches.
+  // We build an id and an artwork URL from the item URL.
+  const list = data.results.map((pokemon) => {
+    // pokemon.url usually ends with "/{id}/"
+    const parts = pokemon.url.split('/').filter(Boolean);
+    const id = parseInt(parts[parts.length - 1], 10);
+    const artwork = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 
-      // Fetch species data
-      const speciesRes = await fetch(details.species.url);
-      if (!speciesRes.ok) {
-        console.warn(`Failed to fetch species data for ${pokemon.name}`);
-        return { ...details, speciesData: null };
-      }
-      const speciesData = await speciesRes.json();
-
-      return {
-        ...details,
-        speciesData
-      };
-    } catch (error) {
-      console.error(`Error fetching ${pokemon.name}:`, error);
-      return null;
-    }
+    return {
+      id,
+      name: pokemon.name,
+      url: pokemon.url,
+      sprites: {
+        other: {
+          'official-artwork': {
+            front_default: artwork
+          }
+        },
+        front_default: artwork
+      },
+      speciesData: null // keep field for compatibility; fetch on demand in getPokemonDetails
+    };
   });
 
-  const results = await Promise.allSettled(detailedPromises);
-
-  // Filter out failed requests and null values
-  return results
-    .filter(result => result.status === 'fulfilled' && result.value !== null)
-    .map(result => result.value);
+  return list;
 }
 
 export async function getPokemonDetails(name) {
@@ -80,8 +72,10 @@ export async function getAllPokemonNames() {
   return data.results.map(p => p.name);
 }
 
+import { COLLECTION_STORAGE_KEY } from './constants';
+
 // Collection Persistence (localStorage)
-const STORAGE_KEY = 'pokemon_collection';
+const STORAGE_KEY = COLLECTION_STORAGE_KEY;
 
 export async function getCollection() {
   try {

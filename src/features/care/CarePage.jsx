@@ -3,6 +3,7 @@ import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { PokemonCard } from '../../components/PokemonCard';
 import { Heart, Utensils, Sparkles } from 'lucide-react';
 import './CarePage.css';
+import bagIcon from '../../assets/items/bag_icon.png';
 
 export function CarePage() {
     const {
@@ -117,7 +118,7 @@ export function CarePage() {
                                     className="feed-btn"
                                     onClick={() => handleFeed(pokemon.id)}
                                 >
-                                    <Utensils size={16} /> Alimentar (20 🪙)
+                                    <Utensils size={16} /> Alimentar (<img src={bagIcon} alt="coins" className="coin-icon-inline" /> 20)
                                 </button>
                             </div>
                         );

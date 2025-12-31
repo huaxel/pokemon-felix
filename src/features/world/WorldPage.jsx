@@ -37,7 +37,6 @@ const TILE_TYPES = {
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
-const SEASON_ICONS = ['🌸', '☀️', '🍂', '❄️'];
 
 export function WorldPage() {
     const navigate = useNavigate();
@@ -150,70 +149,70 @@ export function WorldPage() {
 
         // NPC check op (5, 5)
         if (playerPos.x === 5 && playerPos.y === 5) {
-            if (questState === 'none') {
-                setMessage({ text: "👴 Prof. Eik: 'Felix! Ik heb je hulp nodig. Plant 3 bomen om het dorp mooier te maken!'", color: '#8b5cf6' });
+                if (questState === 'none') {
+                setMessage({ text: "Prof. Eik: 'Felix! Ik heb je hulp nodig. Plant 3 bomen om het dorp mooier te maken!'", color: '#8b5cf6' });
                 setQuestState('active');
             } else if (questState === 'active' && treeCount >= 3) {
-                setMessage({ text: "👴 Prof. Eik: 'Geweldig! Je hebt 3 bomen geplant. Hier is een Gouden Beloning!'", color: '#fbbf24' });
+                setMessage({ text: "Prof. Eik: 'Geweldig! Je hebt 3 bomen geplant. Hier is een Gouden Beloning!'", color: '#fbbf24' });
                 addCoins(500);
                 setQuestState('rewarded');
             } else if (questState === 'active') {
-                setMessage({ text: `👴 Prof. Eik: 'Nog even doorzetten! Je hebt nu ${treeCount}/3 bomen geplant.'`, color: '#8b5cf6' });
+                setMessage({ text: `Prof. Eik: 'Nog even doorzetten! Je hebt nu ${treeCount}/3 bomen geplant.'`, color: '#8b5cf6' });
             } else {
-                setMessage({ text: "👴 Prof. Eik: 'Wat een prachtig groen dorp is dit geworden!'", color: '#8b5cf6' });
+                setMessage({ text: "Prof. Eik: 'Wat een prachtig groen dorp is dit geworden!'", color: '#8b5cf6' });
             }
             return;
         }
 
         // Fisherman NPC op (5, 7)
         if (tileType === TILE_TYPES.FISHERMAN || (playerPos.x === 5 && playerPos.y === 7)) {
-            setMessage({ text: "🎣 De Visser: 'Hee Felix! Wil je een hengel uitwerpen? Soms vang je Pokémon, soms... oude laarzen.'", color: '#0ea5e9' });
+            setMessage({ text: "De Visser: 'Hee Felix! Wil je een hengel uitwerpen? Soms vang je Pokémon, soms... oude laarzen.'", color: '#0ea5e9' });
             // Start Fishing Mini-game logic could go here
             const rand = Math.random();
             if (rand < 0.3) {
-                setMessage({ text: "🎣 Je hebt een Magikarp gevangen! 🐟", color: '#f87171' });
+                setMessage({ text: "Je hebt een Magikarp gevangen!", color: '#f87171' });
                 // Logic to add pokemon would go here
             } else if (rand < 0.6) {
-                setMessage({ text: "🎣 Een oude laars... die bewaar ik voor m'n verzameling. 👢", color: '#64748b' });
+                setMessage({ text: "Een oude laars... die bewaar ik voor m'n verzameling.", color: '#64748b' });
             } else {
-                setMessage({ text: "🎣 Geen beet dit keer. Blijf proberen!", color: '#94a3b8' });
+                setMessage({ text: "Geen beet dit keer. Blijf proberen!", color: '#94a3b8' });
             }
             return;
         }
 
         if (tileType === TILE_TYPES.WATER) {
-            setMessage({ text: "🌊 Het water ziet er verfrissend uit. Ik zou graag willen zwemmen, maar ik heb mijn zwembroek niet mee!", color: '#0ea5e9' });
+            setMessage({ text: "Het water ziet er verfrissend uit. Ik zou graag willen zwemmen, maar ik heb mijn zwembroek niet mee!", color: '#0ea5e9' });
             return;
         }
 
         if (tileType === TILE_TYPES.GACHA) {
-            setMessage({ text: "🎰 Ik ga kijken in de Poké-Gacha!", color: '#4c1d95' });
+            setMessage({ text: "Ik ga kijken in de Poké-Gacha!", color: '#4c1d95' });
             setTimeout(() => navigate('/gacha'), 1000);
             return;
         }
         if (tileType === TILE_TYPES.SQUAD) {
-            setMessage({ text: "👥 Ik check even mijn Pokémon team!", color: '#1d4ed8' });
+            setMessage({ text: "Ik check even mijn Pokémon team!", color: '#1d4ed8' });
             setTimeout(() => navigate('/squad'), 1000);
             return;
         }
         if (tileType === TILE_TYPES.MARKET) {
-            setMessage({ text: "🏪 Ik denk dat ik wat Pokémon ga verkopen!", color: '#991b1b' });
+            setMessage({ text: "Ik denk dat ik wat Pokémon ga verkopen!", color: '#991b1b' });
             setTimeout(() => navigate('/market'), 1000);
             return;
         }
         if (tileType === TILE_TYPES.EVOLUTION) {
-            setMessage({ text: "🧬 Ik ga een Pokémon laten evolueren!", color: '#166534' });
+            setMessage({ text: "Ik ga een Pokémon laten evolueren!", color: '#166534' });
             setTimeout(() => navigate('/evolution'), 1000);
             return;
         }
         if (tileType === TILE_TYPES.GYM) {
-            setMessage({ text: "🏆 Ik ga de Gym Leader verslaan! Ik ben er klaar voor!", color: '#b45309' });
+            setMessage({ text: "Ik ga de Gym Leader verslaan! Ik ben er klaar voor!", color: '#b45309' });
             setTimeout(() => navigate('/gym'), 1000);
             return;
         }
 
         if (tileType === TILE_TYPES.CENTER) {
-            setMessage({ text: "🏥 Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
+            setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
             healAll();
             return;
         }
@@ -221,7 +220,7 @@ export function WorldPage() {
         // Check voor schatten ✨
         const treasureIndex = treasures.findIndex(t => t.x === playerPos.x && t.y === playerPos.y);
         if (treasureIndex !== -1) {
-            setMessage({ text: "✨ Wauw! Je hebt een zeldzame schat gevonden! +100 🪙", color: '#fbbf24' });
+            setMessage({ text: "Wauw! Je hebt een zeldzame schat gevonden! +100 coins", color: '#fbbf24' });
             addCoins(100);
             setTreasures(prev => prev.filter((_, i) => i !== treasureIndex));
             return;
@@ -230,15 +229,15 @@ export function WorldPage() {
         if (tileType === TILE_TYPES.GRASS) {
             if (Math.random() < 0.3) {
                 const rand = Math.random();
-                if (rand < 0.6) {
-                    setMessage({ text: "⚔️ Ik kom een wilde Pokémon tegen!", color: '#ef4444' });
+                    if (rand < 0.6) {
+                    setMessage({ text: "Ik kom een wilde Pokémon tegen!", color: '#ef4444' });
                     setTimeout(() => navigate('/single-battle'), 1000);
                 } else if (rand < 0.8) {
-                    setMessage({ text: "🦹 Geen genade! Ik versla Team Rocket!", color: '#7f1d1d' });
+                    setMessage({ text: "Geen genade! Ik versla Team Rocket!", color: '#7f1d1d' });
                     // Voor nu naar hetzelfde gevecht, maar de tekst is anders
                     setTimeout(() => navigate('/single-battle'), 1000);
                 } else {
-                    setMessage({ text: "🍎 Wauw, ik heb iets gevonden! +20 🪙", color: '#22c55e' });
+                    setMessage({ text: "Wauw, ik heb iets gevonden! +20 coins", color: '#22c55e' });
                     addCoins(20);
                 }
             }
@@ -289,13 +288,13 @@ export function WorldPage() {
     };
 
     const getTileContent = (type, x, y) => {
-        if (x === playerPos.x && y === playerPos.y) return '🏃';
+        if (x === playerPos.x && y === playerPos.y) return 'P';
 
-        // Schat ✨
-        if (treasures.some(t => t.x === x && t.y === y)) return '✨';
+            // Schat
+            if (treasures.some(t => t.x === x && t.y === y)) return 'T';
 
-        // Professor Eik op (5, 5)
-        if (x === 5 && y === 5) return '👴';
+            // Professor Eik op (5, 5)
+            if (x === 5 && y === 5) return 'Prof';
 
         switch (type) {
             case TILE_TYPES.GRASS: return null;
@@ -304,7 +303,7 @@ export function WorldPage() {
             case TILE_TYPES.CENTER: return <img src={centerImage} className="building-sprite" alt="Center" />;
             case TILE_TYPES.TREE: return <img src={treeImage} className="building-sprite" alt="Tree" />;
             case TILE_TYPES.GACHA: return <img src={gachaImage} className="building-sprite" alt="Gacha" />;
-            case TILE_TYPES.SQUAD: return <div className="tile squad">👥</div>;
+            case TILE_TYPES.SQUAD: return <div className="tile squad">Squad</div>;
             case TILE_TYPES.GYM: return <img src={gymImage} className="building-sprite" alt="Gym" />;
             case TILE_TYPES.MARKET: return <img src={marketImage} className="building-sprite" alt="Markt" />;
             case TILE_TYPES.EVOLUTION: return <img src={evoImage} className="building-sprite" alt="Evolutie" />;
@@ -323,18 +322,17 @@ export function WorldPage() {
             {weather === 'snowy' && <div className="snow-overlay"></div>}
 
             <div className="season-hud">
-                <button className="arrow-btn" onClick={prevSeason}>⬅️</button>
+                <button className="arrow-btn" onClick={prevSeason}>&lt;</button>
                 <div className="season-display">
-                    <span className="season-icon">{SEASON_ICONS[seasonIndex]}</span>
                     <span className="season-name">{SEASONS[seasonIndex]}</span>
                 </div>
-                <button className="arrow-btn" onClick={nextSeason}>➡️</button>
+                <button className="arrow-btn" onClick={nextSeason}>&gt;</button>
 
                 <button className={`day-night-toggle ${isNight ? 'night' : 'day'}`} onClick={toggleDayNight}>
-                    {isNight ? '🌙' : '☀️'}
+                    {isNight ? 'Night' : 'Day'}
                 </button>
 
-                <button className="pokedex-hud-btn" onClick={() => navigate('/pokedex')}>📖 Pokédex</button>
+                <button className="pokedex-hud-btn" onClick={() => navigate('/pokedex')}>Pokédex</button>
                 <button className="bag-hud-btn" onClick={() => navigate('/bag')}>
                     <img src={bagImage} alt="Bag" />
                 </button>
@@ -350,11 +348,11 @@ export function WorldPage() {
                 {showInterior && (
                     <div className="interior-modal">
                         <div className="room-content">
-                            <h2>🏠 Felix zijn Kamer</h2>
-                            <div className="pixel-bed">🛌</div>
-                            <div className="pixel-tv">📺</div>
+                            <h2>Felix zijn Kamer</h2>
+                            <div className="pixel-bed">Bed</div>
+                            <div className="pixel-tv">TV</div>
                             <p>Lekker knus! Hier kan Felix uitrusten na het avontuur.</p>
-                            <button className="close-room-btn" onClick={() => setShowInterior(false)}>Naar Buiten 🚪</button>
+                            <button className="close-room-btn" onClick={() => setShowInterior(false)}>Naar Buiten</button>
                         </div>
                     </div>
                 )}
@@ -383,12 +381,12 @@ export function WorldPage() {
 
                 <div className="controls-panel">
                     <div className="d-pad">
-                        <button onClick={() => movePlayer(0, -1)}>⬆️</button>
+                        <button onClick={() => movePlayer(0, -1)}>Up</button>
                         <div className="d-pad-mid">
-                            <button onClick={() => movePlayer(-1, 0)}>⬅️</button>
-                            <button onClick={() => movePlayer(1, 0)}>➡️</button>
+                            <button onClick={() => movePlayer(-1, 0)}>Left</button>
+                            <button onClick={() => movePlayer(1, 0)}>Right</button>
                         </div>
-                        <button onClick={() => movePlayer(0, 1)}>⬇️</button>
+                        <button onClick={() => movePlayer(0, 1)}>Down</button>
                     </div>
 
                     <div className="build-controls">
@@ -396,7 +394,7 @@ export function WorldPage() {
                             className={`mode-btn ${isBuildMode ? 'active' : ''}`}
                             onClick={() => setIsBuildMode(!isBuildMode)}
                         >
-                            {isBuildMode ? 'Klaar met Bouwen' : '🔨 Bouwen'}
+                            {isBuildMode ? 'Klaar met Bouwen' : 'Bouwen'}
                         </button>
 
                         {isBuildMode && (
@@ -404,15 +402,15 @@ export function WorldPage() {
                                 <button
                                     className={selectedBuilding === 'house' ? 'active' : ''}
                                     onClick={() => setSelectedBuilding('house')}
-                                >🏠</button>
+                                ><img src={houseImage} alt="house" className="build-icon" /></button>
                                 <button
                                     className={selectedBuilding === 'tree' ? 'active' : ''}
                                     onClick={() => setSelectedBuilding('tree')}
-                                >🌲</button>
+                                ><img src={treeImage} alt="tree" className="build-icon" /></button>
                                 <button
                                     className={selectedBuilding === 'path' ? 'active' : ''}
                                     onClick={() => setSelectedBuilding('path')}
-                                >🟫</button>
+                                >Path</button>
                             </div>
                         )}
                     </div>

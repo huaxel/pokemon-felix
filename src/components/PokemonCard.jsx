@@ -5,10 +5,10 @@ import squadIcon from '../assets/items/greatball.png';
 
 
 export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 0, isInSquad, onToggleSquad }) {
-    // Determine the main type for styling
-    const mainType = pokemon.types[0].type.name;
+    // Determine the main type for styling (defensive: list items may be lightweight)
+    const mainType = pokemon.types?.[0]?.type?.name || 'normal';
     // Determine the display name, preferring Spanish if available
-    const displayName = pokemon.speciesData?.names.find(n => n.language.name === 'es')?.name || pokemon.name;
+    const displayName = pokemon.speciesData?.names?.find(n => n.language.name === 'es')?.name || pokemon.name;
 
     return (
         <div
@@ -70,7 +70,7 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
                     {displayName}
                 </h3>
                 <div className="pokemon-types">
-                    {pokemon.types.map((type) => (
+                    {(pokemon.types || []).map((type) => (
                         <span key={type.type.name} className={`type-badge type-${type.type.name}`}>
                             {typeTranslations[type.type.name] || type.type.name}
                         </span>

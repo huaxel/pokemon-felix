@@ -4,6 +4,7 @@ import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { Bracket } from './components/Bracket';
 import { TournamentBattle } from './components/TournamentBattle';
 import './TournamentLayout.css';
+import bagIcon from '../../assets/items/bag_icon.png';
 
 export function TournamentLayout({ allPokemon }) {
     const { addCoins, squadIds } = usePokemonContext();
@@ -182,12 +183,12 @@ export function TournamentLayout({ allPokemon }) {
                 <div className="champion-card">
                     <img src={champion.sprites.other['official-artwork'].front_default} alt={champion.name} />
                     <h3>{champion.name}</h3>
-                    <div className="winner-badge">🏆 Ganador 🏆</div>
-                    <p className="reward-text">+200 Monedas</p>
+                    <div className="winner-badge"><img src={'/src/assets/icons/medal.svg'} alt="winner" className="medal-icon" /></div>
+                    <p className="reward-text"><img src={'/src/assets/icons/coin.svg'} alt="coins" className="coin-icon-inline" /> +200</p>
                 </div>
                 <div className="champion-actions">
                     <Link to="/gacha" className="spend-btn">
-                        🎁 Gastar Ganancias
+                        Gastar Ganancias
                     </Link>
                     <button className="reset-btn" onClick={() => {
                         setParticipants([]);

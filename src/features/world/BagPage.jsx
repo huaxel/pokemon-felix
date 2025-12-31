@@ -23,19 +23,19 @@ export function BagPage() {
         if (itemId === 'rare-candy') {
             if (removeItem(itemId, 1)) {
                 healAll();
-                alert("Je team is volledig genezen! 🍬✨");
+                alert("Je team is volledig genezen!");
             }
         } else {
-            alert("Dit item kun je gebruiken in de Poké-Gacha! 🎰");
+            alert("Dit item kun je gebruiken in de Poké-Gacha.");
         }
     };
 
     return (
         <div className="bag-page">
             <header className="bag-header">
-                <Link to="/adventure" className="back-btn">⬅️ Terug</Link>
+                <Link to="/adventure" className="back-btn">Terug</Link>
                 <h1><img src={bagImage} className="header-bag-icon" alt="" /> Mijn Rugzak</h1>
-                <div className="coin-balance">🪙 {coins}</div>
+                <div className="coin-balance"><img src={bagImage} alt="coins" className="coin-icon" /> {coins}</div>
             </header>
 
             <div className="inventory-grid">
@@ -64,7 +64,7 @@ export function BagPage() {
             {Object.values(inventory).every(c => c === 0) && (
                 <div className="empty-bag-msg">
                     <p>Je rugzak is momenteel leeg...</p>
-                    <Link to="/adventure" className="go-shop-btn">Ga naar de Gacha! 🎰</Link>
+                    <Link to="/adventure" className="go-shop-btn">Ga naar de Gacha!</Link>
                 </div>
             )}
         </div>

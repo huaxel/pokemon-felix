@@ -269,7 +269,7 @@ export function GachaPage() {
 
                         {autoEquipped && (
                             <div className="auto-equip-msg">
-                                ⚔️ ¡Añadido a tu equipo!
+                                ¡Añadido a tu equipo!
                             </div>
                         )}
 
@@ -278,7 +278,7 @@ export function GachaPage() {
                                 Opnieuw proberen
                             </button>
                             <Link to="/adventure" className="squad-link-btn">
-                                🌍 Wereld
+                                Wereld
                             </Link>
                         </div>
                     </div>

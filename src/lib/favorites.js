@@ -1,6 +1,7 @@
 // Utility functions for managing favorites persistence
+import { COLLECTION_STORAGE_KEY } from './constants';
 
-const STORAGE_KEY = 'felix-pokemon-collection';
+const STORAGE_KEY = COLLECTION_STORAGE_KEY;
 
 /**
  * Load favorites from localStorage

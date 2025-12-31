@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { calculateMaxHP, calculateDamage, calculateEnergyCost } from '../../../lib/battle-logic';
 import { getMoveDetails } from '../../../lib/api';
 import './TournamentBattle.css';
+import energyIcon from '../../../assets/icons/energy.svg';
 
 export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
     const [battleLog, setBattleLog] = useState([]);
@@ -175,7 +176,7 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                         </div>
                         <div className="energy-bar">
                             {[...Array(MAX_ENERGY)].map((_, i) => (
-                                <span key={i} className={`energy-pip ${i < f1Energy ? 'filled' : ''}`}>⚡</span>
+                                <img key={i} src={energyIcon} alt="energy" className={`energy-pip ${i < f1Energy ? 'filled' : ''}`} />
                             ))}
                         </div>
                     </div>
@@ -205,7 +206,7 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                         </div>
                         <div className="energy-bar">
                             {[...Array(MAX_ENERGY)].map((_, i) => (
-                                <span key={i} className={`energy-pip ${i < f2Energy ? 'filled' : ''}`}>⚡</span>
+                                <img key={i} src={energyIcon} alt="energy" className={`energy-pip ${i < f2Energy ? 'filled' : ''}`} />
                             ))}
                         </div>
                     </div>
@@ -221,7 +222,7 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                 ) : (
                     <>
                         {turn === 'player' && !winner && (
-                            <div className="your-turn-banner">¡TU TURNO! 👇</div>
+                            <div className="your-turn-banner">¡TU TURNO!</div>
                         )}
                         <div className={`moves-grid ${turn === 'player' ? 'active-turn' : ''}`}>
                             {f1Moves.map((move, i) => (
@@ -234,10 +235,10 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                                     <span className="move-name">{move.name}</span>
                                     <div className="move-stats">
                                         <div className="move-stat dmg">
-                                            <span>⚔️</span> {move.baseDamage}
+                                            <strong>DMG</strong> {move.baseDamage}
                                         </div>
                                         <div className="move-stat cost">
-                                            <span>⚡</span> {move.cost}
+                                            <strong>ENG</strong> {move.cost}
                                         </div>
                                     </div>
                                     <span className="move-type-badge">{move.type}</span>
@@ -248,7 +249,7 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
                                 onClick={handlePlayerReload}
                                 disabled={turn !== 'player' || !!winner || f1Energy >= MAX_ENERGY}
                             >
-                                <span className="reload-icon">🔋</span>
+                                <span className="reload-icon"><img src={energyIcon} alt="reload" className="reload-energy-icon" /></span>
                                 <span className="reload-text">RECARGAR (+2)</span>
                             </button>
                         </div>

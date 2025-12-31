@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import marketImage from '../../assets/buildings/market_stall.png';
+import bagIcon from '../../assets/items/bag_icon.png';
 import './MarketPage.css';
 
 export function MarketPage() {
@@ -16,7 +17,7 @@ export function MarketPage() {
     const handleSell = async (pokemon) => {
         const success = await sellPokemon(pokemon.id);
         if (success) {
-            setMessage(`Ik heb ${pokemon.name} verkocht voor 50 🪙!`);
+            setMessage(`Ik heb ${pokemon.name} verkocht voor 50 coins!`);
             setTimeout(() => setMessage(null), 3000);
         }
     };
@@ -24,16 +25,16 @@ export function MarketPage() {
     return (
         <div className="market-page">
             <header className="market-header">
-                <Link to="/adventure" className="back-btn">⬅️ Terug naar Wereld</Link>
-                <h1>🏪 De Pokémon Markt</h1>
-                <div className="coin-balance">🪙 {coins}</div>
+                <Link to="/adventure" className="back-btn">Terug naar Wereld</Link>
+                <h1>De Pokémon Markt</h1>
+                <div className="coin-balance"><img src={bagIcon} alt="coins" className="coin-icon" /> {coins}</div>
             </header>
 
             {message && <div className="market-message">{message}</div>}
 
             <div className="market-intro">
                 <img src={marketImage} className="market-promo-img" alt="Market" />
-                <p>Verkoop je extra Pokémon hier voor 50 munten! Pokémon in je team (👥) kun je niet verkopen.</p>
+                <p>Verkoop je extra Pokémon hier voor 50 munten! Pokémon in je team kun je niet verkopen.</p>
             </div>
 
             <div className="pokemon-grid">
@@ -45,7 +46,7 @@ export function MarketPage() {
                             <img src={pokemon.sprites.front_default} alt={pokemon.name} />
                             <h3>{pokemon.name}</h3>
                             <button className="sell-btn" onClick={() => handleSell(pokemon)}>
-                                Verkoop voor 50 🪙
+                                Verkoop voor <img src={bagIcon} alt="coins" className="coin-icon-inline" /> 50
                             </button>
                         </div>
                     ))
