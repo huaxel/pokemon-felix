@@ -10,6 +10,8 @@ import { useCoins } from '../hooks/useCoins';
 import { useSquad } from '../hooks/useSquad';
 import { useCare } from '../hooks/useCare';
 import { useTown } from '../hooks/useTown';
+import { CareContext } from './CareContext';
+import { TownContext } from './TownContext';
 import { useInventory } from '../hooks/useInventory';
 import { useQuests } from '../hooks/useQuests';
 
@@ -64,6 +66,21 @@ export function PokemonProvider({ children }) {
     const uiValue = {
         isConsoleOpen,
         toggleConsole
+    };
+
+    const careValue = {
+        careStats: care.careStats,
+        healPokemon: care.healPokemon,
+        healAll: care.healAll,
+        feedPokemon: care.feedPokemon,
+        addFatigue: care.addFatigue
+    };
+
+    const townValue = {
+        townObjects: town.townObjects,
+        addObject: town.addObject,
+        removeObject: town.removeObject,
+        clearTown: town.clearTown
     };
 
     const value = {
@@ -146,11 +163,15 @@ export function PokemonProvider({ children }) {
     return (
         <PokemonContext.Provider value={value}>
             <UIContext.Provider value={uiValue}>
-                <CollectionContext.Provider value={collectionValue}>
-                    <BattleContext.Provider value={battleValue}>
-                        {children}
-                    </BattleContext.Provider>
-                </CollectionContext.Provider>
+                    <CollectionContext.Provider value={collectionValue}>
+                        <BattleContext.Provider value={battleValue}>
+                            <CareContext.Provider value={careValue}>
+                                <TownContext.Provider value={townValue}>
+                                    {children}
+                                </TownContext.Provider>
+                            </CareContext.Provider>
+                        </BattleContext.Provider>
+                    </CollectionContext.Provider>
             </UIContext.Provider>
         </PokemonContext.Provider>
     );

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getCollection, addToCollection, removeFromCollection } from '../lib/api';
+import { getCollection, addToCollection, removeFromCollection } from '../lib/services/collectionService';
 
 /**
  * Custom hook to manage Pokemon collection (owned Pokemon IDs)
@@ -17,7 +17,7 @@ export function useCollection() {
                     setOwnedIds(ids);
                 }
             } catch (error) {
-                console.error("Failed to load collection", error);
+                console.error('Failed to load collection', error);
             }
         };
         loadCollection();
@@ -35,9 +35,9 @@ export function useCollection() {
                 await addToCollection(id);
             }
         } catch (error) {
-            console.error("Failed to update collection", error);
+            console.error('Failed to update collection', error);
             // Revert on error
-            setOwnedIds(prev => isOwned ? [...prev, id] : prev.filter(pId => pId !== id));
+            setOwnedIds(prev => (isOwned ? [...prev, id] : prev.filter(pId => pId !== id)));
         }
     };
 

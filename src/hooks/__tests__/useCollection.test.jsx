@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { useCollection } from '../useCollection';
 
-vi.mock('../../lib/api', () => ({
+vi.mock('../../lib/services/collectionService', () => ({
   getCollection: vi.fn(async () => []),
   addToCollection: vi.fn(async () => ({})),
   removeFromCollection: vi.fn(async () => ({}))
