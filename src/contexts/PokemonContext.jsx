@@ -4,6 +4,8 @@ import { useCollection } from '../hooks/useCollection';
 import { usePokemonSearch } from '../hooks/usePokemonSearch';
 import { useCoins } from '../hooks/useCoins';
 import { useSquad } from '../hooks/useSquad';
+import { useCare } from '../hooks/useCare';
+import { useTown } from '../hooks/useTown';
 
 const PokemonContext = createContext(null);
 
@@ -16,6 +18,8 @@ export function PokemonProvider({ children }) {
     const search = usePokemonSearch();
     const { coins, addCoins, spendCoins } = useCoins();
     const squad = useSquad();
+    const care = useCare(collection.ownedIds);
+    const town = useTown();
 
     const value = {
         // Pokemon data
@@ -45,7 +49,19 @@ export function PokemonProvider({ children }) {
         // Economy
         coins,
         addCoins,
-        spendCoins
+        spendCoins,
+
+        // Care
+        careStats: care.careStats,
+        healPokemon: care.healPokemon,
+        healAll: care.healAll,
+        feedPokemon: care.feedPokemon,
+
+        // Town (Creative)
+        townObjects: town.townObjects,
+        addObject: town.addObject,
+        removeObject: town.removeObject,
+        clearTown: town.clearTown
     };
 
     return (

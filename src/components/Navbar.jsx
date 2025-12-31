@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Library, Swords, Gift, Book, Users } from 'lucide-react';
+import { Home, Library, Swords, Gift, Users, Map, Heart } from 'lucide-react';
 import { usePokemonContext } from '../contexts/PokemonContext';
 import pokeballLogo from '../assets/pokeball_transparent.png';
 import './Navbar.css';
@@ -25,10 +25,24 @@ export function Navbar({ onExport, onImport }) {
                         <span>Inicio</span>
                     </Link>
                     <Link
+                        to="/adventure"
+                        className={`toggle-btn ${location.pathname === '/adventure' ? 'active' : ''}`}
+                    >
+                        <Map size={20} />
+                        <span>Mundo</span>
+                    </Link>
+                    <Link
+                        to="/care"
+                        className={`toggle-btn ${location.pathname === '/care' ? 'active' : ''}`}
+                    >
+                        <Heart size={20} />
+                        <span>Cuidados</span>
+                    </Link>
+                    <Link
                         to="/pokedex"
                         className={`toggle-btn ${location.pathname === '/pokedex' ? 'active' : ''}`}
                     >
-                        <Book size={20} />
+                        <Library size={20} />
                         <span>Pokédex</span>
                     </Link>
                     <Link

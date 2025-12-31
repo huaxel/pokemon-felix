@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { usePokemonContext } from './contexts/PokemonContext';
 import { addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
@@ -13,6 +13,8 @@ import { GachaPage } from './features/gacha/GachaPage';
 import { StarterPage } from './features/onboarding/StarterPage';
 import { SquadPage } from './features/squad/SquadPage';
 import { PokedexPage } from './features/pokedex/PokedexPage';
+import { WorldPage } from './features/world/WorldPage';
+import { CarePage } from './features/care/CarePage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
 import './App.css';
@@ -74,6 +76,8 @@ function App() {
         <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
         <Route path="/gacha" element={<GachaPage />} />
         <Route path="/squad" element={<SquadPage />} />
+        <Route path="/adventure" element={<WorldPage />} />
+        <Route path="/care" element={<CarePage />} />
       </Routes>
 
       {selectedPokemon && (
