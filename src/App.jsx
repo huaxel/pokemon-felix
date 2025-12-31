@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { usePokemonContext } from './hooks/usePokemonContext';
 import { addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
+import { GameConsole } from './components/GameConsole';
 
 import { PokemonModal } from './components/PokemonModal';
 import { CollectionPage } from './components/CollectionPage';
@@ -19,6 +20,9 @@ import { EvolutionPage } from './features/world/EvolutionPage';
 import { GymPage } from './features/world/GymPage';
 import { BagPage } from './features/world/BagPage';
 import { CarePage } from './features/care/CarePage';
+import { SchoolPage } from './features/world/SchoolPage';
+import { WardrobePage } from './features/world/WardrobePage';
+import { PorygonLabPage } from './features/porygon/PorygonLabPage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
 import './App.css';
@@ -30,9 +34,24 @@ function App() {
     ownedIds,
     setOwnedIds,
     toggleOwned,
+    isConsoleOpen,
+    toggleConsole
   } = usePokemonContext();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  // Keyboard shortcut for Python Terminal (Ctrl+`)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key === '`') {
+        e.preventDefault();
+        toggleConsole();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleExportFavorites = () => {
     exportFavoritesToJson(ownedIds);
@@ -86,6 +105,9 @@ function App() {
         <Route path="/gym" element={<GymPage />} />
         <Route path="/bag" element={<BagPage />} />
         <Route path="/care" element={<CarePage />} />
+        <Route path="/school" element={<SchoolPage />} />
+        <Route path="/wardrobe" element={<WardrobePage />} />
+        <Route path="/porygon-lab" element={<PorygonLabPage />} />
       </Routes>
 
       {selectedPokemon && (
@@ -95,6 +117,10 @@ function App() {
           isOwned={ownedIds.includes(selectedPokemon.id)}
           onToggleOwned={toggleOwned}
         />
+      )}
+
+      {isConsoleOpen && (
+        <GameConsole onClose={() => toggleConsole(false)} />
       )}
     </div>
   );

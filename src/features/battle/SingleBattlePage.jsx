@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { TournamentBattle } from '../tournament/components/TournamentBattle';
+import { CardBattle } from './CardBattle';
 import './SingleBattlePage.css';
 
 export function SingleBattlePage({ allPokemon }) {
@@ -18,6 +18,8 @@ export function SingleBattlePage({ allPokemon }) {
         // Get random opponent (excluding squad)
         const potentialOpponents = allPokemon.filter(p => !squadIds.includes(p.id));
         const randomOpponent = potentialOpponents[Math.floor(Math.random() * potentialOpponents.length)];
+
+        if (!player || !randomOpponent) return;
 
         setPlayerPokemon(player);
         setOpponent(randomOpponent);
@@ -79,10 +81,9 @@ export function SingleBattlePage({ allPokemon }) {
     return (
         <div className="single-battle-page">
             <div className="battle-header-simple">
-                <h2>Batalla Rápida</h2>
                 <Link to="/adventure" className="close-btn">✕</Link>
             </div>
-            <TournamentBattle
+            <CardBattle
                 fighter1={playerPokemon}
                 fighter2={opponent}
                 onBattleEnd={handleBattleEnd}

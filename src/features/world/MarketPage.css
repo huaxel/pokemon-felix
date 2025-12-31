@@ -118,3 +118,82 @@
         opacity: 1;
     }
 }
+
+.market-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    border: none;
+    background: #e2e8f0;
+    color: #475569;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+}
+
+.tab-btn.active {
+    background: #991b1b;
+    color: white;
+}
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+}
+
+.item-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    border: 3px solid #fee2e2;
+}
+
+.item-icon-circle {
+    width: 60px;
+    height: 60px;
+    background: #fef2f2;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+}
+
+.item-desc {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.buy-btn {
+    background: #166534;
+    color: white;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 1rem;
+    font-family: inherit;
+}
+
+.buy-btn:hover {
+    background: #14532d;
+}
+
+.coin-icon-inline {
+    width: 20px;
+    vertical-align: middle;
+}

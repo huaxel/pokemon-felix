@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import bagIcon from '../../assets/items/bag_icon.png';
-import { TournamentBattle } from '../tournament/components/TournamentBattle';
+import { CardBattle } from '../battle/CardBattle'; // Use new CardBattle
 import './GymPage.css';
 
 export function GymPage() {
-    const { pokemonList, squadIds, addCoins } = usePokemonContext();
+    const { pokemonList, squadIds, addCoins, updateQuestProgress } = usePokemonContext();
     const [battleState, setBattleState] = useState('intro'); // intro, battle, result
     const [winner, setWinner] = useState(null);
 
@@ -30,6 +30,7 @@ export function GymPage() {
         if (squadIds.includes(winnerPokemon.id)) {
             // Player won
             addCoins(1000);
+            updateQuestProgress('battle_gym');
         }
     };
 
@@ -54,15 +55,15 @@ export function GymPage() {
 
             {battleState === 'battle' && (
                 <div className="gym-battle-container">
-                        {leaderTeam[0] ? (
-                            <TournamentBattle
-                                fighter1={pokemonList.find(p => p.id === squadIds[0])}
-                                fighter2={leaderTeam[0]}
-                                onBattleEnd={handleBattleEnd}
-                            />
-                        ) : (
-                            <div>Cargando o geen tegenstander beschikbaar...</div>
-                        )}
+                    {leaderTeam[0] ? (
+                        <CardBattle
+                            fighter1={pokemonList.find(p => p.id === squadIds[0])}
+                            fighter2={leaderTeam[0]}
+                            onBattleEnd={handleBattleEnd}
+                        />
+                    ) : (
+                        <div>Cargando o geen tegenstander beschikbaar...</div>
+                    )}
                 </div>
             )}
 

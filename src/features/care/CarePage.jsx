@@ -112,6 +112,19 @@ export function CarePage() {
                                             ></div>
                                         </div>
                                     </div>
+
+                                    <div className="stat-bar-group">
+                                        <div className="stat-label">
+                                            <span>Cansancio</span>
+                                            <span>{Math.round(stats.fatigue || 0)}%</span>
+                                        </div>
+                                        <div className="care-bar-bg">
+                                            <div
+                                                className="care-bar-fill fatigue"
+                                                style={{ width: `${stats.fatigue || 0}%`, background: (stats.fatigue || 0) > 50 ? '#f59e0b' : '#64748b' }}
+                                            ></div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <button

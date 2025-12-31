@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { PokemonContext } from './PokemonContext';
 import { usePokemonData } from '../hooks/usePokemonData';
 import { useCollection } from '../hooks/useCollection';
@@ -7,6 +8,7 @@ import { useSquad } from '../hooks/useSquad';
 import { useCare } from '../hooks/useCare';
 import { useTown } from '../hooks/useTown';
 import { useInventory } from '../hooks/useInventory';
+import { useQuests } from '../hooks/useQuests';
 
 /**
  * Provider component that wraps the app and provides Pokemon data
@@ -21,7 +23,26 @@ export function PokemonProvider({ children }) {
     const town = useTown();
     const { inventory, addItem, removeItem } = useInventory();
 
+    const { quests, updateQuestProgress, completeQuest } = useQuests();
+    const [isConsoleOpen, setIsConsoleOpen] = useState(false);
+
+    const toggleConsole = (isOpen) => setIsConsoleOpen(prev => isOpen ?? !prev);
+
+    const handleCompleteQuest = (id) => {
+        const reward = completeQuest(id);
+        if (reward) {
+            if (reward.coins) addCoins(reward.coins);
+            if (reward.item) addItem(reward.item, 1);
+            return true;
+        }
+        return false;
+    };
+
     const value = {
+        // UI State
+        isConsoleOpen,
+        toggleConsole,
+
         // Pokemon data
         pokemonList: pokemonData.pokemonList,
         loading: pokemonData.loading || search.loading,
@@ -30,7 +51,11 @@ export function PokemonProvider({ children }) {
         // Collection
         ownedIds: collection.ownedIds,
         setOwnedIds: collection.setOwnedIds,
-        toggleOwned: collection.toggleOwned,
+        toggleOwned: (id) => {
+            const wasOwned = collection.ownedIds.includes(id);
+            collection.toggleOwned(id);
+            if (!wasOwned) updateQuestProgress('catch');
+        },
 
         // Squad
         squadIds: squad.squadIds,
@@ -56,6 +81,7 @@ export function PokemonProvider({ children }) {
         healPokemon: care.healPokemon,
         healAll: care.healAll,
         feedPokemon: care.feedPokemon,
+        addFatigue: care.addFatigue,
 
         // Town (Creative)
         townObjects: town.townObjects,
@@ -67,6 +93,11 @@ export function PokemonProvider({ children }) {
         inventory,
         addItem,
         removeItem,
+
+        // Quests
+        quests,
+        updateQuestProgress,
+        completeQuest: handleCompleteQuest,
 
         // New Meta Actions
         sellPokemon: async (id) => {

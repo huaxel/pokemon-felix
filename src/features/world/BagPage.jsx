@@ -31,42 +31,67 @@ export function BagPage() {
     };
 
     return (
-        <div className="bag-page">
-            <header className="bag-header">
-                <Link to="/adventure" className="back-btn">Terug</Link>
-                <h1><img src={bagImage} className="header-bag-icon" alt="" /> Mijn Rugzak</h1>
-                <div className="coin-balance"><img src={bagImage} alt="coins" className="coin-icon" /> {coins}</div>
-            </header>
-
-            <div className="inventory-grid">
-                {Object.entries(inventory).map(([id, count]) => {
-                    const details = ITEM_DETAILS[id];
-                    if (!details || (count === 0 && !id.includes('ball'))) return null;
-
-                    return (
-                        <div key={id} className={`item-card ${count === 0 ? 'empty' : ''}`}>
-                            <div className="item-count">x{count}</div>
-                            <img src={details.image} alt={details.name} className="item-img" />
-                            <h3>{details.name}</h3>
-                            <p>{details.desc}</p>
-                            <button
-                                className="use-item-btn"
-                                onClick={() => handleUseItem(id)}
-                                disabled={count === 0}
-                            >
-                                Gebruiken
-                            </button>
+        <div className="bag-page-container">
+            <div className="bag-content-wrapper">
+                {/* Visual Backpack Section */}
+                <div className="bag-visual-section">
+                    <div className="backpack-frame">
+                        <img src={bagImage} className="pixel-backpack" alt="Rugzak" />
+                        <div className="backpack-overlay">
+                            <div className="backpack-stats">
+                                <div className="stat-pill">
+                                    <img src={bagImage} alt="coins" className="mini-coin" />
+                                    <span>{coins} Munten</span>
+                                </div>
+                            </div>
                         </div>
-                    );
-                })}
-            </div>
-
-            {Object.values(inventory).every(c => c === 0) && (
-                <div className="empty-bag-msg">
-                    <p>Je rugzak is momenteel leeg...</p>
-                    <Link to="/adventure" className="go-shop-btn">Ga naar de Gacha!</Link>
+                    </div>
                 </div>
-            )}
+
+                {/* Inventory Grid Section */}
+                <div className="bag-inventory-section">
+                    <header className="bag-page-header">
+                        <Link to="/adventure" className="back-btn-pill">← Terug</Link>
+                        <h1>Mijn Rugzak</h1>
+                    </header>
+
+                    <div className="inventory-scroll-area">
+                        <div className="inventory-grid">
+                            {Object.entries(inventory).map(([id, count]) => {
+                                const details = ITEM_DETAILS[id];
+                                if (!details || (count === 0 && !id.includes('ball'))) return null;
+
+                                return (
+                                    <div key={id} className={`item-card-premium ${count === 0 ? 'empty' : ''}`}>
+                                        <div className="item-count-badge">x{count}</div>
+                                        <div className="item-img-container">
+                                            <img src={details.image} alt={details.name} className="item-img-pixel" />
+                                        </div>
+                                        <div className="item-info">
+                                            <h3>{details.name}</h3>
+                                            <p>{details.desc}</p>
+                                            <button
+                                                className="use-item-btn-pill"
+                                                onClick={() => handleUseItem(id)}
+                                                disabled={count === 0}
+                                            >
+                                                Gebruiken
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {Object.values(inventory).every(c => c === 0) && (
+                            <div className="empty-bag-notice">
+                                <p>Je rugzak is momenteel leeg...</p>
+                                <Link to="/adventure" className="go-shop-pill">Ga naar de Gacha!</Link>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

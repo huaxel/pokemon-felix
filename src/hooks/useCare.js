@@ -23,7 +23,8 @@ export function useCare(ownedIds) {
                     newStats[id] = {
                         hp: 100,
                         hunger: 0,
-                        happiness: 70
+                        happiness: 70,
+                        fatigue: 0
                     };
                     changed = true;
                 }
@@ -45,7 +46,7 @@ export function useCare(ownedIds) {
     const healPokemon = (id) => {
         setCareStats(prev => ({
             ...prev,
-            [id]: { ...prev[id], hp: 100 }
+            [id]: { ...prev[id], hp: 100, fatigue: 0 }
         }));
     };
 
@@ -53,7 +54,7 @@ export function useCare(ownedIds) {
         setCareStats(prev => {
             const allHealed = { ...prev };
             Object.keys(allHealed).forEach(id => {
-                allHealed[id] = { ...allHealed[id], hp: 100 };
+                allHealed[id] = { ...allHealed[id], hp: 100, fatigue: 0 };
             });
             return allHealed;
         });
@@ -61,7 +62,7 @@ export function useCare(ownedIds) {
 
     const feedPokemon = (id) => {
         setCareStats(prev => {
-            const current = prev[id] || { hp: 100, hunger: 0, happiness: 70 };
+            const current = prev[id] || { hp: 100, hunger: 0, happiness: 70, fatigue: 0 };
             return {
                 ...prev,
                 [id]: { 
@@ -73,10 +74,21 @@ export function useCare(ownedIds) {
         });
     };
 
+    const addFatigue = (id, amount) => {
+        setCareStats(prev => {
+            const current = prev[id] || { hp: 100, hunger: 0, happiness: 70, fatigue: 0 };
+            return {
+                ...prev,
+                [id]: { ...current, fatigue: Math.min(100, (current.fatigue || 0) + amount) }
+            };
+        });
+    };
+
     return {
         careStats,
         healPokemon,
         healAll,
-        feedPokemon
+        feedPokemon,
+        addFatigue
     };
 }

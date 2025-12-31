@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useOutfitEffects } from '../../hooks/useOutfitEffects';
+import { QuestLog } from './QuestLog';
+import { Trophy } from 'lucide-react';
 import './WorldPage.css';
 
 // Building Assets
@@ -32,8 +35,10 @@ const TILE_TYPES = {
     EVOLUTION: 9,
     WATER: 10,
     FISHERMAN: 11,
-    CITY_HALL: 12,
-    URBAN_SHOP: 13,
+    SCHOOL: 12,
+    CITY_HALL: 13,
+    WARDROBE: 14,
+    URBAN_SHOP: 15,
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
@@ -46,17 +51,36 @@ export function WorldPage() {
         townObjects,
         addObject,
         removeObject,
-    } = usePokemonContext();
+        quests,
+    } = usePokemonContext(); // Ensure quests is accessed for notification logic
+
+    const { getEncounterMultiplier, getItemChanceMultiplier, activeEffect } = useOutfitEffects();
 
     // Seizoenen Systeem
     const [seasonIndex, setSeasonIndex] = useState(1); // Begin in de Zomer
-
+    const [showQuestLog, setShowQuestLog] = useState(false);
+    const [bgMusic, setBgMusic] = useState(null); // Fix missing state from merge error
+    const [showBag, setShowBag] = useState(false); // Fix missing state from merge error
+    const [isNight, setIsNight] = useState(false); // Fix missing state from merge error
     const nextSeason = () => setSeasonIndex((prev) => (prev + 1) % 4);
     const prevSeason = () => setSeasonIndex((prev) => (prev === 0 ? 3 : prev - 1));
 
     // DAG/NACHT
-    const [isNight, setIsNight] = useState(false);
     const toggleDayNight = () => setIsNight(!isNight);
+
+    // OUTFIT SYSTEEM
+    const [playerColor, setPlayerColor] = useState('#ef4444');
+    useEffect(() => {
+        const outfitId = localStorage.getItem('felix_current_outfit') || 'default';
+        const colors = {
+            'default': '#ef4444',
+            'cool': '#3b82f6',
+            'nature': '#22c55e',
+            'shiny': '#eab308',
+            'ninja': '#1e293b'
+        };
+        setPlayerColor(colors[outfitId] || '#ef4444');
+    }, []);
 
     // SCHATTEN (✨)
     const [treasures, setTreasures] = useState([{ x: 3, y: 7 }]); // Start met één schat
@@ -106,8 +130,8 @@ export function WorldPage() {
 
     // Basis roostersel
     const [baseGrid] = useState([
-        [1, 1, 1, 13, 0, 4, 4, 0, 0, 3],
-        [1, 12, 1, 0, 0, 4, 0, 0, 0, 1],
+        [1, 1, 1, 14, 0, 4, 4, 0, 0, 3],
+        [1, 12, 1, 13, 0, 4, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
         [4, 4, 0, 0, 1, 0, 10, 10, 10, 0],
@@ -149,7 +173,7 @@ export function WorldPage() {
 
         // NPC check op (5, 5)
         if (playerPos.x === 5 && playerPos.y === 5) {
-                if (questState === 'none') {
+            if (questState === 'none') {
                 setMessage({ text: "Prof. Eik: 'Felix! Ik heb je hulp nodig. Plant 3 bomen om het dorp mooier te maken!'", color: '#8b5cf6' });
                 setQuestState('active');
             } else if (questState === 'active' && treeCount >= 3) {
@@ -210,6 +234,16 @@ export function WorldPage() {
             setTimeout(() => navigate('/gym'), 1000);
             return;
         }
+        if (tileType === TILE_TYPES.SCHOOL) {
+            setMessage({ text: "Ik ga naar school om te leren! 📚", color: '#166534' });
+            setTimeout(() => navigate('/school'), 1000);
+            return;
+        }
+        if (tileType === TILE_TYPES.WARDROBE) {
+            setMessage({ text: "Tijd voor een nieuwe outfit! 👕", color: '#db2777' });
+            setTimeout(() => navigate('/wardrobe'), 1000);
+            return;
+        }
 
         if (tileType === TILE_TYPES.CENTER) {
             setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
@@ -227,9 +261,12 @@ export function WorldPage() {
         }
 
         if (tileType === TILE_TYPES.GRASS) {
-            if (Math.random() < 0.3) {
+            // Apply Stealth effect (Ninja)
+            const encounterChance = 0.3 * getEncounterMultiplier();
+
+            if (Math.random() < encounterChance) {
                 const rand = Math.random();
-                    if (rand < 0.6) {
+                if (rand < 0.6) {
                     setMessage({ text: "Ik kom een wilde Pokémon tegen!", color: '#ef4444' });
                     setTimeout(() => navigate('/single-battle'), 1000);
                 } else if (rand < 0.8) {
@@ -237,12 +274,16 @@ export function WorldPage() {
                     // Voor nu naar hetzelfde gevecht, maar de tekst is anders
                     setTimeout(() => navigate('/single-battle'), 1000);
                 } else {
+                    // Apply Nature effect (Explorer)
+                    const itemChance = 0.2 * getItemChanceMultiplier();
+                    // Just a check, logic below was else, so it was "remaining probability".
+                    // Let's make it explicitly check for item if not battle.
                     setMessage({ text: "Wauw, ik heb iets gevonden! +20 coins", color: '#22c55e' });
                     addCoins(20);
                 }
             }
         }
-    }, [addCoins, healAll, navigate, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, setMessage, setTreasures]);
+    }, [addCoins, healAll, navigate, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, setMessage, setTreasures, getEncounterMultiplier, getItemChanceMultiplier]);
 
     // Beweging logica
     const movePlayer = useCallback((dx, dy) => {
@@ -288,13 +329,15 @@ export function WorldPage() {
     };
 
     const getTileContent = (type, x, y) => {
-        if (x === playerPos.x && y === playerPos.y) return 'P';
+        if (x === playerPos.x && y === playerPos.y) {
+            return <div className="player-avatar" style={{ backgroundColor: playerColor }}>P</div>;
+        }
 
-            // Schat
-            if (treasures.some(t => t.x === x && t.y === y)) return 'T';
+        // Schat
+        if (treasures.some(t => t.x === x && t.y === y)) return 'T';
 
-            // Professor Eik op (5, 5)
-            if (x === 5 && y === 5) return 'Prof';
+        // Professor Eik op (5, 5)
+        if (x === 5 && y === 5) return 'Prof';
 
         switch (type) {
             case TILE_TYPES.GRASS: return null;
@@ -309,6 +352,8 @@ export function WorldPage() {
             case TILE_TYPES.EVOLUTION: return <img src={evoImage} className="building-sprite" alt="Evolutie" />;
             case TILE_TYPES.WATER: return <img src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterImage : waterEdgeImage} className="water-sprite" alt="Water" />;
             case TILE_TYPES.FISHERMAN: return <img src={fishermanImage} className="building-sprite" alt="Fisherman" />;
+            case TILE_TYPES.SCHOOL: return <img src={cityHallImage} className="building-sprite" alt="School" />;
+            case TILE_TYPES.WARDROBE: return <img src={shopUrbanImage} className="building-sprite" alt="Wardrobe" />;
             case TILE_TYPES.CITY_HALL: return <img src={cityHallImage} className="building-sprite" alt="City Hall" />;
             case TILE_TYPES.URBAN_SHOP: return <img src={shopUrbanImage} className="building-sprite" alt="Urban Shop" />;
             default: return null;
@@ -336,7 +381,26 @@ export function WorldPage() {
                 <button className="bag-hud-btn" onClick={() => navigate('/bag')}>
                     <img src={bagImage} alt="Bag" />
                 </button>
+                <button className="quest-hud-btn" onClick={() => setShowQuestLog(true)}>
+                    <Trophy size={20} color="#92400e" />
+                    {quests && quests.some(q => !q.completed && q.progress >= q.target) && (
+                        <span className="quest-dot">!</span>
+                    )}
+                </button>
             </div>
+
+            {activeEffect.name !== 'Normal' && (
+                <div className="active-effect-hud" style={{
+                    position: 'absolute', top: '160px', right: '10px',
+                    background: 'rgba(0,0,0,0.6)', color: 'white',
+                    padding: '5px 10px', borderRadius: '20px', fontSize: '0.8rem',
+                    pointerEvents: 'none'
+                }}>
+                    ✨ {activeEffect.name} Activo
+                </div>
+            )}
+
+            {showQuestLog && <QuestLog onClose={() => setShowQuestLog(false)} />}
 
             <div className="world-header">
                 {message && (

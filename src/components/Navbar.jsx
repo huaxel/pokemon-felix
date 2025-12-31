@@ -11,29 +11,34 @@ export function Navbar({ onExport, onImport }) {
 
     return (
         <nav className="navbar">
-            <div className="nav-brand">
-                <img src={pokeballLogo} alt="Pokeball" className="nav-logo" />
-                <h1>Pokédex de Félix</h1>
-            </div>
+            <div className="nav-pill-container">
+                <div className="nav-brand-pill">
+                    <img src={pokeballLogo} alt="Pokeball" className="nav-logo" />
+                    <div className="brand-text">
+                        <span className="brand-title">Pokédex</span>
+                        <span className="brand-subtitle">de Félix</span>
+                    </div>
+                </div>
 
-            <div className="nav-controls">
-                <div className="view-toggle">
+                <div className="nav-navigation-pill">
                     <Link
                         to="/adventure"
-                        className={`toggle - btn ${location.pathname === '/adventure' ? 'active' : ''} `}
+                        className={`nav-item ${location.pathname === '/adventure' ? 'active' : ''}`}
                     >
-                        <Map size={20} />
+                        <Map size={18} className="nav-icon globe" />
                         <span>Mundo</span>
                     </Link>
                     <Link
                         to="/pokedex"
-                        className={`toggle - btn ${location.pathname === '/pokedex' ? 'active' : ''} `}
+                        className={`nav-item ${location.pathname === '/pokedex' ? 'active' : ''}`}
                     >
-                        <Library size={20} />
+                        <Library size={18} className="nav-icon book" />
                         <span>Pokedex</span>
                     </Link>
                 </div>
+            </div>
 
+            <div className="nav-right-side">
                 <div className="nav-coins">
                     <img src={bagIcon} alt="coins" className="coin-icon" />
                     <span>{coins}</span>

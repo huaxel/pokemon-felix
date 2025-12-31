@@ -73,8 +73,111 @@ export const calculateDamage = (attacker, defender, move) => {
 };
 
 // Calculate Energy Cost based on Damage (1-3 Energy)
+// Calculate Energy Cost based on Damage (1-3 Energy)
 export const calculateEnergyCost = (baseDamage) => {
+    if (baseDamage >= 5) return 4;
     if (baseDamage >= 4) return 3;
     if (baseDamage >= 2) return 2;
     return 1;
+};
+
+// --- NEW CARD BATTLE SYSTEM HELPERS ---
+
+export const getTypeColor = (type) => {
+    switch(type) {
+        case 'fire': return '#ef4444'; // Red
+        case 'grass': return '#22c55e'; // Green
+        case 'water': return '#3b82f6'; // Blue
+        case 'electric': return '#eab308'; // Yellow
+        case 'psychic': return '#a855f7'; // Purple
+        case 'rock': case 'ground': return '#78350f'; // Brown
+        case 'ice': return '#67e8f9'; // Cyan
+        case 'dragon': return '#6366f1'; // Indigo
+        case 'dark': return '#1e293b'; // Slate
+        case 'fairy': return '#f472b6'; // Pink
+        case 'fighting': return '#ea580c'; // Orange
+        case 'poison': return '#9333ea'; // Violet
+        case 'bug': return '#65a30d'; // Lime
+        case 'ghost': return '#4c1d95'; // Deep Purple
+        case 'steel': return '#94a3b8'; // Blue Gray
+        default: return '#64748b'; // Gray (Normal)
+    }
+};
+
+/**
+ * Combines two moves into a new special move
+ */
+export const combineMoves = (move1, move2) => {
+    const isSameType = move1.type === move2.type;
+    // Discounted cost for combining: (Cost1 + Cost2) - 1, min 2
+    const cost1 = move1.cost || calculateEnergyCost(move1.power || 40);
+    const cost2 = move2.cost || calculateEnergyCost(move2.power || 40);
+    const combinedCost = Math.max(2, cost1 + cost2 - 1);
+
+    // Calculate combined power
+    const pow1 = move1.power || 40;
+    const pow2 = move2.power || 40;
+
+    let newMove = {
+        cost: combinedCost,
+        isCombo: true,
+        accuracy: Math.min(move1.accuracy || 100, move2.accuracy || 100)
+    };
+
+    if (isSameType) {
+        newMove.name = `MEGA ${move1.name}`;
+        newMove.type = move1.type;
+        newMove.power = Math.floor((pow1 + pow2) * 1.2); // 20% bonus
+        newMove.description = "Type Fusion! Massive Damage!";
+    } else if ((move1.type === 'fire' && move2.type === 'water') || (move1.type === 'water' && move2.type === 'fire')) {
+        newMove.name = 'Steam Eruption';
+        newMove.type = 'water';
+        newMove.power = 100;
+        newMove.description = "Scalding steam burns the opponent.";
+    } else if ((move1.type === 'electric' && move2.type === 'water') || (move1.type === 'water' && move2.type === 'electric')) {
+        newMove.name = 'Thunder Storm';
+        newMove.type = 'electric';
+        newMove.power = 110;
+        newMove.description = "Electrified water conducts perfectly.";
+    } else {
+        // Generic Combo
+        newMove.name = `${move1.name} & ${move2.name}`;
+        newMove.type = move1.type; // Inherit from first
+        newMove.power = Math.floor(pow1 + pow2);
+        newMove.description = "Tactical combination attack.";
+    }
+    
+    return newMove;
+};
+
+/**
+ * Advanced Damage Calculation with Anti-Spam logic
+ */
+export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fatigue = 0) => {
+    // 1. Calculate Base Damage using existing helper
+    const baseResult = calculateDamage(attacker, defender, move);
+    let { damage, effectiveness } = baseResult;
+    let message = "";
+
+    // 2. Anti-Spam Penalty
+    if (lastMoveName && move.name === lastMoveName) {
+        damage = Math.floor(damage * 0.6); // 40% reduction
+        message = "⚠️ Repetitive! Damage reduced.";
+    }
+
+    // 3. Fatigue Penalty (Sprint 4)
+    if (fatigue > 50) {
+        damage = Math.floor(damage * 0.8); // 20% reduction
+        message += " 🥱 Cansado!";
+    } else if (fatigue > 80) {
+        damage = Math.floor(damage * 0.5); // 50% reduction
+        message += " 💤 ¡Muy agotado!";
+    }
+
+    return { 
+        damage, 
+        effectiveness, 
+        message,
+        isCrit: Math.random() < 0.06 // 6% crit chance
+    };
 };
