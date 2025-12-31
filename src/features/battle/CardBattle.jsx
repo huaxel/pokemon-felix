@@ -251,8 +251,11 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
         setEffectivenessMsg(null);
 
         // Apply Damage
+        console.log(`[Battle] Applying ${res.damage} damage to ${defender.name}. Current HP:`, defender === fighter1 ? f1HP : f2HP); // Note: f1HP/f2HP might be stale in callback, but useful for initial check
+
         setDefenderHP(prev => {
             const newHP = Math.max(0, prev - res.damage);
+            console.log(`[Battle] HP Update for ${defender.name}: ${prev} -> ${newHP}`);
             if (newHP <= 0) {
                 setWinner(attacker);
                 setBattleLog(prev => [...prev, `🏆 ${attacker.name} WINS!`]);
