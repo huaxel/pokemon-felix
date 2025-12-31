@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BattleArena } from './BattleArena';
 
 export function BattlePage({ allPokemon, onLoadMore }) {

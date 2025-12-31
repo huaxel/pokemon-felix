@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { usePokemonContext } from './contexts/PokemonContext';
-import { getPokemonDetails, addToCollection, removeFromCollection } from './lib/api';
+import { addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
 
@@ -20,20 +20,13 @@ import './App.css';
 function App() {
   const {
     pokemonList,
-    loading,
     loadPokemon,
     ownedIds,
     setOwnedIds,
     toggleOwned,
-    allPokemonNames,
-    searchResults,
-    handleSearch,
-    clearSearch
   } = usePokemonContext();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const handleExportFavorites = () => {
     exportFavoritesToJson(ownedIds);

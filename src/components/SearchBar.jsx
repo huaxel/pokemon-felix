@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './SearchBar.css';
 
 export function SearchBar({ allPokemon, onSearch }) {
@@ -35,16 +35,7 @@ export function SearchBar({ allPokemon, onSearch }) {
         }
     };
 
-    // Debounced version for actual search
-    const debouncedSearch = useCallback((value) => {
-        const timeoutId = setTimeout(() => {
-            if (value) {
-                onSearch(value);
-            }
-        }, 300); // 300ms delay
 
-        return () => clearTimeout(timeoutId);
-    }, [onSearch]);
 
     const handleSelect = (name) => {
         setQuery(name);

@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
 import { usePokemonData } from '../hooks/usePokemonData';
 import { useCollection } from '../hooks/useCollection';
 import { usePokemonSearch } from '../hooks/usePokemonSearch';

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { PokemonCard } from '../../../components/PokemonCard';
-import { getStat, calculateMaxHP, calculateDamage, calculateEnergyCost } from '../../../lib/battle-logic';
+import { useState, useEffect } from 'react';
+import { calculateMaxHP, calculateDamage, calculateEnergyCost } from '../../../lib/battle-logic';
 import { getMoveDetails } from '../../../lib/api';
 import './TournamentBattle.css';
 
 export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
     const [battleLog, setBattleLog] = useState([]);
     const [winner, setWinner] = useState(null);
-    const [isBattling, setIsBattling] = useState(false);
+
 
     // Animation States
     const [attackingFighter, setAttackingFighter] = useState(null); // fighter1 or fighter2
@@ -85,7 +84,7 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
         }
     }, [turn, winner, f2Moves, f2Energy]);
 
-    const executeTurn = async (attacker, defender, move, setDefenderHP, setNextTurn, setAttackerEnergy, currentEnergy) => {
+    const executeTurn = async (attacker, defender, move, setDefenderHP, setNextTurn, setAttackerEnergy) => {
         // Deduct Energy
         setAttackerEnergy(prev => Math.max(0, prev - move.cost));
 

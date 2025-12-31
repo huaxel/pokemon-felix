@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { getPokemonDetails } from '../../lib/api';
 import { SearchBar } from '../../components/SearchBar';

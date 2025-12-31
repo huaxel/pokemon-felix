@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePokemonContext } from '../contexts/PokemonContext';
 import { PokemonCard } from './PokemonCard';
 import { getStat, calculateMaxHP, calculateDamage } from '../lib/battle-logic';
@@ -210,7 +210,7 @@ export function BattleArena({ allPokemon, onLoadMore }) {
                 <div className="pokemon-grid-mini">
                     {validPokemon.length === 0 && (
                         <div className="empty-squad-msg">
-                            <p>Tu equipo está vacío. Ve a "Mi Colección" para añadir combatientes.</p>
+                            <p>Tu equipo está vacío. Ve a &quot;Mi Colección&quot; para añadir combatientes.</p>
                         </div>
                     )}
                     {validPokemon.map(p => (

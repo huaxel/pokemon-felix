@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../contexts/PokemonContext';
 import { addToCollection } from '../../lib/api';
@@ -8,7 +8,7 @@ import ultraballImage from '../../assets/ultra_ball.png';
 import './GachaPage.css';
 
 export function GachaPage() {
-    const { coins, spendCoins, addCoins, setOwnedIds, pokemonList, addToSquad, squadIds } = usePokemonContext();
+    const { coins, spendCoins, setOwnedIds, pokemonList, addToSquad, squadIds } = usePokemonContext();
     const [isAnimating, setIsAnimating] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
@@ -63,6 +63,10 @@ export function GachaPage() {
         return 'common';
     };
 
+    const getBST = (pokemon) => {
+        return pokemon.stats.reduce((total, stat) => total + stat.base_stat, 0);
+    };
+
     const summon = async () => {
         if (coins < currentTier.cost) {
             setError(`¡Necesitas ${currentTier.cost} PokeCoins!`);
@@ -80,27 +84,44 @@ export function GachaPage() {
                 const rarity = determineRarity();
                 const pokemon = await getRandomPokemon(rarity);
 
-                await addToCollection(pokemon.id);
-                setOwnedIds(prev => [...prev, pokemon.id]);
+                if (pokemon) {
+                    await addToCollection(pokemon.id);
+                    setOwnedIds(prev => [...prev, pokemon.id]);
 
-                // Auto-equip if squad has space
-                if (squadIds.length < 4) {
-                    addToSquad(pokemon.id);
-                    setAutoEquipped(true);
+                    // Auto-equip if squad has space
+                    if (squadIds.length < 4) {
+                        addToSquad(pokemon.id);
+                        setAutoEquipped(true);
+                    }
+
+                    setResult({ ...pokemon, rarity });
+                } else {
+                    // Fallback if no pokemon found for rarity (shouldn't happen with full pokedex)
+                    setError("Error invocando: No encontrado para rareza " + rarity);
                 }
-
-                setResult({ ...pokemon, rarity });
                 setIsAnimating(false);
             }, 2000);
         }
     };
 
-    // Helper to get random pokemon by rarity (mock implementation)
-    // In a real app, this would query the API with filters
+    // Helper to get random pokemon by rarity
     const getRandomPokemon = async (rarity) => {
-        // Simple random selection from loaded list for now
-        // Ideally we'd filter by base stats or specific lists
-        return pokemonList[Math.floor(Math.random() * pokemonList.length)];
+        // Filter by BST
+        const candidates = pokemonList.filter(p => {
+            const bst = getBST(p);
+            if (rarity === 'legendary') return bst >= 580;
+            if (rarity === 'epic') return bst >= 500 && bst < 580;
+            if (rarity === 'rare') return bst >= 400 && bst < 500;
+            return bst < 400; // common
+        });
+
+        // Fallback: if no candidates (e.g. no legendaries loaded), pick from next lower tier
+        if (candidates.length === 0) {
+            console.warn(`No pokemon found for rarity ${rarity}, falling back.`);
+            return pokemonList[Math.floor(Math.random() * pokemonList.length)];
+        }
+
+        return candidates[Math.floor(Math.random() * candidates.length)];
     };
 
     return (

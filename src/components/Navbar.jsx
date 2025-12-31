@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Library, Swords, Trophy, Gift, Book, Users } from 'lucide-react';
+import { Home, Library, Swords, Gift, Book, Users } from 'lucide-react';
 import { usePokemonContext } from '../contexts/PokemonContext';
 import pokeballLogo from '../assets/pokeball_transparent.png';
 import './Navbar.css';

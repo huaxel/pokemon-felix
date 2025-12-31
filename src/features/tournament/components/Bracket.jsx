@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Bracket.css';
 
 export function Bracket({ rounds, currentMatch }) {
