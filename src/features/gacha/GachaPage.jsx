@@ -127,6 +127,7 @@ export function GachaPage() {
     return (
         <div className="gacha-page">
             <div className="gacha-header">
+                <Link to="/adventure" className="back-hub-btn">⬅️ 🌍</Link>
                 <h1>Poke-Gacha</h1>
                 <div className="coin-balance">
                     <span className="coin-icon">🪙</span>
@@ -193,10 +194,10 @@ export function GachaPage() {
 
                         <div className="gacha-actions">
                             <button className="reset-gacha-btn" onClick={() => setResult(null)}>
-                                Invocar de nuevo
+                                Invocing Nochmal
                             </button>
-                            <Link to="/squad" className="squad-link-btn">
-                                ⚔️ Ver Equipo
+                            <Link to="/adventure" className="squad-link-btn">
+                                🌍 Wereld
                             </Link>
                         </div>
                     </div>

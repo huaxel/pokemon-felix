@@ -10,6 +10,8 @@ const TILE_TYPES = {
     HOUSE: 2,
     CENTER: 3,
     TREE: 4,
+    GACHA: 5,
+    SQUAD: 6,
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
@@ -19,7 +21,6 @@ export function WorldPage() {
     const navigate = useNavigate();
     const {
         addCoins,
-        spendCoins,
         healAll,
         townObjects,
         addObject,
@@ -71,12 +72,12 @@ export function WorldPage() {
         [1, 1, 1, 0, 0, 4, 4, 0, 0, 3],
         [1, 2, 1, 0, 0, 4, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 6],
         [4, 4, 0, 0, 1, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 1, 1, 1, 2, 0, 0],
         [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
         [1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
     ]);
 
@@ -108,6 +109,17 @@ export function WorldPage() {
         if (playerPos.x === 5 && playerPos.y === 5) {
             setMessage({ text: "👴 Prof. Eik: 'Hallo Felix! Wat een mooi dorp heb je gebouwd! Hier zijn 50 munten.'", color: '#8b5cf6' });
             addCoins(50);
+            return;
+        }
+
+        if (tileType === TILE_TYPES.GACHA) {
+            setMessage({ text: "🎰 Welkom bij de Poké-Gacha!", color: '#4c1d95' });
+            setTimeout(() => navigate('/gacha'), 1000);
+            return;
+        }
+        if (tileType === TILE_TYPES.SQUAD) {
+            setMessage({ text: "👥 Bekijk je Pokémon team!", color: '#1d4ed8' });
+            setTimeout(() => navigate('/squad'), 1000);
             return;
         }
 
@@ -207,6 +219,8 @@ export function WorldPage() {
             case TILE_TYPES.HOUSE: return '🏠';
             case TILE_TYPES.CENTER: return '🏥';
             case TILE_TYPES.TREE: return '🌲';
+            case TILE_TYPES.GACHA: return '🎰';
+            case TILE_TYPES.SQUAD: return '👥';
             default: return '';
         }
     };

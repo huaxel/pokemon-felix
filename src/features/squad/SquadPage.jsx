@@ -92,7 +92,10 @@ export function SquadPage() {
 
                         {squadPokemon.length > 0 && (
                             <div className="squad-actions" style={{ marginTop: '1.5rem' }}>
-                                <Link to="/battle-modes" className="tournament-btn">
+                                <Link to="/adventure" className="tournament-btn">
+                                    🌍 Terug naar Wereld
+                                </Link>
+                                <Link to="/battle-modes" className="tournament-btn" style={{ marginLeft: '1rem' }}>
                                     ⚔️ Ir a Batalla
                                 </Link>
                             </div>

@@ -15,12 +15,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.back-hub-btn {
+    text-decoration: none;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
     padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    display: flex;
     align-items: center;
     gap: 0.5rem;
 }
@@ -214,6 +217,7 @@
         opacity: 1;
     }
 }
+
 .auto-equip-msg {
     color: #fbbf24;
     font-weight: bold;
@@ -307,4 +311,3 @@
 .summon-pokeball:hover {
     transform: scale(1.05) rotate(10deg);
 }
-

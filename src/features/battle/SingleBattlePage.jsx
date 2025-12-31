@@ -54,7 +54,7 @@ export function SingleBattlePage({ allPokemon }) {
                 </div>
                 <div className="actions">
                     <button className="replay-btn" onClick={startBattle}>Otra Batalla</button>
-                    <Link to="/battle-modes" className="back-btn">Volver al Menú</Link>
+                    <Link to="/adventure" className="back-btn">Volver al Mapa</Link>
                 </div>
             </div>
         );
@@ -70,7 +70,7 @@ export function SingleBattlePage({ allPokemon }) {
                 </div>
                 <div className="actions">
                     <button className="replay-btn" onClick={startBattle}>Intentar de Nuevo</button>
-                    <Link to="/battle-modes" className="back-btn">Volver al Menú</Link>
+                    <Link to="/adventure" className="back-btn">Volver al Mapa</Link>
                 </div>
             </div>
         );
@@ -80,7 +80,7 @@ export function SingleBattlePage({ allPokemon }) {
         <div className="single-battle-page">
             <div className="battle-header-simple">
                 <h2>Batalla Rápida</h2>
-                <Link to="/battle-modes" className="close-btn">✕</Link>
+                <Link to="/adventure" className="close-btn">✕</Link>
             </div>
             <TournamentBattle
                 fighter1={playerPokemon}
