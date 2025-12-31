@@ -8,12 +8,13 @@ import ultraballImage from '../../assets/ultra_ball.png';
 import './GachaPage.css';
 
 export function GachaPage() {
-    const { coins, spendCoins, setOwnedIds, pokemonList, addToSquad, squadIds } = usePokemonContext();
+    const { coins, spendCoins, setOwnedIds, pokemonList, addToSquad, squadIds, addCoins, healAll } = usePokemonContext();
     const [isAnimating, setIsAnimating] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
     const [autoEquipped, setAutoEquipped] = useState(false);
     const [selectedBall, setSelectedBall] = useState('pokeball');
+    const [category, setCategory] = useState('catch'); // catch, mystery
 
     const GACHA_TIERS = {
         pokeball: {
@@ -22,7 +23,8 @@ export function GachaPage() {
             cost: 100,
             image: pokeballImage,
             rates: { common: 0.6, rare: 0.3, epic: 0.09, legendary: 0.01 },
-            color: '#ef4444'
+            color: '#ef4444',
+            type: 'catch'
         },
         greatball: {
             id: 'greatball',
@@ -30,7 +32,8 @@ export function GachaPage() {
             cost: 300,
             image: greatballImage,
             rates: { common: 0.3, rare: 0.5, epic: 0.18, legendary: 0.02 },
-            color: '#3b82f6'
+            color: '#3b82f6',
+            type: 'catch'
         },
         ultraball: {
             id: 'ultraball',
@@ -38,7 +41,24 @@ export function GachaPage() {
             cost: 1000,
             image: ultraballImage,
             rates: { common: 0, rare: 0.4, epic: 0.5, legendary: 0.1 },
-            color: '#eab308'
+            color: '#eab308',
+            type: 'catch'
+        },
+        mystery: {
+            id: 'mystery',
+            name: 'Mysterieuze Doos',
+            cost: 500,
+            image: '🎁',
+            color: '#8b5cf6',
+            type: 'mystery'
+        },
+        candy: {
+            id: 'candy',
+            name: 'Zeldzaam Snoepje',
+            cost: 200,
+            image: '🍬',
+            color: '#f472b6',
+            type: 'mystery'
         }
     };
 
@@ -79,7 +99,38 @@ export function GachaPage() {
             setResult(null);
             setAutoEquipped(false);
 
-            // Simulate network/animation delay
+            // Handle non-pokemon items
+            if (currentTier.id === 'candy') {
+                setTimeout(() => {
+                    healAll();
+                    setResult({ name: 'Zeldzaam Snoepje', type: 'item', description: 'Je hele team is genezen!', image: '🍬' });
+                    setIsAnimating(false);
+                }, 1500);
+                return;
+            }
+
+            if (currentTier.id === 'mystery') {
+                setTimeout(() => {
+                    const rand = Math.random();
+                    if (rand < 0.3) {
+                        const win = Math.floor(Math.random() * 800) + 200;
+                        addCoins(win);
+                        setResult({ name: 'Grote Prijs!', type: 'item', description: `Je hebt ${win} munten gewonnen!`, image: '💰' });
+                    } else if (rand < 0.6) {
+                        setResult({ name: 'Lege Doos...', type: 'item', description: 'Helaas, de doos was leeg.', image: '📦' });
+                    } else {
+                        // Rare Pokemon
+                        getRandomPokemon('rare').then(pokemon => {
+                            setOwnedIds(prev => [...prev, pokemon.id]);
+                            setResult({ ...pokemon, rarity: 'rare' });
+                        });
+                    }
+                    setIsAnimating(false);
+                }, 2000);
+                return;
+            }
+
+            // Standard Pokeball logic
             setTimeout(async () => {
                 const rarity = determineRarity();
                 const pokemon = await getRandomPokemon(rarity);
@@ -135,20 +186,39 @@ export function GachaPage() {
                 </div>
             </div>
 
+            <div className="gacha-nav">
+                <button
+                    className={`nav-item ${category === 'catch' ? 'active' : ''}`}
+                    onClick={() => { setCategory('catch'); setSelectedBall('pokeball'); }}
+                >
+                    Vangen ⚾
+                </button>
+                <button
+                    className={`nav-item ${category === 'mystery' ? 'active' : ''}`}
+                    onClick={() => { setCategory('mystery'); setSelectedBall('mystery'); }}
+                >
+                    Extra&apos;s 🎁
+                </button>
+            </div>
+
             <div className="gacha-stage">
                 {error && <div className="error-message">{error}</div>}
 
                 {!result && !isAnimating && (
                     <>
                         <div className="ball-selector">
-                            {Object.values(GACHA_TIERS).map(tier => (
+                            {Object.values(GACHA_TIERS).filter(t => t.type === category).map(tier => (
                                 <div
                                     key={tier.id}
                                     className={`ball-option ${selectedBall === tier.id ? 'selected' : ''}`}
                                     onClick={() => setSelectedBall(tier.id)}
                                     style={{ '--ball-color': tier.color }}
                                 >
-                                    <img src={tier.image} alt={tier.name} />
+                                    {typeof tier.image === 'string' && tier.image.length < 4 ? (
+                                        <div className="item-emoji">{tier.image}</div>
+                                    ) : (
+                                        <img src={tier.image} alt={tier.name} />
+                                    )}
                                     <div className="ball-info">
                                         <span className="ball-name">{tier.name}</span>
                                         <span className="ball-cost">{tier.cost} 🪙</span>
@@ -164,9 +234,9 @@ export function GachaPage() {
                                 className="summon-pokeball"
                                 onClick={summon}
                             />
-                            <p>Toca la {currentTier.name} para invocar</p>
+                            <p>Tik op de {currentTier.name} om te kopen</p>
                             <button className="summon-btn" onClick={summon}>
-                                Invocar ({currentTier.cost} 🪙)
+                                Kopen ({currentTier.cost} 🪙)
                             </button>
                         </div>
                     </>
@@ -174,17 +244,26 @@ export function GachaPage() {
 
                 {isAnimating && (
                     <div className="animation-container">
-                        <img src={currentTier.image} alt="Summoning..." className="summon-pokeball shaking" />
+                        {typeof currentTier.image === 'string' && currentTier.image.length < 4 ? (
+                            <div className="summon-emoji shaking">{currentTier.image}</div>
+                        ) : (
+                            <img src={currentTier.image} alt="Summoning..." className="summon-pokeball shaking" />
+                        )}
                         <div className="light-burst"></div>
                     </div>
                 )}
 
                 {result && (
-                    <div className={`result-container ${result.rarity}`}>
+                    <div className={`result-container ${result.rarity || 'common'}`}>
                         <div className="result-glow"></div>
-                        <img src={result.sprites.front_default} alt={result.name} className="result-pokemon" />
+                        {result.type === 'item' ? (
+                            <div className="result-item-display">{result.image}</div>
+                        ) : (
+                            <img src={result.sprites.front_default} alt={result.name} className="result-pokemon" />
+                        )}
                         <h2>{result.name}</h2>
-                        <span className="rarity-badge">{result.rarity}</span>
+                        {result.description && <p className="result-desc">{result.description}</p>}
+                        <span className="rarity-badge">{result.rarity || 'Gevonden!'}</span>
 
                         {autoEquipped && (
                             <div className="auto-equip-msg">
@@ -194,7 +273,7 @@ export function GachaPage() {
 
                         <div className="gacha-actions">
                             <button className="reset-gacha-btn" onClick={() => setResult(null)}>
-                                Invocing Nochmal
+                                Opnieuw proberen
                             </button>
                             <Link to="/adventure" className="squad-link-btn">
                                 🌍 Wereld

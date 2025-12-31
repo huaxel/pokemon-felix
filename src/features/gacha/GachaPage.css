@@ -28,6 +28,49 @@
     gap: 0.5rem;
 }
 
+.gacha-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.nav-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 1rem;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.nav-item.active {
+    background: #ef4444;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.item-emoji {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.summon-emoji {
+    font-size: 6rem;
+}
+
+.result-item-display {
+    font-size: 8rem;
+    margin: 2rem 0;
+}
+
+.result-desc {
+    color: #cbd5e1;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
 .summon-container {
     display: flex;
     flex-direction: column;

@@ -239,6 +239,10 @@ export function WorldPage() {
                 <button className={`day-night-toggle ${isNight ? 'night' : 'day'}`} onClick={toggleDayNight}>
                     {isNight ? '🌙' : '☀️'}
                 </button>
+
+                <button className="pokedex-hud-btn" onClick={() => navigate('/pokedex')}>
+                    📖 Pokédex
+                </button>
             </div>
 
             <div className="world-header">

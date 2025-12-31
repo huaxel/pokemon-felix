@@ -41,9 +41,20 @@
     background-color: #0f172a !important;
 }
 
-.night-mode .season-hud {
-    background: rgba(30, 41, 59, 0.9);
-    border-color: #1e40af;
+.pokedex-hud-btn {
+    margin-left: auto;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.night-mode .pokedex-hud-btn {
+    background: #1e40af;
 }
 
 .night-mode .season-name {
