@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useCareContext } from '../../hooks/useCareContext';
 import { PokemonCard } from '../../components/PokemonCard';
 import { Heart, Utensils, Sparkles } from 'lucide-react';
 import './CarePage.css';
@@ -9,12 +10,10 @@ export function CarePage() {
     const {
         squadIds,
         pokemonList,
-        careStats,
-        healAll,
-        feedPokemon,
         coins,
         spendCoins
     } = usePokemonContext();
+    const { careStats, healAll, feedPokemon } = useCareContext();
     const [isHealing, setIsHealing] = useState(false);
 
     // Get squad data

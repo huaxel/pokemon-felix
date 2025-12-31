@@ -12,7 +12,7 @@ function TestSquad() {
     addToSquad(4);
     addToSquad(5);
     removeFromSquad(2);
-  }, []);
+  }, [addToSquad, removeFromSquad]);
   return <div data-testid="squad">{JSON.stringify({ squadIds, isSquadFull })}</div>;
 }
 

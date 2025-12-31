@@ -2,11 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { calculateMaxHP, calculateEnergyCost, calculateSmartDamage, combineMoves, getTypeColor } from '../../lib/battle-logic';
 import { getMoveDetails, getPokemonDetails } from '../../lib/api';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useCareContext } from '../../hooks/useCareContext';
 import './CardBattle.css';
 // energy icon was unused; remove import to satisfy linter
 
 export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
-    const { careStats, addFatigue } = usePokemonContext();
+    const { inventory, removeItem, toggleOwned, addCoins } = usePokemonContext();
+    const { careStats, addFatigue } = useCareContext();
     const [battleLog, setBattleLog] = useState([]);
     const [winner, setWinner] = useState(null);
 
@@ -40,7 +42,6 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     const [lastMoveName, setLastMoveName] = useState(null);
 
     // ITEM SYSTEM
-    const { inventory, removeItem, toggleOwned, addCoins } = usePokemonContext();
     const [showItems, setShowItems] = useState(false);
 
     // OUTFIT POWERS
@@ -223,6 +224,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     };
 
     // GENERIC TURN EXECUTION
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const executeTurn = async (attacker, defender, move, setDefenderHP, setNextTurn, setAttackerEnergy, currentEnergy, isPlayer) => {
         // Deduct Energy
         setAttackerEnergy(prev => Math.max(0, prev - move.cost));
@@ -317,7 +319,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
             }, 1000);
             return () => clearTimeout(aiTimer);
         }
-    }, [turn, winner, f2Moves, f2Energy]);
+    }, [turn, winner, f2Moves, f2Energy, drawCards, executeTurn, f1MaxHP, fighter1, fighter2]);
 
 
     return (

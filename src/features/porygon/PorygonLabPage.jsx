@@ -67,7 +67,7 @@ export function PorygonLabPage() {
             setIsRunning(false);
             if (!isRunning) setMessage(null); // Clear message only if not just finished run
         }
-    }, [level, currentLevelId]);
+    }, [level, currentLevelId, isRunning]);
 
     const addToProgram = (command) => {
         if (program.length < level.limit && !isRunning) {

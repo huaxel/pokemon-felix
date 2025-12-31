@@ -48,13 +48,11 @@ export function WorldPage() {
     const {
         addCoins,
         healAll,
-        townObjects,
-        addObject,
-        removeObject,
         quests,
     } = usePokemonContext(); // Ensure quests is accessed for notification logic
+    const { townObjects, addObject, removeObject, clearTown } = useTownContext();
 
-    const { getEncounterMultiplier, getItemChanceMultiplier, activeEffect } = useOutfitEffects();
+    const { getEncounterMultiplier, activeEffect } = useOutfitEffects();
 
     // Seizoenen Systeem
     const [seasonIndex, setSeasonIndex] = useState(1); // Begin in de Zomer
@@ -281,7 +279,7 @@ export function WorldPage() {
                 }
             }
         }
-    }, [addCoins, healAll, navigate, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, setMessage, setTreasures, getEncounterMultiplier, getItemChanceMultiplier]);
+    }, [addCoins, healAll, navigate, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, setMessage, setTreasures, getEncounterMultiplier]);
 
     // Beweging logica
     const movePlayer = useCallback((dx, dy) => {
