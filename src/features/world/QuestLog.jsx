@@ -1,5 +1,5 @@
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { Trophy, CheckCircle, Circle } from 'lucide-react';
+import { Trophy, CheckCircle } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
 import './QuestLog.css';
 

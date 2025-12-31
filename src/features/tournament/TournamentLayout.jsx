@@ -4,7 +4,6 @@ import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { Bracket } from './components/Bracket';
 import { CardBattle } from '../battle/CardBattle';
 import './TournamentLayout.css';
-import bagIcon from '../../assets/items/bag_icon.png';
 
 export function TournamentLayout({ allPokemon }) {
     const { addCoins, squadIds } = usePokemonContext();

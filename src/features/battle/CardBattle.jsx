@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { calculateMaxHP, calculateDamage, calculateEnergyCost, calculateSmartDamage, combineMoves, getTypeColor } from '../../lib/battle-logic';
+import { calculateMaxHP, calculateEnergyCost, calculateSmartDamage, combineMoves, getTypeColor } from '../../lib/battle-logic';
 import { getMoveDetails, getPokemonDetails } from '../../lib/api';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import './CardBattle.css';
-import energyIcon from '../../assets/icons/energy.svg';
+// energy icon was unused; remove import to satisfy linter
 
 export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     const { careStats, addFatigue } = usePokemonContext();
@@ -35,7 +35,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     // Enemy AI
     const [f2Moves, setF2Moves] = useState([]);
 
-    const [loadingMoves, setLoadingMoves] = useState(true);
+    const [, setLoadingMoves] = useState(true);
     const [turn, setTurn] = useState('player'); // 'player' | 'opponent'
     const [lastMoveName, setLastMoveName] = useState(null);
 

@@ -59,8 +59,6 @@ export function WorldPage() {
     // Seizoenen Systeem
     const [seasonIndex, setSeasonIndex] = useState(1); // Begin in de Zomer
     const [showQuestLog, setShowQuestLog] = useState(false);
-    const [bgMusic, setBgMusic] = useState(null); // Fix missing state from merge error
-    const [showBag, setShowBag] = useState(false); // Fix missing state from merge error
     const [isNight, setIsNight] = useState(false); // Fix missing state from merge error
     const nextSeason = () => setSeasonIndex((prev) => (prev + 1) % 4);
     const prevSeason = () => setSeasonIndex((prev) => (prev === 0 ? 3 : prev - 1));
@@ -275,7 +273,7 @@ export function WorldPage() {
                     setTimeout(() => navigate('/single-battle'), 1000);
                 } else {
                     // Apply Nature effect (Explorer)
-                    const itemChance = 0.2 * getItemChanceMultiplier();
+                    // const itemChance = 0.2 * getItemChanceMultiplier();
                     // Just a check, logic below was else, so it was "remaining probability".
                     // Let's make it explicitly check for item if not battle.
                     setMessage({ text: "Wauw, ik heb iets gevonden! +20 coins", color: '#22c55e' });

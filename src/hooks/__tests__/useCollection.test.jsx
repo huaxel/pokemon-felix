@@ -13,7 +13,7 @@ function TestComponent() {
   const { ownedIds, setOwnedIds } = useCollection();
   React.useEffect(() => {
     setOwnedIds([1, 2]);
-  }, []);
+  }, [setOwnedIds]);
   return <div data-testid="owned">{JSON.stringify(ownedIds)}</div>;
 }
 

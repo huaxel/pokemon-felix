@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { GraduationCap, BookOpen, Brain, Trophy, Map, Star, Book, Award } from 'lucide-react';

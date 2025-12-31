@@ -195,7 +195,7 @@ export function GachaPage() {
                     onClick={() => { setCategory('mystery'); setSelectedBall('mystery'); }}
                 >
                     <img src={mysteryImage} alt="Extra's" className="nav-icon" />
-                    <span>Extra's</span>
+                    <span>Extra&apos;s</span>
                 </button>
             </div>
 
