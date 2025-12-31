@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../contexts/PokemonContext';
+import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { TournamentBattle } from '../tournament/components/TournamentBattle';
 import './SingleBattlePage.css';
 
@@ -10,13 +10,7 @@ export function SingleBattlePage({ allPokemon }) {
     const [playerPokemon, setPlayerPokemon] = useState(null);
     const [battleState, setBattleState] = useState('loading'); // loading, battle, victory, defeat
 
-    useEffect(() => {
-        if (allPokemon && allPokemon.length > 0 && squadIds.length > 0) {
-            startBattle();
-        }
-    }, [allPokemon, squadIds]);
-
-    const startBattle = () => {
+    const startBattle = useCallback(() => {
         // Get user's first squad member (or random from squad)
         const userSquad = allPokemon.filter(p => squadIds.includes(p.id));
         const player = userSquad[0]; // Simple: use first pokemon
@@ -28,7 +22,13 @@ export function SingleBattlePage({ allPokemon }) {
         setPlayerPokemon(player);
         setOpponent(randomOpponent);
         setBattleState('battle');
-    };
+    }, [allPokemon, squadIds]);
+
+    useEffect(() => {
+        if (allPokemon && allPokemon.length > 0 && squadIds.length > 0) {
+            startBattle();
+        }
+    }, [allPokemon, squadIds, startBattle]);
 
     const handleBattleEnd = (winner) => {
         if (winner.id === playerPokemon.id) {

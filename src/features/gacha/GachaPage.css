@@ -261,6 +261,28 @@
     }
 }
 
+.shiny-effect {
+    filter: sepia(1) saturate(5) hue-rotate(45deg) drop-shadow(0 0 15px gold) !important;
+    animation: shinySparkle 0.5s infinite alternate;
+}
+
+@keyframes shinySparkle {
+    from {
+        filter: sepia(1) saturate(5) hue-rotate(45deg) drop-shadow(0 0 10px gold);
+    }
+
+    to {
+        filter: sepia(1) saturate(10) hue-rotate(60deg) drop-shadow(0 0 25px gold);
+    }
+}
+
+.result-item-img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    animation: bounce 2s infinite;
+}
+
 .auto-equip-msg {
     color: #fbbf24;
     font-weight: bold;

@@ -1,0 +1,86 @@
+.gym-page {
+    padding: 2rem;
+    min-height: 100vh;
+    background: #1e293b;
+    color: white;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.gym-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.gym-header h1 {
+    color: #fbbf24;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
+
+.gym-intro {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4rem;
+    border-radius: 3rem;
+    border: 5px solid #fbbf24;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.leader-avatar {
+    font-size: 8rem;
+    margin-bottom: 1rem;
+}
+
+.start-gym-btn {
+    background: #fbbf24;
+    color: #78350f;
+    border: none;
+    padding: 1.5rem 3rem;
+    font-size: 1.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 2rem;
+    transition: transform 0.2s;
+}
+
+.start-gym-btn:hover {
+    transform: scale(1.1);
+}
+
+.hint {
+    color: #94a3b8;
+    margin-top: 1rem;
+}
+
+/* Battle Container */
+.gym-battle-container {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Result */
+.gym-result {
+    text-align: center;
+    padding-top: 5rem;
+}
+
+.medal {
+    font-size: 10rem;
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.finish-btn {
+    display: inline-block;
+    background: #fbbf24;
+    color: #78350f;
+    text-decoration: none;
+    padding: 1rem 3rem;
+    border-radius: 1.5rem;
+    margin-top: 2rem;
+}

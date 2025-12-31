@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { usePokemonContext } from './contexts/PokemonContext';
+import { usePokemonContext } from './hooks/usePokemonContext';
 import { addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
@@ -14,6 +14,10 @@ import { StarterPage } from './features/onboarding/StarterPage';
 import { SquadPage } from './features/squad/SquadPage';
 import { PokedexPage } from './features/pokedex/PokedexPage';
 import { WorldPage } from './features/world/WorldPage';
+import { MarketPage } from './features/world/MarketPage';
+import { EvolutionPage } from './features/world/EvolutionPage';
+import { GymPage } from './features/world/GymPage';
+import { BagPage } from './features/world/BagPage';
 import { CarePage } from './features/care/CarePage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
@@ -77,6 +81,10 @@ function App() {
         <Route path="/gacha" element={<GachaPage />} />
         <Route path="/squad" element={<SquadPage />} />
         <Route path="/adventure" element={<WorldPage />} />
+        <Route path="/market" element={<MarketPage />} />
+        <Route path="/evolution" element={<EvolutionPage />} />
+        <Route path="/gym" element={<GymPage />} />
+        <Route path="/bag" element={<BagPage />} />
         <Route path="/care" element={<CarePage />} />
       </Routes>
 

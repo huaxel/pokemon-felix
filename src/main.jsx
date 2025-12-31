@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
-import { PokemonProvider } from './contexts/PokemonContext'
+import { PokemonProvider } from './contexts/PokemonProvider'
 import App from './App.jsx'
 import './index.css'
 

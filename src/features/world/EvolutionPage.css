@@ -1,0 +1,182 @@
+.evolution-page {
+    padding: 2rem;
+    min-height: 100vh;
+    background: #f0fdf4;
+    font-family: 'Luckiest Guy', cursive;
+    position: relative;
+}
+
+.evo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.evo-header h1 {
+    margin: 0;
+    color: #166534;
+}
+
+.evo-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #15803d;
+}
+
+.evo-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 3px solid #bbf7d0;
+}
+
+.evo-to {
+    color: #16a34a;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+}
+
+.evolve-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+}
+
+.evolve-btn:hover {
+    background: #15803d;
+}
+
+/* Animations */
+.evo-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: flash 3s ease-in-out forwards;
+}
+
+@keyframes flash {
+    0% {
+        background: #000;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        background: #fff;
+        opacity: 1;
+    }
+
+    100% {
+        background: #fff;
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+.evo-text {
+    font-size: 2rem;
+    color: #166534;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+/* Result Card */
+.result-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 2.5rem;
+    text-align: center;
+    max-width: 450px;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.evo-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.old-pk {
+    width: 80px;
+    opacity: 0.6;
+}
+
+.new-pk {
+    width: 150px;
+    filter: drop-shadow(0 0 10px #fbbf24);
+}
+
+.arrow-icon {
+    font-size: 2rem;
+}
+
+.confirm-btn {
+    background: #fbbf24;
+    color: #92400e;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

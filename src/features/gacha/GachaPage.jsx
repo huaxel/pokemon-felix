@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../contexts/PokemonContext';
-import { addToCollection } from '../../lib/api';
-import pokeballImage from '../../assets/pokeball_transparent.png';
-import greatballImage from '../../assets/great_ball.png';
-import ultraballImage from '../../assets/ultra_ball.png';
+import { usePokemonContext } from '../../hooks/usePokemonContext';
+import gachaImage from '../../assets/buildings/gacha_machine.png';
+import pokeballImage from '../../assets/items/pokeball.png';
+import greatballImage from '../../assets/items/greatball.png';
+import ultraballImage from '../../assets/items/ultraball.png';
+import candyImage from '../../assets/items/rare_candy.png';
+import mysteryImage from '../../assets/items/mystery_box.png';
 import './GachaPage.css';
 
 export function GachaPage() {
-    const { coins, spendCoins, setOwnedIds, pokemonList, addToSquad, squadIds, addCoins, healAll } = usePokemonContext();
+    const { coins, spendCoins, setOwnedIds, pokemonList, addToSquad, squadIds, addItem } = usePokemonContext();
     const [isAnimating, setIsAnimating] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
@@ -48,7 +50,7 @@ export function GachaPage() {
             id: 'mystery',
             name: 'Mysterieuze Doos',
             cost: 500,
-            image: '🎁',
+            image: mysteryImage,
             color: '#8b5cf6',
             type: 'mystery'
         },
@@ -56,7 +58,7 @@ export function GachaPage() {
             id: 'candy',
             name: 'Zeldzaam Snoepje',
             cost: 200,
-            image: '🍬',
+            image: candyImage,
             color: '#f472b6',
             type: 'mystery'
         }
@@ -89,7 +91,7 @@ export function GachaPage() {
 
     const summon = async () => {
         if (coins < currentTier.cost) {
-            setError(`¡Necesitas ${currentTier.cost} PokeCoins!`);
+            setError(`Je hebt ${currentTier.cost} PokeCoins nodig!`);
             setTimeout(() => setError(null), 3000);
             return;
         }
@@ -98,12 +100,13 @@ export function GachaPage() {
             setIsAnimating(true);
             setResult(null);
             setAutoEquipped(false);
+            const isShiny = Math.random() < 0.01; // 1% Shiny chance
 
             // Handle non-pokemon items
             if (currentTier.id === 'candy') {
                 setTimeout(() => {
-                    healAll();
-                    setResult({ name: 'Zeldzaam Snoepje', type: 'item', description: 'Je hele team is genezen!', image: '🍬' });
+                    addItem('rare-candy', 1);
+                    setResult({ name: 'Zeldzaam Snoepje', type: 'item', id: 'rare-candy', description: 'Toegevoegd aan je rugzak! Gebruik het om te genezen.', image: candyImage });
                     setIsAnimating(false);
                 }, 1500);
                 return;
@@ -111,22 +114,10 @@ export function GachaPage() {
 
             if (currentTier.id === 'mystery') {
                 setTimeout(() => {
-                    const rand = Math.random();
-                    if (rand < 0.3) {
-                        const win = Math.floor(Math.random() * 800) + 200;
-                        addCoins(win);
-                        setResult({ name: 'Grote Prijs!', type: 'item', description: `Je hebt ${win} munten gewonnen!`, image: '💰' });
-                    } else if (rand < 0.6) {
-                        setResult({ name: 'Lege Doos...', type: 'item', description: 'Helaas, de doos was leeg.', image: '📦' });
-                    } else {
-                        // Rare Pokemon
-                        getRandomPokemon('rare').then(pokemon => {
-                            setOwnedIds(prev => [...prev, pokemon.id]);
-                            setResult({ ...pokemon, rarity: 'rare' });
-                        });
-                    }
+                    addItem('mystery-box', 1);
+                    setResult({ name: 'Mysterieuze Doos', type: 'item', id: 'mystery-box', description: 'Wat zou erin zitten? Bekijk je rugzak!', image: mysteryImage });
                     setIsAnimating(false);
-                }, 2000);
+                }, 1500);
                 return;
             }
 
@@ -136,7 +127,6 @@ export function GachaPage() {
                 const pokemon = await getRandomPokemon(rarity);
 
                 if (pokemon) {
-                    await addToCollection(pokemon.id);
                     setOwnedIds(prev => [...prev, pokemon.id]);
 
                     // Auto-equip if squad has space
@@ -145,9 +135,8 @@ export function GachaPage() {
                         setAutoEquipped(true);
                     }
 
-                    setResult({ ...pokemon, rarity });
+                    setResult({ ...pokemon, rarity, isShiny });
                 } else {
-                    // Fallback if no pokemon found for rarity (shouldn't happen with full pokedex)
                     setError("Error invocando: No encontrado para rareza " + rarity);
                 }
                 setIsAnimating(false);
@@ -184,6 +173,12 @@ export function GachaPage() {
                     <span className="coin-icon">🪙</span>
                     <span>{coins}</span>
                 </div>
+            </div>
+
+            <div className="gacha-intro">
+                <img src={gachaImage} className="gacha-promo-img" alt="Gacha" />
+                <h2>Welkom bij de Poké-Gacha!</h2>
+                <p>Kies een categorie en beproef je geluk!</p>
             </div>
 
             <div className="gacha-nav">
@@ -257,9 +252,13 @@ export function GachaPage() {
                     <div className={`result-container ${result.rarity || 'common'}`}>
                         <div className="result-glow"></div>
                         {result.type === 'item' ? (
-                            <div className="result-item-display">{result.image}</div>
+                            <img src={result.image} alt="" className="result-item-img" />
                         ) : (
-                            <img src={result.sprites.front_default} alt={result.name} className="result-pokemon" />
+                            <img
+                                src={result.sprites.front_default}
+                                alt={result.name}
+                                className={`result-pokemon ${result.isShiny ? 'shiny-effect' : ''}`}
+                            />
                         )}
                         <h2>{result.name}</h2>
                         {result.description && <p className="result-desc">{result.description}</p>}

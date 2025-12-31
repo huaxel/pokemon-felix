@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DndContext, DragOverlay, useSensor, useSensors, MouseSensor, TouchSensor } from '@dnd-kit/core';
-import { usePokemonContext } from '../../contexts/PokemonContext';
+import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { getPokemonDetails } from '../../lib/api';
 import { PokemonCard } from '../../components/PokemonCard';
 import { DraggablePokemon } from './DraggablePokemon';

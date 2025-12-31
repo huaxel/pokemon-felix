@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { calculateMaxHP, calculateDamage, calculateEnergyCost } from '../../../lib/battle-logic';
 import { getMoveDetails } from '../../../lib/api';
 import './TournamentBattle.css';
@@ -82,9 +82,29 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
             }, 1500);
             return () => clearTimeout(timer);
         }
-    }, [turn, winner, f2Moves, f2Energy]);
+    }, [turn, winner, f2Moves, f2Energy, executeTurn, fighter1, fighter2, handleReload]);
 
-    const executeTurn = async (attacker, defender, move, setDefenderHP, setNextTurn, setAttackerEnergy) => {
+    const triggerAttackAnimation = useCallback(async (attacker, defender, result) => {
+        // 1. Attack Animation
+        setAttackingFighter(attacker);
+        await new Promise(r => setTimeout(r, 300)); // Wait for lunge
+        setAttackingFighter(null);
+
+        // 2. Damage Animation & Effectiveness
+        setDamagedFighter(defender);
+
+        if (result.effectiveness > 1) {
+            setEffectivenessMsg({ fighter: defender, msg: "¡Super Efectivo! +1 Dmg", type: "super-effective" });
+        } else if (result.effectiveness < 1 && result.effectiveness > 0) {
+            setEffectivenessMsg({ fighter: defender, msg: "No es muy efectivo... -1 Dmg", type: "not-very-effective" });
+        }
+
+        await new Promise(r => setTimeout(r, 400)); // Wait for shake
+        setDamagedFighter(null);
+        setEffectivenessMsg(null);
+    }, []);
+
+    const executeTurn = useCallback(async (attacker, defender, move, setDefenderHP, setNextTurn, setAttackerEnergy) => {
         // Deduct Energy
         setAttackerEnergy(prev => Math.max(0, prev - move.cost));
 
@@ -111,9 +131,9 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
         if (defender === fighter1 ? (f1HP - res.damage > 0) : (f2HP - res.damage > 0)) {
             setNextTurn(attacker === fighter1 ? 'opponent' : 'player');
         }
-    };
+    }, [f1HP, f2HP, fighter1, onBattleEnd, triggerAttackAnimation]);
 
-    const handleReload = async (fighter, setEnergy, setNextTurn) => {
+    const handleReload = useCallback(async (fighter, setEnergy, setNextTurn) => {
         setBattleLog(prev => [...prev, `${fighter.name} recarga energía!`]);
 
         // Animation placeholder (could be a glow effect)
@@ -121,7 +141,7 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
 
         setEnergy(prev => Math.min(MAX_ENERGY, prev + 2));
         setNextTurn(fighter === fighter1 ? 'opponent' : 'player');
-    };
+    }, [fighter1]);
 
     const handleMoveClick = async (move) => {
         if (turn !== 'player' || winner) return;
@@ -132,26 +152,6 @@ export function TournamentBattle({ fighter1, fighter2, onBattleEnd }) {
     const handlePlayerReload = async () => {
         if (turn !== 'player' || winner) return;
         await handleReload(fighter1, setF1Energy, setTurn);
-    };
-
-    const triggerAttackAnimation = async (attacker, defender, result) => {
-        // 1. Attack Animation
-        setAttackingFighter(attacker);
-        await new Promise(r => setTimeout(r, 300)); // Wait for lunge
-        setAttackingFighter(null);
-
-        // 2. Damage Animation & Effectiveness
-        setDamagedFighter(defender);
-
-        if (result.effectiveness > 1) {
-            setEffectivenessMsg({ fighter: defender, msg: "¡Super Efectivo! +1 Dmg", type: "super-effective" });
-        } else if (result.effectiveness < 1 && result.effectiveness > 0) {
-            setEffectivenessMsg({ fighter: defender, msg: "No es muy efectivo... -1 Dmg", type: "not-very-effective" });
-        }
-
-        await new Promise(r => setTimeout(r, 400)); // Wait for shake
-        setDamagedFighter(null);
-        setEffectivenessMsg(null);
     };
 
     return (

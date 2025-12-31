@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePokemonContext } from '../../contexts/PokemonContext';
+import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { addToCollection } from '../../lib/api';
 import './StarterPage.css';
 

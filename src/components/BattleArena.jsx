@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../contexts/PokemonContext';
+import { usePokemonContext } from '../hooks/usePokemonContext';
 import { PokemonCard } from './PokemonCard';
 import { getStat, calculateMaxHP, calculateDamage } from '../lib/battle-logic';
 import './BattleArena.css';

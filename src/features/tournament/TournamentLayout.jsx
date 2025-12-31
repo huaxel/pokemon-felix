@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../contexts/PokemonContext';
+import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { Bracket } from './components/Bracket';
 import { TournamentBattle } from './components/TournamentBattle';
 import './TournamentLayout.css';

@@ -53,8 +53,130 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.night-mode .pokedex-hud-btn {
-    background: #1e40af;
+.bag-hud-btn {
+    background: #f97316;
+    border: none;
+    padding: 0.2rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.bag-hud-btn:hover {
+    transform: scale(1.1);
+}
+
+.bag-hud-btn img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+/* Weer Effecten */
+.rain-overlay,
+.snow-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.rain-overlay {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(59, 130, 246, 0.1) 100%);
+}
+
+.rain-overlay::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: rainDrop 0.5s linear infinite;
+    opacity: 0.3;
+}
+
+.snow-overlay::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, #fff 3px, transparent 3px);
+    background-size: 80px 80px;
+    animation: snowFall 5s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes rainDrop {
+    0% {
+        transform: translateY(-50px);
+    }
+
+    100% {
+        transform: translateY(50px);
+    }
+}
+
+@keyframes snowFall {
+    0% {
+        transform: translateY(-100px) translateX(-20px);
+    }
+
+    100% {
+        transform: translateY(100px) translateX(20px);
+    }
+}
+
+/* Interieur Modal */
+.interior-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.room-content {
+    background: #78350f;
+    /* Houten kleur */
+    padding: 3rem;
+    border-radius: 2rem;
+    border: 8px solid #451a03;
+    text-align: center;
+    color: #fef3c7;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+}
+
+.pixel-bed,
+.pixel-tv {
+    font-size: 5rem;
+    margin: 1rem;
+}
+
+.close-room-btn {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    background: #dc2626;
+    border: none;
+    color: white;
+    border-radius: 1rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .night-mode .season-name {
@@ -67,11 +189,6 @@
 
 .night-mode .tile {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-.tile:contains('✨'),
-.tile {
-    /* Fallback if contains doesn't work well */
 }
 
 @keyframes sparkle {
@@ -89,9 +206,6 @@
     }
 }
 
-.tile:empty:after {
-    /* just to have a target for treasures if needed, but emoji works */
-}
 
 .season-display {
     display: flex;
@@ -172,6 +286,36 @@
     position: relative;
 }
 
+.building-sprite,
+.water-sprite {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+    transition: transform 0.2s;
+}
+
+.building-sprite:hover,
+.water-sprite:hover {
+    transform: scale(1.1);
+}
+
+.water-sprite {
+    animation: waterRipple 3s infinite ease-in-out;
+}
+
+@keyframes waterRipple {
+
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.2) hue-rotate(10deg);
+    }
+}
+
 .tile.type-1 {
     background-color: #d69e2e !important;
     border-radius: 4px;
@@ -185,6 +329,26 @@
 }
 
 /* Center overrides */
+.tile.gym {
+    background: #fbbf24 !important;
+    border: 3px solid #78350f;
+    border-radius: 8px;
+    z-index: 2;
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+}
+
+.tile.market {
+    background: #ef4444 !important;
+    border: 3px solid #7f1d1d;
+    border-radius: 8px;
+}
+
+.tile.evolution {
+    background: #10b981 !important;
+    border: 3px solid #064e3b;
+    border-radius: 8px;
+}
+
 
 .tile.buildable:hover {
     filter: brightness(1.2);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../contexts/PokemonContext';
+import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { PokemonCard } from '../../components/PokemonCard';
 import { Heart, Utensils, Sparkles } from 'lucide-react';
 import './CarePage.css';

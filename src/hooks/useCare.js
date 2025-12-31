@@ -14,23 +14,23 @@ export function useCare(ownedIds) {
 
     // Initialize stats for new pokemon
     useEffect(() => {
-        const newStats = { ...careStats };
-        let changed = false;
+        setCareStats(prev => {
+            const newStats = { ...prev };
+            let changed = false;
 
-        ownedIds.forEach(id => {
-            if (!newStats[id]) {
-                newStats[id] = {
-                    hp: 100,
-                    hunger: 0, // 0 is full, 100 is starving (using 0-100 logic)
-                    happiness: 70
-                };
-                changed = true;
-            }
+            ownedIds.forEach(id => {
+                if (!newStats[id]) {
+                    newStats[id] = {
+                        hp: 100,
+                        hunger: 0,
+                        happiness: 70
+                    };
+                    changed = true;
+                }
+            });
+
+            return changed ? newStats : prev;
         });
-
-        if (changed) {
-            setCareStats(newStats);
-        }
     }, [ownedIds]);
 
     const healPokemon = (id) => {
