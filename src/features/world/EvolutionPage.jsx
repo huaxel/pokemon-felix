@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import evoImage from '../../assets/buildings/evo_lab.png';
+import bagIcon from '../../assets/items/bag_icon.png';
 import './EvolutionPage.css';
 
 // Simplified evolution mapping for standard Pokemon
@@ -87,16 +88,16 @@ export function EvolutionPage() {
             }, 3000);
         } else {
             setIsEvolving(false);
-            alert("Niet genoeg munten! Evolutie kost 300 🪙.");
+                alert("Niet genoeg munten! Evolutie kost 300 coins.");
         }
     };
 
     return (
         <div className="evolution-page">
             <header className="evo-header">
-                <Link to="/adventure" className="back-btn">⬅️ Terug naar Wereld</Link>
-                <h1>🧬 Evolutie Hal</h1>
-                <div className="coin-balance">🪙 {coins}</div>
+                <Link to="/adventure" className="back-btn">Terug naar Wereld</Link>
+                <h1>Evolutie Hal</h1>
+                <div className="coin-balance"><img src={bagIcon} alt="coins" className="coin-icon" /> {coins}</div>
             </header>
 
             {isEvolving && (
@@ -112,7 +113,7 @@ export function EvolutionPage() {
                         <h2>Gefeliciteerd!</h2>
                         <div className="evo-flex">
                             <img src={evolutionResult.from.sprites.front_default} className="old-pk" alt="" />
-                            <span className="arrow-icon">➡️</span>
+                            <span className="arrow-icon">→</span>
                             <img src={evolutionResult.to.sprites.front_default} className="new-pk" alt="" />
                         </div>
                         <p>{evolutionResult.from.name} is geëvolueerd in {evolutionResult.to.name}!</p>
@@ -137,9 +138,9 @@ export function EvolutionPage() {
                             <div key={pokemon.id} className="evo-card">
                                 <img src={pokemon.sprites.front_default} alt={pokemon.name} />
                                 <h3>{pokemon.name}</h3>
-                                <div className="evo-to">➡️ {nextPk?.name}</div>
+                                <div className="evo-to">→ {nextPk?.name}</div>
                                 <button className="evolve-btn" onClick={() => handleEvolve(pokemon)}>
-                                    Evolueer 300 🪙
+                                    Evolueer 300 coins
                                 </button>
                             </div>
                         )

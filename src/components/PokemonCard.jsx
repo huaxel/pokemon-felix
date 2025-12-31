@@ -1,6 +1,7 @@
 import { typeTranslations } from '../lib/utils';
 import './PokemonCard.css';
-
+import favIcon from '../assets/items/mystery_box.png';
+import squadIcon from '../assets/items/greatball.png';
 
 
 export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 0, isInSquad, onToggleSquad }) {
@@ -34,7 +35,7 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
                     }}
                     aria-label={isOwned ? "Eliminar de la colección" : "Añadir a la colección"}
                 >
-                    ★
+                    <img src={favIcon} alt={isOwned ? 'Quitar favorito' : 'Marcar favorito'} className="icon" />
                 </button>
                 {onToggleSquad && (
                     <button
@@ -45,14 +46,14 @@ export function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 
                         }}
                         title={isInSquad ? "Eliminar del equipo" : "Añadir al equipo"}
                     >
-                        ⚔️
+                        <img src={squadIcon} alt={isInSquad ? 'Remover del equipo' : 'Añadir al equipo'} className="icon" />
                     </button>
                 )}
             </div>
 
             <div className="card-image-container">
                 <img
-                    src={`/src/assets/items/pokeball.png`} // Example of using the new asset path
+                    src={pokemon.sprites.other['official-artwork']?.front_default || pokemon.sprites.front_default}
                     alt={pokemon.name}
                     className="pokemon-image"
                     loading="lazy"

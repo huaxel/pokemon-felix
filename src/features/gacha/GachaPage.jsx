@@ -7,6 +7,7 @@ import greatballImage from '../../assets/items/greatball.png';
 import ultraballImage from '../../assets/items/ultraball.png';
 import candyImage from '../../assets/items/rare_candy.png';
 import mysteryImage from '../../assets/items/mystery_box.png';
+import bagIcon from '../../assets/items/bag_icon.png';
 import './GachaPage.css';
 
 export function GachaPage() {
@@ -167,10 +168,10 @@ export function GachaPage() {
     return (
         <div className="gacha-page">
             <div className="gacha-header">
-                <Link to="/adventure" className="back-hub-btn">⬅️ 🌍</Link>
+                <Link to="/adventure" className="back-hub-btn">Terug naar Wereld</Link>
                 <h1>Poke-Gacha</h1>
                 <div className="coin-balance">
-                    <span className="coin-icon">🪙</span>
+                    <img src={bagIcon} alt="coins" className="coin-icon" />
                     <span>{coins}</span>
                 </div>
             </div>
@@ -186,13 +187,15 @@ export function GachaPage() {
                     className={`nav-item ${category === 'catch' ? 'active' : ''}`}
                     onClick={() => { setCategory('catch'); setSelectedBall('pokeball'); }}
                 >
-                    Vangen ⚾
+                    <img src={pokeballImage} alt="Vangen" className="nav-icon" />
+                    <span>Vangen</span>
                 </button>
                 <button
                     className={`nav-item ${category === 'mystery' ? 'active' : ''}`}
                     onClick={() => { setCategory('mystery'); setSelectedBall('mystery'); }}
                 >
-                    Extra&apos;s 🎁
+                    <img src={mysteryImage} alt="Extra's" className="nav-icon" />
+                    <span>Extra's</span>
                 </button>
             </div>
 
@@ -216,7 +219,7 @@ export function GachaPage() {
                                     )}
                                     <div className="ball-info">
                                         <span className="ball-name">{tier.name}</span>
-                                        <span className="ball-cost">{tier.cost} 🪙</span>
+                                        <span className="ball-cost"><img src={bagIcon} alt="coins" className="coin-icon" />{tier.cost}</span>
                                     </div>
                                 </div>
                             ))}
@@ -231,7 +234,7 @@ export function GachaPage() {
                             />
                             <p>Tik op de {currentTier.name} om te kopen</p>
                             <button className="summon-btn" onClick={summon}>
-                                Kopen ({currentTier.cost} 🪙)
+                                Kopen (<img src={bagIcon} alt="coins" className="coin-icon-inline" /> {currentTier.cost})
                             </button>
                         </div>
                     </>

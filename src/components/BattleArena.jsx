@@ -74,7 +74,7 @@ export function BattleArena({ allPokemon, onLoadMore }) {
             if (currentF2HP <= 0) {
                 setWinner(fighter1);
                 addCoins(50);
-                addLog(`¡${fighter1.name} gana! (+50 🪙)`);
+                addLog(`¡${fighter1.name} gana! (+50 coins)`);
                 break;
             }
 
@@ -89,7 +89,7 @@ export function BattleArena({ allPokemon, onLoadMore }) {
             if (currentF1HP <= 0) {
                 setWinner(fighter2);
                 addCoins(50);
-                addLog(`¡${fighter2.name} gana! (+50 🪙)`);
+                addLog(`¡${fighter2.name} gana! (+50 coins)`);
                 break;
             }
         }
@@ -102,11 +102,11 @@ export function BattleArena({ allPokemon, onLoadMore }) {
             if (f1Percentage > f2Percentage) {
                 setWinner(fighter1);
                 addCoins(50);
-                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter1.name} gana. (+50 🪙)`);
+                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter1.name} gana. (+50 coins)`);
             } else if (f2Percentage > f1Percentage) {
                 setWinner(fighter2);
                 addCoins(50);
-                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter2.name} gana. (+50 🪙)`);
+                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter2.name} gana. (+50 coins)`);
             } else {
                 addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! Es un empate.`);
             }
