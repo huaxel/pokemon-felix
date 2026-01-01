@@ -19,7 +19,7 @@ export function StarterPage() {
 
     useEffect(() => {
         if (ownedIds.length > 0) {
-            navigate('/squad');
+            navigate('/adventure');
         }
     }, [ownedIds, navigate]);
 
@@ -37,9 +37,9 @@ export function StarterPage() {
         // Bonus coins
         addCoins(100);
 
-        // Navigate to squad (since it's the new home for players)
+        // Go straight to the world map to start exploring
         setTimeout(() => {
-            navigate('/squad');
+            navigate('/adventure');
         }, 1500);
     };
 
