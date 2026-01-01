@@ -28,6 +28,7 @@ import palaceImage from '../../assets/buildings/city_hall.png'; // Using city_ha
 import evolutionHallImage from '../../assets/buildings/evo_lab.png'; // Using evo_lab as evolution hall
 import mountainImage from '../../assets/buildings/gym_building.png'; // Using gym_building as mountain placeholder
 import secretCaveImage from '../../assets/buildings/house.png'; // Using house as cave placeholder
+import waterRouteImage from '../../assets/buildings/water_center.png'; // Using water_center as water route
 
 // Tegel types: 0=Gras, 1=Pad, 2=Huis, 3=Ziekenhuis, 4=Boom
 const TILE_TYPES = {
@@ -54,6 +55,7 @@ const TILE_TYPES = {
     EVOLUTION_HALL: 20,
     MOUNTAIN: 21,
     SECRET_CAVE: 22,
+    WATER_ROUTE: 23,
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
@@ -169,7 +171,7 @@ export function WorldPage() {
         [1, 12, 1, 13, 0, 4, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
-        [4, 4, 0, 0, 1, 0, 10, 10, 10, 18],
+        [4, 4, 0, 0, 1, 0, 23, 10, 10, 18],
         [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
         [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
         [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
@@ -317,6 +319,12 @@ export function WorldPage() {
             return;
         }
 
+        if (tileType === TILE_TYPES.WATER_ROUTE) {
+            setMessage({ text: "🌊 The sparkling water route awaits! Ready to surf?", color: '#06b6d4' });
+            setTimeout(() => navigate('/water-route'), 1000);
+            return;
+        }
+
         if (tileType === TILE_TYPES.CENTER) {
             setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
             healAll();
@@ -433,6 +441,7 @@ export function WorldPage() {
             case TILE_TYPES.EVOLUTION_HALL: return <img src={evolutionHallImage} className="building-sprite" alt="Evolution Hall" />;
             case TILE_TYPES.MOUNTAIN: return <img src={mountainImage} className="building-sprite" alt="Mountain" />;
             case TILE_TYPES.SECRET_CAVE: return <img src={secretCaveImage} className="building-sprite" alt="Secret Cave" />;
+            case TILE_TYPES.WATER_ROUTE: return <img src={waterRouteImage} className="building-sprite" alt="Water Route" />;
             case TILE_TYPES.CITY_HALL: return <img src={cityHallImage} className="building-sprite" alt="City Hall" />;
             case TILE_TYPES.URBAN_SHOP: return <img src={shopUrbanImage} className="building-sprite" alt="Urban Shop" />;
             default: return null;

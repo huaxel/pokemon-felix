@@ -1,0 +1,429 @@
+.water-route-page {
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Intro Screen */
+.water-route-page.intro {
+    background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+    justify-content: center;
+}
+
+.surf-lesson {
+    max-width: 600px;
+    text-align: center;
+    color: white;
+}
+
+.surf-lesson h1 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px rgba(6, 182, 212, 0.8);
+}
+
+.water-scene {
+    position: relative;
+    margin: 40px 0;
+    padding: 60px 40px;
+    background: rgba(6, 182, 212, 0.2);
+    border: 3px solid #06b6d4;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.water-animation {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(6, 182, 212, 0.3) 50%,
+        transparent 100%
+    );
+    animation: wave 3s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.water-text {
+    position: relative;
+    font-size: 1.3rem;
+    color: #e0f2fe;
+    margin: 0;
+}
+
+.surf-info {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #06b6d4;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+}
+
+.surf-info h2 {
+    color: #7dd3fc;
+    margin-top: 0;
+}
+
+.surf-info p {
+    color: #e0f2fe;
+    font-size: 1.1rem;
+    margin: 15px 0;
+}
+
+.surf-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.surf-info li {
+    color: #bae6fd;
+    font-size: 1.1rem;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(125, 211, 252, 0.2);
+}
+
+.surf-info li:last-child {
+    border-bottom: none;
+}
+
+.learn-surf-btn,
+.back-btn {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.learn-surf-btn {
+    background: linear-gradient(135deg, #06b6d4, #0284c7);
+    color: white;
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.5);
+}
+
+.learn-surf-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(6, 182, 212, 0.7);
+}
+
+.back-btn,
+.exit-btn {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+.back-btn:hover,
+.exit-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Surfing Screen */
+.water-route-page.surfing {
+    background: linear-gradient(180deg, #0ea5e9 0%, #0c4a6e 100%);
+}
+
+.water-header {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.water-header h2 {
+    color: white;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.exit-btn {
+    padding: 10px 25px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.position-display {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #06b6d4;
+    border-radius: 10px;
+    padding: 15px 30px;
+    color: white;
+    font-size: 1.1rem;
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.water-message {
+    background: linear-gradient(135deg, #06b6d4, #0284c7);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    max-width: 600px;
+    text-align: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.5);
+    margin-bottom: 20px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Water Grid */
+.water-grid {
+    background: rgba(0, 0, 0, 0.3);
+    border: 3px solid #06b6d4;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 20px 0;
+}
+
+.water-row {
+    display: flex;
+}
+
+.water-tile {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: rgba(6, 182, 212, 0.2);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    transition: all 0.3s ease;
+}
+
+.water-tile.player {
+    background: rgba(251, 191, 36, 0.4);
+    border-color: #fbbf24;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+}
+
+.water-tile.explored {
+    background: rgba(100, 116, 139, 0.3);
+}
+
+/* Surf Controls */
+.surf-controls {
+    margin: 30px 0;
+}
+
+.d-pad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.d-pad button {
+    background: linear-gradient(135deg, #06b6d4, #0284c7);
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+    transition: transform 0.2s;
+}
+
+.d-pad button:hover {
+    transform: translateY(-2px);
+}
+
+.d-pad button:active {
+    transform: translateY(0);
+}
+
+.d-pad .middle {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.d-pad .center {
+    width: 70px;
+    height: 50px;
+}
+
+/* Encounter */
+.water-encounter {
+    background: rgba(0, 0, 0, 0.7);
+    border: 4px solid #06b6d4;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(6, 182, 212, 0.6);
+}
+
+.encounter-pokemon img {
+    width: 200px;
+    height: 200px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.8));
+}
+
+.encounter-pokemon img.shiny {
+    filter: drop-shadow(0 0 30px rgba(250, 204, 21, 1));
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(250, 204, 21, 1)); }
+    50% { filter: drop-shadow(0 0 50px rgba(250, 204, 21, 1)); }
+}
+
+.encounter-pokemon h3 {
+    color: white;
+    font-size: 1.8rem;
+    margin: 20px 0;
+    text-transform: capitalize;
+}
+
+.shiny-badge {
+    background: linear-gradient(135deg, #fde047, #facc15);
+    color: #78350f;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 10px 0;
+    box-shadow: 0 0 20px rgba(253, 224, 71, 0.8);
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(253, 224, 71, 0.8); }
+    50% { box-shadow: 0 0 40px rgba(253, 224, 71, 1); }
+}
+
+.encounter-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 30px 0 20px 0;
+}
+
+.btn-catch,
+.btn-flee {
+    padding: 12px 30px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-catch {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.5);
+}
+
+.btn-catch:hover {
+    transform: translateY(-2px);
+}
+
+.btn-flee {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5);
+}
+
+.btn-flee:hover {
+    transform: translateY(-2px);
+}
+
+.catch-rate {
+    color: #bae6fd;
+    font-size: 0.95rem;
+}
+
+/* Water Guide */
+.water-guide {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #0284c7;
+    border-radius: 15px;
+    padding: 25px;
+    max-width: 500px;
+    width: 100%;
+    color: white;
+    margin-top: 20px;
+}
+
+.water-guide h3 {
+    color: #7dd3fc;
+    margin-top: 0;
+    text-align: center;
+}
+
+.water-guide ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.water-guide li {
+    color: #e0f2fe;
+    font-size: 1rem;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(125, 211, 252, 0.2);
+}
+
+.water-guide li:last-child {
+    border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .water-route-page {
+        padding: 15px;
+    }
+
+    .surf-lesson h1 {
+        font-size: 2rem;
+    }
+
+    .water-grid {
+        padding: 5px;
+    }
+
+    .water-tile {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    .encounter-pokemon img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .water-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .position-display {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
