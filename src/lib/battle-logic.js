@@ -242,7 +242,7 @@ export const getMoves = (pokemon) => {
 export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fatigue = 0) => {
     // 1. Calculate Base Damage using existing helper
     const baseResult = calculateDamage(attacker, defender, move);
-    const { damage, effectiveness } = baseResult;
+    let { damage, effectiveness } = baseResult;
     let message = "";
 
     // 2. Anti-Spam Penalty
