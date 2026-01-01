@@ -17,6 +17,8 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
     const [f2HP, setF2HP] = useState(0);
     const [f1MaxHP, setF1MaxHP] = useState(0);
     const [f2MaxHP, setF2MaxHP] = useState(0);
+    const [f1Energy, setF1Energy] = useState(3);
+    const [f2Energy, setF2Energy] = useState(3);
     const [turn, setTurn] = useState('player'); // 'player' or 'enemy'
     const [f1Moves, setF1Moves] = useState([]);
 
@@ -36,8 +38,6 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
         if (initialFighter2 && !fighter2) {
             initializeFighter(initialFighter2, 2);
         }
-        // If both are present, auto-start? Maybe wait for user.
-        // If it's a gym battle, we probably want to start immediately or show VS screen.
     }, [initialFighter1, initialFighter2]);
 
     const initializeFighter = (pokemon, slot) => {
@@ -46,11 +46,13 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
             setFighter1(pokemon);
             setF1HP(hp);
             setF1MaxHP(hp);
+            setF1Energy(3);
             setF1Moves(getMoves(pokemon));
         } else {
             setFighter2(pokemon);
             setF2HP(hp);
             setF2MaxHP(hp);
+            setF2Energy(3);
         }
     };
 
@@ -70,6 +72,8 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
         setIsBattling(false);
         setF1HP(0);
         setF2HP(0);
+        setF1Energy(3);
+        setF2Energy(3);
         setTurn('player');
     };
 
@@ -87,6 +91,14 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
     const handlePlayerAttack = async (move) => {
         if (turn !== 'player' || !isBattling) return;
 
+        if (move.cost > f1Energy) {
+            addLog(`⚠️ ¡No tienes suficiente energía! (${move.cost})`);
+            return;
+        }
+
+        // Consume Energy
+        setF1Energy(prev => prev - move.cost);
+
         // Player attacks Fighter 2
         setShake('f2');
         setFlash('f2');
@@ -95,7 +107,7 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
         const { damage, effectiveness, message, isCrit } = calculateSmartDamage(fighter1, fighter2, move, null, 0);
 
         // Log Logic
-        let logMsg = `${fighter1.name} usó ${move.name}!`;
+        let logMsg = `${fighter1.name} usó ${move.name}! (-${move.cost}⚡)`;
         if (effectiveness > 1) logMsg += " ¡Es muy eficaz!";
         if (effectiveness < 1 && effectiveness > 0) logMsg += " No es muy eficaz...";
         if (isCrit) logMsg += " ¡GOLPE CRÍTICO!";
@@ -118,6 +130,7 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
 
         // Switch to Enemy Turn
         setTurn('enemy');
+        setF2Energy(prev => Math.min(10, prev + 2)); // Enemy regenerates energy
     };
 
     // Enemy Turn Logic
@@ -128,9 +141,22 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
 
                 if (!fighter2 || !fighter1) return;
 
-                // Pick random move
+                // Pick random move that we can afford
                 const moves = getMoves(fighter2);
-                const move = moves[Math.floor(Math.random() * moves.length)];
+                const affordableMoves = moves.filter(m => (m.cost || 1) <= f2Energy);
+
+                // If no moves affordable, rest (+2 extra energy)
+                if (affordableMoves.length === 0) {
+                    addLog(`${fighter2.name} está recargando energía...`);
+                    setF2Energy(prev => Math.min(10, prev + 2));
+                    setTurn('player');
+                    setF1Energy(prev => Math.min(10, prev + 2)); // Player Regen
+                    return;
+                }
+
+                const move = affordableMoves[Math.floor(Math.random() * affordableMoves.length)];
+
+                setF2Energy(prev => prev - (move.cost || 1));
 
                 // Animation on Player
                 setShake('f1');
@@ -154,11 +180,12 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
                 } else {
                     setTurn('player');
                     addLog(`¡Tu turno! ¿Qué hará ${fighter1.name}?`);
+                    setF1Energy(prev => Math.min(10, prev + 2)); // Player regenerates energy
                 }
             };
             enemyTurn();
         }
-    }, [turn, isBattling, winner, fighter2, fighter1, f1HP]);
+    }, [turn, isBattling, winner, fighter2, fighter1, f1HP, f2Energy]);
 
     return (
         <div className="battle-arena" style={{ backgroundImage: 'url(/src/assets/buildings/gym_building.png)' }}>
@@ -169,7 +196,10 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
                         <div className="health-bar-container">
                             <div className="health-bar-label">
                                 <span>{fighter1.name}</span>
-                                <span>{f1HP}/{f1MaxHP}</span>
+                                <div>
+                                    <span style={{ marginRight: '8px' }}>⚡{f1Energy}</span>
+                                    <span>{f1HP}/{f1MaxHP}</span>
+                                </div>
                             </div>
                             <div className="health-bar-bg">
                                 <div
@@ -197,7 +227,7 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
                 <div className="center-stage">
                     {isBattling ? (
                         <div className="turn-indicator">
-                            {turn === 'player' ? '👉 Tu Turno' : '⏳ Enemigo pensando...'}
+                            {turn === 'player' ? `👉 Tu Turno (⚡${f1Energy})` : '⏳ Enemigo pensando...'}
                         </div>
                     ) : (
                         <div className="vs-badge">VS</div>
@@ -210,7 +240,10 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
                         <div className="health-bar-container">
                             <div className="health-bar-label">
                                 <span>{fighter2.name}</span>
-                                <span>{f2HP}/{f2MaxHP}</span>
+                                <div>
+                                    <span style={{ marginRight: '8px' }}>⚡{f2Energy}</span>
+                                    <span>{f2HP}/{f2MaxHP}</span>
+                                </div>
                             </div>
                             <div className="health-bar-bg">
                                 <div
@@ -248,17 +281,21 @@ export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFi
                 {/* Attack Menu */}
                 {isBattling && !winner && (
                     <div className={`attack-menu ${turn !== 'player' ? 'disabled' : ''}`}>
-                        <h3>Elige un Ataque:</h3>
+                        <h3>Elige un Ataque (⚡{f1Energy}):</h3>
                         <div className="moves-grid">
                             {f1Moves.map((move, i) => (
                                 <button
                                     key={i}
                                     className="move-btn"
                                     onClick={() => handlePlayerAttack(move)}
-                                    disabled={turn !== 'player'}
-                                    style={{ borderColor: getTypeColor(move.type) }}
+                                    disabled={turn !== 'player' || move.cost > f1Energy}
+                                    style={{
+                                        borderColor: getTypeColor(move.type),
+                                        opacity: move.cost > f1Energy ? 0.5 : 1
+                                    }}
                                 >
                                     <span className="move-name">{move.name}</span>
+                                    <span className="move-cost">⚡{move.cost}</span>
                                     <span className="move-type" style={{ backgroundColor: getTypeColor(move.type) }}>{move.type}</span>
                                 </button>
                             ))}
