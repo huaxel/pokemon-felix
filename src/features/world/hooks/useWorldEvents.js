@@ -36,6 +36,8 @@ const getNavTile = (tileType) => ({
     [TILE_TYPES.MOUNTAIN]: { msg: "Mountain!", path: '/mountain', color: '#8b7355' },
     [TILE_TYPES.SECRET_CAVE]: { msg: "Cave!", path: '/secret-cave', color: '#8b5cf6' },
     [TILE_TYPES.WATER_ROUTE]: { msg: "Water!", path: '/water-route', color: '#06b6d4' },
+    [TILE_TYPES.DESERT]: { msg: "Desierto!", path: '/desert', color: '#f59e0b' },
+    [TILE_TYPES.CAVE_DUNGEON]: { msg: "Mazmorra!", path: '/cave-dungeon', color: '#1e293b' },
 }[tileType]);
 
 export function useWorldEvents({

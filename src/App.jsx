@@ -34,6 +34,8 @@ import { PorygonLabPage } from './features/porygon/PorygonLabPage';
 import { ProfilePage } from './features/profile/ProfilePage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
+import { DesertPage } from './features/world/DesertPage';
+import { CaveDungeonPage } from './features/world/CaveDungeonPage';
 import './App.css';
 
 function App() {
@@ -126,6 +128,8 @@ function App() {
         <Route path="/water-route" element={<WaterRoutePage />} />
         <Route path="/porygon-lab" element={<PorygonLabPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/desert" element={<DesertPage />} />
+        <Route path="/cave-dungeon" element={<CaveDungeonPage />} />
       </Routes>
 
       {selectedPokemon && (

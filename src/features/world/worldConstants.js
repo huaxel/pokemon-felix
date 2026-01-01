@@ -57,6 +57,8 @@ export const TILE_TYPES = {
     MOUNTAIN: 21,
     SECRET_CAVE: 22,
     WATER_ROUTE: 23,
+    DESERT: 24,
+    CAVE_DUNGEON: 25,
 };
 
 // Seasons
