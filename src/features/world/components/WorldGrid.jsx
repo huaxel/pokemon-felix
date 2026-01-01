@@ -14,10 +14,8 @@ import waterCenterImage from '../../../assets/buildings/water_center.png';
 import fishermanImage from '../../../assets/buildings/fisherman.png';
 import cityHallImage from '../../../assets/buildings/city_hall.png';
 import shopUrbanImage from '../../../assets/buildings/shop_urban.png';
-import playerSprite from '../../../assets/kenney_roguelike-characters/Spritesheet/roguelikeChar_transparent.png';
-import grassTile from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
-import pathTile from '../../../assets/kenney_tiny-town/Tiles/tile_0008.png';
-import waterTile from '../../../assets/kenney_tiny-town/Tiles/tile_0032.png';
+import chestTile from '../../../assets/kenney_tiny-town/Tiles/tile_0089.png'; // Crate/Chest
+import roguelikeSheet from '../../../assets/kenney_roguelike-characters/Spritesheet/roguelikeChar_transparent.png';
 
 export function WorldGrid({
     mapGrid,
@@ -35,17 +33,47 @@ export function WorldGrid({
                 <div className="player-sprite-container">
                     <span className="player-name-label">{playerName}</span>
                     <div className="player-avatar" style={{ backgroundColor: playerColor }}>
-                        <img src={playerSprite} alt="player" className="player-sprite" />
+                        {/* Using a specific slice of the spritesheet for the player default */}
+                        <div
+                            style={{
+                                width: '16px',
+                                height: '16px',
+                                backgroundImage: `url(${roguelikeSheet})`,
+                                backgroundPosition: '-0px -0px', // Example: 1st char
+                                backgroundSize: '912px 368px', // Assuming standard Kenney sheet size, adjusting scale
+                                transform: 'scale(1.5)',
+                                imageRendering: 'pixelated'
+                            }}
+                        />
                     </div>
                 </div>
             );
         }
 
-        // Schat
-        if (treasures.some(t => t.x === x && t.y === y)) return 'T';
+        // Schat (Treasure)
+        if (treasures.some(t => t.x === x && t.y === y)) {
+            return <img src={chestTile} className="item-sprite" alt="Treasure" style={{ width: '80%', height: '80%', imageRendering: 'pixelated' }} />;
+        }
 
         // Professor Eik op (5, 5)
-        if (x === 5 && y === 5) return 'Prof';
+        if (x === 5 && y === 5) {
+            return (
+                <div
+                    className="npc-sprite"
+                    title="Professor Eik"
+                    style={{
+                        width: '16px',
+                        height: '16px',
+                        backgroundImage: `url(${roguelikeSheet})`,
+                        backgroundPosition: '-0px -16px', // Example: Row 2, Col 1 (often a different char)
+                        backgroundSize: '912px 368px',
+                        transform: 'scale(1.8)',
+                        imageRendering: 'pixelated',
+                        filter: 'sepia(0.5)' // Old man effect
+                    }}
+                />
+            );
+        }
 
         switch (type) {
             case TILE_TYPES.GRASS: return null;
