@@ -38,7 +38,6 @@ export function SecretCavePage() {
         setDiscovered(true);
         localStorage.setItem('cave_discovered', 'true');
         setMessage('✨ You discovered the Secret Cave! Ancient power flows through these tunnels...');
-        setExploring(true);
     };
 
     /**

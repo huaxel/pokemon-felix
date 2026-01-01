@@ -16,24 +16,12 @@ import { WorldGrid } from './components/WorldGrid';
 import { WorldHUD } from './components/WorldHUD';
 import { WorldWeather } from './components/WorldWeather';
 import { SeasonHUD } from './components/SeasonHUD';
+import { MapLegend } from './components/MapLegend';
+import { MovementControls } from './components/MovementControls';
 import { InteriorModal } from './components/InteriorModal';
 import './WorldPage.css';
 
-import centerImage from '../../assets/buildings/pokecenter.png';
-import gymImage from '../../assets/buildings/gym_building.png';
-import marketImage from '../../assets/buildings/market_stall.png';
-import gachaImage from '../../assets/buildings/gacha_machine.png';
-import treeImage from '../../assets/buildings/tree.png';
-import waterImage from '../../assets/buildings/water_center.png';
-import pathTile from '../../assets/kenney_tiny-town/Tiles/tile_0008.png';
-import grassTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png';
-
 const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
-
-// Building image assets (moved to WorldGrid, but kept some for build mode palette if needed)
-import houseImage from '../../assets/buildings/house.png';
-
-
 
 export function WorldPage() {
     const navigate = useNavigate();
@@ -43,7 +31,7 @@ export function WorldPage() {
         healAll,
         quests,
     } = usePokemonContext();
-    const { townObjects, addObject, removeObject, clearTown } = useTownContext();
+    const { townObjects, addObject, removeObject } = useTownContext();
     const { playerName } = usePlayer();
 
     const { getEncounterMultiplier, activeEffect } = useOutfitEffects();
