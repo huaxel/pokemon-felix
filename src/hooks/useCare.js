@@ -36,7 +36,7 @@ export function useCare(ownedIds) {
 
             return changed ? newStats : prev;
         });
-    }, [ownedIds]);
+    }, [ownedIds, setCareStats]);
 
     const healPokemon = (id) => {
         setCareStats(prev => ({

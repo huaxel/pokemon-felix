@@ -8,9 +8,8 @@ import { usePlayer } from '../../hooks/usePlayer';
 import { STORAGE_KEYS } from '../../lib/constants';
 import { useWorldNavigation } from './hooks/useWorldNavigation';
 import {
-    TILE_TYPES, SEASONS, SEASON_STYLES, TIME_CONFIG, TREASURE_CONFIG,
-    REWARDS, NPC_POSITIONS, QUEST_REQUIREMENTS, OUTFIT_COLORS,
-    ENCOUNTER_CONFIG, WEATHER_TYPES
+    TILE_TYPES, SEASON_STYLES, TIME_CONFIG, TREASURE_CONFIG,
+    OUTFIT_COLORS
 } from './worldConstants';
 import { QuestLog } from './QuestLog';
 import { WorldGrid } from './components/WorldGrid';
@@ -32,7 +31,6 @@ const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
 
 // Building image assets (moved to WorldGrid, but kept some for build mode palette if needed)
 import houseImage from '../../assets/buildings/house.png';
-import bagImage from '../../assets/items/bag_icon.png';
 
 
 

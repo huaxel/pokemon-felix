@@ -4,6 +4,8 @@ import { usePokemonContext } from '../../hooks/usePokemonContext';
 import bagIcon from '../../assets/items/bag_icon.png';
 import { BattleArena } from '../../components/BattleArena';
 import { getPokemonDetails } from '../../lib/api';
+import { GymCard } from './components/GymCard';
+import { GymBadgeDisplay } from './components/GymBadgeDisplay';
 import './GymPage.css';
 
 /**
@@ -188,53 +190,16 @@ export function GymPage() {
                     <h1>🏟️ Pokemon Gyms</h1>
                 </header>
 
-                <div className="badge-display">
-                    <h2>Your Badges: {badgeCount}/8</h2>
-                    <div className="badge-showcase">
-                        {GYM_LEADERS.map(gym => (
-                            <div
-                                key={gym.id}
-                                className={`badge-icon ${badges[gym.id] ? 'earned' : 'locked'}`}
-                                style={badges[gym.id] ? { backgroundColor: gym.color } : {}}
-                                title={gym.name}
-                            >
-                                {badges[gym.id] ? '⭐' : '🔒'}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <GymBadgeDisplay badges={badges} gymLeaders={GYM_LEADERS} />
 
                 <div className="gyms-grid">
                     {GYM_LEADERS.map(gym => (
-                        <div
+                        <GymCard
                             key={gym.id}
-                            className={`gym-card ${badges[gym.id] ? 'beaten' : ''}`}
-                            style={{ borderColor: gym.color }}
-                        >
-                            <div className="gym-type" style={{ color: gym.color }}>
-                                {gym.type}
-                            </div>
-                            <h3>{gym.name}</h3>
-                            <p className="gym-desc">{gym.description}</p>
-
-                            <div className="gym-rewards">
-                                <span>Reward: <img src={bagIcon} alt="coins" className="coin-icon-inline" /> {gym.reward}</span>
-                            </div>
-
-                            {badges[gym.id] ? (
-                                <button className="gym-btn beaten" disabled>
-                                    ✅ Badge Earned!
-                                </button>
-                            ) : (
-                                <button
-                                    className="gym-btn challenge"
-                                    style={{ backgroundColor: gym.color }}
-                                    onClick={() => handleSelectGym(gym)}
-                                >
-                                    ⚔️ Challenge
-                                </button>
-                            )}
-                        </div>
+                            gym={gym}
+                            isBeaten={badges[gym.id]}
+                            onChallenge={handleSelectGym}
+                        />
                     ))}
                 </div>
 

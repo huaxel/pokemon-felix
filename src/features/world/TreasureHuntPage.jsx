@@ -102,16 +102,16 @@ export function TreasureHuntPage() {
     const getDirectionHint = (guessX, guessY, targetX, targetY) => {
         const dx = targetX - guessX;
         const dy = targetY - guessY;
-        
+
         let direction = '';
-        
+
         if (Math.abs(dy) > 0.5) {
             direction += dy < 0 ? 'North' : 'South';
         }
         if (Math.abs(dx) > 0.5) {
             direction += dx < 0 ? 'West' : 'East';
         }
-        
+
         return direction || 'Very close!';
     };
 
@@ -156,19 +156,19 @@ export function TreasureHuntPage() {
             setRewardPokemon(pokemon);
             setStage('success');
             addCoins(currentHunt.reward);
-            
+
             const newCompleted = huntsCompleted + 1;
             setHuntsCompleted(newCompleted);
             localStorage.setItem('treasure_hunts_completed', newCompleted.toString());
-            
+
             setMessage(`🎉 Treasure found in ${attempts + 1} attempts!`);
         } else {
             // Calculate distance and give hint
             const dist = calculateDistance(guessX, guessY, currentHunt.target.x, currentHunt.target.y);
             setDistance(dist);
-            
+
             const direction = getDirectionHint(guessX, guessY, currentHunt.target.x, currentHunt.target.y);
-            
+
             if (dist < 2) {
                 setMessage(`🔥 Very close! Try going ${direction}!`);
             } else if (dist < 4) {
@@ -198,7 +198,7 @@ export function TreasureHuntPage() {
             <div className="treasure-hunt-page tutorial">
                 <div className="tutorial-content">
                     <h1>🗺️ GPS Treasure Hunt</h1>
-                    
+
                     <div className="tutorial-info">
                         <div className="coordinates-lesson">
                             <h2>📍 Understanding Coordinates</h2>
@@ -294,10 +294,9 @@ export function TreasureHuntPage() {
                     </div>
 
                     {message && (
-                        <div className={`hunt-message ${
-                            message.includes('close') ? 'hot' :
+                        <div className={`hunt-message ${message.includes('close') ? 'hot' :
                             message.includes('warmer') ? 'warm' : 'cold'
-                        }`}>
+                            }`}>
                             {message}
                         </div>
                     )}
@@ -352,7 +351,7 @@ export function TreasureHuntPage() {
             <div className="treasure-hunt-page success">
                 <div className="success-content">
                     <h1>🎉 Treasure Found!</h1>
-                    
+
                     <div className="treasure-chest">
                         <div className="chest-animation">🎁</div>
                     </div>
@@ -370,8 +369,8 @@ export function TreasureHuntPage() {
                         </div>
                         {rewardPokemon && (
                             <div className="reward-pokemon">
-                                <img 
-                                    src={rewardPokemon.sprites.front_default} 
+                                <img
+                                    src={rewardPokemon.sprites.front_default}
                                     alt={rewardPokemon.name}
                                     className="reward-pokemon-img"
                                 />
@@ -403,19 +402,19 @@ export function TreasureHuntPage() {
             <div className="treasure-hunt-page failed">
                 <div className="failed-content">
                     <h1>😔 Out of Attempts!</h1>
-                    
+
                     <div className="failed-message">
                         <p>The treasure was at:</p>
                         <h2>({currentHunt.target.x}, {currentHunt.target.y})</h2>
-                        <p className="encouragement">Don't give up! Try again and use the distance hints!</p>
+                        <p className="encouragement">Don&apos;t give up! Try again and use the distance hints!</p>
                     </div>
 
                     <div className="learning-tip">
                         <h3>💡 Tips for Next Time:</h3>
                         <ul>
-                            <li>🔥 "Very close" = less than 2 units away</li>
-                            <li>⚠️ "Getting warmer" = 2-4 units away</li>
-                            <li>❄️ "Far away" = more than 4 units</li>
+                            <li>🔥 &quot;Very close&quot; = less than 2 units away</li>
+                            <li>⚠️ &quot;Getting warmer&quot; = 2-4 units away</li>
+                            <li>❄️ &quot;Far away&quot; = more than 4 units</li>
                             <li>🧭 Use compass directions (North/South/East/West)</li>
                         </ul>
                     </div>

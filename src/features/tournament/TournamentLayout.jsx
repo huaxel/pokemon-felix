@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { Bracket } from './components/Bracket';
-import { CardBattle } from '../battle/CardBattle';
+import { BattleArena } from '../../components/BattleArena';
 import './TournamentLayout.css';
 
 export function TournamentLayout({ allPokemon }) {
@@ -204,9 +204,10 @@ export function TournamentLayout({ allPokemon }) {
         return (
             <div className="tournament-layout">
                 <h2>Partido {currentMatch.matchIndex + 1} - {rounds[currentMatch.roundIndex].name}</h2>
-                <CardBattle
-                    fighter1={match.p1}
-                    fighter2={match.p2}
+                <BattleArena
+                    key={`${match.p1.id}-${match.p2.id}`}
+                    initialFighter1={match.p1}
+                    initialFighter2={match.p2}
                     onBattleEnd={handleMatchEnd}
                 />
             </div>

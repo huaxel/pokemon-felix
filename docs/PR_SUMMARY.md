@@ -30,8 +30,21 @@ This PR implements a comprehensive refactoring of the `pokemon-felix` codebase t
 - **`useWorldNavigation` Hook:** Unified the `message` + `timeout` + `navigate` pattern into a single utility.
 
 ### 4. Cleanup (YAGNI)
-- Deleted `CardBattle-backup.jsx`.
+- Deleted `CardBattle-backup.jsx` AND `CardBattle.jsx` (replaced by `BattleArena`).
 - Removed unused fields and redundant state declarations.
+
+### 5. Visual Overhaul & Polish (UX/UI)
+- **Asset Integration:** Replaced text placeholders with Kenney assets:
+  - Professor NPC sprite (with pixelated rendering).
+  - Treasure Chest tile.
+  - Standardized building sizes and rendering styles.
+- **Map Polish:** Fixed rendering artifacts and improved sprite scaling logic.
+
+### 6. Gameplay Features: Gym System
+- **Gym Leader Progression:** Implemented 8 unique Gym Leaders (Brock -> Giovanni).
+- **Type Matching:** Each leader uses their signature Pokemon types (Rock, Water, etc.).
+- **Smart Opponents:** Opponent Pokemon are now fetched dynamically with full stats/moves.
+- **Battle Mechanics:** Integrated `BattleArena` into `GymPage` for consistent combat logic.
 
 ## Verification Results
 - **Build:** Success (`npm run build`).

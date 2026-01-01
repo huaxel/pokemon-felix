@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { CardBattle } from './CardBattle';
+import { BattleArena } from '../../components/BattleArena';
 import './SingleBattlePage.css';
 
 export function SingleBattlePage({ allPokemon }) {
@@ -40,6 +40,7 @@ export function SingleBattlePage({ allPokemon }) {
             setBattleState('defeat');
         }
     };
+    // ... (rest of render logic is fine until return)
 
     if (battleState === 'loading' || !playerPokemon || !opponent) {
         return <div className="single-battle-page loading">Preparando batalla...</div>;
@@ -83,9 +84,10 @@ export function SingleBattlePage({ allPokemon }) {
             <div className="battle-header-simple">
                 <Link to="/adventure" className="close-btn">✕</Link>
             </div>
-            <CardBattle
-                fighter1={playerPokemon}
-                fighter2={opponent}
+            <BattleArena
+                key={`${playerPokemon.id}-${opponent.id}`} // Force reset
+                initialFighter1={playerPokemon}
+                initialFighter2={opponent}
                 onBattleEnd={handleBattleEnd}
             />
         </div>
