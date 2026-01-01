@@ -1,8 +1,4 @@
-import { useContext } from 'react';
+import { createContextHook } from '../lib/createContextHook';
 import { CareContext } from '../contexts/CareContext';
 
-export function useCareContext() {
-  const ctx = useContext(CareContext);
-  if (!ctx) throw new Error('useCareContext must be used within CareContext.Provider');
-  return ctx;
-}
+export const useCareContext = createContextHook(CareContext, 'useCareContext');

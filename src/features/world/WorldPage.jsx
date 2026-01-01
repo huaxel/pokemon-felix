@@ -67,7 +67,7 @@ export function WorldPage() {
     // OUTFIT SYSTEEM
     const [playerColor, setPlayerColor] = useState('#ef4444');
     useEffect(() => {
-        const outfitId = localStorage.getItem('felix_current_outfit') || 'default';
+        const outfitId = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
         const colors = {
             'default': '#ef4444',
             'cool': '#3b82f6',

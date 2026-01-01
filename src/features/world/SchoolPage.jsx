@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { STORAGE_KEYS } from '../../lib/constants';
 import { GraduationCap, BookOpen, Brain, Trophy, Map, Star, Book, Award } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
 import './SchoolPage.css';
@@ -102,7 +103,7 @@ export function SchoolPage() {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [score, setScore] = useState(0);
     const [completedQuizzes, setCompletedQuizzes] = useState(() => {
-        const saved = localStorage.getItem('felix_completed_quizzes');
+        const saved = localStorage.getItem(STORAGE_KEYS.COMPLETED_QUIZZES);
         return saved ? JSON.parse(saved) : [];
     });
     const [showCertificate, setShowCertificate] = useState(false);
@@ -150,7 +151,7 @@ export function SchoolPage() {
         if (isFirstTime) {
             const newCompleted = [...completedQuizzes, selectedQuiz.id];
             setCompletedQuizzes(newCompleted);
-            localStorage.setItem('felix_completed_quizzes', JSON.stringify(newCompleted));
+            localStorage.setItem(STORAGE_KEYS.COMPLETED_QUIZZES, JSON.stringify(newCompleted));
             setShowCertificate(true);
         } else {
             setView('menu');

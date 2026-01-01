@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { getPokemonList } from '../lib/api';
+import { BATTLE_CONFIG } from '../lib/constants';
 
 /**
  * Custom hook to manage Pokemon data fetching and pagination
@@ -14,13 +15,13 @@ export function usePokemonData() {
         if (loading) return;
         setLoading(true);
         try {
-            const newPokemon = await getPokemonList(50, offsetRef.current);
+            const newPokemon = await getPokemonList(BATTLE_CONFIG.PAGINATION_SIZE, offsetRef.current);
             setPokemonList(prev => {
                 const existingIds = new Set(prev.map(p => p.id));
                 const uniqueNew = newPokemon.filter(p => !existingIds.has(p.id));
                 return [...prev, ...uniqueNew];
             });
-            offsetRef.current += 50;
+            offsetRef.current += BATTLE_CONFIG.PAGINATION_SIZE;
         } catch (error) {
             console.error("Failed to load pokemon", error);
         } finally {

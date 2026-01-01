@@ -1,8 +1,8 @@
-const STORAGE_KEY = 'pokeQuests';
+import { STORAGE_KEYS } from '../constants';
 
 export async function getQuests() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEYS.QUESTS);
     return raw ? JSON.parse(raw) : [];
   } catch (err) {
     console.error('Failed to read quests', err);
@@ -12,7 +12,7 @@ export async function getQuests() {
 
 export async function saveQuests(quests) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(quests));
+    localStorage.setItem(STORAGE_KEYS.QUESTS, JSON.stringify(quests));
   } catch (err) {
     console.error('Failed to save quests', err);
   }

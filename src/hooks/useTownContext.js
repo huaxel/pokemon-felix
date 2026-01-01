@@ -1,8 +1,4 @@
-import { useContext } from 'react';
+import { createContextHook } from '../lib/createContextHook';
 import { TownContext } from '../contexts/TownContext';
 
-export function useTownContext() {
-  const ctx = useContext(TownContext);
-  if (!ctx) throw new Error('useTownContext must be used within TownContext.Provider');
-  return ctx;
-}
+export const useTownContext = createContextHook(TownContext, 'useTownContext');

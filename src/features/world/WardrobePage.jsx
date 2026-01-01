@@ -16,11 +16,11 @@ const OUTFITS = [
 export function WardrobePage() {
     const { coins, spendCoins } = usePokemonContext();
     const [ownedOutfits, setOwnedOutfits] = useState(() => {
-        const saved = localStorage.getItem('felix_owned_outfits');
+        const saved = localStorage.getItem(STORAGE_KEYS.OWNED_OUTFITS);
         return saved ? JSON.parse(saved) : ['default'];
     });
     const [currentOutfit, setCurrentOutfit] = useState(() => {
-        return localStorage.getItem('felix_current_outfit') || 'default';
+        return localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
     });
     const [message, setMessage] = useState(null);
 
@@ -28,7 +28,7 @@ export function WardrobePage() {
         if (ownedOutfits.includes(outfit.id)) {
             // Equip
             setCurrentOutfit(outfit.id);
-            localStorage.setItem('felix_current_outfit', outfit.id);
+            localStorage.setItem(STORAGE_KEYS.CURRENT_OUTFIT, outfit.id);
             window.dispatchEvent(new Event('outfit_changed'));
             setMessage(`¡Te has puesto el traje: ${outfit.name}!`);
         } else {
@@ -37,9 +37,9 @@ export function WardrobePage() {
                 if (spendCoins(outfit.price)) {
                     const newOwned = [...ownedOutfits, outfit.id];
                     setOwnedOutfits(newOwned);
-                    localStorage.setItem('felix_owned_outfits', JSON.stringify(newOwned));
+                    localStorage.setItem(STORAGE_KEYS.OWNED_OUTFITS, JSON.stringify(newOwned));
                     setCurrentOutfit(outfit.id);
-                    localStorage.setItem('felix_current_outfit', outfit.id);
+                    localStorage.setItem(STORAGE_KEYS.CURRENT_OUTFIT, outfit.id);
                     window.dispatchEvent(new Event('outfit_changed'));
                     setMessage(`¡Has comprado el traje: ${outfit.name}! 👕`);
                 }

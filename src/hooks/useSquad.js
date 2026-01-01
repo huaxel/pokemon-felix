@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
+import { STORAGE_KEYS, BATTLE_CONFIG } from '../lib/constants';
 
 export function useSquad(initialSquad = []) {
     const [squadIds, setSquadIds] = useState(() => {
-        const saved = localStorage.getItem('pokeSquad');
+        const saved = localStorage.getItem(STORAGE_KEYS.SQUAD);
         return saved ? JSON.parse(saved) : initialSquad;
     });
 
     useEffect(() => {
-        localStorage.setItem('pokeSquad', JSON.stringify(squadIds));
+        localStorage.setItem(STORAGE_KEYS.SQUAD, JSON.stringify(squadIds));
     }, [squadIds]);
 
     const addToSquad = (pokemonId) => {
-        if (squadIds.length < 4 && !squadIds.includes(pokemonId)) {
+        if (squadIds.length < BATTLE_CONFIG.MAX_SQUAD_SIZE && !squadIds.includes(pokemonId)) {
             setSquadIds(prev => [...prev, pokemonId]);
             return true;
         }
@@ -31,6 +32,6 @@ export function useSquad(initialSquad = []) {
         addToSquad,
         removeFromSquad,
         isInSquad,
-        isSquadFull: squadIds.length >= 4
+        isSquadFull: squadIds.length >= BATTLE_CONFIG.MAX_SQUAD_SIZE
     };
 }

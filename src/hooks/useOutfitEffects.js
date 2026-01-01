@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { STORAGE_KEYS } from '../lib/constants';
 
 const OUTFIT_EFFECTS = {
     'default': { name: 'Normal', description: 'Sin efectos especiales.' },
@@ -13,7 +14,7 @@ export function useOutfitEffects() {
 
     useEffect(() => {
         const checkOutfit = () => {
-            const saved = localStorage.getItem('felix_current_outfit');
+            const saved = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT);
             if (saved) setCurrentOutfit(saved);
         };
 

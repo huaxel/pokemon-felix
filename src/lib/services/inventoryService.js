@@ -1,8 +1,8 @@
-const STORAGE_KEY = 'pokeInventory';
+import { STORAGE_KEYS } from '../constants';
 
 export async function getInventory() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEYS.INVENTORY);
     return saved ? JSON.parse(saved) : {
       'pokeball': 5,
       'greatball': 0,
@@ -19,7 +19,7 @@ export async function getInventory() {
 
 export async function saveInventory(inventory) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory));
+    localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(inventory));
   } catch (err) {
     console.error('Failed to save inventory', err);
   }
