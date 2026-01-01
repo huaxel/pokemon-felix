@@ -80,8 +80,10 @@
 }
 
 .summon-pokeball {
-    width: 200px;
-    height: 200px;
+    max-width: 180px;
+    max-height: 180px;
+    width: 100%;
+    height: auto;
     cursor: pointer;
     transition: transform 0.3s;
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
@@ -161,8 +163,11 @@
 }
 
 .result-pokemon {
-    width: 250px;
-    height: 250px;
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
     z-index: 2;
 }
@@ -277,8 +282,10 @@
 }
 
 .result-item-img {
-    width: 150px;
-    height: 150px;
+    max-width: 120px;
+    max-height: 120px;
+    width: auto;
+    height: auto;
     object-fit: contain;
     animation: bounce 2s infinite;
 }
@@ -375,4 +382,40 @@
 
 .summon-pokeball:hover {
     transform: scale(1.05) rotate(10deg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .gacha-page {
+        padding: 1rem;
+    }
+
+    .result-pokemon {
+        max-width: 150px;
+        max-height: 150px;
+    }
+
+    .summon-pokeball {
+        max-width: 120px;
+        max-height: 120px;
+    }
+
+    .result-item-img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    .ball-option {
+        width: 100px;
+    }
+
+    .ball-option img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .summon-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+    }
 }
