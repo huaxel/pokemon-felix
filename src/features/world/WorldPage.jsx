@@ -32,7 +32,6 @@ const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
 
 // Building image assets (moved to WorldGrid, but kept some for build mode palette if needed)
 import houseImage from '../../assets/buildings/house.png';
-import treeImage from '../../assets/buildings/tree.png';
 import bagImage from '../../assets/items/bag_icon.png';
 
 

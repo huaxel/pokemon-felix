@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePokemonContext } from '../hooks/usePokemonContext';
-import { HPBar } from './HPBar';
-import { getStat, calculateMaxHP, calculateDamage } from '../lib/battle-logic';
+import { PokemonCard } from './PokemonCard';
+import { getStat, calculateMaxHP, calculateSmartDamage, getMoves, getTypeColor } from '../lib/battle-logic';
 import './BattleArena.css';
 
 export function BattleArena({ allPokemon, onLoadMore }) {
@@ -17,6 +17,12 @@ export function BattleArena({ allPokemon, onLoadMore }) {
     const [f2HP, setF2HP] = useState(0);
     const [f1MaxHP, setF1MaxHP] = useState(0);
     const [f2MaxHP, setF2MaxHP] = useState(0);
+    const [turn, setTurn] = useState('player'); // 'player' or 'enemy'
+    const [f1Moves, setF1Moves] = useState([]);
+
+    // Animations
+    const [shake, setShake] = useState(null); // 'f1' or 'f2'
+    const [flash, setFlash] = useState(null); // 'f1' or 'f2'
 
     // Filter out incomplete pokemon data if necessary
     // AND filter by Squad IDs
@@ -28,6 +34,7 @@ export function BattleArena({ allPokemon, onLoadMore }) {
             const hp = calculateMaxHP(pokemon);
             setF1HP(hp);
             setF1MaxHP(hp);
+            setF1Moves(getMoves(pokemon));
         } else if (!fighter2 && pokemon.id !== fighter1.id) {
             setFighter2(pokemon);
             const hp = calculateMaxHP(pokemon);
@@ -44,178 +51,226 @@ export function BattleArena({ allPokemon, onLoadMore }) {
         setIsBattling(false);
         setF1HP(0);
         setF2HP(0);
+        setTurn('player');
     };
 
-    const startBattle = async () => {
+    const addLog = (msg) => setBattleLog(prev => [msg, ...prev]);
+
+    const startBattle = () => {
         if (!fighter1 || !fighter2) return;
         setIsBattling(true);
         setBattleLog([]);
         setWinner(null);
-
-        const addLog = (msg) => setBattleLog(prev => [...prev, msg]);
-        addLog("¡Comienza la batalla!");
-
-        let currentF1HP = f1HP;
-        let currentF2HP = f2HP;
-        let turnCount = 0;
-        const MAX_TURNS = 100;
-
-        // Battle Loop
-        while (currentF1HP > 0 && currentF2HP > 0 && turnCount < MAX_TURNS) {
-            turnCount++;
-            await new Promise(r => setTimeout(r, 1000));
-
-            // Fighter 1 Attacks
-            const damage1 = calculateDamage(fighter1, fighter2);
-            currentF2HP = Math.max(0, currentF2HP - damage1);
-            setF2HP(currentF2HP);
-            addLog(`${fighter1.name} ataca e inflige ${damage1} de daño!`);
-
-            if (currentF2HP <= 0) {
-                setWinner(fighter1);
-                addCoins(50);
-                addLog(`¡${fighter1.name} gana! (+50 coins)`);
-                break;
-            }
-
-            await new Promise(r => setTimeout(r, 1000));
-
-            // Fighter 2 Attacks
-            const damage2 = calculateDamage(fighter2, fighter1);
-            currentF1HP = Math.max(0, currentF1HP - damage2);
-            setF1HP(currentF1HP);
-            addLog(`${fighter2.name} ataca e inflige ${damage2} de daño!`);
-
-            if (currentF1HP <= 0) {
-                setWinner(fighter2);
-                addCoins(50);
-                addLog(`¡${fighter2.name} gana! (+50 coins)`);
-                break;
-            }
-        }
-
-        // If max turns reached, determine winner by remaining HP percentage
-        if (turnCount >= MAX_TURNS) {
-            const f1Percentage = (currentF1HP / f1MaxHP) * 100;
-            const f2Percentage = (currentF2HP / f2MaxHP) * 100;
-
-            if (f1Percentage > f2Percentage) {
-                setWinner(fighter1);
-                addCoins(50);
-                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter1.name} gana. (+50 coins)`);
-            } else if (f2Percentage > f1Percentage) {
-                setWinner(fighter2);
-                addCoins(50);
-                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! ${fighter2.name} gana. (+50 coins)`);
-            } else {
-                addLog(`¡Batalla terminada después de ${MAX_TURNS} turnos! Es un empate.`);
-            }
-        }
-
-        setIsBattling(false);
+        setTurn('player'); // Player always starts? Or speed based? Let's say Player for now.
+        addLog("¡La batalla ha comenzado! Tu turno.");
     };
+
+    const handlePlayerAttack = async (move) => {
+        if (turn !== 'player' || !isBattling) return;
+
+        // Player attacks Fighter 2
+        setShake('f2');
+        setFlash('f2');
+        setTimeout(() => { setShake(null); setFlash(null); }, 500);
+
+        const { damage, effectiveness, message, isCrit } = calculateSmartDamage(fighter1, fighter2, move, null, 0);
+
+        // Log Logic
+        let logMsg = `${fighter1.name} usó ${move.name}!`;
+        if (effectiveness > 1) logMsg += " ¡Es muy eficaz!";
+        if (effectiveness < 1 && effectiveness > 0) logMsg += " No es muy eficaz...";
+        if (isCrit) logMsg += " ¡GOLPE CRÍTICO!";
+        addLog(logMsg);
+
+        if (message) addLog(message);
+
+        // Apply Damage
+        const newHP = Math.max(0, f2HP - damage);
+        setF2HP(newHP);
+
+        // Check Win
+        if (newHP <= 0) {
+            setWinner(fighter1);
+            addCoins(50);
+            addLog(`¡${fighter1.name} ganó! (+50 monedas)`);
+            setIsBattling(false);
+            return;
+        }
+
+        // Switch to Enemy Turn
+        setTurn('enemy');
+    };
+
+    // Enemy Turn Logic
+    useEffect(() => {
+        if (isBattling && turn === 'enemy' && !winner) {
+            const enemyTurn = async () => {
+                await new Promise(r => setTimeout(r, 1500)); // Wait 1.5s for realism
+
+                if (!fighter2 || !fighter1) return;
+
+                // Pick random move
+                const moves = getMoves(fighter2);
+                const move = moves[Math.floor(Math.random() * moves.length)];
+
+                // Animation on Player
+                setShake('f1');
+                setFlash('f1');
+                setTimeout(() => { setShake(null); setFlash(null); }, 500);
+
+                const { damage, effectiveness, isCrit } = calculateSmartDamage(fighter2, fighter1, move, null, 0);
+
+                let logMsg = `Enemigo ${fighter2.name} usó ${move.name}!`;
+                if (effectiveness > 1) logMsg += " ¡Es muy eficaz!";
+                if (isCrit) logMsg += " ¡GOLPE CRÍTICO!";
+                addLog(logMsg);
+
+                const newHP = Math.max(0, f1HP - damage);
+                setF1HP(newHP);
+
+                if (newHP <= 0) {
+                    setWinner(fighter2);
+                    addLog(`¡${fighter2.name} ganó!`);
+                    setIsBattling(false);
+                } else {
+                    setTurn('player');
+                    addLog(`¡Tu turno! ¿Qué hará ${fighter1.name}?`);
+                }
+            };
+            enemyTurn();
+        }
+    }, [turn, isBattling, winner, fighter2, fighter1, f1HP]);
 
     return (
         <div className="battle-arena" style={{ backgroundImage: 'url(/src/assets/buildings/gym_building.png)' }}>
             <div className="fighters-stage">
-                {/* Fighter 1 */}
-                <div className={`fighter-container ${winner === fighter1 ? 'winner' : ''}`}>
+                {/* Fighter 1 (PLAYER) */}
+                <div className={`fighter-container ${winner === fighter1 ? 'winner' : ''} ${shake === 'f1' ? 'shake' : ''}`}>
                     {fighter1 && (
-                        <div className="stat-badge">ATK: {getStat(fighter1, 'attack')}</div>
+                        <div className="health-bar-container">
+                            <div className="health-bar-label">
+                                <span>{fighter1.name}</span>
+                                <span>{f1HP}/{f1MaxHP}</span>
+                            </div>
+                            <div className="health-bar-bg">
+                                <div
+                                    className="health-bar-fill"
+                                    style={{
+                                        width: `${(f1HP / f1MaxHP) * 100}%`,
+                                        backgroundColor: f1HP < f1MaxHP * 0.2 ? 'var(--health-critical)' : 'var(--health-good)'
+                                    }}
+                                ></div>
+                            </div>
+                        </div>
                     )}
                     <div className="fighter-slot">
                         {fighter1 ? (
-                            <div className="fighter-card-mini">
-                                <div className="fighter-top">
-                                    <div className="fighter-name">{fighter1.name}</div>
-                                    <button className="swap-btn" onClick={() => !isBattling && setFighter1(null)}>Cambiar</button>
-                                </div>
-                                <img className="fighter-sprite" src={fighter1.sprites?.front_default} alt={fighter1.name} />
-                                <HPBar current={f1HP} max={f1MaxHP} label="HP" />
-                                <div className="moves-row" aria-label="Ataques disponibles">
-                                    {(fighter1.moves || []).slice(0, 4).map((m) => (
-                                        <span key={m.move?.name || m.name} className="move-chip">{m.move?.name || m.name}</span>
-                                    ))}
-                                    {(fighter1.moves || []).length === 0 && <span className="move-chip disabled">Sin ataques</span>}
-                                </div>
+                            <div className={`fighter-sprite-container ${flash === 'f1' ? 'flash-red' : ''}`}>
+                                <img src={fighter1.sprites.back_default || fighter1.sprites.front_default} alt={fighter1.name} className="fighter-sprite-lg" />
                             </div>
                         ) : (
-                            <div className="empty-slot">Elige Luchador 1</div>
+                            <div className="empty-slot">Tu Luchador</div>
                         )}
                     </div>
                 </div>
 
-                <div className="vs-badge">VS</div>
+                {/* VS / ACTIONS */}
+                <div className="center-stage">
+                    {isBattling ? (
+                        <div className="turn-indicator">
+                            {turn === 'player' ? '👉 Tu Turno' : '⏳ Enemigo pensando...'}
+                        </div>
+                    ) : (
+                        <div className="vs-badge">VS</div>
+                    )}
+                </div>
 
-                {/* Fighter 2 */}
-                <div className={`fighter-container ${winner === fighter2 ? 'winner' : ''}`}>
+                {/* Fighter 2 (ENEMY) */}
+                <div className={`fighter-container ${winner === fighter2 ? 'winner' : ''} ${shake === 'f2' ? 'shake' : ''}`}>
                     {fighter2 && (
-                        <div className="stat-badge">ATK: {getStat(fighter2, 'attack')}</div>
+                        <div className="health-bar-container">
+                            <div className="health-bar-label">
+                                <span>{fighter2.name}</span>
+                                <span>{f2HP}/{f2MaxHP}</span>
+                            </div>
+                            <div className="health-bar-bg">
+                                <div
+                                    className="health-bar-fill"
+                                    style={{
+                                        width: `${(f2HP / f2MaxHP) * 100}%`,
+                                        backgroundColor: f2HP < f2MaxHP * 0.2 ? 'var(--health-critical)' : 'var(--health-good)'
+                                    }}
+                                ></div>
+                            </div>
+                        </div>
                     )}
                     <div className="fighter-slot">
                         {fighter2 ? (
-                            <div className="fighter-card-mini">
-                                <div className="fighter-top">
-                                    <div className="fighter-name">{fighter2.name}</div>
-                                    <button className="swap-btn" onClick={() => !isBattling && setFighter2(null)}>Cambiar</button>
-                                </div>
-                                <img className="fighter-sprite" src={fighter2.sprites?.front_default} alt={fighter2.name} />
-                                <HPBar current={f2HP} max={f2MaxHP} label="HP" />
-                                <div className="moves-row" aria-label="Ataques disponibles">
-                                    {(fighter2.moves || []).slice(0, 4).map((m) => (
-                                        <span key={m.move?.name || m.name} className="move-chip">{m.move?.name || m.name}</span>
-                                    ))}
-                                    {(fighter2.moves || []).length === 0 && <span className="move-chip disabled">Sin ataques</span>}
-                                </div>
+                            <div className={`fighter-sprite-container ${flash === 'f2' ? 'flash-red' : ''}`}>
+                                <img src={fighter2.sprites.front_default} alt={fighter2.name} className="fighter-sprite-lg" />
                             </div>
                         ) : (
-                            <div className="empty-slot">Elige Luchador 2</div>
+                            <div className="empty-slot">Rival</div>
                         )}
                     </div>
                 </div>
             </div>
 
-            <div className="battle-controls">
+            {/* BATTLE CONTROLS */}
+            <div className="battle-controls-area">
                 {!isBattling && !winner && fighter1 && fighter2 && (
-                    <button className="fight-btn" onClick={startBattle}>¡PELEAR!</button>
+                    <button className="fight-btn-lg" onClick={startBattle}>¡COMENZAR!</button>
                 )}
+
                 {(winner || (!fighter1 && !fighter2)) && (
-                    <button className="reset-btn" onClick={resetBattle}>Reiniciar Arena</button>
+                    <button className="reset-btn" onClick={resetBattle}>Nueva Batalla</button>
                 )}
-            </div>
 
-            {battleLog.length > 0 && (
-                <div className="battle-log">
-                    <h3>Registro de Batalla</h3>
-                    <ul>
-                        {battleLog.map((log, i) => <li key={i}>{log}</li>)}
-                    </ul>
-                </div>
-            )}
-
-            <div className="selection-area">
-                <h3>Elige un Pokémon de tu Equipo</h3>
-                <div className="pokemon-grid-mini">
-                    {validPokemon.length === 0 && (
-                        <div className="empty-squad-msg">
-                            <p>Tu equipo está vacío. Ve a &quot;Mi Colección&quot; para añadir combatientes.</p>
+                {/* Attack Menu */}
+                {isBattling && !winner && (
+                    <div className={`attack-menu ${turn !== 'player' ? 'disabled' : ''}`}>
+                        <h3>Elige un Ataque:</h3>
+                        <div className="moves-grid">
+                            {f1Moves.map((move, i) => (
+                                <button
+                                    key={i}
+                                    className="move-btn"
+                                    onClick={() => handlePlayerAttack(move)}
+                                    disabled={turn !== 'player'}
+                                    style={{ borderColor: getTypeColor(move.type) }}
+                                >
+                                    <span className="move-name">{move.name}</span>
+                                    <span className="move-type" style={{ backgroundColor: getTypeColor(move.type) }}>{move.type}</span>
+                                </button>
+                            ))}
                         </div>
-                    )}
-                    {validPokemon.map(p => (
-                        <div key={p.id} onClick={() => !isBattling && handleSelect(p)} className="mini-card">
-                            <img src={p.sprites.front_default} alt={p.name} />
-                            <span>{p.name}</span>
-                        </div>
-                    ))}
-                </div>
-                {onLoadMore && (
-                    <div className="load-more-mini-container">
-                        <button className="load-more-mini-btn" onClick={onLoadMore}>
-                            Cargar Más
-                        </button>
                     </div>
                 )}
             </div>
+
+            {/* LOG */}
+            <div className="battle-log">
+                {battleLog.slice(0, 3).map((log, i) => <div key={i} className="log-entry">{log}</div>)}
+            </div>
+
+            {/* SELECTION (Only when not battling) */}
+            {!isBattling && (
+                <div className="selection-area">
+                    <h3>Elige tu Pokémon</h3>
+                    <div className="pokemon-grid-mini">
+                        {validPokemon.length === 0 && (
+                            <p>¡Tu equipo está vacío!</p>
+                        )}
+                        {validPokemon.map(p => (
+                            <div key={p.id} onClick={() => handleSelect(p)} className="mini-card">
+                                <img src={p.sprites.front_default} alt={p.name} />
+                                <span>{p.name}</span>
+                            </div>
+                        ))}
+                    </div>
+                    {onLoadMore && <button className="load-more" onClick={onLoadMore}>Más</button>}
+                </div>
+            )}
         </div>
     );
 }

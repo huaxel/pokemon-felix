@@ -157,6 +157,88 @@ export const combineMoves = (move1, move2) => {
 /**
  * Advanced Damage Calculation with Anti-Spam logic
  */
+// --- MOVE LOGIC ---
+
+// Simple move pool for development/fallback
+const MOVE_POOL = {
+    normal: [
+        { name: 'Tackle', type: 'normal', power: 40, accuracy: 100, cost: 1 },
+        { name: 'Scratch', type: 'normal', power: 40, accuracy: 100, cost: 1 },
+        { name: 'Quick Attack', type: 'normal', power: 40, accuracy: 100, cost: 1 },
+        { name: 'Slam', type: 'normal', power: 80, accuracy: 75, cost: 3 },
+        { name: 'Hyper Beam', type: 'normal', power: 150, accuracy: 90, cost: 4 }
+    ],
+    fire: [
+        { name: 'Ember', type: 'fire', power: 40, accuracy: 100, cost: 1 },
+        { name: 'Flame Wheel', type: 'fire', power: 60, accuracy: 100, cost: 2 },
+        { name: 'Flamethrower', type: 'fire', power: 90, accuracy: 100, cost: 3 },
+        { name: 'Fire Blast', type: 'fire', power: 110, accuracy: 85, cost: 4 }
+    ],
+    water: [
+        { name: 'Water Gun', type: 'water', power: 40, accuracy: 100, cost: 1 },
+        { name: 'Bubble Beam', type: 'water', power: 65, accuracy: 100, cost: 2 },
+        { name: 'Surf', type: 'water', power: 90, accuracy: 100, cost: 3 },
+        { name: 'Hydro Pump', type: 'water', power: 110, accuracy: 80, cost: 4 }
+    ],
+    grass: [
+        { name: 'Vine Whip', type: 'grass', power: 45, accuracy: 100, cost: 1 },
+        { name: 'Razor Leaf', type: 'grass', power: 55, accuracy: 95, cost: 2 },
+        { name: 'Solar Beam', type: 'grass', power: 120, accuracy: 100, cost: 4 }
+    ],
+    electric: [
+        { name: 'Thundershock', type: 'electric', power: 40, accuracy: 100, cost: 1 },
+        { name: 'Thunderbolt', type: 'electric', power: 90, accuracy: 100, cost: 3 },
+        { name: 'Thunder', type: 'electric', power: 110, accuracy: 70, cost: 4 }
+    ]
+};
+
+const DEFAULT_MOVES = [
+    { name: 'Tackle', type: 'normal', power: 40, accuracy: 100, cost: 1 },
+    { name: 'Leer', type: 'normal', power: 0, accuracy: 100, cost: 1 } // Placeholder for non-damaging
+];
+
+export const getMoves = (pokemon) => {
+    if (!pokemon || !pokemon.types) return DEFAULT_MOVES;
+    
+    // Get moves based on types
+    let moves = [];
+    
+    pokemon.types.forEach(t => {
+        const typeName = t.type.name;
+        if (MOVE_POOL[typeName]) {
+            moves = [...moves, ...MOVE_POOL[typeName]];
+        }
+    });
+
+    // If no specific moves found, add normal moves
+    if (moves.length === 0) {
+        moves = [...MOVE_POOL.normal];
+    }
+
+    // Always ensure at least 4 moves (fill with normal if needed)
+    if (moves.length < 4) {
+        moves = [...moves, ...MOVE_POOL.normal].slice(0, 4);
+    }
+    
+    // Pick 4 random unique moves if we have too many
+    // For stability, we'll just take the first 4 for now, 
+    // or you could shuffle. Simple slice is fine for MVP.
+    // Ideally we'd map this to level, but keeping it simple for Felix.
+    
+    // Let's filter to unique names to be safe
+    const uniqueMoves = [];
+    const seen = new Set();
+    
+    for (const m of moves) {
+        if (!seen.has(m.name)) {
+            uniqueMoves.push(m);
+            seen.add(m.name);
+        }
+    }
+    
+    return uniqueMoves.slice(0, 4);
+};
+
 export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fatigue = 0) => {
     // 1. Calculate Base Damage using existing helper
     const baseResult = calculateDamage(attacker, defender, move);
@@ -166,7 +248,7 @@ export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fat
     // 2. Anti-Spam Penalty
     if (lastMoveName && move.name === lastMoveName) {
         damage = Math.floor(damage * 0.6); // 40% reduction
-        message = "⚠️ Repetitive! Damage reduced.";
+        message = "⚠️ ¡Repetitivo!";
     }
 
     // 3. Fatigue Penalty (Sprint 4)
