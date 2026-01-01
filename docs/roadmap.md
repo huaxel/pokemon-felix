@@ -183,7 +183,12 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Champion achievement (all 8 badges)
   - [x] Victory/defeat screens with animations
   - [x] Badge showcase display
-- [ ] **Market** 🏪 - Sell Pokemon for coins (basic version exists)
+- [x] **Market** 🏪 - Enhanced with dynamic pricing and categories ✅ COMPLETE
+  - [x] Dynamic Pokemon value calculation based on BST and rarity
+  - [x] Item categories (Pokeballs, Potions, Special items)
+  - [x] Educational economics tips
+  - [x] Pokemon value display with legendary badges
+  - [x] Integrated into world map at existing position
 
 #### 6.2 Environmental Systems ✅ ENHANCED
 - [x] **Day/Night Cycle** - Real-time based automatic system
@@ -197,8 +202,22 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Snow (winter)
   - [x] Visual overlays
 
-#### 6.3 Expanded Map 🚧 IN PROGRESS (2/4)
-- [ ] Multiple zones/regions
+#### 6.3 Expanded Map ✅ ENHANCED (5/7)
+- [x] **Desert Region** 🏜️ - New explorable zone ✅ COMPLETE
+  - [x] 10x10 tile-based desert navigation
+  - [x] Desert Pokemon encounters (Ground/Rock types)
+  - [x] Sandstorm weather effects
+  - [x] Oasis discovery system (3 hidden oases)
+  - [x] Educational geography facts
+  - [x] Water Pokemon at oases
+- [x] **Cave/Dungeon System** 🕳️ - Multi-floor puzzle dungeons ✅ COMPLETE
+  - [x] 5-floor progressive dungeon
+  - [x] 4 puzzle types (push blocks, switches, dark navigation, ice sliding)
+  - [x] Cave Pokemon encounters
+  - [x] Boss battles on floor 5 (Legendary Pokemon)
+  - [x] Treasure rewards (100-200 coins per puzzle)
+  - [x] Educational geology facts
+  - [x] Completion rewards (500 coins + 3 Rare Candies)
 - [x] **Secret Cave** 🕳️ - Hidden area with rare Pokemon ✅ COMPLETE
   - [x] Discovery mechanic (first-time entrance)
   - [x] Depth-based exploration system (10 floors)

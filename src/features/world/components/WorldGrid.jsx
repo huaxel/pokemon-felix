@@ -26,7 +26,9 @@ const BUILDING_IMAGES = {
     [TILE_TYPES.WARDROBE]: shopUrbanImage, [TILE_TYPES.BANK]: centerImage, [TILE_TYPES.POTION_LAB]: evoImage,
     [TILE_TYPES.FOUNTAIN]: waterCenterImage, [TILE_TYPES.PALACE]: cityHallImage, [TILE_TYPES.EVOLUTION_HALL]: evoImage,
     [TILE_TYPES.MOUNTAIN]: gymImage, [TILE_TYPES.SECRET_CAVE]: houseImage, [TILE_TYPES.WATER_ROUTE]: waterCenterImage,
-    [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage
+    [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage,
+    [TILE_TYPES.DESERT]: gymImage, // Using gym image as placeholder for desert
+    [TILE_TYPES.CAVE_DUNGEON]: houseImage, // Using house image as placeholder for cave
 };
 
 const PlayerSprite = ({ name, color }) => (
