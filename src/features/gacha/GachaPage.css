@@ -15,17 +15,54 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     position: relative;
+}
+
+.gacha-header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* Intro area with promo image */
+.gacha-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding: 0.25rem 0;
+    overflow: hidden;
+}
+
+.gacha-promo-img {
+    width: 100%;
+    max-width: 420px;
+    max-height: 320px;
+    object-fit: contain;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
 }
 
 .back-hub-btn {
     text-decoration: none;
-    font-size: 1.5rem;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 0.4rem 0.9rem;
     align-items: center;
     gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .gacha-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .gacha-promo-img {
+        max-width: 280px;
+        max-height: 200px;
+    }
 }
 
 .gacha-nav {
