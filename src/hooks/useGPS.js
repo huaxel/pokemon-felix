@@ -28,7 +28,7 @@ export function useGPS(gridSize = 10) {
     const getDirectionHint = useCallback((current, target) => {
         if (!current || !target) return '';
         
-        let hints = [];
+        const hints = [];
         if (target.y < current.y) hints.push('Norte');
         if (target.y > current.y) hints.push('Sur');
         if (target.x > current.x) hints.push('Este');

@@ -15,6 +15,7 @@ import { QuestLog } from './QuestLog';
 import { WorldGrid } from './components/WorldGrid';
 import { WorldHUD } from './components/WorldHUD';
 import { WorldWeather } from './components/WorldWeather';
+import { SeasonHUD } from './components/SeasonHUD';
 import { InteriorModal } from './components/InteriorModal';
 import './WorldPage.css';
 
@@ -472,6 +473,12 @@ export function WorldPage() {
                     seasonStyle={seasonStyle}
                 />
 
+                {/* DE SEIZOENSWIJZER */}
+                <SeasonHUD
+                    seasonIndex={seasonIndex}
+                    onNext={nextSeason}
+                    onPrev={prevSeason}
+                />
                 <div className="map-legend">
                     <h4>Mapa</h4>
                     <div className="legend-row">
