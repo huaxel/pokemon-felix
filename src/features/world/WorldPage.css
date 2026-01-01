@@ -358,26 +358,39 @@
 .map-grid {
     display: flex;
     flex-direction: column;
-    border: 8px solid #4a5568;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: background-color 1s ease;
+    padding: 10px;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.85));
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition: background-color 0.6s ease;
 }
 
 .map-row {
     display: flex;
+    gap: 6px;
 }
 
 .tile {
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 54px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     cursor: default;
-    transition: all 0.2s;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
     position: relative;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+    border-color: rgba(255, 255, 255, 0.16);
 }
 
 .building-sprite,
@@ -396,6 +409,100 @@
 
 .water-sprite {
     animation: waterRipple 3s infinite ease-in-out;
+}
+
+.tile.buildable {
+    cursor: pointer;
+    border-style: dashed;
+    border-color: rgba(148, 163, 184, 0.4);
+}
+
+.tile.buildable:hover {
+    border-color: #38bdf8;
+    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.25);
+}
+
+.player-sprite-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.player-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: #0f172a;
+    font-weight: 900;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.player-avatar img.player-sprite {
+    width: 28px;
+    height: 28px;
+    image-rendering: pixelated;
+}
+
+.player-name-label {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    backdrop-filter: blur(4px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.map-legend {
+    min-width: 320px;
+    max-width: 380px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 12px 14px;
+    color: #e2e8f0;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.map-legend h4 {
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: 0.4px;
+}
+
+.legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.legend-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.legend-chip img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.legend-hint {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.8rem;
 }
 
 @keyframes waterRipple {

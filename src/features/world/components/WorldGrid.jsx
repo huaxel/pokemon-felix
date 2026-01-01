@@ -14,6 +14,10 @@ import waterCenterImage from '../../../assets/buildings/water_center.png';
 import fishermanImage from '../../../assets/buildings/fisherman.png';
 import cityHallImage from '../../../assets/buildings/city_hall.png';
 import shopUrbanImage from '../../../assets/buildings/shop_urban.png';
+import playerSprite from '../../../assets/kenney_roguelike-characters/Spritesheet/roguelikeChar_transparent.png';
+import grassTile from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
+import pathTile from '../../../assets/kenney_tiny-town/Tiles/tile_0008.png';
+import waterTile from '../../../assets/kenney_tiny-town/Tiles/tile_0032.png';
 
 export function WorldGrid({
     mapGrid,
@@ -30,7 +34,9 @@ export function WorldGrid({
             return (
                 <div className="player-sprite-container">
                     <span className="player-name-label">{playerName}</span>
-                    <div className="player-avatar" style={{ backgroundColor: playerColor }}>P</div>
+                    <div className="player-avatar" style={{ backgroundColor: playerColor }}>
+                        <img src={playerSprite} alt="player" className="player-sprite" />
+                    </div>
                 </div>
             );
         }
@@ -69,6 +75,19 @@ export function WorldGrid({
         }
     };
 
+    const getTileStyle = (type) => {
+        if (type === TILE_TYPES.GRASS) {
+            return { backgroundImage: `url(${grassTile})`, backgroundSize: 'cover' };
+        }
+        if (type === TILE_TYPES.PATH) {
+            return { backgroundImage: `url(${pathTile})`, backgroundSize: 'cover' };
+        }
+        if (type === TILE_TYPES.WATER) {
+            return { backgroundImage: `url(${waterTile})`, backgroundSize: 'cover' };
+        }
+        return {};
+    };
+
     return (
         <div className="map-grid" style={{ backgroundColor: seasonStyle.grass, borderColor: '#475569' }}>
             {mapGrid.map((row, y) => (
@@ -78,11 +97,10 @@ export function WorldGrid({
                             key={`${x}-${y}`}
                             className={`tile type-${tile} ${isBuildMode ? 'buildable' : ''}`}
                             onClick={() => handleTileClick(x, y)}
-                            style={
-                                tile === TILE_TYPES.TREE || tile === TILE_TYPES.GRASS
-                                    ? { color: seasonStyle.tree }
-                                    : {}
-                            }
+                            style={{
+                                ...(tile === TILE_TYPES.TREE || tile === TILE_TYPES.GRASS ? { color: seasonStyle.tree } : {}),
+                                ...getTileStyle(tile)
+                            }}
                         >
                             {getTileContent(tile, x, y)}
                         </div>

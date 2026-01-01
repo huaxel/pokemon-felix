@@ -19,6 +19,17 @@ import { WorldWeather } from './components/WorldWeather';
 import { InteriorModal } from './components/InteriorModal';
 import './WorldPage.css';
 
+import centerImage from '../../assets/buildings/pokecenter.png';
+import gymImage from '../../assets/buildings/gym_building.png';
+import marketImage from '../../assets/buildings/market_stall.png';
+import gachaImage from '../../assets/buildings/gacha_machine.png';
+import treeImage from '../../assets/buildings/tree.png';
+import waterImage from '../../assets/buildings/water_center.png';
+import pathTile from '../../assets/kenney_tiny-town/Tiles/tile_0008.png';
+import grassTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png';
+
+const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
+
 // Building image assets (moved to WorldGrid, but kept some for build mode palette if needed)
 import houseImage from '../../assets/buildings/house.png';
 import treeImage from '../../assets/buildings/tree.png';
@@ -140,7 +151,20 @@ export function WorldPage() {
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
     ]);
 
-    const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
+    const [playerPos, setPlayerPos] = useState(() => {
+        try {
+            const saved = localStorage.getItem(PLAYER_POS_STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (typeof parsed?.x === 'number' && typeof parsed?.y === 'number') {
+                    return { x: parsed.x, y: parsed.y };
+                }
+            }
+        } catch (err) {
+            console.warn('Failed to load player position', err);
+        }
+        return { x: 0, y: 0 };
+    });
     const [isBuildMode, setIsBuildMode] = useState(false);
     const [selectedBuilding, setSelectedBuilding] = useState('house'); // house, tree, path
 
@@ -329,6 +353,11 @@ export function WorldPage() {
         if (targetTile === TILE_TYPES.TREE || targetTile === TILE_TYPES.HOUSE) return;
 
         setPlayerPos({ x: newX, y: newY });
+        try {
+            localStorage.setItem(PLAYER_POS_STORAGE_KEY, JSON.stringify({ x: newX, y: newY }));
+        } catch (err) {
+            console.warn('Failed to persist player position', err);
+        }
         clearMessage();
 
         // Update GPS stats
@@ -445,6 +474,23 @@ export function WorldPage() {
                     handleTileClick={handleTileClick}
                     seasonStyle={seasonStyle}
                 />
+
+                <div className="map-legend">
+                    <h4>Mapa</h4>
+                    <div className="legend-row">
+                        <span className="legend-chip"><img src={grassTile} alt="grass" /> Prado</span>
+                        <span className="legend-chip"><img src={pathTile} alt="path" /> Camino</span>
+                        <span className="legend-chip"><img src={waterImage} alt="water" /> Agua</span>
+                    </div>
+                    <div className="legend-row">
+                        <span className="legend-chip"><img src={centerImage} alt="center" /> Centro</span>
+                        <span className="legend-chip"><img src={gymImage} alt="gym" /> Gimnasio</span>
+                        <span className="legend-chip"><img src={marketImage} alt="market" /> Mercado</span>
+                        <span className="legend-chip"><img src={gachaImage} alt="gacha" /> Gacha</span>
+                        <span className="legend-chip"><img src={treeImage} alt="tree" /> Árbol / bosque</span>
+                    </div>
+                    <p className="legend-hint">Click para moverte (adyacente) o construir en modo Build.</p>
+                </div>
 
                 <div className="controls-panel">
                     <div className="d-pad">
