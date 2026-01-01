@@ -23,6 +23,9 @@ import fishermanImage from '../../assets/buildings/fisherman.png';
 import cityHallImage from '../../assets/buildings/city_hall.png';
 import shopUrbanImage from '../../assets/buildings/shop_urban.png';
 import bankImage from '../../assets/buildings/pokecenter.png'; // Using pokecenter as bank placeholder
+import fountainImage from '../../assets/buildings/water_center.png'; // Using water_center as fountain
+import palaceImage from '../../assets/buildings/city_hall.png'; // Using city_hall as palace
+import evolutionHallImage from '../../assets/buildings/evo_lab.png'; // Using evo_lab as evolution hall
 
 // Tegel types: 0=Gras, 1=Pad, 2=Huis, 3=Ziekenhuis, 4=Boom
 const TILE_TYPES = {
@@ -44,6 +47,9 @@ const TILE_TYPES = {
     URBAN_SHOP: 15,
     BANK: 16,
     POTION_LAB: 17,
+    FOUNTAIN: 18,
+    PALACE: 19,
+    EVOLUTION_HALL: 20,
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
@@ -155,13 +161,13 @@ export function WorldPage() {
 
     // Basis roostersel
     const [baseGrid] = useState([
-        [1, 1, 1, 14, 0, 4, 4, 0, 0, 3],
+        [1, 1, 1, 14, 0, 4, 4, 0, 19, 3],
         [1, 12, 1, 13, 0, 4, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
-        [4, 4, 0, 0, 1, 0, 10, 10, 10, 0],
+        [4, 4, 0, 0, 1, 0, 10, 10, 10, 18],
         [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
-        [0, 0, 7, 0, 1, 11, 10, 10, 10, 0],
+        [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
         [1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
         [5, 0, 8, 2, 0, 0, 0, 0, 0, 0],
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -279,6 +285,21 @@ export function WorldPage() {
             setTimeout(() => navigate('/potion-lab'), 1000);
             return;
         }
+        if (tileType === TILE_TYPES.FOUNTAIN) {
+            setMessage({ text: "¡La Fuente de los Deseos brilla mágicamente! ✨", color: '#06b6d4' });
+            setTimeout(() => navigate('/fountain'), 1000);
+            return;
+        }
+        if (tileType === TILE_TYPES.PALACE) {
+            setMessage({ text: "El majestuoso palacio se eleva ante ti... 👑", color: '#7c3aed' });
+            setTimeout(() => navigate('/palace'), 1000);
+            return;
+        }
+        if (tileType === TILE_TYPES.EVOLUTION_HALL) {
+            setMessage({ text: "El Salón de Evolución brilla con energía mística... ⚡", color: '#d946ef' });
+            setTimeout(() => navigate('/evolution-hall'), 1000);
+            return;
+        }
 
         if (tileType === TILE_TYPES.CENTER) {
             setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
@@ -391,6 +412,9 @@ export function WorldPage() {
             case TILE_TYPES.WARDROBE: return <img src={shopUrbanImage} className="building-sprite" alt="Wardrobe" />;
             case TILE_TYPES.BANK: return <img src={bankImage} className="building-sprite" alt="Bank" />;
             case TILE_TYPES.POTION_LAB: return <img src={evoImage} className="building-sprite" alt="Potion Lab" />;
+            case TILE_TYPES.FOUNTAIN: return <img src={fountainImage} className="building-sprite" alt="Fountain" />;
+            case TILE_TYPES.PALACE: return <img src={palaceImage} className="building-sprite" alt="Palace" />;
+            case TILE_TYPES.EVOLUTION_HALL: return <img src={evolutionHallImage} className="building-sprite" alt="Evolution Hall" />;
             case TILE_TYPES.CITY_HALL: return <img src={cityHallImage} className="building-sprite" alt="City Hall" />;
             case TILE_TYPES.URBAN_SHOP: return <img src={shopUrbanImage} className="building-sprite" alt="Urban Shop" />;
             default: return null;

@@ -1,15 +1,24 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useReducer } from 'react';
 import { calculateMaxHP, calculateEnergyCost, calculateSmartDamage, combineMoves, getTypeColor } from '../../lib/battle-logic';
 import { getMoveDetails, getPokemonDetails } from '../../lib/api';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useCareContext } from '../../hooks/useCareContext';
 import { STORAGE_KEYS } from '../../lib/constants';
+import { battleReducer, createInitialBattleState, BATTLE_ACTIONS } from '../../lib/battleReducer';
 import './CardBattle.css';
-// energy icon was unused; remove import to satisfy linter
 
 export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     const { inventory, removeItem, toggleOwned, addCoins } = usePokemonContext();
     const { careStats, addFatigue } = useCareContext();
+    
+    // Initialize battle state with reducer
+    const [battleState, dispatch] = useReducer(
+        battleReducer,
+        { fighter1, fighter2 },
+        (initial) => createInitialBattleState(initial.fighter1, initial.fighter2, localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default')
+    );
+
+    // Legacy state for backward compatibility (will be refactored)
     const [battleLog, setBattleLog] = useState([]);
     const [winner, setWinner] = useState(null);
 
@@ -19,15 +28,15 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     const [effectivenessMsg, setEffectivenessMsg] = useState(null);
     const [comboMsg, setComboMsg] = useState(null); // For fusion feedback
 
-    // Battle Stats
+    // Battle Stats - synced with reducer
     const [f1HP, setF1HP] = useState(calculateMaxHP(fighter1));
     const [f2HP, setF2HP] = useState(calculateMaxHP(fighter2));
-    const [f1MaxHP, setF1MaxHP] = useState(calculateMaxHP(fighter1));
-    const [f2MaxHP, setF2MaxHP] = useState(calculateMaxHP(fighter2));
+    const f1MaxHP = battleState.fighters.player.maxHP;
+    const f2MaxHP = battleState.fighters.opponent.maxHP;
 
-    // Energy System
-    const [f1Energy, setF1Energy] = useState(3);
-    const [f2Energy, setF2Energy] = useState(3);
+    // Energy System - synced with reducer
+    const f1Energy = battleState.fighters.player.energy;
+    const f2Energy = battleState.fighters.opponent.energy;
     const MAX_ENERGY = 5;
 
     // CARD SYSTEM (The "Hand")
@@ -38,24 +47,15 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     // Enemy AI
     const [f2Moves, setF2Moves] = useState([]);
 
-    const [, setLoadingMoves] = useState(true);
-    const [turn, setTurn] = useState('player'); // 'player' | 'opponent'
+    const [loadingMoves, setLoadingMoves] = useState(true);
+    const turn = battleState.turn; // Synced with reducer
     const [lastMoveName, setLastMoveName] = useState(null);
 
     // ITEM SYSTEM
     const [showItems, setShowItems] = useState(false);
 
     // OUTFIT POWERS
-    const [outfitId, setOutfitId] = useState('default');
-    useEffect(() => {
-        const id = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
-        setOutfitId(id);
-
-        // Initial Bonuses
-        if (id === 'cool') {
-            setF1Energy(4); // Start with 4 instead of 3
-        }
-    }, []);
+    const outfitId = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
 
     const handleUseItem = async (itemId) => {
         if (turn !== 'player' || winner) return;
@@ -110,8 +110,6 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                 const p2Max = calculateMaxHP(p2Full);
                 setF1HP(p1Max);
                 setF2HP(p2Max);
-                setF1MaxHP(p1Max);
-                setF2MaxHP(p2Max);
 
                 // Get all moves for both fighters
                 const fetchMoves = async (pokemon) => {

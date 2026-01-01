@@ -24,6 +24,9 @@ import { SchoolPage } from './features/world/SchoolPage';
 import { WardrobePage } from './features/world/WardrobePage';
 import { BankPage } from './features/world/BankPage';
 import { PotionLabPage } from './features/world/PotionLabPage';
+import { FountainPage } from './features/world/FountainPage';
+import { PalacePage } from './features/world/PalacePage';
+import { EvolutionHallPage } from './features/world/EvolutionHallPage';
 import { PorygonLabPage } from './features/porygon/PorygonLabPage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
@@ -110,8 +113,7 @@ function App() {
         <Route path="/school" element={<SchoolPage />} />
         <Route path="/wardrobe" element={<WardrobePage />} />
         <Route path="/bank" element={<BankPage />} />
-        <Route path="/potion-lab" element={<PotionLabPage />} />
-        <Route path="/porygon-lab" element={<PorygonLabPage />} />
+        <Route path="/potion-lab" element={<PotionLabPage />} />          <Route path="/fountain" element={<FountainPage />} />        <Route path="/porygon-lab" element={<PorygonLabPage />} />
       </Routes>
 
       {selectedPokemon && (
