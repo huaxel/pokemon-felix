@@ -250,3 +250,35 @@
     font-family: inherit;
     font-weight: bold;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .desert-page {
+        padding: 1rem;
+    }
+
+    .desert-grid {
+        padding: 0.5rem;
+    }
+
+    .desert-tile {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+    }
+
+    .desert-controls button {
+        padding: 0.8rem 1.2rem;
+        font-size: 1.2rem;
+    }
+
+    .encounter-content {
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+
+    .encounter-content img {
+        width: 120px;
+        height: 120px;
+    }
+}

@@ -81,7 +81,12 @@ export function GachaPage() {
         return 'common';
     };
 
-    const getBST = (pokemon) => pokemon.stats.reduce((total, stat) => total + stat.base_stat, 0);
+    const getBST = (pokemon) => {
+        if (!pokemon || !pokemon.stats || !Array.isArray(pokemon.stats)) {
+            return 0;
+        }
+        return pokemon.stats.reduce((total, stat) => total + (stat.base_stat || 0), 0);
+    };
 
     const getRandomPokemon = async (rarity) => {
         const candidates = pokemonList.filter(p => {

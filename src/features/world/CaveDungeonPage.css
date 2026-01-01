@@ -244,3 +244,42 @@
     font-family: inherit;
     font-weight: bold;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cave-page {
+        padding: 1rem;
+    }
+
+    .puzzle-container {
+        padding: 1rem;
+    }
+
+    .puzzle-container h2 {
+        font-size: 1.2rem;
+    }
+
+    .puzzle-grid {
+        font-size: 2rem;
+    }
+
+    .dark-room,
+    .ice-floor {
+        font-size: 3rem;
+    }
+
+    .puzzle-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .encounter-content {
+        padding: 1.5rem;
+        max-width: 90%;
+    }
+
+    .encounter-content img {
+        width: 120px;
+        height: 120px;
+    }
+}
