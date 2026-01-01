@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as questsService from '../lib/services/questsService';
 
-const QUESTS_STORAGE_KEY = 'felix_quests_state';
-
+// Storage key is now managed in questsService
 const INITIAL_QUESTS = [
     {
         id: 'first_steps',

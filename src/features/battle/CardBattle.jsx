@@ -3,6 +3,7 @@ import { calculateMaxHP, calculateEnergyCost, calculateSmartDamage, combineMoves
 import { getMoveDetails, getPokemonDetails } from '../../lib/api';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useCareContext } from '../../hooks/useCareContext';
+import { STORAGE_KEYS } from '../../lib/constants';
 import './CardBattle.css';
 // energy icon was unused; remove import to satisfy linter
 
@@ -47,7 +48,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     // OUTFIT POWERS
     const [outfitId, setOutfitId] = useState('default');
     useEffect(() => {
-        const id = localStorage.getItem('felix_current_outfit') || 'default';
+        const id = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
         setOutfitId(id);
 
         // Initial Bonuses
@@ -312,7 +313,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                 drawCards(2); // Player draws cards
 
                 // Nature Outfit Bonus
-                const currentOutfit = localStorage.getItem('felix_current_outfit');
+                const currentOutfit = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT);
                 if (currentOutfit === 'nature') {
                     setF1HP(hp => Math.min(f1MaxHP, hp + 1));
                 }

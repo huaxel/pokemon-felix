@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useTownContext } from '../../hooks/useTownContext';
 import { useOutfitEffects } from '../../hooks/useOutfitEffects';
+import { STORAGE_KEYS } from '../../lib/constants';
 import { QuestLog } from './QuestLog';
 import { Trophy } from 'lucide-react';
 import './WorldPage.css';

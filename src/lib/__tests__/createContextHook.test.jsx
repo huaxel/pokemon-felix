@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { describe, it, expect } from 'vitest';
 import { createContextHook } from '../createContextHook';
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 import { renderHook } from '@testing-library/react';
 
 describe('createContextHook', () => {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { STORAGE_KEYS } from '../../lib/constants';
 import { ShoppingBag, Check } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
 import './WardrobePage.css';
