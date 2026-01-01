@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { Sparkles, Coins, Star, Gift, Zap } from 'lucide-react';
-import bagIcon from '../../assets/items/bag_icon.png';
+import { Star } from 'lucide-react';
+import { FountainHeader } from './components/FountainHeader';
+import { FountainVisual } from './components/FountainVisual';
+import { FountainWishCard } from './components/FountainWishCard';
+import { FountainRecentRewards } from './components/FountainRecentRewards';
 import './FountainPage.css';
 
 const WISHES = [
-    { 
-        id: 'small', 
-        name: 'Deseo Pequeño', 
-        cost: 20, 
+    {
+        id: 'small',
+        name: 'Deseo Pequeño',
+        cost: 20,
         icon: '💫',
         description: 'Una pequeña esperanza',
         rewards: [
@@ -19,10 +21,10 @@ const WISHES = [
             { type: 'nothing', chance: 0.25, message: 'El eco de tus esperanzas...' }
         ]
     },
-    { 
-        id: 'medium', 
-        name: 'Deseo Normal', 
-        cost: 50, 
+    {
+        id: 'medium',
+        name: 'Deseo Normal',
+        cost: 50,
         icon: '✨',
         description: 'Un deseo del corazón',
         rewards: [
@@ -34,10 +36,10 @@ const WISHES = [
             { type: 'nothing', chance: 0.1, message: 'Las aguas permanecen en silencio...' }
         ]
     },
-    { 
-        id: 'big', 
-        name: 'Deseo Grande', 
-        cost: 100, 
+    {
+        id: 'big',
+        name: 'Deseo Grande',
+        cost: 100,
         icon: '🌟',
         description: '¡Un deseo poderoso!',
         rewards: [
@@ -69,7 +71,7 @@ export function FountainPage() {
 
     const makeWish = async (wishType) => {
         const wish = WISHES.find(w => w.id === wishType);
-        
+
         if (!spendCoins(wish.cost)) {
             showMessage('¡No tienes suficientes monedas!', 'error');
             return;
@@ -77,11 +79,8 @@ export function FountainPage() {
 
         setIsWishing(true);
         setFountainAnimation(true);
-
-        // Animate the wish
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // Select reward based on probability
         const roll = Math.random();
         let cumulativeChance = 0;
         let selectedReward = null;
@@ -94,24 +93,18 @@ export function FountainPage() {
             }
         }
 
-        // Apply reward
-        let finalMessage = selectedReward.message;
         let rewardType = 'info';
-
         if (selectedReward.type === 'coins') {
             addCoins(selectedReward.amount);
             rewardType = 'success';
         } else if (selectedReward.type === 'item') {
             const amount = selectedReward.amount || 1;
-            for (let i = 0; i < amount; i++) {
-                addItem(selectedReward.item);
-            }
+            for (let i = 0; i < amount; i++) addItem(selectedReward.item);
             rewardType = 'success';
         } else if (selectedReward.type === 'heal') {
             healAll();
             rewardType = 'success';
         } else if (selectedReward.type === 'lucky') {
-            // Lucky day - give double coins
             addCoins(wish.cost * 3);
             rewardType = 'jackpot';
         } else if (selectedReward.type === 'nothing') {
@@ -124,13 +117,13 @@ export function FountainPage() {
             ...prev.slice(0, 4)
         ]);
 
-        showMessage(finalMessage, rewardType, 4000);
+        showMessage(selectedReward.message, rewardType, 4000);
         setIsWishing(false);
         setFountainAnimation(false);
     };
 
     const getMessageColor = (type) => {
-        switch(type) {
+        switch (type) {
             case 'success': return '#10b981';
             case 'jackpot': return '#f59e0b';
             case 'nothing': return '#6b7280';
@@ -140,43 +133,16 @@ export function FountainPage() {
 
     return (
         <div className="fountain-page">
-            <header className="fountain-header">
-                <Link to="/world" className="back-button">
-                    <img src={bagIcon} alt="Back" />
-                </Link>
-                <h1>
-                    <Sparkles size={32} />
-                    Plaza de la Fuente
-                </h1>
-                <div className="coins-display">
-                    <Coins size={20} />
-                    <span>{coins}</span>
-                </div>
-            </header>
+            <FountainHeader coins={coins} />
 
             {message && (
-                <div 
-                    className={`fountain-message ${message.type}`}
-                    style={{ borderColor: getMessageColor(message.type) }}
-                >
+                <div className={`fountain-message ${message.type}`} style={{ borderColor: getMessageColor(message.type) }}>
                     {message.text}
                 </div>
             )}
 
-            {/* Fountain Visual */}
-            <div className={`fountain-visual ${fountainAnimation ? 'wishing' : ''}`}>
-                <div className="fountain-base">
-                    <div className="water-surface"></div>
-                    <div className="fountain-sparkle sparkle-1">✨</div>
-                    <div className="fountain-sparkle sparkle-2">💫</div>
-                    <div className="fountain-sparkle sparkle-3">⭐</div>
-                </div>
-                <p className="fountain-legend">
-                    Arroja una moneda y pide un deseo...
-                </p>
-            </div>
+            <FountainVisual animation={fountainAnimation} />
 
-            {/* Stats */}
             <div className="fountain-stats">
                 <div className="stat-box">
                     <Star size={24} />
@@ -185,107 +151,36 @@ export function FountainPage() {
                 </div>
             </div>
 
-            {/* Wish Options */}
             <div className="wishes-container">
                 <div className="wishes-header">
                     <h2>Tipos de Deseos</h2>
-                    <button 
-                        className="probability-btn"
-                        onClick={() => setShowProbability(!showProbability)}
-                    >
+                    <button className="probability-btn" onClick={() => setShowProbability(!showProbability)}>
                         {showProbability ? '🎲 Ocultar' : '🎲 Ver Chances'}
                     </button>
                 </div>
 
                 <div className="wishes-grid">
                     {WISHES.map(wish => (
-                        <div key={wish.id} className={`wish-card ${wish.id}`}>
-                            <div className="wish-icon">{wish.icon}</div>
-                            <h3>{wish.name}</h3>
-                            <p className="wish-description">{wish.description}</p>
-                            
-                            {showProbability && (
-                                <div className="probability-list">
-                                    <strong>Posibles recompensas:</strong>
-                                    {wish.rewards.map((reward, idx) => (
-                                        <div key={idx} className="probability-item">
-                                            <span>{(reward.chance * 100).toFixed(0)}%</span>
-                                            <span className="reward-desc">
-                                                {reward.type === 'coins' && `${reward.amount} monedas`}
-                                                {reward.type === 'item' && reward.item}
-                                                {reward.type === 'heal' && 'Curación total'}
-                                                {reward.type === 'lucky' && '¡Día de suerte!'}
-                                                {reward.type === 'nothing' && 'Nada'}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            <button
-                                className="wish-button"
-                                onClick={() => makeWish(wish.id)}
-                                disabled={isWishing || coins < wish.cost}
-                            >
-                                {isWishing ? (
-                                    <>
-                                        <Zap size={20} className="spinning" />
-                                        Deseando...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Coins size={20} />
-                                        {wish.cost} monedas
-                                    </>
-                                )}
-                            </button>
-                        </div>
+                        <FountainWishCard
+                            key={wish.id}
+                            wish={wish}
+                            showProbability={showProbability}
+                            onWish={makeWish}
+                            isWishing={isWishing}
+                            canAfford={coins >= wish.cost}
+                        />
                     ))}
                 </div>
             </div>
 
-            {/* Recent Rewards */}
-            {recentRewards.length > 0 && (
-                <div className="recent-rewards">
-                    <h3>
-                        <Gift size={20} />
-                        Recompensas Recientes
-                    </h3>
-                    <div className="rewards-list">
-                        {recentRewards.map((reward, idx) => (
-                            <div 
-                                key={idx} 
-                                className="reward-item"
-                                style={{ borderLeftColor: getMessageColor(reward.type) }}
-                            >
-                                <span className="reward-wish">{reward.wish}</span>
-                                <span className="reward-result">{reward.reward}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
+            <FountainRecentRewards recentRewards={recentRewards} getMessageColor={getMessageColor} />
 
-            {/* Educational Info */}
             <div className="fountain-info">
                 <h3>💡 Sobre la Probabilidad</h3>
                 <div className="info-grid">
-                    <div className="info-card">
-                        <span className="info-icon">🎲</span>
-                        <p>Cada deseo tiene diferentes probabilidades de recompensa</p>
-                    </div>
-                    <div className="info-card">
-                        <span className="info-icon">📊</span>
-                        <p>Deseos más caros tienen mejores chances de grandes premios</p>
-                    </div>
-                    <div className="info-card">
-                        <span className="info-icon">🍀</span>
-                        <p>A veces la suerte te sonríe con recompensas extra</p>
-                    </div>
-                    <div className="info-card">
-                        <span className="info-icon">⚖️</span>
-                        <p>No siempre ganas, pero la esperanza es parte de la diversión</p>
-                    </div>
+                    <div className="info-card"><span>🎲</span><p>Cada deseo tiene diferentes probabilidades</p></div>
+                    <div className="info-card"><span>📊</span><p>Deseos más caros tienen mejores premios</p></div>
+                    <div className="info-card"><span>🍀</span><p>A veces la suerte te da recompensas extra</p></div>
                 </div>
             </div>
         </div>
