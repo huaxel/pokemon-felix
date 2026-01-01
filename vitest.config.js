@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['src/**/*.test.jsx'],
+    include: ['src/**/*.test.{js,jsx}'],
     environment: 'jsdom'
   }
 });
