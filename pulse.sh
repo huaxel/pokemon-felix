@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# --- CONFIGURATION ---
+AI_DIR="docs/ai"
+PULSE_FILE="$AI_DIR/current_pulse.md"
+# Files/Folders to ignore in the tree view (adjust as needed)
+IGNORE_PATTERN="node_modules|.git|dist|build|coverage|.DS_Store|.gemini"
+
+# --- EXECUTION ---
+
+echo "💡 Generating Project Pulse..."
+
+# 1. HEADER & TIMESTAMP
+echo "# 📡 PROJECT PULSE (Mobile Context)" > "$PULSE_FILE"
+echo "**Generated:** $(date)" >> "$PULSE_FILE"
+echo "" >> "$PULSE_FILE"
+
+# 2. THE VISION (Architecture)
+echo "## 🏛️ 1. ARCHITECTURE & VISION" >> "$PULSE_FILE"
+if [ -f "$AI_DIR/architecture.md" ]; then
+    cat "$AI_DIR/architecture.md" >> "$PULSE_FILE"
+else
+    echo "⚠️ No architecture.md found." >> "$PULSE_FILE"
+fi
+echo "" >> "$PULSE_FILE"
+
+# 3. THE REALITY (Active State)
+echo "## 📰 2. ACTIVE STATE & TASKS" >> "$PULSE_FILE"
+if [ -f "$AI_DIR/active_state.md" ]; then
+    cat "$AI_DIR/active_state.md" >> "$PULSE_FILE"
+else
+    echo "⚠️ No active_state.md found." >> "$PULSE_FILE"
+fi
+echo "" >> "$PULSE_FILE"
+
+# 4. THE MAP (File Tree)
+# Gives the AI spatial awareness of your code layout
+echo "## 🗺️ 3. PROJECT MAP" >> "$PULSE_FILE"
+echo "\`\`\`" >> "$PULSE_FILE"
+if command -v tree &> /dev/null; then
+    tree -I "$IGNORE_PATTERN" --prune -L 3 >> "$PULSE_FILE"
+else
+    # Fallback if 'tree' is not installed
+    find . -maxdepth 3 -not -path '*/.*' | grep -vE "$IGNORE_PATTERN" >> "$PULSE_FILE"
+fi
+echo "\`\`\`" >> "$PULSE_FILE"
+
+# 5. CORE TYPE DEFINITIONS (For Context)
+# Key interfaces and types that define the game structure
+echo "## 🔧 4. CORE TYPE DEFINITIONS" >> "$PULSE_FILE"
+echo "\`\`\`typescript" >> "$PULSE_FILE"
+echo "// Key types from src/core/types.ts (first 150 lines)" >> "$PULSE_FILE"
+head -n 150 src/core/types.ts >> "$PULSE_FILE" 2>/dev/null || echo "// types.ts not found" >> "$PULSE_FILE"
+echo "\`\`\`" >> "$PULSE_FILE"
+echo "" >> "$PULSE_FILE"
+
+# 6. GAME DESIGN CONTEXT
+# Include the one-page game brief for strategic discussions
+echo "## 🎮 5. GAME DESIGN BRIEF" >> "$PULSE_FILE"
+if [ -f "docs/design/one-page-game-brief.md" ]; then
+    cat "docs/design/one-page-game-brief.md" >> "$PULSE_FILE"
+else
+    echo "⚠️ No game brief found." >> "$PULSE_FILE"
+fi
+echo "" >> "$PULSE_FILE"
+
+# 7. CURRENT ROADMAP
+# What features are planned/in-progress
+echo "## 🗺️ 6. ROADMAP STATUS" >> "$PULSE_FILE"
+if [ -f "docs/planning/roadmap.md" ]; then
+    head -n 100 "docs/planning/roadmap.md" >> "$PULSE_FILE"
+else
+    echo "⚠️ No roadmap found." >> "$PULSE_FILE"
+fi
+echo "" >> "$PULSE_FILE"
+
+# 8. THE BLEEDING EDGE (Git Status)
+# Shows what files you are currently touching/modifying
+echo "## 🩸 7. UNCOMMITTED CHANGES" >> "$PULSE_FILE"
+echo "\`\`\`diff" >> "$PULSE_FILE"
+git status -s >> "$PULSE_FILE"
+echo "---" >> "$PULSE_FILE"
+git diff HEAD --stat >> "$PULSE_FILE"
+echo "\`\`\`" >> "$PULSE_FILE"
+
+# 9. SYNC TO CLOUD
+echo "🚀 Pushing Pulse to GitHub..."
+git add "$PULSE_FILE"
+git commit -m "chore: update pulse for mobile sync [skip ci]"
+git push origin master
+
+echo "✅ Pulse Updated. You are clear to leave the desk."
