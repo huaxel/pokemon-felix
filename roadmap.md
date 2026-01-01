@@ -139,6 +139,16 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ### Phase 6: Advanced World Features 🚧 IN PROGRESS
 *Priority: MEDIUM | Complexity: HIGH*
 
+#### 6.0 Battle System Refactoring ✅ COMPLETE
+- [x] **Migrated CardBattle from 17+ useState to battleReducer**
+  - [x] Eliminated race conditions in turn execution
+  - [x] Fixed HP synchronization issues (never > maxHP, never < 0)
+  - [x] Fixed energy regeneration bugs (proper capping to 5)
+  - [x] Fixed AI opponent stale closure bugs
+  - [x] All 24 battleReducer unit tests passing
+  - [x] Zero compilation errors
+  - [x] Documentation: `docs/battle-system-fix.md`
+
 #### 6.1 Unique Buildings & Landmarks ✅ COMPLETE (3/7)
 - [x] **Palace** 🏰 - Requires champion status to enter ✅ COMPLETE
   - [x] Champion requirement (50+ Pokémon captured)
