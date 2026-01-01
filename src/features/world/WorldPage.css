@@ -24,21 +24,99 @@
 
 .day-night-toggle {
     margin-left: 1rem;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     font-size: 1.5rem;
-    background: transparent;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
     border: none;
+    border-radius: 20px;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: all 0.3s ease;
+    color: white;
+    font-weight: bold;
+}
+
+.day-night-toggle.night {
+    background: linear-gradient(135deg, #1e3a8a, #312e81);
+}
+
+.day-night-toggle.auto {
+    border: 2px solid #10b981;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
 }
 
 .day-night-toggle:hover {
     transform: rotate(20deg) scale(1.1);
 }
 
+.auto-time-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.auto-time-btn.active {
+    background: rgba(16, 185, 129, 0.3);
+    border-color: #10b981;
+}
+
+.auto-time-btn:hover {
+    transform: scale(1.05);
+}
+
 .night-mode {
     filter: brightness(0.6) contrast(1.2);
     background-color: #0f172a !important;
+}
+
+/* Night Sky Effects */
+.night-sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.moon {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff, #e0e0e0);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 
+                inset -10px -10px 15px rgba(0, 0, 0, 0.2);
+    animation: moonGlow 4s ease-in-out infinite;
+}
+
+@keyframes moonGlow {
+    0%, 100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), inset -10px -10px 15px rgba(0, 0, 0, 0.2); }
+    50% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), inset -10px -10px 15px rgba(0, 0, 0, 0.2); }
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.8); }
 }
 
 .pokedex-hud-btn {

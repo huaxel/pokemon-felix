@@ -23,7 +23,7 @@ export function PokemonProvider({ children }) {
     const pokemonData = usePokemonData();
     const collection = useCollection();
     const search = usePokemonSearch();
-    const { coins, addCoins, spendCoins } = useCoins();
+    const { coins, addCoins, removeCoins, spendCoins } = useCoins();
     const squad = useSquad();
     const care = useCare(collection.ownedIds);
     const town = useTown();
@@ -134,6 +134,7 @@ export function PokemonProvider({ children }) {
         // Economy
         coins,
         addCoins,
+        removeCoins,
         spendCoins,
 
         // Care
@@ -167,7 +168,7 @@ export function PokemonProvider({ children }) {
         sellPokemon,
         evolvePokemon
     }), [
-        pokemonData, search, collection, squad, coins, addCoins, spendCoins,
+        pokemonData, search, collection, squad, coins, addCoins, removeCoins, spendCoins,
         care, town, inventory, addItem, removeItem, quests, updateQuestProgress,
         handleCompleteQuest, isConsoleOpen, toggleConsole, toggleOwnedWithQuest,
         sellPokemon, evolvePokemon

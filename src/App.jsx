@@ -22,6 +22,8 @@ import { BagPage } from './features/world/BagPage';
 import { CarePage } from './features/care/CarePage';
 import { SchoolPage } from './features/world/SchoolPage';
 import { WardrobePage } from './features/world/WardrobePage';
+import { BankPage } from './features/world/BankPage';
+import { PotionLabPage } from './features/world/PotionLabPage';
 import { PorygonLabPage } from './features/porygon/PorygonLabPage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
@@ -107,6 +109,8 @@ function App() {
         <Route path="/care" element={<CarePage />} />
         <Route path="/school" element={<SchoolPage />} />
         <Route path="/wardrobe" element={<WardrobePage />} />
+        <Route path="/bank" element={<BankPage />} />
+        <Route path="/potion-lab" element={<PotionLabPage />} />
         <Route path="/porygon-lab" element={<PorygonLabPage />} />
       </Routes>
 

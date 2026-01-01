@@ -15,6 +15,14 @@ export function useCoins(initialAmount = 500) {
         setCoins(prev => prev + amount);
     };
 
+    const removeCoins = (amount) => {
+        if (coins >= amount) {
+            setCoins(prev => prev - amount);
+            return true;
+        }
+        return false;
+    };
+
     const spendCoins = (amount) => {
         if (coins >= amount) {
             setCoins(prev => prev - amount);
@@ -26,6 +34,7 @@ export function useCoins(initialAmount = 500) {
     return {
         coins,
         addCoins,
+        removeCoins,
         spendCoins
     };
 }

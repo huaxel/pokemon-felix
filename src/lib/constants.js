@@ -10,6 +10,8 @@ export const STORAGE_KEYS = {
     CURRENT_OUTFIT: 'felix-current-outfit',
     OWNED_OUTFITS: 'felix-owned-outfits',
     COMPLETED_QUIZZES: 'felix-completed-quizzes',
+    BANK_BALANCE: 'felix-bank-balance',
+    BANK_LAST_INTEREST: 'felix-bank-last-interest',
 };
 
 // Battle configuration constants

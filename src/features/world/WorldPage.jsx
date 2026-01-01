@@ -22,6 +22,7 @@ import waterCenterImage from '../../assets/buildings/water_center.png';
 import fishermanImage from '../../assets/buildings/fisherman.png';
 import cityHallImage from '../../assets/buildings/city_hall.png';
 import shopUrbanImage from '../../assets/buildings/shop_urban.png';
+import bankImage from '../../assets/buildings/pokecenter.png'; // Using pokecenter as bank placeholder
 
 // Tegel types: 0=Gras, 1=Pad, 2=Huis, 3=Ziekenhuis, 4=Boom
 const TILE_TYPES = {
@@ -41,6 +42,8 @@ const TILE_TYPES = {
     CITY_HALL: 13,
     WARDROBE: 14,
     URBAN_SHOP: 15,
+    BANK: 16,
+    POTION_LAB: 17,
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
@@ -59,12 +62,36 @@ export function WorldPage() {
     // Seizoenen Systeem
     const [seasonIndex, setSeasonIndex] = useState(1); // Begin in de Zomer
     const [showQuestLog, setShowQuestLog] = useState(false);
-    const [isNight, setIsNight] = useState(false); // Fix missing state from merge error
+    const [isNight, setIsNight] = useState(false);
+    const [autoTime, setAutoTime] = useState(true); // Auto time based on real clock
     const nextSeason = () => setSeasonIndex((prev) => (prev + 1) % 4);
     const prevSeason = () => setSeasonIndex((prev) => (prev === 0 ? 3 : prev - 1));
 
-    // DAG/NACHT
-    const toggleDayNight = () => setIsNight(!isNight);
+    // DAG/NACHT with real-time option
+    useEffect(() => {
+        if (autoTime) {
+            const updateTime = () => {
+                const hour = new Date().getHours();
+                setIsNight(hour < 6 || hour >= 20); // Night from 8 PM to 6 AM
+            };
+            updateTime();
+            const interval = setInterval(updateTime, 60000); // Check every minute
+            return () => clearInterval(interval);
+        }
+    }, [autoTime]);
+
+    const toggleDayNight = () => {
+        setAutoTime(false);
+        setIsNight(!isNight);
+    };
+
+    const toggleAutoTime = () => {
+        setAutoTime(!autoTime);
+        if (!autoTime) {
+            const hour = new Date().getHours();
+            setIsNight(hour < 6 || hour >= 20);
+        }
+    };
 
     // OUTFIT SYSTEEM
     const [playerColor, setPlayerColor] = useState('#ef4444');
@@ -242,6 +269,16 @@ export function WorldPage() {
             setTimeout(() => navigate('/wardrobe'), 1000);
             return;
         }
+        if (tileType === TILE_TYPES.BANK) {
+            setMessage({ text: "Tijd om mijn geld te sparen! 💰", color: '#7c3aed' });
+            setTimeout(() => navigate('/bank'), 1000);
+            return;
+        }
+        if (tileType === TILE_TYPES.POTION_LAB) {
+            setMessage({ text: "Tijd om pociones te maken! 🧪", color: '#8b5cf6' });
+            setTimeout(() => navigate('/potion-lab'), 1000);
+            return;
+        }
 
         if (tileType === TILE_TYPES.CENTER) {
             setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
@@ -352,6 +389,8 @@ export function WorldPage() {
             case TILE_TYPES.FISHERMAN: return <img src={fishermanImage} className="building-sprite" alt="Fisherman" />;
             case TILE_TYPES.SCHOOL: return <img src={cityHallImage} className="building-sprite" alt="School" />;
             case TILE_TYPES.WARDROBE: return <img src={shopUrbanImage} className="building-sprite" alt="Wardrobe" />;
+            case TILE_TYPES.BANK: return <img src={bankImage} className="building-sprite" alt="Bank" />;
+            case TILE_TYPES.POTION_LAB: return <img src={evoImage} className="building-sprite" alt="Potion Lab" />;
             case TILE_TYPES.CITY_HALL: return <img src={cityHallImage} className="building-sprite" alt="City Hall" />;
             case TILE_TYPES.URBAN_SHOP: return <img src={shopUrbanImage} className="building-sprite" alt="Urban Shop" />;
             default: return null;
@@ -361,8 +400,27 @@ export function WorldPage() {
     return (
         <div className={`world-page ${isNight ? 'night-mode' : ''} weather-${weather}`} style={{ backgroundColor: seasonStyle.bg }}>
 
+            {/* Weather Effects */}
             {weather === 'rainy' && <div className="rain-overlay"></div>}
             {weather === 'snowy' && <div className="snow-overlay"></div>}
+
+            {/* Night Sky Effects */}
+            {isNight && (
+                <div className="night-sky">
+                    <div className="moon"></div>
+                    {[...Array(30)].map((_, i) => (
+                        <div 
+                            key={i} 
+                            className="star" 
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 60}%`,
+                                animationDelay: `${Math.random() * 3}s`
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
 
             <div className="season-hud">
                 <button className="arrow-btn" onClick={prevSeason}>&lt;</button>
@@ -371,8 +429,20 @@ export function WorldPage() {
                 </div>
                 <button className="arrow-btn" onClick={nextSeason}>&gt;</button>
 
-                <button className={`day-night-toggle ${isNight ? 'night' : 'day'}`} onClick={toggleDayNight}>
-                    {isNight ? 'Night' : 'Day'}
+                <button 
+                    className={`day-night-toggle ${isNight ? 'night' : 'day'} ${autoTime ? 'auto' : ''}`} 
+                    onClick={toggleDayNight}
+                    title={autoTime ? 'Auto (Real Time)' : 'Manual Toggle'}
+                >
+                    {isNight ? '🌙' : '☀️'}
+                </button>
+                
+                <button 
+                    className={`auto-time-btn ${autoTime ? 'active' : ''}`}
+                    onClick={toggleAutoTime}
+                    title="Toggle Real-Time Clock"
+                >
+                    {autoTime ? '🕐 Auto' : '⏸️ Manual'}
                 </button>
 
                 <button className="pokedex-hud-btn" onClick={() => navigate('/pokedex')}>Pokédex</button>
