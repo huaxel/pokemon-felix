@@ -1,485 +1,401 @@
 # 📡 PROJECT PULSE (Mobile Context)
-**Generated:** Thu Jan  1 12:59:23 PM CET 2026
+**Generated:** Thu Jan  1 02:39:16 PM CET 2026
 
 ## 🏛️ 1. ARCHITECTURE & VISION
 # Architecture & Vision
 
 ## Tech Stack
-- **Frontend:** React + TypeScript + Vite
-- **State Management:** Redux Toolkit
+- **Frontend:** React 18 + Vite
+- **State Management:** Context API (PokemonProvider, PlayerProvider, BattleContext, etc.)
 - **Styling:** CSS Modules
 - **Build Tool:** Vite
 - **Package Manager:** npm
+- **External APIs:** PokeAPI (https://pokeapi.co)
 
 ## Core Patterns
-- **Architecture:** Component-based with Redux for state management
-- **Type Safety:** Strict TypeScript throughout
-- **Data Flow:** Unidirectional (Redux)
+- **Architecture:** Component-based with Context API for state management
+- **Data Persistence:** localStorage for save states and collections
+- **Data Flow:** Context providers with custom hooks
 - **File Structure:** Feature-based organization in `src/`
 
 ## Project Structure
 ```
 src/
-├── core/           # Game logic, systems, types
-├── components/     # React UI components
-├── ui/            # UI-specific components
-├── test/          # Test utilities and helpers
+├── components/     # React UI components (pages, UI elements)
+├── contexts/       # Context providers for state management
+├── hooks/          # Custom React hooks
+├── lib/            # Utility functions and game logic
+├── reducers/       # Reducers for complex state (battle system)
 public/
-├── data/          # Game data (JSON files)
-docs/              # Documentation
+├── assets/         # Images, sprites, pixel art
+├── data/           # Pokemon data cache (if any)
+docs/               # Documentation
+agents/             # AI agent definitions
 ```
 
 ## Core Systems
-- **Game State:** Redux-based state management with typed actions
-- **Turn System:** Phase-based gameplay (briefing → execution → resolution)
-- **Data Loading:** JSON-based game data (parties, issues, constituencies)
-- **Event System:** Dynamic game events and crises
+- **World Navigation:** Tile-based 10x10 grid with keyboard/D-pad controls
+- **Battle System:** Turn-based combat with stat calculations and energy management
+- **Collection System:** Pokemon ownership, care (HP, hunger, happiness)
+- **Inventory System:** Items, Pokeballs, consumables
+- **Quest System:** NPCs, objectives, rewards
+- **Educational Mini-Games:** School quizzes, Potion Lab (math), Porygon Lab (coding), Game Console (Python)
+- **Customization:** Player profile, wardrobe, town building
 
 ## Constraints
-- No `any` types in TypeScript
-- Immutable state updates via Redux
-- All game data externalized to JSON files
-- Component-based UI architecture
+- **Child-Friendly:** All content appropriate for age 7
+- **Educational Focus:** Every feature should teach something valuable
+- **Fun First:** If it's not fun, Felix won't play it
+- **localStorage Persistence:** All progress saved locally
+- **PokeAPI Integration:** Pokemon data fetched from external API
 
 ## Mobile Context (Included in Pulse)
 The `pulse.sh` script generates rich context for mobile conversations including:
-- **Core Types** (150 lines from `types.ts`): GameState, Components, Actions
-- **Game Design Brief**: High-level game concept and mechanics
 - **Roadmap**: Current feature status and planned work
 - **File Tree**: 3-level deep project structure
 - **Git Status**: Uncommitted changes and modified files
+- **Project Overview**: Educational Pokemon game for Felix (age 7)
 
 ## 📰 2. ACTIVE STATE & TASKS
 # Active State
 
 ## Current Focus
-- Lighthouse Protocol fully operational and ready for mobile/desktop workflow
+- Agent system adapted for Pokemon Felix (educational game development)
+- Ready for Pokemon-focused feature development
 
 ## Recent Work
-- [2026-01-01] **Completed Lighthouse Protocol setup**
-  - Enhanced `pulse.sh` to include core types (150 lines), game design brief, and roadmap
-  - Created comprehensive system prompt with context awareness and mobile workflow instructions
-  - Pulse now generates 18KB/477 lines of rich context
-- [2026-01-01] Implemented Morning Briefing display fixes
-- [2026-01-01] Standardized agenda slots configuration
-- [2026-01-01] Fixed dossier population in game state
+- [2026-01-01] **Adapted Agent System for Pokemon Felix**
+  - Created Pokemon Expert agent (content & mechanics)
+  - Created Educational Specialist agent (age-appropriate learning)
+  - Created Game Designer agent (fun & engagement)
+  - Updated Systems Architect for React/Pokemon context
+  - Updated Frontend Specialist for child-friendly UI
+  - Updated Playtester for 7-year-old audience
+  - Updated QA Engineer and Trimmer
+  - Rewrote team-workflow.md for Pokemon Felix
+  - Updated AI context system (pulse.sh, docs/ai)
 
 ## Known Issues
-- None currently blocking
+- Old Belgian Politics agents still present (belgian_politics_expert.md, data_engineer.md, logic_engineer.md) - can be removed if desired
 
 ## Next Steps
-1. Test mobile workflow with enhanced pulse
-2. Continue game development with improved AI assistance
-3. Use GitHub Issues as bridge between mobile ideation and desktop implementation
+1. Continue Pokemon Felix development with new agent system
+2. Use agents for feature planning and implementation
+3. Focus on Phase 6 roadmap items (Advanced World Features)
 
 ## 🗺️ 3. PROJECT MAP
 ```
 .
 ├── agents
-│   ├── belgian_politics_expert.md
+│   ├── ai_context_maintainer.md
+│   ├── educational_specialist.md
 │   ├── frontend_specialist.md
+│   ├── game_designer.md
 │   ├── logic_engineer.md
 │   ├── playtester.md
+│   ├── pokemon_expert.md
 │   ├── product_manager.md
 │   ├── qa_engineer.md
 │   ├── systems_architect.md
 │   ├── team-workflow.md
 │   └── trimmer.md
+├── conversation-dump.md
+├── db.json
+├── docker-compose.yml
+├── Dockerfile
 ├── docs
+│   ├── 2025 12 31 assets.md
+│   ├── 2025 12 31 challenges.md
+│   ├── 2025 12 31 review.md
+│   ├── 2025 12 31 seizonen.md
+│   ├── 2025 12 31 wereldkaart.md
 │   ├── ai
 │   │   ├── active_state.md
 │   │   ├── architecture.md
 │   │   ├── current_pulse.md
 │   │   ├── README.md
 │   │   └── system_prompt.md
-│   ├── architecture
-│   │   ├── README.md
-│   │   └── registry-and-eventbus-rfc.md
-│   ├── brand-design
-│   │   ├── logo_only.png
-│   │   ├── logo_only.psd
-│   │   ├── logo.png
-│   │   ├── logo_with_name.png
-│   │   ├── logo_with_name.psd
-│   │   ├── README.md
-│   │   └── style-guide.md
-│   ├── design
-│   │   ├── constituency-schema.md
-│   │   ├── GEOJSON_INTEGRATION.md
-│   │   ├── one-page-game-brief.md
-│   │   └── seat-allocation.md
-│   ├── features
-│   │   └── README.md
-│   ├── planning
-│   │   ├── qa-strategy.md
-│   │   ├── README.md
-│   │   └── roadmap.md
-│   └── README.md
-├── eslint.config.js
+│   ├── BATTLE_FIX_COMPLETE.md
+│   ├── battle-system-fix.md
+│   ├── battle-system-issues.md
+│   ├── cardbattle-refactor-guide.md
+│   ├── code_review.md
+│   ├── features-review.md
+│   ├── final-implementation-summary.md
+│   ├── hooks-review.md
+│   ├── implementation_roadmap.md
+│   ├── implementation-summary.md
+│   ├── lib-review.md
+│   ├── MOUNTAIN_IMPLEMENTATION.md
+│   ├── phase2-improvements-complete.md
+│   ├── quick-reference.md
+│   ├── WATER_ROUTES_IMPLEMENTATION.md
+│   └── yagni-solid-dry-kiss-review.md
 ├── index.html
+├── nginx.conf
 ├── package.json
 ├── package-lock.json
-├── public
-│   ├── logo.png
-│   └── vite.svg
+├── pokemon-favorites-2025-11-29 (1).json
+├── PR_SUMMARY.md
 ├── pulse.sh
 ├── README.md
-├── scripts
-│   ├── buildGeoMapping.cjs
-│   ├── consolidateArchive.cjs
-│   ├── migrateGeometryIds.cjs
-│   ├── validateGeoJson.cjs
-│   └── validateGeoJson.js
+├── roadmap.md
 ├── src
-│   ├── app
-│   │   ├── App.tsx
-│   │   └── main.tsx
+│   ├── App.css
+│   ├── App.jsx
 │   ├── assets
-│   │   ├── belgium_provincies.json
-│   │   ├── belgium_regions.json
-│   │   └── react.svg
-│   ├── core
-│   │   ├── bootstrapSystems.ts
-│   │   ├── factories.ts
-│   │   ├── gameReducer.ts
-│   │   ├── index.ts
-│   │   ├── queries.ts
-│   │   ├── SystemRegistry.ts
-│   │   ├── System.ts
-│   │   └── types.ts
-│   ├── features
-│   │   └── index.ts
+│   │   ├── battle_bg.png
+│   │   └── squad_bg.png
+│   ├── components
+│   │   ├── BattleArena.css
+│   │   ├── BattleArena.jsx
+│   │   ├── BattlePage.jsx
+│   │   ├── CollectionPage.css
+│   │   ├── CollectionPage.jsx
+│   │   ├── GameConsole.css
+│   │   ├── GameConsole.jsx
+│   │   ├── HPBar.css
+│   │   ├── HPBar.jsx
+│   │   ├── Navbar.css
+│   │   ├── Navbar.jsx
+│   │   ├── PokemonCard.css
+│   │   ├── PokemonCard.jsx
+│   │   ├── PokemonModal.css
+│   │   ├── PokemonModal.jsx
+│   │   ├── SearchBar.css
+│   │   ├── SearchBar.jsx
+│   │   ├── Toast.css
+│   │   └── Toast.jsx
+│   ├── contexts
+│   │   ├── BattleContext.jsx
+│   │   ├── CareContext.jsx
+│   │   ├── CollectionContext.jsx
+│   │   ├── DomainContexts.js
+│   │   ├── DomainProviders.jsx
+│   │   ├── PlayerContext.js
+│   │   ├── PlayerProvider.jsx
+│   │   ├── PokemonContext.js
+│   │   ├── PokemonProvider.jsx
+│   │   ├── TownContext.jsx
+│   │   └── UIContext.jsx
 │   ├── hooks
-│   │   ├── index.ts
-│   │   ├── useGameActions.ts
-│   │   └── useGameLogic.ts
+│   │   ├── useCareContext.js
+│   │   ├── useCare.js
+│   │   ├── useCoins.js
+│   │   ├── useCollection.js
+│   │   ├── useGPS.js
+│   │   ├── useInventory.js
+│   │   ├── useLocalStorage.js
+│   │   ├── useOutfitEffects.js
+│   │   ├── usePlayer.js
+│   │   ├── usePokemonContext.js
+│   │   ├── usePokemonData.js
+│   │   ├── usePokemonSearch.js
+│   │   ├── useQuests.js
+│   │   ├── useSquad.js
+│   │   ├── useToast.js
+│   │   ├── useTownContext.js
+│   │   └── useTown.js
 │   ├── index.css
 │   ├── lib
-│   │   ├── actions.ts
-│   │   ├── index.ts
-│   │   └── legacyMapper.ts
-│   ├── pages
-│   │   ├── BriefingView.tsx
-│   │   ├── GameView.tsx
-│   │   ├── index.ts
-│   │   └── MainMenu.tsx
-│   ├── test
-│   │   ├── debug.test.ts
-│   │   ├── infrastructure.test.ts
-│   │   └── setup.ts
-│   └── types
-│       └── assets.d.ts
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-├── vite.config.ts
-└── vitest.config.ts
+│   │   ├── api.js
+│   │   ├── battle-logic.js
+│   │   ├── battleReducer.js
+│   │   ├── constants.js
+│   │   ├── createContextHook.js
+│   │   ├── errorHandler.js
+│   │   ├── favorites.js
+│   │   └── utils.js
+│   └── main.jsx
+├── vite.config.js
+└── vitest.config.js
 
-21 directories, 79 files
+10 directories, 114 files
 ```
-## 🔧 4. CORE TYPE DEFINITIONS
-```typescript
-// Key types from src/core/types.ts (first 150 lines)
-/**
- * Hybrid ECS Type System for Belgian Political Simulator
- * Compatibility layer: provide commonly-used type exports and permissive
- * action shapes while the codebase migrates between naming conventions.
- */
+## 🔧 4. KEY PROJECT FILES
+```
+# Key React contexts and hooks
+-rw-r--r-- 1 juan juan  160 Dec 31 20:48 src/contexts/CareContext.jsx
+-rw-r--r-- 1 juan juan  169 Dec 31 20:16 src/contexts/CollectionContext.jsx
+-rw-r--r-- 1 juan juan 4.3K Jan  1 12:46 src/contexts/DomainProviders.jsx
+-rw-r--r-- 1 juan juan 1.5K Jan  1 12:16 src/contexts/PlayerProvider.jsx
+-rw-r--r-- 1 juan juan 5.4K Jan  1 12:57 src/contexts/PokemonProvider.jsx
+-rw-r--r-- 1 juan juan  162 Dec 31 20:48 src/contexts/TownContext.jsx
+-rw-r--r-- 1 juan juan  159 Dec 31 20:27 src/contexts/UIContext.jsx
 
-export * from './domain';
-// Re-export UI/shared types to satisfy imports that expect a `types` barrel
-// Note: avoid re-exporting './types/shared' to prevent circular/duplicate exports
-
-import type {
-  EntityId,
-  EntityType,
-  Stats,
-  Resources,
-  Relations,
-  Identity,
-  TransientStatus,
-  Modifier,
-} from './domain/primitives';
-
-import type { TechNode } from './domain/items/TechNode'; // Add import
-
-import type { Dossier, ResolutionPath } from './domain/items/Dossier';
-import type { PartyPlatform, PartyTrait } from './domain/containers/Party';
-import type { ConstituencyData } from './domain/containers/Constituency';
-import type { Baron } from './domain/items/Baron';
-import type { Rumor } from './domain/items/Rumor';
-import type { Mandate } from './domain/items/Mandate';
-import type { BillData } from './domain/items/Bill';
-import type { IssueData } from './domain/items/Issue';
-import type { Organization, PillarAffiliation } from './domain/containers/Organization';
-import type { GameEvent } from './domain/items/GameEvent';
-import type { Actor } from './domain/items/Actor';
-import type { NationState } from './domain/simulation/NationState';
-
-// Helpers
-export function createEntityId(type: EntityType, id: string): EntityId {
-  if (id.startsWith(`${type}:`)) return id as EntityId;
-  return `${type}:${id}` as EntityId;
-}
-
-export function getEntityType(id: EntityId): EntityType | null {
-  const parts = id.split(':');
-  return parts.length > 1 ? (parts[0] as EntityType) : null;
-}
-
-// Minimal ECS components/state (keep compatible with existing code)
-export interface CorruptionStats { risk: number; investigationChance: number; history: string[] }
-export interface BudgetState { deficit: number; debt: number; revenue: number; spending: number; marketConfidence: number }
-export interface DeckComponent { library: string[]; hand: string[]; agenda: string[]; discard: string[]; exhaust: string[] }
-export type PlayerDeck = DeckComponent; // Alias for Guide compatibility
-export interface SchedulerComponent { assignments: Record<string, string>; lockedSlots: string[] }
-export interface PoliticalDesk { inbox: string[]; agenda: string[]; archive: string[]; backlog: string[]; } // Added
-export interface TechState { unlockedNodes: string[]; availableNodes: string[] } // New State
-export type ComponentTable<T> = Record<EntityId, T>
-
-export interface Components {
-  identity: ComponentTable<Identity>
-  stats: ComponentTable<Stats>
-  relations: ComponentTable<Relations>
-  resources: ComponentTable<Resources>
-  transientStatus: ComponentTable<TransientStatus>
-  partyPlatform: ComponentTable<PartyPlatform>
-  constituencyData: ComponentTable<ConstituencyData>
-  politicalDesk?: ComponentTable<PoliticalDesk> // Added
-
-  issueData: ComponentTable<IssueData>
-  billData: ComponentTable<BillData>
-  deck: ComponentTable<DeckComponent>
-  dossierData?: ComponentTable<Dossier>
-  scheduler: ComponentTable<SchedulerComponent>
-  techTree?: ComponentTable<TechState> // New component
-  baronData: ComponentTable<Baron>
-  rumors?: ComponentTable<Rumor[]>
-  actorData: ComponentTable<Actor>
-  corruption: ComponentTable<CorruptionStats>
-  pillarAffiliation: ComponentTable<PillarAffiliation>
-  organizationData: ComponentTable<Organization>
-  factions?: ComponentTable<Faction[]> // New component for V2
-}
-
-// Player / Game state (trimmed for compatibility)
-export interface PlayerState { authority: number; authorityWarningShown: boolean; authorityHistory: any[] }
-export interface PartyBureau { currentMandate: Mandate | null; mandateHistory: Mandate[]; nextMandateDate: number }
-
-export type GamePhase = 'setup' | 'campaign' | 'election' | 'consultation' | 'formation' | 'governing' | 'crisis' | 'gameOver'
-export type Season = 'winter' | 'spring' | 'summer' | 'autumn'
-export type TurnPhase = 'briefing' | 'execution' | 'resolution'
-
-export interface Coalition { parties: EntityId[]; primeMinister: EntityId; formationDate: number;[k: string]: any }
-export interface ElectionResult { date: number; seats: Record<EntityId, number>; votes: Record<EntityId, number>; voteShare?: Record<EntityId, number>; constituencyResults?: Record<EntityId, { seats: Record<EntityId, number>; voteShare: Record<EntityId, number> }>; turnout: number }
-
-export type TimeMode = 'STRATEGIC' | 'TACTICAL';
-
-export interface ChronosState {
-  absoluteTurn: number;
-  year: number;     // 2025
-  season: Season;   // 'winter'
-  week: number;     // 1-52
-
-  // The Elastic State
-  timeMode: TimeMode;
-
-  // Progress within current Phase
-  weeksInPhase: number;
-  trimestersInPhase: number;
-}
-
-export interface MorningPaper { headlines: { text: string; sentiment: 'positive' | 'negative' | 'neutral' }[] }
-export interface Globals { currentTurn: number; currentPhase: GamePhase; turnPhase: TurnPhase; playerParty: EntityId; electionHistory: ElectionResult[]; events: GameEvent[]; voiceInfluence?: Record<string, number>; chronos?: ChronosState; transientJuice?: { type: string; value: number; label: string }; delayedActions?: { turn: number; effects: any[]; description: string; source?: string }[]; morningPaper?: MorningPaper;[k: string]: any }
-
-export interface GameState { entities: EntityId[]; components: Components; globals: Globals; nation?: NationState;[k: string]: any }
-
-// Modding / data
-export interface ModManifest { id: string; name: string; version: string; author: string; description: string }
-
-export interface Faction {
-  id: string;
-  name: string;
-  description?: string;
-  ideology?: string;
-  power: number; // 0-100
-  satisfaction: number; // 0-100
-  alignedInterest?: string;
-}
-
-export interface PartyDefinition { id: string; name: string; fullName?: string; ideology: string; color: string; description: string; language: string; difficulty?: string; seats: number; money: number; momentum: number; toxicity?: number; traits: PartyTrait[]; positions: Record<string, number>; priorityIssues?: string[]; tags?: string[]; initialDeck?: string[]; factions?: Faction[] }
-
-export interface GameDataPackage { manifest: ModManifest; parties: PartyDefinition[]; constituencies: any[]; issues: any[]; dossiers?: Dossier[]; actors?: Actor[]; technologies?: TechNode[]; crises?: any[]; traits?: any[] }
-
-// Make GameAction permissive so legacy code that expects ad-hoc fields compiles
-export interface GameAction {
-  type: string
-  actor: EntityId
-  target?: EntityId
-  payload?: Record<string, unknown>
-  cost?: { money?: number; politicalCapital?: number; }
-  [key: string]: any
-}
-
-export interface CampaignAction extends GameAction { type: CampaignActionType }
-
-// Accept both snake_case and camelCase variants used throughout the codebase
-export type CampaignActionType =
-  | 'canvassing' | 'doorToDoor' | 'door_to_door'
-  | 'media_appearance' | 'mediaAppearance' | 'media_appearance'
-  | 'fundraising' | 'fundraise' | 'fundraising'
-  | 'attack_ad' | 'attackAd' | 'advertisement'
-  | 'policy_speech' | 'policySpeech' | 'policyAnnouncement' | 'policy_announcement'
+# Key components
+-rw-r--r-- 1 juan juan 9.4K Jan  1 13:29 src/components/BattleArena.jsx
+-rw-r--r-- 1 juan juan  495 Dec 31 12:52 src/components/BattlePage.jsx
+-rw-r--r-- 1 juan juan 3.7K Dec 31 20:23 src/components/CollectionPage.jsx
+-rw-r--r-- 1 juan juan 6.2K Dec 31 19:30 src/components/GameConsole.jsx
+-rw-r--r-- 1 juan juan  855 Jan  1 12:38 src/components/HPBar.jsx
+-rw-r--r-- 1 juan juan 3.1K Jan  1 12:17 src/components/Navbar.jsx
+-rw-r--r-- 1 juan juan 3.6K Dec 31 20:23 src/components/PokemonCard.jsx
+-rw-r--r-- 1 juan juan 4.9K Dec 31 12:38 src/components/PokemonModal.jsx
+-rw-r--r-- 1 juan juan 2.4K Dec 31 12:38 src/components/SearchBar.jsx
+-rw-r--r-- 1 juan juan 1.4K Dec 31 19:12 src/components/Toast.jsx
 ```
 
-## 🎮 5. GAME DESIGN BRIEF
-# One-Page Game Design Brief — BelPolSim
+## 🎮 5. PROJECT OVERVIEW
+# Pokemon Felix
 
-Overview
-- Tactical political simulation focused on Belgian federal politics. Players manage a party: campaign, negotiate coalitions, govern, and survive crises.
+A modern Pokemon web application built with React + Vite, featuring a comprehensive Pokedex, battle system, and tournament mode.
 
-Player Goals
-- Win enough seats in an election to form or join a stable coalition.
-- Maintain government stability, pass priority legislation, and manage resources (money, political capital).
+## Features
 
-Core Loop
-1. Campaign phase: allocate resources across constituencies, run targeted actions (canvass, ads, rallies) that modify local polling and awareness.
-2. Election: calculate seat allocation per constituency, produce national seat totals.
-3. Formation: negotiate coalition offers with AI parties; objective is to reach majority and manage linguistic/policy parity.
-4. Governing: enact laws, respond to crises, manage toxicity and coalition stability; poor outcomes feed back into polling.
+- 🔍 **Pokemon Search**: Fuzzy search with autocomplete suggestions
+- 📚 **Pokedex**: Browse and collect Pokemon with pagination
+- ⭐ **Collection System**: Mark and track your favorite Pokemon
+- ⚔️ **Battle Arena**: Simulate Pokemon battles with stat-based combat
+- 🏆 **Tournament Mode**: 8-player elimination tournament
+- 🌐 **Multilingual**: View Pokemon names and descriptions in multiple languages
+- ♿ **Accessible**: Keyboard navigation and screen reader support
 
-Polling Model (high-level)
-- Two-tier polling: national (components.stats[party].nationalPolling) and constituency-level (components.stats[party].constituencyPolling[constituencyId]).
-- Campaign actions apply local delta to constituencyPolling; events apply national or local shocks with decay over time.
-- Polling should respect normalization (sums ≈ 100%) and include noise/smoothing to avoid erratic swings.
+## Prerequisites
 
-Seat Allocation
-- Use per-constituency proportional allocation (recommended: D'Hondt) producing integer seat counts per constituency.
-- Global parliament composition is the sum of constituency seats; majority threshold computed from total seats.
+- Node.js (v16 or higher)
+- npm or yarn
 
-Coalition Rules & UX
-- Cordon sanitaire: some parties may be barred from coalition; enforce in evaluation logic.
-- Cabinet parity: apply linguistic parity rules when assigning ministers; affect coalition friction metric.
-- UX: map-driven constituency view, tooltip with leader + polling, election-results modal presenting seat map and seat swing.
+## Installation
 
-Metrics & Balancing Targets
-- Target election pacing (turns between elections), typical seat swings, win rates per difficulty.
-- Design 5 scenarios (easy/normal/hard + 2 challenge scenarios) to tune win conditions.
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd pokemon-felix
+```
 
-Next Deliverables for Design/Dev
-1. Formal JSON Schema for constituencies and polling (example in repo).  
-2. Seat allocation spec: D'Hondt algorithm + tie-break rules.  
-3. UI mockups: map legend, constituency drilldown, election-results screen.  
-4. Scenario specs (start states, objectives, balancing targets).
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. (Optional) Create a `.env` file based on `.env.example`:
+```bash
+cp .env.example .env
+```
+
+## Development
+
+Start the development server (runs both frontend and backend):
+
+```bash
+npm run dev
+```
+
+This starts:
+- **Frontend** (Vite): http://localhost:5173
+- **Backend** (json-server): http://localhost:3001
+
+## Available Scripts
 
 ## 🗺️ 6. ROADMAP STATUS
-# Roadmap
+# Pokemon Felix - Roadmap 🗺️
 
-**Last Updated:** 2025-12-31  
-**Current Version:** v0.6.4 (The Execution Loop)  
-**Next Version:** v0.7.0 (Iron Logic)  
-**Philosophy:** "Deepen the Well before you Dig the Moat"
+> **Version**: 0.0.0  
+> **Last Updated**: 2025-12-31  
+> **Project Status**: Active Development
 
-## Current Status
+## 📊 Current State
 
-**v0.6.4 Complete** ✅
-- Phase system (Briefing, Execution, Resolution)
-- DeskView UI component
-- Turn phase transitions
-- Core gameplay loop functional
+Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG world** with:
 
-**Next Focus**: v0.6.5 - Polish, tests, and moddability foundation
-
-## Next 4 Versions (Tactical Roadmap)
-
-### v0.6.5 - Polish, Tests & Moddability 🧪
-
-**Goal**: Solidify foundation before Iron Logic
-
-**Core Features**:
-1. **Test Coverage** (80%+ target)
-   - ElectionSystem, CoalitionSystem, CampaignSystem
-   - TimeSystem, AuthoritySystem
-   - State builder helpers
-
-2. **JSON Data Migration**
-   - Move parties, constituencies, issues to JSON
-   - Move barons, traits to JSON
-   - Create DataLoader system
-   - Enable community modding
-
-3. **Polish**
-   - UI/UX improvements
-   - Bug fixes
-   - Performance optimization
-   - Better error messages
-
-**Success Criteria**:
-- 80%+ test coverage
-- All game data in JSON files
-- Modding guide published
-- No critical bugs
-
-**Timeline**: 2-3 weeks
+- ✅ **World Map System** (10x10 tile-based navigation)
+- ✅ **Seasonal System** (Dynamic visual themes)
+- ✅ **Battle Arena** (Stat-based combat + Tournament mode)
+- ✅ **Collection System** (Catch, own, and manage Pokemon)
+- ✅ **Care System** (HP, Hunger, Happiness mechanics)
+- ✅ **Town Builder** (Place buildings, trees, paths)
+- ✅ **Inventory/Bag System** (Items, Pokeballs, consumables)
+- ✅ **Shiny Pokemon** (1% encounter rate with visual effects)
+- ✅ **Gacha System** (Mystery boxes with rewards)
+- ✅ **Quest System** (NPCs, objectives, rewards)
 
 ---
 
-### v0.7.0 - Iron Logic 🎯
+## 🎯 Development Phases
 
-**Goal**: Architectural unification - "One Game" principle
+### Phase 1: Core Foundation ✅ COMPLETE
+*Status: Fully implemented and stable*
 
-**Core Features**:
-1. **Master State** (`GameLoop.ts`)
-   - Unified state machine: Formation → Government → Opposition → Campaign
-   - Mode transitions (election day, government collapse)
-   - Single `GameState` for all modes
+- [x] React + Vite setup
+- [x] React Router navigation
+- [x] PokeAPI integration
+- [x] Pokemon cards and modal details
+- [x] Search with fuzzy matching (Fuse.js)
+- [x] Collection persistence (json-server)
+- [x] Battle system with damage calculation
+- [x] Tournament bracket (8-player elimination)
 
-2. **The Simulation** ("The 5 Great Needles")
-   - `NationState` (GDP, Inflation, Emissions) logic
-   - The Planbureau Engine (Input -> Trend -> Crisis)
+### Phase 2: World & Exploration ✅ COMPLETE
+*Status: Implemented Dec 31, 2025*
 
-3. **The Clausewitz Engine** (Traits)
-   - Universal Trait System (`trait_separatist`, `trait_union_leader`)
-   - `TraitSystem` for cost/vote modifiers
+- [x] Tile-based world map (10x10 grid)
+- [x] Keyboard + D-Pad navigation
+- [x] Interactive tiles (Grass, PokeCenter, Houses, Water)
+- [x] Random encounters (30% in grass)
+- [x] NPC interactions (Prof. Oak, Fisherman, Team Rocket)
+- [x] Seasonal system with dynamic styling
+- [x] Town construction mode
+- [x] localStorage persistence for world state
 
-4. **Kabinetschef UI** (Voices)
-   - Internal Monologue system ("Technocrat", "Populist", "Ideologue")
+### Phase 3: RPG Mechanics ✅ COMPLETE
+*Status: Implemented Dec 31, 2025*
 
-2. **Seasonal System** (`SeasonSystem.ts`)
-   - Winter (Budget Season) - High constraint, grumpy voters
-   - Spring (Reform Window) - High legislative output
-   - Summer (Cucumber Time) - Low stakes, high scandal risk
-   - Autumn (Rentrée) - High friction, strikes
-
-3. **Unified Desk** (`UnifiedDesk.tsx`)
-   - Single adaptive UI for all modes
-   - Inbox (drawn cards for the week)
-   - Grid (5-day execution calendar)
-   - Context shifts: Campaign HQ ↔ PM Office
-
-**Implementation**:
-- Define GameState interfaces
-- Implement SeasonSystem
-- Refactor useGameLogic to state machine
-- Build UnifiedDesk component
-
-**Success Criteria**:
-- All 4 modes use same game loop
-- Seasonal events inject correctly
-- Smooth mode transitions
-- Single coherent UI
+- [x] Pokemon care (HP, Hunger, Happiness)
+- [x] Healing at PokeCenter
+- [x] Inventory system with items
+- [x] Pokeball variants (Great, Ultra, Master)
+- [x] Shiny Pokemon encounters
+- [x] Quest system with rewards
+- [x] Coin economy
+- [x] Gacha/Mystery boxes
 
 ---
 
-### v0.8.0 - Worker Placement
+## 🚀 Upcoming Features
 
+### Phase 4: Educational Systems ✅ COMPLETE
+*Status: Implemented Dec 31, 2025*
+
+Integrate learning mechanics for Felix (age 7) to practice math, reading, and logic.
+
+#### 4.1 Pokemon Academy ✅
+- [x] Create `SchoolPage.jsx` component
+- [x] Quiz system with multiple-choice questions
+  - [x] Type advantages (Fire > Grass > Water)
+  - [x] Math problems (Evolution levels, item costs)
+  - [x] Geography (Where Pokemon live)
+  - [x] Evolution knowledge
+- [x] Certificate/diploma rewards
+- [x] Progress tracking in localStorage
+- [x] Add School building to world map
+- [x] **Rewards**: Coins, items, badges
+
+#### 4.2 Python Terminal (Coding Introduction) ✅
+- [x] Create `GameConsole.jsx` component
+- [x] Command interpreter for simplified Python syntax
+  - [x] `heal_all()` - Heal all Pokemon
+  - [x] `add_coins(amount)` - Add coins
+  - [x] `print(pokedex)` - Show collection stats
+  - [x] `catch_pokemon(id)` - Catch specific Pokemon
+- [x] Syntax error messages for learning
+- [x] Secret access (Ctrl+` shortcut)
+
+#### 4.3 Porygon Algorithm Puzzle ✅
+- [x] Create `PorygonLabPage.jsx` component
+- [x] Sequential command builder
+  - [x] `step()` - Move forward
+  - [x] `turn_left()` / `turn_right()` - Rotate
+- [x] Visual execution of command sequence
+- [x] Debugging feedback on collision
+- [x] Progressive difficulty levels (3+ levels)
 
 ## 🩸 7. UNCOMMITTED CHANGES
 ```diff
- M agents/belgian_politics_expert.md
  M docs/ai/current_pulse.md
+ M src/features/world/WorldPage.jsx
 ---
- agents/belgian_politics_expert.md |  2 +-
- docs/ai/current_pulse.md          | 11 +++++------
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ docs/ai/current_pulse.md         | 678 +++++++++++++++++----------------------
+ src/features/world/WorldPage.jsx |   1 -
+ 2 files changed, 295 insertions(+), 384 deletions(-)
 ```
