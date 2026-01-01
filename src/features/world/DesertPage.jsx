@@ -19,7 +19,7 @@ const GEOGRAPHY_FACTS = [
 
 export function DesertPage() {
     const navigate = useNavigate();
-    const { coins, addCoins, toggleOwned, ownedIds } = usePokemonContext();
+    const { coins, addCoins, toggleOwned } = usePokemonContext();
     const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
     const [encounter, setEncounter] = useState(null);
     const [message, setMessage] = useState(null);

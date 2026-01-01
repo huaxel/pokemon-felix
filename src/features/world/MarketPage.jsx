@@ -8,7 +8,12 @@ import './MarketPage.css';
 
 // Calculate Pokemon value based on stats and rarity
 const calculatePokemonValue = (pokemon) => {
-    const bst = pokemon.stats.reduce((sum, s) => sum + s.base_stat, 0);
+    // Defensive check: if stats aren't loaded, return base value
+    if (!pokemon || !pokemon.stats || !Array.isArray(pokemon.stats)) {
+        return 50; // Fallback value
+    }
+
+    const bst = pokemon.stats.reduce((sum, s) => sum + (s.base_stat || 0), 0);
     const baseValue = Math.floor(bst / 10); // 30-80 coins typical
     const rarityBonus = pokemon.id > 130 ? 100 : 0; // Legendary bonus
     const evolutionBonus = pokemon.id > 100 ? 20 : 0; // Later gen bonus
@@ -167,7 +172,9 @@ export function MarketPage() {
                         ) : (
                             sellablePokemon.map(pokemon => {
                                 const value = calculatePokemonValue(pokemon);
-                                const bst = pokemon.stats.reduce((sum, s) => sum + s.base_stat, 0);
+                                const bst = pokemon.stats && Array.isArray(pokemon.stats)
+                                    ? pokemon.stats.reduce((sum, s) => sum + (s.base_stat || 0), 0)
+                                    : 0;
                                 return (
                                     <div key={pokemon.id} className="market-card">
                                         <img src={pokemon.sprites.front_default} alt={pokemon.name} />

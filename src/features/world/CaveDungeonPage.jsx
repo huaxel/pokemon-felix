@@ -29,9 +29,8 @@ export function CaveDungeonPage() {
     const [puzzleState, setPuzzleState] = useState({ completed: false, progress: 0 });
     const [encounter, setEncounter] = useState(null);
     const [message, setMessage] = useState(null);
-    const [treasure, setTreasure] = useState(null);
 
-    const handlePuzzleAction = (action) => {
+    const handlePuzzleAction = () => {
         const puzzle = PUZZLES[floor];
 
         if (puzzle.type === 'push') {
