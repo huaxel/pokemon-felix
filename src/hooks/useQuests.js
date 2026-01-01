@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import * as questsService from '../lib/services/questsService';
 
 const QUESTS_STORAGE_KEY = 'felix_quests_state';
 
@@ -33,21 +34,27 @@ const INITIAL_QUESTS = [
 ];
 
 export function useQuests() {
-    const [quests, setQuests] = useState(() => {
-        const saved = localStorage.getItem(QUESTS_STORAGE_KEY);
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            // Merge saved progress with initial quest data definitions
-            return INITIAL_QUESTS.map(q => {
-                const savedQ = parsed.find(sq => sq.id === q.id);
-                return savedQ ? { ...q, progress: savedQ.progress, completed: savedQ.completed } : { ...q, progress: 0, completed: false };
-            });
-        }
-        return INITIAL_QUESTS.map(q => ({ ...q, progress: 0, completed: false }));
-    });
+    const [quests, setQuests] = useState(null);
 
     useEffect(() => {
-        localStorage.setItem(QUESTS_STORAGE_KEY, JSON.stringify(quests));
+        let mounted = true;
+        questsService.getQuests().then(saved => {
+            if (!mounted) return;
+            if (saved && saved.length) {
+                const merged = INITIAL_QUESTS.map(q => {
+                    const savedQ = saved.find(sq => sq.id === q.id);
+                    return savedQ ? { ...q, progress: savedQ.progress, completed: savedQ.completed } : { ...q, progress: 0, completed: false };
+                });
+                setQuests(merged);
+            } else {
+                setQuests(INITIAL_QUESTS.map(q => ({ ...q, progress: 0, completed: false })));
+            }
+        });
+        return () => { mounted = false };
+    }, []);
+
+    useEffect(() => {
+        if (quests !== null) questsService.saveQuests(quests);
     }, [quests]);
 
     const updateQuestProgress = (type, amount = 1) => {

@@ -1,38 +1,34 @@
 import { useState, useEffect } from 'react';
+import * as inventoryService from '../lib/services/inventoryService';
 
 /**
  * Hook to manage a simple inventory system
  */
 export function useInventory() {
-    const [inventory, setInventory] = useState(() => {
-        const saved = localStorage.getItem('pokeInventory');
-        return saved ? JSON.parse(saved) : {
-            'pokeball': 5,
-            'greatball': 0,
-            'ultraball': 0,
-            'masterball': 0,
-            'rare-candy': 0,
-            'mystery-box': 0
-        };
-    });
+    const [inventory, setInventory] = useState(null);
 
     useEffect(() => {
-        localStorage.setItem('pokeInventory', JSON.stringify(inventory));
+        let mounted = true;
+        inventoryService.getInventory().then(data => {
+            if (mounted) setInventory(data);
+        });
+        return () => { mounted = false };
+    }, []);
+
+    useEffect(() => {
+        if (inventory !== null) {
+            inventoryService.saveInventory(inventory);
+        }
     }, [inventory]);
 
     const addItem = (itemId, amount = 1) => {
-        setInventory(prev => ({
-            ...prev,
-            [itemId]: (prev[itemId] || 0) + amount
-        }));
+        setInventory(prev => ({ ...prev, [itemId]: (prev[itemId] || 0) + amount }));
     };
 
     const removeItem = (itemId, amount = 1) => {
+        if (!inventory) return false;
         if ((inventory[itemId] || 0) >= amount) {
-            setInventory(prev => ({
-                ...prev,
-                [itemId]: prev[itemId] - amount
-            }));
+            setInventory(prev => ({ ...prev, [itemId]: prev[itemId] - amount }));
             return true;
         }
         return false;
