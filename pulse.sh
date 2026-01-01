@@ -45,30 +45,33 @@ else
 fi
 echo "\`\`\`" >> "$PULSE_FILE"
 
-# 5. CORE TYPE DEFINITIONS (For Context)
+# 4. CORE TYPE DEFINITIONS (For Context)
 # Key interfaces and types that define the game structure
-echo "## 🔧 4. CORE TYPE DEFINITIONS" >> "$PULSE_FILE"
-echo "\`\`\`typescript" >> "$PULSE_FILE"
-echo "// Key types from src/core/types.ts (first 150 lines)" >> "$PULSE_FILE"
-head -n 150 src/core/types.ts >> "$PULSE_FILE" 2>/dev/null || echo "// types.ts not found" >> "$PULSE_FILE"
+echo "## 🔧 4. KEY PROJECT FILES" >> "$PULSE_FILE"
+echo "\`\`\`" >> "$PULSE_FILE"
+echo "# Key React contexts and hooks" >> "$PULSE_FILE"
+ls -lh src/contexts/*.jsx 2>/dev/null | tail -n +2 >> "$PULSE_FILE" || echo "# No contexts found" >> "$PULSE_FILE"
+echo "" >> "$PULSE_FILE"
+echo "# Key components" >> "$PULSE_FILE"
+ls -lh src/components/*.jsx 2>/dev/null | head -n 10 >> "$PULSE_FILE" || echo "# No components found" >> "$PULSE_FILE"
 echo "\`\`\`" >> "$PULSE_FILE"
 echo "" >> "$PULSE_FILE"
 
-# 6. GAME DESIGN CONTEXT
-# Include the one-page game brief for strategic discussions
-echo "## 🎮 5. GAME DESIGN BRIEF" >> "$PULSE_FILE"
-if [ -f "docs/design/one-page-game-brief.md" ]; then
-    cat "docs/design/one-page-game-brief.md" >> "$PULSE_FILE"
+# 5. PROJECT OVERVIEW
+# Include the README for project context
+echo "## 🎮 5. PROJECT OVERVIEW" >> "$PULSE_FILE"
+if [ -f "README.md" ]; then
+    head -n 50 "README.md" >> "$PULSE_FILE"
 else
-    echo "⚠️ No game brief found." >> "$PULSE_FILE"
+    echo "⚠️ No README found." >> "$PULSE_FILE"
 fi
 echo "" >> "$PULSE_FILE"
 
-# 7. CURRENT ROADMAP
+# 6. CURRENT ROADMAP
 # What features are planned/in-progress
 echo "## 🗺️ 6. ROADMAP STATUS" >> "$PULSE_FILE"
-if [ -f "docs/planning/roadmap.md" ]; then
-    head -n 100 "docs/planning/roadmap.md" >> "$PULSE_FILE"
+if [ -f "roadmap.md" ]; then
+    head -n 100 "roadmap.md" >> "$PULSE_FILE"
 else
     echo "⚠️ No roadmap found." >> "$PULSE_FILE"
 fi

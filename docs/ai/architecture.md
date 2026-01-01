@@ -1,46 +1,53 @@
 # Architecture & Vision
 
 ## Tech Stack
-- **Frontend:** React + TypeScript + Vite
-- **State Management:** Redux Toolkit
+- **Frontend:** React 18 + Vite
+- **State Management:** Context API (PokemonProvider, PlayerProvider, BattleContext, etc.)
 - **Styling:** CSS Modules
 - **Build Tool:** Vite
 - **Package Manager:** npm
+- **External APIs:** PokeAPI (https://pokeapi.co)
 
 ## Core Patterns
-- **Architecture:** Component-based with Redux for state management
-- **Type Safety:** Strict TypeScript throughout
-- **Data Flow:** Unidirectional (Redux)
+- **Architecture:** Component-based with Context API for state management
+- **Data Persistence:** localStorage for save states and collections
+- **Data Flow:** Context providers with custom hooks
 - **File Structure:** Feature-based organization in `src/`
 
 ## Project Structure
 ```
 src/
-├── core/           # Game logic, systems, types
-├── components/     # React UI components
-├── ui/            # UI-specific components
-├── test/          # Test utilities and helpers
+├── components/     # React UI components (pages, UI elements)
+├── contexts/       # Context providers for state management
+├── hooks/          # Custom React hooks
+├── lib/            # Utility functions and game logic
+├── reducers/       # Reducers for complex state (battle system)
 public/
-├── data/          # Game data (JSON files)
-docs/              # Documentation
+├── assets/         # Images, sprites, pixel art
+├── data/           # Pokemon data cache (if any)
+docs/               # Documentation
+agents/             # AI agent definitions
 ```
 
 ## Core Systems
-- **Game State:** Redux-based state management with typed actions
-- **Turn System:** Phase-based gameplay (briefing → execution → resolution)
-- **Data Loading:** JSON-based game data (parties, issues, constituencies)
-- **Event System:** Dynamic game events and crises
+- **World Navigation:** Tile-based 10x10 grid with keyboard/D-pad controls
+- **Battle System:** Turn-based combat with stat calculations and energy management
+- **Collection System:** Pokemon ownership, care (HP, hunger, happiness)
+- **Inventory System:** Items, Pokeballs, consumables
+- **Quest System:** NPCs, objectives, rewards
+- **Educational Mini-Games:** School quizzes, Potion Lab (math), Porygon Lab (coding), Game Console (Python)
+- **Customization:** Player profile, wardrobe, town building
 
 ## Constraints
-- No `any` types in TypeScript
-- Immutable state updates via Redux
-- All game data externalized to JSON files
-- Component-based UI architecture
+- **Child-Friendly:** All content appropriate for age 7
+- **Educational Focus:** Every feature should teach something valuable
+- **Fun First:** If it's not fun, Felix won't play it
+- **localStorage Persistence:** All progress saved locally
+- **PokeAPI Integration:** Pokemon data fetched from external API
 
 ## Mobile Context (Included in Pulse)
 The `pulse.sh` script generates rich context for mobile conversations including:
-- **Core Types** (150 lines from `types.ts`): GameState, Components, Actions
-- **Game Design Brief**: High-level game concept and mechanics
 - **Roadmap**: Current feature status and planned work
 - **File Tree**: 3-level deep project structure
 - **Git Status**: Uncommitted changes and modified files
+- **Project Overview**: Educational Pokemon game for Felix (age 7)

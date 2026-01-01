@@ -1,21 +1,25 @@
 # Active State
 
 ## Current Focus
-- Lighthouse Protocol fully operational and ready for mobile/desktop workflow
+- Agent system adapted for Pokemon Felix (educational game development)
+- Ready for Pokemon-focused feature development
 
 ## Recent Work
-- [2026-01-01] **Completed Lighthouse Protocol setup**
-  - Enhanced `pulse.sh` to include core types (150 lines), game design brief, and roadmap
-  - Created comprehensive system prompt with context awareness and mobile workflow instructions
-  - Pulse now generates 18KB/477 lines of rich context
-- [2026-01-01] Implemented Morning Briefing display fixes
-- [2026-01-01] Standardized agenda slots configuration
-- [2026-01-01] Fixed dossier population in game state
+- [2026-01-01] **Adapted Agent System for Pokemon Felix**
+  - Created Pokemon Expert agent (content & mechanics)
+  - Created Educational Specialist agent (age-appropriate learning)
+  - Created Game Designer agent (fun & engagement)
+  - Updated Systems Architect for React/Pokemon context
+  - Updated Frontend Specialist for child-friendly UI
+  - Updated Playtester for 7-year-old audience
+  - Updated QA Engineer and Trimmer
+  - Rewrote team-workflow.md for Pokemon Felix
+  - Updated AI context system (pulse.sh, docs/ai)
 
 ## Known Issues
-- None currently blocking
+- Old Belgian Politics agents still present (belgian_politics_expert.md, data_engineer.md, logic_engineer.md) - can be removed if desired
 
 ## Next Steps
-1. Test mobile workflow with enhanced pulse
-2. Continue game development with improved AI assistance
-3. Use GitHub Issues as bridge between mobile ideation and desktop implementation
+1. Continue Pokemon Felix development with new agent system
+2. Use agents for feature planning and implementation
+3. Focus on Phase 6 roadmap items (Advanced World Features)

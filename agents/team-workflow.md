@@ -1,6 +1,6 @@
 # The Agentic Development Team & Workflow
 
-This document outlines the roles, responsibilities, and operational workflow of the AI development team for BelPolSim.
+This document outlines the roles, responsibilities, and operational workflow of the AI development team for **Pokemon Felix**.
 
 ---
 
@@ -8,10 +8,10 @@ This document outlines the roles, responsibilities, and operational workflow of 
 
 > **TL;DR:** The 4-phase loop for every feature.
 
-1. **Align** → Check `docs/planning/roadmap.md` + `docs/planning/development-log/`
-2. **Plan** → Create a short plan doc in `docs/planning/implementation/`
-3. **Build** → Types → Data → Logic → Tests → UI
-4. **Review** → Run tests → Update docs by creating `docs/planning/versions/vX.Y.Z-[feature_name].md` → Walkthrough
+1. **Align** → Check `roadmap.md` + recent conversation history
+2. **Plan** → Create a short plan (implementation_plan.md artifact if complex)
+3. **Build** → Design → Data → Logic → UI → Tests
+4. **Review** → Run tests → Update docs → Walkthrough
 
 ---
 
@@ -19,15 +19,14 @@ This document outlines the roles, responsibilities, and operational workflow of 
 
 | Role | Alias | Focus | File |
 |------|-------|-------|------|
-| **Belgian Politics Expert** | Oracle | Requirements, historical context, JSON content | [→](./belgian_politics_expert.md) |
-| **Product Manager** | Vision | Roadmap, narrative, "Game Feel" | [→](./product_manager.md) |
-| **Systems Architect** | Blueprint | Data modeling, types, interfaces | [→](./systems_architect.md) |
-| **Data Engineer** | Pipeline | JSON loading, schema validation, content pipeline | [→](./data_engineer.md) |
-| **Logic Engineer** | Engine | Core algorithms, pure functions | [→](./logic_engineer.md) |
-| **Frontend Specialist** | Face | UI components, UX flows | [→](./frontend_specialist.md) |
+| **Pokemon Expert** | Oracle | Pokemon mechanics, content, balance | [→](./pokemon_expert.md) |
+| **Educational Specialist** | Teacher | Age-appropriate learning design | [→](./educational_specialist.md) |
+| **Game Designer** | Vision | Fun, engagement, roadmap | [→](./game_designer.md) |
+| **Systems Architect** | Blueprint | React architecture, state management | [→](./systems_architect.md) |
+| **Frontend Specialist** | Face | Child-friendly UI, components | [→](./frontend_specialist.md) |
+| **Playtester** | Gamer | Fun factor, balance (age 7) | [→](./playtester.md) |
 | **QA Engineer** | Guardian | Tests, bug hunting | [→](./qa_engineer.md) |
-| **Playtester** | Gamer | Fun factor, balance, pacing | [→](./playtester.md) |
-| **Trimmer** | Trimmer | Scope trimming (YAGNI/KISS/DRY) | [→](./trimmer.md) |
+| **Trimmer** | Minimalist | Scope trimming (YAGNI/KISS) | [→](./trimmer.md) |
 | **AI Context Maintainer** | Lighthouse | AI context sync, session continuity | [→](./ai_context_maintainer.md) |
 
 ---
@@ -37,16 +36,17 @@ This document outlines the roles, responsibilities, and operational workflow of 
 Explicit conditions for transitioning between roles:
 
 | From | To | Trigger |
-|------|----|---------|
-| AI Context Maintainer | Politics Expert | New session started, context loaded |
-| Politics Expert | Systems Architect | Requirements document approved |
-| Systems Architect | Data Engineer | Types & interfaces merged |
-| Data Engineer | Logic Engineer | Data loaded and validated |
-| Logic Engineer | QA Engineer | New pure function created |
-| QA Engineer | Frontend Specialist | Unit tests passing |
-| Frontend Specialist | Playtester | UI feature complete |
-| Playtester | Product Manager | Session feedback written |
-| Product Manager | AI Context Maintainer | Sign-off complete, update context |
+|------|----|------------|
+| AI Context Maintainer | Game Designer | New session started, context loaded |
+| Game Designer | Pokemon Expert | Feature approved, needs Pokemon content |
+| Game Designer | Educational Specialist | Feature approved, needs learning design |
+| Pokemon Expert | Systems Architect | Pokemon mechanics defined |
+| Educational Specialist | Systems Architect | Learning objectives defined |
+| Systems Architect | Frontend Specialist | Architecture designed |
+| Frontend Specialist | QA Engineer | UI implementation complete |
+| QA Engineer | Playtester | Tests passing |
+| Playtester | Game Designer | Playtest feedback written |
+| Game Designer | AI Context Maintainer | Sign-off complete, update context |
 
 ---
 
@@ -56,14 +56,14 @@ When stuck, escalate to the right role:
 
 | If stuck on... | Escalate to... |
 |----------------|----------------|
-| Political accuracy | Belgian Politics Expert |
-| Data model confusion | Systems Architect |
-| JSON loading/validation | Data Engineer |
-| Algorithm complexity | Logic Engineer |
-| UX flow issues | Frontend Specialist |
+| Pokemon accuracy/balance | Pokemon Expert |
+| Educational appropriateness | Educational Specialist |
+| Is this fun for a 7-year-old? | Playtester |
+| React architecture | Systems Architect |
+| UI/UX issues | Frontend Specialist |
 | Test failures | QA Engineer |
-| "Is this fun?" | Playtester |
-| Scope / Priority | Product Manager |
+| Scope / Priority | Game Designer |
+| Feature creep | Trimmer |
 | AI context / Session sync | AI Context Maintainer |
 
 ---
@@ -79,9 +79,9 @@ Before starting work, sync AI context.
 #### Context Checklist
 
 ```markdown
-- [ ] Run `./pulse.sh` to generate fresh context
-- [ ] Review `docs/ai/active_state.md` for current focus
-- [ ] Check `docs/ai/architecture.md` for system overview
+- [ ] Review `roadmap.md` for current phase and priorities
+- [ ] Check recent conversation history for context
+- [ ] Understand current version and completed features
 ```
 
 ### Phase 1: Alignment (The "Board Meeting")
@@ -91,57 +91,58 @@ Before writing code, align on the objective.
 #### Board Meeting Checklist
 
 ```markdown
-- [ ] Reviewed `docs/planning/roadmap.md` - Current phase: ___
-- [ ] Reviewed `docs/planning/development-log/` - Recent context: ___
+- [ ] Reviewed `roadmap.md` - Current phase: ___
 - [ ] Defined Goal: ___________________________
-- [ ] User Value: ____________________________
+- [ ] User Value (for Felix): _________________
+- [ ] Educational Value: _____________________
+- [ ] Fun Factor Estimate: ___ (1-10)
 - [ ] Complexity Estimate: ___ (1-5)
 - [ ] Roles Required: ________________________
 ```
 
 ### Phase 2: Planning
 
-0. **Trim:** Run the [Trimmer](./trimmer.md) checklist.
-1. **Create Plan:** Write a short plan in `docs/planning/implementation/`.
-2. **Versioning:**
-    - Create a new version doc: `docs/planning/versions/vX.Y.Z-[feature_name].md`.
-    - Update `docs/planning/roadmap.md` if priorities changed.
-3. **Architecture Check:** Systems Architect reviews if new types are needed.
-4. **Data Check:** Data Engineer reviews if new JSON content or loaders are needed.
-5. **UX/Narrative Check:** Product Manager & Frontend Specialist define "flow" and "tone".
+1. **Trim:** Run the [Trimmer](./trimmer.md) checklist - do we really need this?
+2. **Create Plan:** For complex features, write an implementation_plan.md artifact
+3. **Game Design Check:** Game Designer reviews for fun and educational value
+4. **Pokemon Check:** Pokemon Expert reviews if Pokemon mechanics are involved
+5. **Educational Check:** Educational Specialist reviews if learning content is involved
+6. **Architecture Check:** Systems Architect reviews if new state/architecture is needed
+7. **UX Check:** Frontend Specialist defines UI flow and child-friendly design
 
 ### Phase 3: Execution
 
-1. **Foundation:** Systems Architect updates `src/core/types.ts` (and related schema/types as needed).
-2. **Data:** Data Engineer adds JSON content to `public/data/core/` and updates loaders.
-3. **Logic:** Logic Engineer implements pure functions in `src/core/systems/` (or `src/core/domain/` for pure helpers).
-4. **Verification (Logic):** QA Engineer writes unit tests.
-5. **Interface:** Frontend Specialist builds components.
+1. **Foundation:** Systems Architect designs architecture and data structures
+2. **Content:** Pokemon Expert or Educational Specialist provides content/mechanics
+3. **Logic:** Implement core logic (hooks, utilities, game systems)
+4. **Interface:** Frontend Specialist builds child-friendly UI components
+5. **Verification:** QA Engineer tests functionality and edge cases
 
 #### Task Tracking
 
 Use a `task.md` artifact to track atomic progress:
 
 ```markdown
-- [ ] AI Context Maintainer: pulse generated
-- [ ] Politics Expert: requirements gathered
-- [ ] Systems Architect: types defined
-- [ ] Data Engineer: JSON content added, loaders updated
-- [ ] Logic Engineer: functions implemented
-- [ ] QA Engineer: tests written
-- [ ] Frontend Specialist: UI completed
-- [ ] Playtester: session complete
-- [ ] Product Manager: sign-off
+- [ ] AI Context Maintainer: context reviewed
+- [ ] Game Designer: feature approved
+- [ ] Trimmer: scope validated
+- [ ] Pokemon Expert: mechanics defined (if applicable)
+- [ ] Educational Specialist: learning objectives defined (if applicable)
+- [ ] Systems Architect: architecture designed
+- [ ] Frontend Specialist: UI implemented
+- [ ] QA Engineer: tests passing
+- [ ] Playtester: fun factor validated
+- [ ] Game Designer: final sign-off
 - [ ] AI Context Maintainer: context updated
 ```
 
 ### Phase 4: Review & Documentation
 
-1. **Verify:** Run tests and manual checks.
-2. **Update Docs:** Update `docs/ai/architecture.md` (or `docs/architecture/`) if models changed.
-3. **Log Feedback:** Add a note under `docs/planning/development-log/` if items were addressed.
-4. **Walkthrough:** Create a `walkthrough.md` artifact to demonstrate the work.
-5. **Context Sync:** AI Context Maintainer updates `docs/ai/active_state.md`.
+1. **Verify:** Run tests and manual checks
+2. **Playtest:** Playtester evaluates fun factor and age-appropriateness
+3. **Update Roadmap:** Update `roadmap.md` if milestones completed
+4. **Walkthrough:** Create a `walkthrough.md` artifact to demonstrate the work
+5. **Context Sync:** AI Context Maintainer updates context for next session
 
 ---
 
@@ -165,37 +166,66 @@ Structured output for agent communications:
 
 **0. Context Load**
 
-- **AI Context Maintainer** runs `pulse.sh` and reviews current state.
+- **AI Context Maintainer** reviews roadmap and recent work
 
 **1. Feature Definition**
 
-- **Politics Expert** proposes mechanic (e.g., "Coalition Friction").
-- **Product Manager** approves and defines the *Narrative*.
+- **Game Designer** evaluates feature for fun and educational value
+- **Trimmer** challenges complexity and scope
 
-**2. Design & UX**
+**2. Content Design**
 
-- **Frontend Specialist** outlines the *User Flow*.
-- **Systems Architect** defines the architecture (Hybrid ECS-OOP: ECS for data, OOP for logic).
+- **Pokemon Expert** defines Pokemon mechanics (if applicable)
+- **Educational Specialist** designs learning objectives (if applicable)
 
-**3. Data Pipeline**
+**3. Technical Design**
 
-- **Data Engineer** creates JSON content and loader integrations.
+- **Systems Architect** designs React architecture and state management
+- **Frontend Specialist** outlines child-friendly UI flow
 
-**4. Core Implementation**
+**4. Implementation**
 
-- **Logic Engineer** implements the math in `src/core/systems/`.
-- **QA Engineer** writes unit tests for the math.
+- **Systems Architect** implements core logic and data structures
+- **Frontend Specialist** builds UI components with fun animations
 
-**5. UI Implementation**
+**5. Quality Assurance**
 
-- **Frontend Specialist** connects the logic to React components.
+- **QA Engineer** tests functionality and edge cases
+- **Playtester** evaluates fun factor for a 7-year-old
 
-**6. Integration & Polish**
+**6. Sign-Off**
 
-- **You (Integrator)** merges code.
-- **Playtester** simulates a session to check pacing and fun.
-- **Product Manager** reviews for "Game Feel".
+- **Game Designer** reviews for alignment with vision
+- **AI Context Maintainer** updates context for next session
 
-**7. Context Update**
+---
 
-- **AI Context Maintainer** updates `docs/ai/` for next session.
+## 7. Pokemon Felix Specific Guidelines
+
+### Educational Focus
+
+Every feature should teach something valuable:
+- **Math:** Calculations, counting, patterns
+- **Reading:** Quest text, Pokemon descriptions
+- **Logic:** Puzzles, strategy, problem-solving
+- **Coding:** Basic programming concepts (Porygon Lab, Game Console)
+
+### Age-Appropriate Design (Age 7)
+
+- **No Frustration:** Failures are learning opportunities
+- **Clear Feedback:** Visual and immediate
+- **Progressive Difficulty:** Start simple, unlock complexity
+- **Positive Reinforcement:** Encourage, don't punish
+
+### Fun First
+
+- If it's not fun, Felix won't play it
+- Education must be seamlessly integrated
+- Rewards should feel satisfying
+- Progression should feel meaningful
+
+---
+
+**Current Project Status:** Pokemon Felix v0.6.0 - Advanced World Features  
+**Target Player:** Felix (age 7)  
+**Core Vision:** Educational Pokemon adventure that makes learning fun

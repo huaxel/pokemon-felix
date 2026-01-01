@@ -69,21 +69,21 @@
 }
 
 .stat-badge {
-    position: absolute;
-    top: -10px;
-    right: 10px;
+    position: relative;
+    top: 0;
+    right: 0;
     font-size: 0.75rem;
     font-weight: bold;
     background: #2d3748;
     color: white;
-    padding: 0.2rem 0.6rem;
-    border-radius: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .fighter-slot {
     width: 280px;
-    height: 380px;
+    height: 320px;
     border: none;
     border-radius: 1.5rem;
     display: flex;
@@ -150,6 +150,85 @@
 .battle-controls {
     text-align: center;
     margin-bottom: 3rem;
+}
+
+.fighter-card-mini {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    border-radius: 1.25rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(245, 248, 255, 0.95));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 24px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e2e8f0;
+}
+
+.fighter-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fighter-name {
+    font-weight: 800;
+    text-transform: capitalize;
+    font-size: 1.1rem;
+    color: #1f2937;
+}
+
+.swap-btn {
+    background: #e2e8f0;
+    border: none;
+    color: #1f2937;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.swap-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.fighter-sprite {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.18));
+}
+
+.moves-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.move-chip {
+    background: #0ea5e9;
+    color: white;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    box-shadow: 0 2px 6px rgba(14, 165, 233, 0.3);
+}
+
+.move-chip.disabled {
+    background: #cbd5e0;
+    color: #475569;
+    box-shadow: none;
 }
 
 .fight-btn {
@@ -291,6 +370,9 @@
 }
 
 .mini-card img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
     transform: translateY(-5px);
     box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15);
 }

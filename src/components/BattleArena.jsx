@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { usePokemonContext } from '../hooks/usePokemonContext';
-import { PokemonCard } from './PokemonCard';
+import { HPBar } from './HPBar';
 import { getStat, calculateMaxHP, calculateDamage } from '../lib/battle-logic';
 import './BattleArena.css';
 
@@ -121,30 +121,24 @@ export function BattleArena({ allPokemon, onLoadMore }) {
                 {/* Fighter 1 */}
                 <div className={`fighter-container ${winner === fighter1 ? 'winner' : ''}`}>
                     {fighter1 && (
-                        <div className="health-bar-container">
-                            <div className="health-bar-label">
-                                <span>HP</span>
-                                <span>{f1HP}/{f1MaxHP}</span>
-                            </div>
-                            <div className="health-bar-bg">
-                                <div
-                                    className="health-bar-fill"
-                                    style={{
-                                        width: `${(f1HP / f1MaxHP) * 100}%`,
-                                        backgroundColor: f1HP < f1MaxHP * 0.2
-                                            ? 'var(--health-critical)'
-                                            : f1HP < f1MaxHP * 0.5
-                                                ? 'var(--health-warning)'
-                                                : 'var(--health-good)'
-                                    }}
-                                ></div>
-                            </div>
-                            <div className="stat-badge">ATK: {getStat(fighter1, 'attack')}</div>
-                        </div>
+                        <div className="stat-badge">ATK: {getStat(fighter1, 'attack')}</div>
                     )}
                     <div className="fighter-slot">
                         {fighter1 ? (
-                            <PokemonCard pokemon={fighter1} isOwned={false} onToggleOwned={() => { }} onClick={() => !isBattling && setFighter1(null)} />
+                            <div className="fighter-card-mini">
+                                <div className="fighter-top">
+                                    <div className="fighter-name">{fighter1.name}</div>
+                                    <button className="swap-btn" onClick={() => !isBattling && setFighter1(null)}>Cambiar</button>
+                                </div>
+                                <img className="fighter-sprite" src={fighter1.sprites?.front_default} alt={fighter1.name} />
+                                <HPBar current={f1HP} max={f1MaxHP} label="HP" />
+                                <div className="moves-row" aria-label="Ataques disponibles">
+                                    {(fighter1.moves || []).slice(0, 4).map((m) => (
+                                        <span key={m.move?.name || m.name} className="move-chip">{m.move?.name || m.name}</span>
+                                    ))}
+                                    {(fighter1.moves || []).length === 0 && <span className="move-chip disabled">Sin ataques</span>}
+                                </div>
+                            </div>
                         ) : (
                             <div className="empty-slot">Elige Luchador 1</div>
                         )}
@@ -156,30 +150,24 @@ export function BattleArena({ allPokemon, onLoadMore }) {
                 {/* Fighter 2 */}
                 <div className={`fighter-container ${winner === fighter2 ? 'winner' : ''}`}>
                     {fighter2 && (
-                        <div className="health-bar-container">
-                            <div className="health-bar-label">
-                                <span>HP</span>
-                                <span>{f2HP}/{f2MaxHP}</span>
-                            </div>
-                            <div className="health-bar-bg">
-                                <div
-                                    className="health-bar-fill"
-                                    style={{
-                                        width: `${(f2HP / f2MaxHP) * 100}%`,
-                                        backgroundColor: f2HP < f2MaxHP * 0.2
-                                            ? 'var(--health-critical)'
-                                            : f2HP < f2MaxHP * 0.5
-                                                ? 'var(--health-warning)'
-                                                : 'var(--health-good)'
-                                    }}
-                                ></div>
-                            </div>
-                            <div className="stat-badge">ATK: {getStat(fighter2, 'attack')}</div>
-                        </div>
+                        <div className="stat-badge">ATK: {getStat(fighter2, 'attack')}</div>
                     )}
                     <div className="fighter-slot">
                         {fighter2 ? (
-                            <PokemonCard pokemon={fighter2} isOwned={false} onToggleOwned={() => { }} onClick={() => !isBattling && setFighter2(null)} />
+                            <div className="fighter-card-mini">
+                                <div className="fighter-top">
+                                    <div className="fighter-name">{fighter2.name}</div>
+                                    <button className="swap-btn" onClick={() => !isBattling && setFighter2(null)}>Cambiar</button>
+                                </div>
+                                <img className="fighter-sprite" src={fighter2.sprites?.front_default} alt={fighter2.name} />
+                                <HPBar current={f2HP} max={f2MaxHP} label="HP" />
+                                <div className="moves-row" aria-label="Ataques disponibles">
+                                    {(fighter2.moves || []).slice(0, 4).map((m) => (
+                                        <span key={m.move?.name || m.name} className="move-chip">{m.move?.name || m.name}</span>
+                                    ))}
+                                    {(fighter2.moves || []).length === 0 && <span className="move-chip disabled">Sin ataques</span>}
+                                </div>
+                            </div>
                         ) : (
                             <div className="empty-slot">Elige Luchador 2</div>
                         )}
