@@ -1,4 +1,4 @@
-import bagIcon from '../../assets/items/bag_icon.png';
+import bagIcon from '../../../assets/items/bag_icon.png';
 
 export function GachaSelector({
     category,

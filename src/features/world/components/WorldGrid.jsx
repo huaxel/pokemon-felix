@@ -19,33 +19,37 @@ import grassTile from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
 import pathTile from '../../../assets/kenney_tiny-town/Tiles/tile_0008.png';
 import waterTile from '../../../assets/kenney_tiny-town/Tiles/tile_0032.png';
 
+const BUILDING_IMAGES = {
+    [TILE_TYPES.HOUSE]: houseImage, [TILE_TYPES.CENTER]: centerImage, [TILE_TYPES.TREE]: treeImage,
+    [TILE_TYPES.GACHA]: gachaImage, [TILE_TYPES.GYM]: gymImage, [TILE_TYPES.MARKET]: marketImage,
+    [TILE_TYPES.EVOLUTION]: evoImage, [TILE_TYPES.FISHERMAN]: fishermanImage, [TILE_TYPES.SCHOOL]: cityHallImage,
+    [TILE_TYPES.WARDROBE]: shopUrbanImage, [TILE_TYPES.BANK]: centerImage, [TILE_TYPES.POTION_LAB]: evoImage,
+    [TILE_TYPES.FOUNTAIN]: waterCenterImage, [TILE_TYPES.PALACE]: cityHallImage, [TILE_TYPES.EVOLUTION_HALL]: evoImage,
+    [TILE_TYPES.MOUNTAIN]: gymImage, [TILE_TYPES.SECRET_CAVE]: houseImage, [TILE_TYPES.WATER_ROUTE]: waterCenterImage,
+    [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage
+};
+
+const PlayerSprite = ({ name, color }) => (
+    <div className="player-sprite-container">
+        <span className="player-name-label">{name}</span>
+        <div className="player-avatar" style={{ backgroundColor: color }}>
+            <div style={{ width: '16px', height: '16px', backgroundImage: `url(${roguelikeSheet})`, backgroundPosition: '0 0', backgroundSize: '912px 368px', transform: 'scale(1.5)', imageRendering: 'pixelated' }} />
+        </div>
+    </div>
+);
+
+const NPCSprite = () => (
+    <div className="npc-sprite" title="Professor Eik" style={{ width: '16px', height: '16px', backgroundImage: `url(${roguelikeSheet})`, backgroundPosition: '0 -16px', backgroundSize: '912px 368px', transform: 'scale(1.8)', imageRendering: 'pixelated', filter: 'sepia(0.5)' }} />
+);
+
 export function WorldGrid({
     mapGrid, playerPos, playerName, playerColor, treasures, isBuildMode, handleTileClick, seasonStyle
 }) {
-    const BUILDING_IMAGES = {
-        [TILE_TYPES.HOUSE]: houseImage, [TILE_TYPES.CENTER]: centerImage, [TILE_TYPES.TREE]: treeImage,
-        [TILE_TYPES.GACHA]: gachaImage, [TILE_TYPES.GYM]: gymImage, [TILE_TYPES.MARKET]: marketImage,
-        [TILE_TYPES.EVOLUTION]: evoImage, [TILE_TYPES.FISHERMAN]: fishermanImage, [TILE_TYPES.SCHOOL]: cityHallImage,
-        [TILE_TYPES.WARDROBE]: shopUrbanImage, [TILE_TYPES.BANK]: centerImage, [TILE_TYPES.POTION_LAB]: evoImage,
-        [TILE_TYPES.FOUNTAIN]: waterCenterImage, [TILE_TYPES.PALACE]: cityHallImage, [TILE_TYPES.EVOLUTION_HALL]: evoImage,
-        [TILE_TYPES.MOUNTAIN]: gymImage, [TILE_TYPES.SECRET_CAVE]: houseImage, [TILE_TYPES.WATER_ROUTE]: waterCenterImage,
-        [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage
-    };
-
     const getTileContent = (type, x, y) => {
-        if (x === playerPos.x && y === playerPos.y) {
-            return (
-                <div className="player-sprite-container">
-                    <span className="player-name-label">{playerName}</span>
-                    <div className="player-avatar" style={{ backgroundColor: playerColor }}>
-                        <div style={{ width: '16px', height: '16px', backgroundImage: `url(${roguelikeSheet})`, backgroundPosition: '0 0', backgroundSize: '912px 368px', transform: 'scale(1.5)', imageRendering: 'pixelated' }} />
-                    </div>
-                </div>
-            );
-        }
-        if (treasures.some(t => t.x === x && t.y === y)) return <img src={chestTile} className="item-sprite" alt="Treasure" style={{ width: '80%', height: '80%', imageRendering: 'pixelated' }} />;
-        if (x === 5 && y === 5) return <div className="npc-sprite" title="Professor Eik" style={{ width: '16px', height: '16px', backgroundImage: `url(${roguelikeSheet})`, backgroundPosition: '0 -16px', backgroundSize: '912px 368px', transform: 'scale(1.8)', imageRendering: 'pixelated', filter: 'sepia(0.5)' }} />;
-        if (type === TILE_TYPES.WATER) return <img src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterImage : waterEdgeImage} className="water-sprite" alt="Water" />;
+        if (x === playerPos.x && y === playerPos.y) return <PlayerSprite name={playerName} color={playerColor} />;
+        if (treasures.some(t => t.x === x && t.y === y)) return <img src={chestTile} className="item-sprite" alt="T" style={{ width: '80%', height: '80%', imageRendering: 'pixelated' }} />;
+        if (x === 5 && y === 5) return <NPCSprite />;
+        if (type === TILE_TYPES.WATER) return <img src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterImage : waterEdgeImage} className="water-sprite" alt="W" />;
         const img = BUILDING_IMAGES[type];
         return img ? <img src={img} className="building-sprite" alt={type} /> : null;
     };

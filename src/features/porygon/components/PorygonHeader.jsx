@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import bagIcon from '../../assets/items/bag_icon.png';
+import bagIcon from '../../../assets/items/bag_icon.png';
 
 export function PorygonHeader({ coins }) {
     return (
