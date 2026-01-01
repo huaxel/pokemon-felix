@@ -44,7 +44,7 @@ export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
         if (onBattleEnd) onBattleEnd(win === 1 ? fighter1 : fighter2);
     }, [fighter1, fighter2, addCoins, onBattleEnd]);
 
-    const executeMove = async (attacker, defender, move, isPlayer) => {
+    const executeMove = useCallback(async (attacker, defender, move, isPlayer) => {
         const result = calculateSmartDamage(attacker, defender, move);
         if (isPlayer) {
             const nextHP = Math.max(0, f2HP - result.damage);
@@ -58,7 +58,7 @@ export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
             setTurn('player');
             setF1Energy(prev => Math.min(5, prev + 1));
         }
-    };
+    }, [f2HP, f1HP, endBattle]);
 
     useEffect(() => {
         if (isBattling && turn === 'enemy' && !winner) {
@@ -69,7 +69,7 @@ export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
             }, 1000);
             return () => clearTimeout(timer);
         }
-    }, [turn, isBattling, winner, fighter1, fighter2]);
+    }, [turn, isBattling, winner, fighter1, fighter2, executeMove]);
 
     if (!fighter1 || !fighter2) return <div className="battle-arena">Preparando arena...</div>;
 

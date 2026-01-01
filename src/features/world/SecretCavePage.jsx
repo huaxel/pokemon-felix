@@ -10,7 +10,7 @@ import './SecretCavePage.css';
 
 export function SecretCavePage() {
     const navigate = useNavigate();
-    const { ownedIds, toggleOwned, addCoins } = usePokemonContext();
+    const { ownedIds, toggleOwned } = usePokemonContext();
     const [discovered, setDiscovered] = useState(false);
     const [depth, setDepth] = useState(0);
     const [encounter, setEncounter] = useState(null);
@@ -56,7 +56,7 @@ export function SecretCavePage() {
             const success = Math.random() > 0.4;
             if (success) {
                 setCatchMessage(`Gotcha! ${encounter.name} was caught!`);
-                setOwnedIds(prev => [...prev, encounter.id]);
+                toggleOwned(encounter.id);
                 setTimeout(() => {
                     setEncounter(null);
                     setCatching(false);

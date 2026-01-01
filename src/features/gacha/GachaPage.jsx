@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import gachaImage from '../../assets/buildings/gacha_machine.png';
 import pokeballImage from '../../assets/items/pokeball.png';

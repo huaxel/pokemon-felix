@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { PlayerContext } from './PlayerContext';
-import { STORAGE_KEYS } from '../lib/constants';
 
 // Default player data
 const DEFAULT_PLAYER = {

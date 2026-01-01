@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlayer } from '../../hooks/usePlayer';
-import { ArrowLeft, Check, User, Shield, Zap, Heart } from 'lucide-react';
+import { ArrowLeft, Check, Shield, Zap, Heart } from 'lucide-react';
 import './ProfilePage.css';
 
 const AVATARS = [

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { Crown, Trophy, Gift, Coins } from 'lucide-react';
+import { Trophy, Gift, Coins } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
 import { PalaceLockedView } from './components/PalaceLockedView';
 import { PalaceChallengeCards } from './components/PalaceChallengeCards';
@@ -12,7 +12,6 @@ import { PALACE_CHALLENGES, TRIVIA_QUESTIONS } from './palaceConfig';
 import './PalacePage.css';
 
 export function PalacePage() {
-    const navigate = useNavigate();
     const { coins, addCoins, spendCoins, addItem, ownedIds } = usePokemonContext();
     const [isChampion, setIsChampion] = useState(false);
     const [message, setMessage] = useState(null);

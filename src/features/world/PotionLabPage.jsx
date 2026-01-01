@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { Droplet, Trophy, RotateCcw, Sparkles } from 'lucide-react';
+import { Trophy, RotateCcw, Sparkles } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
 import { PotionIngredientsPanel } from './components/PotionIngredientsPanel';
 import { PotionBrewingStation } from './components/PotionBrewingStation';

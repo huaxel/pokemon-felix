@@ -45,6 +45,12 @@ export function GymPage() {
         }
     };
 
+    const handleSelectGym = (gym) => {
+        setSelectedGym(gym);
+        setCurrentStage(0);
+        setBattleState('battle');
+    };
+
     if (battleState === 'battle' && selectedGym) {
         return (
             <div className="gym-page battle-view">

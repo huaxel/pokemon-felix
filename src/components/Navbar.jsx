@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Map, Library, User, Upload, Download } from 'lucide-react';
+import { Map, Library, Upload, Download } from 'lucide-react';
 import { usePokemonContext } from '../hooks/usePokemonContext';
 import { usePlayer } from '../hooks/usePlayer';
 import bagIcon from '../assets/items/bag_icon.png';

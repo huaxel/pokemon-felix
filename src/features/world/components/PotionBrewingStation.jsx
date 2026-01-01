@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Droplet, RotateCcw, Sparkles, Plus, Minus } from 'lucide-react';
 
 export function PotionBrewingStation({
@@ -7,8 +7,7 @@ export function PotionBrewingStation({
     selectedIngredients,
     difficultyColor,
     onRemoveLast,
-    onClear,
-    onBrew
+    onClear
 }) {
     return (
         <div className="brewing-station">
