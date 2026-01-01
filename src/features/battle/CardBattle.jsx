@@ -1,65 +1,92 @@
-import { useReducer, useEffect, useCallback, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { calculateMaxHP, calculateEnergyCost, calculateSmartDamage, combineMoves, getTypeColor } from '../../lib/battle-logic';
 import { getMoveDetails, getPokemonDetails } from '../../lib/api';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useCareContext } from '../../hooks/useCareContext';
-import { STORAGE_KEYS, BATTLE_CONFIG } from '../../lib/constants';
-import { battleReducer, createInitialBattleState, BATTLE_ACTIONS } from '../../lib/battleReducer';
 import './CardBattle.css';
+// energy icon was unused; remove import to satisfy linter
 
 export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     const { inventory, removeItem, toggleOwned, addCoins } = usePokemonContext();
     const { careStats, addFatigue } = useCareContext();
-    
-    // Outfit state (loaded once)
-    const [outfitId, setOutfitId] = useState('default');
-    const [loadingMoves, setLoadingMoves] = useState(true);
-    
-    // Main battle state using reducer
-    const [battleState, dispatch] = useReducer(
-        battleReducer,
-        null,
-        () => {
-            const id = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
-            setOutfitId(id);
-            return createInitialBattleState(fighter1, fighter2, id);
-        }
-    );
-    
-    // Destructure for easier access
-    const { fighters, turn, winner, battleLog, cards, ui } = battleState;
-    const MAX_ENERGY = BATTLE_CONFIG.MAX_ENERGY;
+    const [battleLog, setBattleLog] = useState([]);
+    const [winner, setWinner] = useState(null);
 
-    const handleUseItem = useCallback(async (itemId) => {
+    // Animation States
+    const [attackingFighter, setAttackingFighter] = useState(null);
+    const [damagedFighter, setDamagedFighter] = useState(null);
+    const [effectivenessMsg, setEffectivenessMsg] = useState(null);
+    const [comboMsg, setComboMsg] = useState(null); // For fusion feedback
+
+    // Battle Stats
+    const [f1HP, setF1HP] = useState(calculateMaxHP(fighter1));
+    const [f2HP, setF2HP] = useState(calculateMaxHP(fighter2));
+    const [f1MaxHP, setF1MaxHP] = useState(calculateMaxHP(fighter1));
+    const [f2MaxHP, setF2MaxHP] = useState(calculateMaxHP(fighter2));
+
+    // Energy System
+    const [f1Energy, setF1Energy] = useState(3);
+    const [f2Energy, setF2Energy] = useState(3);
+    const MAX_ENERGY = 5;
+
+    // CARD SYSTEM (The "Hand")
+    const [hand, setHand] = useState([]); // Array of move objects
+    const [selectedIndices, setSelectedIndices] = useState([]); // Array of indices [0, 2]
+    const [deck, setDeck] = useState([]); // Pool of moves
+
+    // Enemy AI
+    const [f2Moves, setF2Moves] = useState([]);
+
+    const [, setLoadingMoves] = useState(true);
+    const [turn, setTurn] = useState('player'); // 'player' | 'opponent'
+    const [lastMoveName, setLastMoveName] = useState(null);
+
+    // ITEM SYSTEM
+    const [showItems, setShowItems] = useState(false);
+
+    // OUTFIT POWERS
+    const [outfitId, setOutfitId] = useState('default');
+    useEffect(() => {
+        const id = localStorage.getItem('felix_current_outfit') || 'default';
+        setOutfitId(id);
+
+        // Initial Bonuses
+        if (id === 'cool') {
+            setF1Energy(4); // Start with 4 instead of 3
+        }
+    }, []);
+
+    const handleUseItem = async (itemId) => {
         if (turn !== 'player' || winner) return;
 
         if (itemId === 'potion') {
             if (removeItem('potion')) {
-                const newHP = Math.min(fighters.player.maxHP, fighters.player.hp + 5);
-                dispatch({ type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP, fighter: 'player', hp: newHP });
-                dispatch({ type: BATTLE_ACTIONS.ADD_TO_LOG, message: "🧪 Used Potion! Restored some HP." });
-                dispatch({ type: BATTLE_ACTIONS.TOGGLE_ITEMS });
-                dispatch({ type: BATTLE_ACTIONS.SET_TURN, turn: 'opponent' });
+                setF1HP(prev => Math.min(f1MaxHP, prev + 5)); // TCG heal is small
+                setBattleLog(prev => ["🧪 Used Potion! Restored some HP.", ...prev]);
+                setShowItems(false);
+                setTurn('opponent');
             }
         } else if (itemId.includes('ball')) {
+            // Only allowed in SINGLE BATTLES (not tournament)
+            // For now, let's assume it's allowed if the prop is passed
             if (removeItem(itemId)) {
-                dispatch({ type: BATTLE_ACTIONS.ADD_TO_LOG, message: `🚀 Threw a ${itemId}!` });
-                dispatch({ type: BATTLE_ACTIONS.TOGGLE_ITEMS });
+                setBattleLog(prev => [`🚀 Threw a ${itemId}!`, ...prev]);
+                setShowItems(false);
 
                 const catchRate = itemId === 'masterball' ? 1.0 : itemId === 'ultraball' ? 0.6 : itemId === 'greatball' ? 0.4 : 0.2;
                 const success = Math.random() < catchRate;
 
                 if (success) {
-                    dispatch({ type: BATTLE_ACTIONS.ADD_TO_LOG, message: "✨ GOTCHA! Pokémon was caught!" });
+                    setBattleLog(prev => ["✨ GOTCHA! Pokémon was caught!", ...prev]);
                     toggleOwned(fighter2.id);
                     setTimeout(() => onBattleEnd(fighter1), 2000);
                 } else {
-                    dispatch({ type: BATTLE_ACTIONS.ADD_TO_LOG, message: "💨 Oh no! It broke free!" });
-                    dispatch({ type: BATTLE_ACTIONS.SET_TURN, turn: 'opponent' });
+                    setBattleLog(prev => ["💨 Oh no! It broke free!", ...prev]);
+                    setTurn('opponent');
                 }
             }
         }
-    }, [turn, winner, fighters, removeItem, toggleOwned, fighter1, fighter2, onBattleEnd]);
+    };
 
     // Initialize Battle
     useEffect(() => {
@@ -77,11 +104,13 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                     ensureDetails(fighter2)
                 ]);
 
-                // Update battlestate with actual calculated HP
+                // Update local state HP with real stats now that we have them
                 const p1Max = calculateMaxHP(p1Full);
                 const p2Max = calculateMaxHP(p2Full);
-                dispatch({ type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP, fighter: 'player', hp: p1Max });
-                dispatch({ type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP, fighter: 'opponent', hp: p2Max });
+                setF1HP(p1Max);
+                setF2HP(p2Max);
+                setF1MaxHP(p1Max);
+                setF2MaxHP(p2Max);
 
                 // Get all moves for both fighters
                 const fetchMoves = async (pokemon) => {
@@ -103,7 +132,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                 ]);
 
                 // Player Deck
-                dispatch({ type: BATTLE_ACTIONS.SET_DECK, deck: p1Moves });
+                setDeck(p1Moves);
 
                 // Draw initial hand of 4 cards
                 const initialHand = [];
@@ -111,10 +140,10 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                     const randomMove = p1Moves[Math.floor(Math.random() * p1Moves.length)];
                     initialHand.push({ ...randomMove, instanceId: Math.random() });
                 }
-                dispatch({ type: BATTLE_ACTIONS.SET_HAND, hand: initialHand });
+                setHand(initialHand);
 
                 // Opponent Moves (Simple list for AI)
-                dispatch({ type: BATTLE_ACTIONS.SET_OPPONENT_MOVES, moves: p2Moves });
+                setF2Moves(p2Moves);
 
             } catch (error) {
                 console.error("Error initializing battle", error);
