@@ -196,7 +196,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Snow (winter)
   - [x] Visual overlays
 
-#### 6.3 Expanded Map 🚧 IN PROGRESS (1/4)
+#### 6.3 Expanded Map 🚧 IN PROGRESS (2/4)
 - [ ] Multiple zones/regions
 - [x] **Secret Cave** 🕳️ - Hidden area with rare Pokemon ✅ COMPLETE
   - [x] Discovery mechanic (first-time entrance)
@@ -208,8 +208,18 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Legendary Pokemon at deepest floors (Mewtwo, Articuno, Zapdos, Moltres)
   - [x] Rewards: 200-2000 coins based on rarity
   - [x] Educational features about exploration and persistence
+- [x] **Water Routes** 🌊 - Surfing mechanic ✅ COMPLETE
+  - [x] Learn surf tutorial and ability
+  - [x] 10x10 water grid navigation
+  - [x] 15 water Pokemon species (Magikarp, Psyduck, Goldeen, etc.)
+  - [x] 30% encounter rate per move
+  - [x] Treasure finding (15% chance, 50-250 coins)
+  - [x] Shiny Pokemon (2% chance)
+  - [x] Variable catch rates (60% normal, 20% shiny)
+  - [x] D-pad controls for surfing
+  - [x] Educational features about persistence and exploration
+  - [x] Integrated into world map at position (6, 4)
 - [ ] Caves and dungeons (additional locations)
-- [ ] Water routes (surfing mechanic)
 - [ ] Secret areas with rare Pokemon (additional)
 
 ---
