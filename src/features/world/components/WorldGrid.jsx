@@ -16,6 +16,9 @@ import cityHallImage from '../../../assets/buildings/city_hall.png';
 import shopUrbanImage from '../../../assets/buildings/shop_urban.png';
 import chestTile from '../../../assets/kenney_tiny-town/Tiles/tile_0089.png'; // Crate/Chest
 import roguelikeSheet from '../../../assets/kenney_roguelike-characters/Spritesheet/roguelikeChar_transparent.png';
+import grassTile from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
+import pathTile from '../../../assets/kenney_tiny-town/Tiles/tile_0008.png';
+import waterTile from '../../../assets/kenney_tiny-town/Tiles/tile_0032.png';
 
 export function WorldGrid({
     mapGrid,

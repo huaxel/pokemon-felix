@@ -459,6 +459,23 @@
     opacity: 0.6;
 }
 
+.building-sprite,
+.water-sprite,
+.item-sprite {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    transition: transform 0.2s;
+    pointer-events: none;
+}
+
+.building-sprite:hover,
+.water-sprite:hover,
+.item-sprite:hover {
+    transform: scale(1.1);
+}
+
 .tile:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);

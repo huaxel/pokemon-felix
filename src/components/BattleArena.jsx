@@ -4,7 +4,7 @@ import { PokemonCard } from './PokemonCard';
 import { getStat, calculateMaxHP, calculateSmartDamage, getMoves, getTypeColor } from '../lib/battle-logic';
 import './BattleArena.css';
 
-export function BattleArena({ allPokemon, onLoadMore }) {
+export function BattleArena({ allPokemon, onLoadMore, initialFighter1, initialFighter2, onBattleEnd }) {
     const { addCoins, squadIds } = usePokemonContext();
     const [fighter1, setFighter1] = useState(null);
     const [fighter2, setFighter2] = useState(null);
@@ -25,21 +25,40 @@ export function BattleArena({ allPokemon, onLoadMore }) {
     const [flash, setFlash] = useState(null); // 'f1' or 'f2'
 
     // Filter out incomplete pokemon data if necessary
-    // AND filter by Squad IDs
-    const validPokemon = allPokemon.filter(p => p.stats && p.types && squadIds.includes(p.id));
+    // AND filter by Squad IDs if allPokemon is provided
+    const validPokemon = allPokemon ? allPokemon.filter(p => p.stats && p.types && squadIds.includes(p.id)) : [];
 
-    const handleSelect = (pokemon) => {
-        if (!fighter1) {
+    // Initialize fighters from props
+    useEffect(() => {
+        if (initialFighter1 && !fighter1) {
+            initializeFighter(initialFighter1, 1);
+        }
+        if (initialFighter2 && !fighter2) {
+            initializeFighter(initialFighter2, 2);
+        }
+        // If both are present, auto-start? Maybe wait for user.
+        // If it's a gym battle, we probably want to start immediately or show VS screen.
+    }, [initialFighter1, initialFighter2]);
+
+    const initializeFighter = (pokemon, slot) => {
+        const hp = calculateMaxHP(pokemon);
+        if (slot === 1) {
             setFighter1(pokemon);
-            const hp = calculateMaxHP(pokemon);
             setF1HP(hp);
             setF1MaxHP(hp);
             setF1Moves(getMoves(pokemon));
-        } else if (!fighter2 && pokemon.id !== fighter1.id) {
+        } else {
             setFighter2(pokemon);
-            const hp = calculateMaxHP(pokemon);
             setF2HP(hp);
             setF2MaxHP(hp);
+        }
+    };
+
+    const handleSelect = (pokemon) => {
+        if (!fighter1) {
+            initializeFighter(pokemon, 1);
+        } else if (!fighter2 && pokemon.id !== fighter1.id) {
+            initializeFighter(pokemon, 2);
         }
     };
 

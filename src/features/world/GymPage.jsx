@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import bagIcon from '../../assets/items/bag_icon.png';
-import { CardBattle } from '../battle/CardBattle';
+import { BattleArena } from '../../components/BattleArena';
+import { getPokemonDetails } from '../../lib/api';
 import './GymPage.css';
 
 /**
@@ -16,6 +17,10 @@ export function GymPage() {
     const [battleState, setBattleState] = useState('selection'); // selection, battle, victory, defeat
     const [currentStage, setCurrentStage] = useState(0);
     const [winner, setWinner] = useState(null);
+    const [opponentPokemon, setOpponentPokemon] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Badge State
     const [badges, setBadges] = useState(() => {
         const saved = localStorage.getItem('gym_badges') || '{}';
         return JSON.parse(saved);
@@ -26,7 +31,7 @@ export function GymPage() {
         localStorage.setItem('gym_badges', JSON.stringify(badges));
     }, [badges]);
 
-    // 8 Gym Leaders
+    // 8 Gym Leaders Configuration
     const GYM_LEADERS = [
         {
             id: 0,
@@ -102,10 +107,31 @@ export function GymPage() {
         }
     ];
 
-    const handleSelectGym = (gym) => {
-        if (badges[gym.id]) {
-            return; // Already beaten
+    // Fetch Opponent Logic
+    useEffect(() => {
+        if (selectedGym && battleState === 'battle') {
+            const fetchOpponent = async () => {
+                setIsLoading(true);
+                try {
+                    const opponentName = selectedGym.pokemon[currentStage];
+                    const details = await getPokemonDetails(opponentName);
+                    if (details) {
+                        setOpponentPokemon(details);
+                    } else {
+                        console.error("Failed to load Gym Pokemon:", opponentName);
+                    }
+                } catch (err) {
+                    console.error("Error fetching Gym Pokemon:", err);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            fetchOpponent();
         }
+    }, [selectedGym, currentStage, battleState]);
+
+    const handleSelectGym = (gym) => {
+        if (badges[gym.id]) return; // Already beaten
         setSelectedGym(gym);
         setCurrentStage(0);
         setBattleState('battle');
@@ -113,23 +139,30 @@ export function GymPage() {
 
     const handleBattleEnd = (winnerPokemon) => {
         setWinner(winnerPokemon);
-        
+
+        // Determine if player won (winner ID matches one of player's squad IDs)
         if (squadIds.includes(winnerPokemon.id)) {
             // Player won this stage
-            if (currentStage < 1) {
+            if (currentStage < selectedGym.pokemon.length - 1) {
                 // Move to next Pokemon
-                setCurrentStage(1);
-                setBattleState('battle');
-                setWinner(null);
+                setTimeout(() => {
+                    setCurrentStage(prev => prev + 1);
+                    setWinner(null);
+                    // BattleArena key change will trigger re-mount
+                }, 1500);
             } else {
-                // Won the gym!
-                setBadges(prev => ({ ...prev, [selectedGym.id]: true }));
-                addCoins(selectedGym.reward);
-                setBattleState('victory');
+                // Won the entire gym!
+                setTimeout(() => {
+                    setBadges(prev => ({ ...prev, [selectedGym.id]: true }));
+                    addCoins(selectedGym.reward);
+                    setBattleState('victory');
+                }, 1500);
             }
         } else {
             // Player lost
-            setBattleState('defeat');
+            setTimeout(() => {
+                setBattleState('defeat');
+            }, 1500);
         }
     };
 
@@ -138,13 +171,6 @@ export function GymPage() {
         setSelectedGym(null);
         setCurrentStage(0);
         setWinner(null);
-    };
-
-    // Get opponent Pokemon
-    const getOpponent = () => {
-        if (!selectedGym) return null;
-        const opponentName = selectedGym.pokemon[currentStage];
-        return pokemonList.find(p => p.name === opponentName) || pokemonList[0];
     };
 
     const getPlayerPokemon = () => {
@@ -190,7 +216,7 @@ export function GymPage() {
                             </div>
                             <h3>{gym.name}</h3>
                             <p className="gym-desc">{gym.description}</p>
-                            
+
                             <div className="gym-rewards">
                                 <span>Reward: <img src={bagIcon} alt="coins" className="coin-icon-inline" /> {gym.reward}</span>
                             </div>
@@ -224,7 +250,6 @@ export function GymPage() {
 
     // Battle Screen
     if (battleState === 'battle' && selectedGym) {
-        const opponent = getOpponent();
         const player = getPlayerPokemon();
 
         return (
@@ -232,18 +257,21 @@ export function GymPage() {
                 <div className="battle-info">
                     <h2>{selectedGym.name}'s Gym - {selectedGym.type}</h2>
                     <div className="stage-indicator">
-                        Stage {currentStage + 1} of 2
+                        Stage {currentStage + 1} of {selectedGym.pokemon.length}
                     </div>
                 </div>
 
-                {opponent && player ? (
-                    <CardBattle
-                        fighter1={player}
-                        fighter2={opponent}
+                {isLoading ? (
+                    <div className="loading">Loading {selectedGym.pokemon[currentStage]}...</div>
+                ) : opponentPokemon && player ? (
+                    <BattleArena
+                        key={`${selectedGym.id}-${currentStage}`} // Force reset on stage change
+                        initialFighter1={player}
+                        initialFighter2={opponentPokemon}
                         onBattleEnd={handleBattleEnd}
                     />
                 ) : (
-                    <div className="loading">Loading battle...</div>
+                    <div className="loading">Preparing Battle...</div>
                 )}
             </div>
         );
@@ -278,7 +306,10 @@ export function GymPage() {
                 <div className="defeat-scene">
                     <h1>💔 Defeat</h1>
                     <p>Your Pokemon need more training...</p>
-                    <button className="retry-btn" onClick={() => setBattleState('battle')}>
+                    <button className="retry-btn" onClick={() => {
+                        setCurrentStage(0);
+                        setBattleState('battle');
+                    }}>
                         ⚔️ Try Again
                     </button>
                     <button className="back-btn-defeat" onClick={handleBackToSelection}>
