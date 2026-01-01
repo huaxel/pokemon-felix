@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useTownContext } from '../../hooks/useTownContext';
 import { useOutfitEffects } from '../../hooks/useOutfitEffects';
+import { useGPS } from '../../hooks/useGPS';
 import { STORAGE_KEYS } from '../../lib/constants';
 import { QuestLog } from './QuestLog';
-import { Trophy } from 'lucide-react';
+import { Trophy, MapPin, Navigation, Compass } from 'lucide-react';
 import './WorldPage.css';
 
 // Building Assets
@@ -70,6 +71,16 @@ export function WorldPage() {
     const { townObjects, addObject, removeObject, clearTown } = useTownContext();
 
     const { getEncounterMultiplier, activeEffect } = useOutfitEffects();
+
+    const {
+        targetPos,
+        generateRandomTarget,
+        calculateDistance,
+        getDirectionHint
+    } = useGPS();
+
+    const [gpsDistance, setGpsDistance] = useState(null);
+    const [gpsDirection, setGpsDirection] = useState('');
 
     // Seizoenen Systeem
     const [seasonIndex, setSeasonIndex] = useState(1); // Begin in de Zomer
@@ -340,6 +351,14 @@ export function WorldPage() {
             return;
         }
 
+        // Check voor GPS Treasure 🧭
+        if (targetPos && playerPos.x === targetPos.x && playerPos.y === targetPos.y) {
+            setMessage({ text: "GEWELDIG! Je hebt de verborgen schat gevonden met je GPS! +500 coins", color: '#10b981' });
+            addCoins(500);
+            generateRandomTarget(null); // Clear or set new target if desired, setting null for now
+            return;
+        }
+
         if (tileType === TILE_TYPES.GRASS) {
             // Apply Stealth effect (Ninja)
             const encounterChance = 0.3 * getEncounterMultiplier();
@@ -380,8 +399,15 @@ export function WorldPage() {
 
         setPlayerPos({ x: newX, y: newY });
         setMessage(null);
+
+        // Update GPS stats
+        if (targetPos) {
+            setGpsDistance(calculateDistance({ x: newX, y: newY }, targetPos));
+            setGpsDirection(getDirectionHint({ x: newX, y: newY }, targetPos));
+        }
+
         handleTileEvent(targetTile);
-    }, [playerPos, mapGrid, isBuildMode, handleTileEvent]);
+    }, [playerPos, mapGrid, isBuildMode, handleTileEvent, targetPos, calculateDistance, getDirectionHint]);
 
     // Toetsenbord besturing
     useEffect(() => {
@@ -460,9 +486,9 @@ export function WorldPage() {
                 <div className="night-sky">
                     <div className="moon"></div>
                     {[...Array(30)].map((_, i) => (
-                        <div 
-                            key={i} 
-                            className="star" 
+                        <div
+                            key={i}
+                            className="star"
                             style={{
                                 left: `${Math.random() * 100}%`,
                                 top: `${Math.random() * 60}%`,
@@ -480,15 +506,15 @@ export function WorldPage() {
                 </div>
                 <button className="arrow-btn" onClick={nextSeason}>&gt;</button>
 
-                <button 
-                    className={`day-night-toggle ${isNight ? 'night' : 'day'} ${autoTime ? 'auto' : ''}`} 
+                <button
+                    className={`day-night-toggle ${isNight ? 'night' : 'day'} ${autoTime ? 'auto' : ''}`}
                     onClick={toggleDayNight}
                     title={autoTime ? 'Auto (Real Time)' : 'Manual Toggle'}
                 >
                     {isNight ? '🌙' : '☀️'}
                 </button>
-                
-                <button 
+
+                <button
                     className={`auto-time-btn ${autoTime ? 'active' : ''}`}
                     onClick={toggleAutoTime}
                     title="Toggle Real-Time Clock"
@@ -506,6 +532,33 @@ export function WorldPage() {
                         <span className="quest-dot">!</span>
                     )}
                 </button>
+
+                <div className="gps-coordinate-display">
+                    <MapPin size={16} />
+                    <span>X: {playerPos.x}, Y: {playerPos.y}</span>
+                </div>
+
+                <div className="gps-tracker-hud">
+                    {targetPos ? (
+                        <div className="gps-active">
+                            <Navigation size={16} className="gps-icon pulse" />
+                            <div className="gps-info">
+                                <span className="gps-distance">{gpsDistance}m</span>
+                                <span className="gps-hint">{gpsDirection}</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <button className="gps-start-btn" onClick={() => {
+                            const target = generateRandomTarget(playerPos);
+                            setGpsDistance(calculateDistance(playerPos, target));
+                            setGpsDirection(getDirectionHint(playerPos, target));
+                            setMessage({ text: `Zoek de schat op X: ${target.x}, Y: ${target.y}!`, color: '#3b82f6' });
+                        }}>
+                            <Compass size={18} />
+                            <span>GPS Quest</span>
+                        </button>
+                    )}
+                </div>
             </div>
 
             {activeEffect.name !== 'Normal' && (
