@@ -31,7 +31,6 @@ import { MountainPage } from './features/world/MountainPage';
 import { SecretCavePage } from './features/world/SecretCavePage';
 import { WaterRoutePage } from './features/world/WaterRoutePage';
 import { PorygonLabPage } from './features/porygon/PorygonLabPage';
-import { EvolutionHallPage } from './features/world/EvolutionHallPage';
 import { ProfilePage } from './features/profile/ProfilePage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
