@@ -5,6 +5,7 @@
 
 import { calculateMaxHP } from './battle-logic';
 import { BATTLE_CONFIG } from './constants';
+import { handleFighterActions, handleCardActions, handleUIActions } from './battleReducerHelpers';
 
 // Action Types
 export const BATTLE_ACTIONS = {
@@ -95,164 +96,31 @@ export function createInitialBattleState(fighter1, fighter2, outfitId = 'default
  * Battle state reducer
  */
 export function battleReducer(state, action) {
+    if (Object.values(BATTLE_ACTIONS).slice(0, 4).includes(action.type)) {
+        return handleFighterActions(state, action);
+    }
+    if (Object.values(BATTLE_ACTIONS).slice(7, 13).includes(action.type)) {
+        return handleCardActions(state, action);
+    }
+    if (Object.values(BATTLE_ACTIONS).slice(13, 20).includes(action.type)) {
+        return handleUIActions(state, action);
+    }
+
     switch (action.type) {
-        case BATTLE_ACTIONS.UPDATE_FIGHTER_HP:
-            return {
-                ...state,
-                fighters: {
-                    ...state.fighters,
-                    [action.fighter]: {
-                        ...state.fighters[action.fighter],
-                        hp: Math.max(0, Math.min(action.hp, state.fighters[action.fighter].maxHP))
-                    }
-                }
-            };
-            
-        case BATTLE_ACTIONS.UPDATE_FIGHTER_ENERGY:
-            return {
-                ...state,
-                fighters: {
-                    ...state.fighters,
-                    [action.fighter]: {
-                        ...state.fighters[action.fighter],
-                        energy: Math.max(0, Math.min(action.energy, 5))
-                    }
-                }
-            };
-            
-        case BATTLE_ACTIONS.ADD_ENERGY:
-            return {
-                ...state,
-                fighters: {
-                    ...state.fighters,
-                    [action.fighter]: {
-                        ...state.fighters[action.fighter],
-                        energy: Math.min(5, state.fighters[action.fighter].energy + action.amount)
-                    }
-                }
-            };
-            
-        case BATTLE_ACTIONS.SPEND_ENERGY:
-            return {
-                ...state,
-                fighters: {
-                    ...state.fighters,
-                    [action.fighter]: {
-                        ...state.fighters[action.fighter],
-                        energy: Math.max(0, state.fighters[action.fighter].energy - action.amount)
-                    }
-                }
-            };
-            
         case BATTLE_ACTIONS.SET_TURN:
             return { ...state, turn: action.turn };
-            
         case BATTLE_ACTIONS.SET_WINNER:
             return { ...state, winner: action.winner };
-            
         case BATTLE_ACTIONS.ADD_TO_LOG:
-            return {
-                ...state,
-                battleLog: [...state.battleLog, action.message]
-            };
-            
-        case BATTLE_ACTIONS.SET_HAND:
-            return {
-                ...state,
-                cards: { ...state.cards, hand: action.hand }
-            };
-            
-        case BATTLE_ACTIONS.SET_DECK:
-            return {
-                ...state,
-                cards: { ...state.cards, deck: action.deck }
-            };
-            
-        case BATTLE_ACTIONS.SELECT_CARD:
-            if (state.cards.selectedIndices.includes(action.index)) {
-                return state;
-            }
-            return {
-                ...state,
-                cards: {
-                    ...state.cards,
-                    selectedIndices: [...state.cards.selectedIndices, action.index]
-                }
-            };
-            
-        case BATTLE_ACTIONS.DESELECT_CARD:
-            return {
-                ...state,
-                cards: {
-                    ...state.cards,
-                    selectedIndices: state.cards.selectedIndices.filter(i => i !== action.index)
-                }
-            };
-            
-        case BATTLE_ACTIONS.CLEAR_SELECTION:
-            return {
-                ...state,
-                cards: { ...state.cards, selectedIndices: [] }
-            };
-            
-        case BATTLE_ACTIONS.SET_OPPONENT_MOVES:
-            return {
-                ...state,
-                cards: { ...state.cards, opponentMoves: action.moves }
-            };
-            
-        case BATTLE_ACTIONS.SET_ATTACKING_FIGHTER:
-            return {
-                ...state,
-                ui: { ...state.ui, attackingFighter: action.fighter }
-            };
-            
-        case BATTLE_ACTIONS.SET_DAMAGED_FIGHTER:
-            return {
-                ...state,
-                ui: { ...state.ui, damagedFighter: action.fighter }
-            };
-            
-        case BATTLE_ACTIONS.SET_EFFECTIVENESS_MSG:
-            return {
-                ...state,
-                ui: { ...state.ui, effectivenessMsg: action.message }
-            };
-            
-        case BATTLE_ACTIONS.SET_COMBO_MSG:
-            return {
-                ...state,
-                ui: { ...state.ui, comboMsg: action.message }
-            };
-            
-        case BATTLE_ACTIONS.CLEAR_ANIMATIONS:
-            return {
-                ...state,
-                ui: {
-                    ...state.ui,
-                    attackingFighter: null,
-                    damagedFighter: null,
-                    effectivenessMsg: null,
-                    comboMsg: null
-                }
-            };
-            
+            return { ...state, battleLog: [...state.battleLog, action.message] };
         case BATTLE_ACTIONS.SET_LAST_MOVE:
             return { ...state, lastMoveName: action.moveName };
-            
-        case BATTLE_ACTIONS.TOGGLE_ITEMS:
-            return {
-                ...state,
-                ui: { ...state.ui, showItems: !state.ui.showItems }
-            };
-            
         case BATTLE_ACTIONS.RESET_BATTLE:
             return createInitialBattleState(
                 state.fighters.player.pokemon,
                 state.fighters.opponent.pokemon,
                 state.outfitId
             );
-            
         default:
             return state;
     }

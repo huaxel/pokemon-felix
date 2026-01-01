@@ -87,71 +87,64 @@ export const calculateEnergyCost = (baseDamage) => {
 
 // --- NEW CARD BATTLE SYSTEM HELPERS ---
 
-export const getTypeColor = (type) => {
-    switch(type) {
-        case 'fire': return '#ef4444'; // Red
-        case 'grass': return '#22c55e'; // Green
-        case 'water': return '#3b82f6'; // Blue
-        case 'electric': return '#eab308'; // Yellow
-        case 'psychic': return '#a855f7'; // Purple
-        case 'rock': case 'ground': return '#78350f'; // Brown
-        case 'ice': return '#67e8f9'; // Cyan
-        case 'dragon': return '#6366f1'; // Indigo
-        case 'dark': return '#1e293b'; // Slate
-        case 'fairy': return '#f472b6'; // Pink
-        case 'fighting': return '#ea580c'; // Orange
-        case 'poison': return '#9333ea'; // Violet
-        case 'bug': return '#65a30d'; // Lime
-        case 'ghost': return '#4c1d95'; // Deep Purple
-        case 'steel': return '#94a3b8'; // Blue Gray
-        default: return '#64748b'; // Gray (Normal)
-    }
+const TYPE_COLORS = {
+    fire: '#ef4444',
+    grass: '#22c55e',
+    water: '#3b82f6',
+    electric: '#eab308',
+    psychic: '#a855f7',
+    rock: '#78350f',
+    ground: '#78350f',
+    ice: '#67e8f9',
+    dragon: '#6366f1',
+    dark: '#1e293b',
+    fairy: '#f472b6',
+    fighting: '#ea580c',
+    poison: '#9333ea',
+    bug: '#65a30d',
+    ghost: '#4c1d95',
+    steel: '#94a3b8'
 };
+
+export const getTypeColor = (type) => TYPE_COLORS[type] || '#64748b';
 
 /**
  * Combines two moves into a new special move
  */
+const getFusionMove = (m1, m2) => {
+    const t1 = m1.type;
+    const t2 = m2.type;
+    if ((t1 === 'fire' && t2 === 'water') || (t1 === 'water' && t2 === 'fire')) {
+        return { name: 'Steam Eruption', type: 'water', power: 100, description: "Scalding steam burns the opponent." };
+    }
+    if ((t1 === 'electric' && t2 === 'water') || (t1 === 'water' && t2 === 'electric')) {
+        return { name: 'Thunder Storm', type: 'electric', power: 110, description: "Electrified water conducts perfectly." };
+    }
+    return null;
+};
+
+const getBaseCombo = (m1, m2, isSame) => ({
+    name: isSame ? `MEGA ${m1.name}` : `${m1.name} & ${m2.name}`,
+    power: isSame ? Math.floor(((m1.power || 40) + (m2.power || 40)) * 1.2) : Math.floor((m1.power || 40) + (m2.power || 40)),
+    description: isSame ? "Type Fusion! Massive Damage!" : "Tactical combination attack."
+});
+
 export const combineMoves = (move1, move2) => {
     const isSameType = move1.type === move2.type;
-    // Discounted cost for combining: (Cost1 + Cost2) - 1, min 2
     const cost1 = move1.cost || calculateEnergyCost(move1.power || 40);
     const cost2 = move2.cost || calculateEnergyCost(move2.power || 40);
     const combinedCost = Math.max(2, cost1 + cost2 - 1);
 
-    // Calculate combined power
-    const pow1 = move1.power || 40;
-    const pow2 = move2.power || 40;
+    const fusion = !isSameType ? getFusionMove(move1, move2) : null;
+    const base = fusion || getBaseCombo(move1, move2, isSameType);
 
-    const newMove = {
+    return {
+        ...base,
+        type: move1.type,
         cost: combinedCost,
         isCombo: true,
         accuracy: Math.min(move1.accuracy || 100, move2.accuracy || 100)
     };
-
-    if (isSameType) {
-        newMove.name = `MEGA ${move1.name}`;
-        newMove.type = move1.type;
-        newMove.power = Math.floor((pow1 + pow2) * 1.2); // 20% bonus
-        newMove.description = "Type Fusion! Massive Damage!";
-    } else if ((move1.type === 'fire' && move2.type === 'water') || (move1.type === 'water' && move2.type === 'fire')) {
-        newMove.name = 'Steam Eruption';
-        newMove.type = 'water';
-        newMove.power = 100;
-        newMove.description = "Scalding steam burns the opponent.";
-    } else if ((move1.type === 'electric' && move2.type === 'water') || (move1.type === 'water' && move2.type === 'electric')) {
-        newMove.name = 'Thunder Storm';
-        newMove.type = 'electric';
-        newMove.power = 110;
-        newMove.description = "Electrified water conducts perfectly.";
-    } else {
-        // Generic Combo
-        newMove.name = `${move1.name} & ${move2.name}`;
-        newMove.type = move1.type; // Inherit from first
-        newMove.power = Math.floor(pow1 + pow2);
-        newMove.description = "Tactical combination attack.";
-    }
-    
-    return newMove;
 };
 
 /**
@@ -242,8 +235,15 @@ export const getMoves = (pokemon) => {
 export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fatigue = 0) => {
     // 1. Calculate Base Damage using existing helper
     const baseResult = calculateDamage(attacker, defender, move);
-    let { damage, effectiveness } = baseResult;
+    let { damage } = baseResult;
+    const { effectiveness } = baseResult; // Changed to const
     let message = "";
+
+    const isSpecialist = attacker.types?.[0]?.type?.name === move.type; // Assuming attacker.type is the primary type
+    if (isSpecialist) damage = Math.floor(damage * 1.5);
+
+    const isCombo = move.isCombo;
+    if (isCombo) damage = Math.floor(damage * 1.2);
 
     // 2. Anti-Spam Penalty
     if (lastMoveName && move.name === lastMoveName) {
