@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { getPokemonDetails } from '../../lib/api';
 import { MountainEntryView } from './components/MountainEntryView';

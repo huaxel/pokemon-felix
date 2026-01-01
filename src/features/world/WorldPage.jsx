@@ -479,59 +479,16 @@ export function WorldPage() {
                     onNext={nextSeason}
                     onPrev={prevSeason}
                 />
-                <div className="map-legend">
-                    <h4>Mapa</h4>
-                    <div className="legend-row">
-                        <span className="legend-chip"><img src={grassTile} alt="grass" /> Prado</span>
-                        <span className="legend-chip"><img src={pathTile} alt="path" /> Camino</span>
-                        <span className="legend-chip"><img src={waterImage} alt="water" /> Agua</span>
-                    </div>
-                    <div className="legend-row">
-                        <span className="legend-chip"><img src={centerImage} alt="center" /> Centro</span>
-                        <span className="legend-chip"><img src={gymImage} alt="gym" /> Gimnasio</span>
-                        <span className="legend-chip"><img src={marketImage} alt="market" /> Mercado</span>
-                        <span className="legend-chip"><img src={gachaImage} alt="gacha" /> Gacha</span>
-                        <span className="legend-chip"><img src={treeImage} alt="tree" /> Árbol / bosque</span>
-                    </div>
-                    <p className="legend-hint">Click para moverte (adyacente) o construir en modo Build.</p>
-                </div>
 
-                <div className="controls-panel">
-                    <div className="d-pad">
-                        <button onClick={() => movePlayer(0, -1)}>Up</button>
-                        <div className="d-pad-mid">
-                            <button onClick={() => movePlayer(-1, 0)}>Left</button>
-                            <button onClick={() => movePlayer(1, 0)}>Right</button>
-                        </div>
-                        <button onClick={() => movePlayer(0, 1)}>Down</button>
-                    </div>
+                <MapLegend />
 
-                    <div className="build-controls">
-                        <button
-                            className={`mode-btn ${isBuildMode ? 'active' : ''}`}
-                            onClick={() => setIsBuildMode(!isBuildMode)}
-                        >
-                            {isBuildMode ? 'Klaar met Bouwen' : 'Bouwen'}
-                        </button>
-
-                        {isBuildMode && (
-                            <div className="build-palette">
-                                <button
-                                    className={selectedBuilding === 'house' ? 'active' : ''}
-                                    onClick={() => setSelectedBuilding('house')}
-                                ><img src={houseImage} alt="house" className="build-icon" /></button>
-                                <button
-                                    className={selectedBuilding === 'tree' ? 'active' : ''}
-                                    onClick={() => setSelectedBuilding('tree')}
-                                ><img src={treeImage} alt="tree" className="build-icon" /></button>
-                                <button
-                                    className={selectedBuilding === 'path' ? 'active' : ''}
-                                    onClick={() => setSelectedBuilding('path')}
-                                >Path</button>
-                            </div>
-                        )}
-                    </div>
-                </div>
+                <MovementControls
+                    movePlayer={movePlayer}
+                    isBuildMode={isBuildMode}
+                    setIsBuildMode={setIsBuildMode}
+                    selectedBuilding={selectedBuilding}
+                    setSelectedBuilding={setSelectedBuilding}
+                />
             </div>
         </div>
     );

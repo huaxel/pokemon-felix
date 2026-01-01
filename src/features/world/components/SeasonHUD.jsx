@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 export function SeasonHUD({ seasonIndex, onNext, onPrev }) {
     const SEASON_ICONS = ['🌸', '☀️', '🍂', '❄️'];

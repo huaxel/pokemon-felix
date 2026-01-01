@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 export function GymBadgeDisplay({ badges, gymLeaders }) {
     const badgeCount = Object.values(badges).filter(Boolean).length;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { getPokemonDetails } from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
@@ -11,14 +11,13 @@ import './SecretCavePage.css';
  */
 export function SecretCavePage() {
     const navigate = useNavigate();
-    const { addCoins, toggleOwned, collection } = usePokemonContext();
+    const { addCoins, toggleOwned } = usePokemonContext();
     const [discovered, setDiscovered] = useState(() => {
         return localStorage.getItem('cave_discovered') === 'true';
     });
     const [depth, setDepth] = useState(0);
     const [encounter, setEncounter] = useState(null);
     const [message, setMessage] = useState('');
-    const [exploring, setExploring] = useState(false);
 
     // Rare Pokemon by cave depth
     const CAVE_POKEMON = [
@@ -55,11 +54,11 @@ export function SecretCavePage() {
         if (Math.random() < encounterChance) {
             // Determine rarity tier
             const tier = CAVE_POKEMON.reverse().find(t => newDepth >= t.depth) || CAVE_POKEMON[0];
-            
+
             // Random Pokemon from pool
             const randomPoke = tier.pool[Math.floor(Math.random() * tier.pool.length)];
             const pokemon = await getPokemonDetails(randomPoke);
-            
+
             // Check for shiny (1% chance)
             if (Math.random() < 0.01) {
                 pokemon.shiny = true;
@@ -79,7 +78,7 @@ export function SecretCavePage() {
         if (!encounter) return;
 
         const { pokemon, tier } = encounter;
-        
+
         // Catch rate based on rarity
         const catchRates = {
             'Uncommon': 0.7,
@@ -93,11 +92,11 @@ export function SecretCavePage() {
 
         if (success) {
             toggleOwned(pokemon.id);
-            const reward = tier.rarity === 'Legendary' ? 2000 
+            const reward = tier.rarity === 'Legendary' ? 2000
                 : tier.rarity === 'Very Rare' ? 1000
-                : tier.rarity === 'Rare' ? 500 
-                : 200;
-            
+                    : tier.rarity === 'Rare' ? 500
+                        : 200;
+
             addCoins(reward);
             setMessage(`✨ Caught ${pokemon.name}! +${reward} coins! ${pokemon.shiny ? '🌟 SHINY!' : ''}`);
             setEncounter(null);
@@ -178,22 +177,22 @@ export function SecretCavePage() {
                 <span className="depth-label">Depth:</span>
                 <span className="depth-value">{depth} floors</span>
                 <div className="depth-bar">
-                    <div 
-                        className="depth-fill" 
-                        style={{ 
+                    <div
+                        className="depth-fill"
+                        style={{
                             width: `${Math.min(100, (depth / 10) * 100)}%`,
-                            backgroundColor: depth >= 9 ? '#dc2626' 
+                            backgroundColor: depth >= 9 ? '#dc2626'
                                 : depth >= 6 ? '#f59e0b'
-                                : depth >= 3 ? '#3b82f6'
-                                : '#22c55e'
+                                    : depth >= 3 ? '#3b82f6'
+                                        : '#22c55e'
                         }}
                     ></div>
                 </div>
                 <div className="rarity-indicator">
-                    {depth >= 9 ? '👑 Legendary Zone' 
+                    {depth >= 9 ? '👑 Legendary Zone'
                         : depth >= 6 ? '💎 Very Rare Zone'
-                        : depth >= 3 ? '🔷 Rare Zone'
-                        : '🟢 Common Zone'}
+                            : depth >= 3 ? '🔷 Rare Zone'
+                                : '🟢 Common Zone'}
                 </div>
             </div>
 
@@ -206,8 +205,8 @@ export function SecretCavePage() {
             {encounter ? (
                 <div className="encounter-scene">
                     <div className="encounter-pokemon">
-                        <img 
-                            src={encounter.pokemon.sprites?.front_default} 
+                        <img
+                            src={encounter.pokemon.sprites?.front_default}
                             alt={encounter.pokemon.name}
                             className={encounter.pokemon.shiny ? 'shiny-pokemon' : ''}
                         />
@@ -233,8 +232,8 @@ export function SecretCavePage() {
                         <p>Catch Rate: {
                             encounter.tier.rarity === 'Legendary' ? '10%'
                                 : encounter.tier.rarity === 'Very Rare' ? '30%'
-                                : encounter.tier.rarity === 'Rare' ? '50%'
-                                : '70%'
+                                    : encounter.tier.rarity === 'Rare' ? '50%'
+                                        : '70%'
                         }</p>
                     </div>
                 </div>

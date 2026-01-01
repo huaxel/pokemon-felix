@@ -1,4 +1,3 @@
-import React from 'react';
 import bagIcon from '../../../assets/items/bag_icon.png';
 
 export function GymCard({ gym, isBeaten, isLocked, onChallenge }) {
