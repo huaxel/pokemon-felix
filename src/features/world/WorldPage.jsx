@@ -26,6 +26,7 @@ import bankImage from '../../assets/buildings/pokecenter.png'; // Using pokecent
 import fountainImage from '../../assets/buildings/water_center.png'; // Using water_center as fountain
 import palaceImage from '../../assets/buildings/city_hall.png'; // Using city_hall as palace
 import evolutionHallImage from '../../assets/buildings/evo_lab.png'; // Using evo_lab as evolution hall
+import mountainImage from '../../assets/buildings/gym_building.png'; // Using gym_building as mountain placeholder
 
 // Tegel types: 0=Gras, 1=Pad, 2=Huis, 3=Ziekenhuis, 4=Boom
 const TILE_TYPES = {
@@ -50,6 +51,7 @@ const TILE_TYPES = {
     FOUNTAIN: 18,
     PALACE: 19,
     EVOLUTION_HALL: 20,
+    MOUNTAIN: 21,
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
@@ -168,7 +170,7 @@ export function WorldPage() {
         [4, 4, 0, 0, 1, 0, 10, 10, 10, 18],
         [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
         [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
-        [1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
         [5, 0, 8, 2, 0, 0, 0, 0, 0, 0],
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
     ]);
@@ -301,6 +303,12 @@ export function WorldPage() {
             return;
         }
 
+        if (tileType === TILE_TYPES.MOUNTAIN) {
+            setMessage({ text: "⛰️ The mystical mountain looms ahead...", color: '#8b7355' });
+            setTimeout(() => navigate('/mountain'), 1000);
+            return;
+        }
+
         if (tileType === TILE_TYPES.CENTER) {
             setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
             healAll();
@@ -415,6 +423,7 @@ export function WorldPage() {
             case TILE_TYPES.FOUNTAIN: return <img src={fountainImage} className="building-sprite" alt="Fountain" />;
             case TILE_TYPES.PALACE: return <img src={palaceImage} className="building-sprite" alt="Palace" />;
             case TILE_TYPES.EVOLUTION_HALL: return <img src={evolutionHallImage} className="building-sprite" alt="Evolution Hall" />;
+            case TILE_TYPES.MOUNTAIN: return <img src={mountainImage} className="building-sprite" alt="Mountain" />;
             case TILE_TYPES.CITY_HALL: return <img src={cityHallImage} className="building-sprite" alt="City Hall" />;
             case TILE_TYPES.URBAN_SHOP: return <img src={shopUrbanImage} className="building-sprite" alt="Urban Shop" />;
             default: return null;
