@@ -1,24 +1,40 @@
 import { useLocation, Link } from 'react-router-dom';
 import { Map, Library, Upload, Download } from 'lucide-react';
 import { usePokemonContext } from '../hooks/usePokemonContext';
+import { usePlayer } from '../hooks/usePlayer';
 import pokeballLogo from '../assets/items/pokeball.png';
 import bagIcon from '../assets/items/bag_icon.png';
 import './Navbar.css';
 
+const AVATARS = [
+    { id: 'boy_blue', emoji: '👦', color: '#3b82f6' },
+    { id: 'girl_pink', emoji: '👧', color: '#ec4899' },
+    { id: 'boy_green', emoji: '👦', color: '#22c55e' },
+    { id: 'girl_yellow', emoji: '👧', color: '#eab308' },
+    { id: 'ninja', emoji: '🥷', color: '#1e293b' },
+    { id: 'scientist', emoji: '👨‍🔬', color: '#6366f1' },
+    { id: 'explorer', emoji: '🤠', color: '#8b4513' },
+    { id: 'superhero', emoji: '🦸‍♂️', color: '#ef4444' },
+];
+
 export function Navbar({ onExport, onImport }) {
     const location = useLocation();
     const { coins } = usePokemonContext();
+    const { playerName, avatarId } = usePlayer();
+    const playerAvatar = AVATARS.find(a => a.id === avatarId) || AVATARS[0];
 
     return (
         <nav className="navbar">
             <div className="nav-pill-container">
-                <div className="nav-brand-pill">
-                    <img src={pokeballLogo} alt="Pokeball" className="nav-logo" />
+                <Link to="/profile" className="nav-brand-pill profile-link">
+                    <div className="nav-avatar-circle" style={{ backgroundColor: playerAvatar.color }}>
+                        {playerAvatar.emoji}
+                    </div>
                     <div className="brand-text">
                         <span className="brand-title">Pokédex</span>
-                        <span className="brand-subtitle">de Félix</span>
+                        <span className="brand-subtitle">de {playerName}</span>
                     </div>
-                </div>
+                </Link>
 
                 <div className="nav-navigation-pill">
                     <Link

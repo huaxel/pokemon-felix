@@ -128,9 +128,10 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Integration with world effects
 - [x] Coin-based purchase system
 
-#### 5.2 Player Customization
-- [ ] Name input for player character
-- [ ] Avatar selection or customization
+#### 5.2 Player Customization ✅ COMPLETE
+- [x] Name input for player character
+- [x] Avatar selection or customization
+- [x] Display Player Name/Avatar in UI
 - [ ] Home decoration system
 - [ ] Trophy/achievement display
 
@@ -238,10 +239,12 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Transaction validation
 - [x] Bank building on world map
 
-#### 7.2 GPS Coordinates System
-- [ ] Teach map reading with coordinates
-- [ ] Treasure hunt quests with X,Y positions
-- [ ] Distance calculations
+#### 7.2 GPS Coordinates System ✅ COMPLETE
+- [x] Teach map reading with coordinates
+- [x] Treasure hunt quests with X,Y positions
+- [x] Distance calculations
+- [x] Directional hints (N, S, E, W)
+- [x] integrated into world map
 
 ---
 

@@ -4,6 +4,7 @@ import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useTownContext } from '../../hooks/useTownContext';
 import { useOutfitEffects } from '../../hooks/useOutfitEffects';
 import { useGPS } from '../../hooks/useGPS';
+import { usePlayer } from '../../hooks/usePlayer';
 import { STORAGE_KEYS } from '../../lib/constants';
 import { QuestLog } from './QuestLog';
 import { Trophy, MapPin, Navigation, Compass } from 'lucide-react';
@@ -436,7 +437,12 @@ export function WorldPage() {
 
     const getTileContent = (type, x, y) => {
         if (x === playerPos.x && y === playerPos.y) {
-            return <div className="player-avatar" style={{ backgroundColor: playerColor }}>P</div>;
+            return (
+                <div className="player-sprite-container">
+                    <span className="player-name-label">{playerName}</span>
+                    <div className="player-avatar" style={{ backgroundColor: playerColor }}>P</div>
+                </div>
+            );
         }
 
         // Schat
