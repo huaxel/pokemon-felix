@@ -372,6 +372,45 @@
     gap: 6px;
 }
 
+
+/* Night Mode Torch Effect */
+.night-mode .game-container::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200vw;
+    height: 200vh;
+    background: radial-gradient(circle at center,
+            rgba(0, 0, 0, 0) 0px,
+            rgba(0, 0, 0, 0) 150px,
+            rgba(0, 0, 0, 0.4) 250px,
+            rgba(0, 0, 0, 0.85) 400px);
+    pointer-events: none;
+    z-index: 50;
+    mix-blend-mode: multiply;
+    animation: torchFlicker 4s infinite alternate;
+}
+
+@keyframes torchFlicker {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.95;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.02);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0.98);
+        opacity: 1;
+    }
+}
+
+/* Enhanced Tiles */
 .tile {
     width: 54px;
     height: 54px;
@@ -382,63 +421,84 @@
     cursor: default;
     transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
     position: relative;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Default grass texture feel */
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%),
+        #4ade80;
+}
+
+/* Grass Pattern overlay for all tiles */
+.tile::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.3;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 4h2v2H5V5zm4-4h2v2H9V1zM1 9h2v2H1V9zm4 4h2v2H5v-2zm4-4h2v2H9V9zm4 4h2v2h-2v-2zm4-4h2v2h-2V9zm-4 8h2v2h-2v-2zm-4-4h2v2h-2v-2z' fill='%2315803d' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+    border-radius: 12px;
+    pointer-events: none;
+}
+
+.tile.type-0::before {
+    /* Grass specific pattern */
+    opacity: 0.5;
+}
+
+/* Path styling */
+.tile.type-1 {
+    background-color: #d69e2e !important;
+    border-radius: 6px;
+    transform: scale(0.95);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.tile.type-1::before {
+    /* Dirt pattern */
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2392400e' fill-opacity='0.2' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.6;
 }
 
 .tile:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
-    border-color: rgba(255, 255, 255, 0.16);
-}
-
-.building-sprite,
-.water-sprite {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    image-rendering: pixelated;
-    transition: transform 0.2s;
-}
-
-.building-sprite:hover,
-.water-sprite:hover {
-    transform: scale(1.1);
-}
-
-.water-sprite {
-    animation: waterRipple 3s infinite ease-in-out;
-}
-
-.tile.buildable {
-    cursor: pointer;
-    border-style: dashed;
-    border-color: rgba(148, 163, 184, 0.4);
-}
-
-.tile.buildable:hover {
-    border-color: #38bdf8;
-    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.25);
-}
-
-.player-sprite-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .player-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
     display: grid;
     place-items: center;
     color: #0f172a;
     font-weight: 900;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: white;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    border: 3px solid white;
+    animation: playerBob 1s infinite alternate ease-in-out;
 }
+
+@keyframes playerBob {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-4px);
+    }
+}
+
+.game-container {
+    position: relative;
+    /* Context for torch */
+    overflow: hidden;
+    /* Contain the torch overflow */
+    padding: 2rem;
+    border-radius: 2rem;
+}
+
 
 .player-avatar img.player-sprite {
     width: 28px;
