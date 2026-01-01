@@ -29,6 +29,184 @@
     gap: 5px;
 }
 
+.battle-stage {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 24px 16px 8px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.battle-field {
+    flex: 1 1 320px;
+    display: flex;
+    justify-content: center;
+}
+
+.fighter-card {
+    width: 320px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.battle-sprite {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+}
+
+.fighter-name {
+    text-transform: capitalize;
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+}
+
+.energy-display {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #fbbf24;
+}
+
+.card-hand {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 16px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-hand .card {
+    background: #0f172a;
+    color: white;
+    border: 2px solid #1f2937;
+    border-radius: 14px;
+    padding: 12px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.card-hand .card:hover:not(:disabled) {
+    transform: translateY(-3px);
+    border-color: #38bdf8;
+    box-shadow: 0 10px 24px rgba(56, 189, 248, 0.25);
+}
+
+.card-hand .card.disabled,
+.card-hand .card:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.card-name {
+    font-weight: 800;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.card-damage {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+}
+
+.card-cost {
+    align-self: flex-end;
+    background: #0ea5e9;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+.items-btn {
+    margin: 12px auto 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #fbbf24;
+    color: #0f172a;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.items-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 12px;
+    border-radius: 12px;
+    margin: 8px auto;
+    max-width: 600px;
+}
+
+.items-menu button {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.battle-end {
+    text-align: center;
+    margin: 12px auto 0;
+}
+
+.battle-end button {
+    background: white;
+    color: #0f172a;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .battle-sprite {
+        width: 170px;
+        height: 170px;
+    }
+
+    .fighter-card {
+        width: 280px;
+    }
+}
+
 .log-entry {
     background: rgba(0, 0, 0, 0.6);
     padding: 5px 10px;

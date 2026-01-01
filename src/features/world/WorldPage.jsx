@@ -340,6 +340,34 @@ export function WorldPage() {
         handleTileEvent(targetTile);
     }, [playerPos, mapGrid, isBuildMode, handleTileEvent, targetPos, calculateDistance, getDirectionHint]);
 
+    // Click navigation + build placement handler
+    const handleTileClick = useCallback((x, y) => {
+        if (isBuildMode) {
+            const tileType = mapGrid[y][x];
+            const existing = townObjects.find(obj => obj.x === x && obj.y === y);
+
+            // Block placement on non-walkable base tiles (unless it's an existing build we are toggling)
+            const isBaseBlocked = !existing && tileType !== TILE_TYPES.GRASS && tileType !== TILE_TYPES.PATH;
+            if (isBaseBlocked) return;
+
+            if (existing) {
+                removeObject(existing.id);
+                // Toggle off if clicking same type
+                if (existing.type === selectedBuilding) return;
+            }
+
+            addObject(selectedBuilding, x, y);
+            return;
+        }
+
+        // Move by clicking an adjacent tile (keeps movement rules consistent)
+        const dx = x - playerPos.x;
+        const dy = y - playerPos.y;
+        if (Math.abs(dx) + Math.abs(dy) === 1) {
+            movePlayer(dx, dy);
+        }
+    }, [isBuildMode, mapGrid, townObjects, removeObject, selectedBuilding, addObject, playerPos.x, playerPos.y, movePlayer]);
+
     // Toetsenbord besturing
     useEffect(() => {
         const handleKeyDown = (e) => {

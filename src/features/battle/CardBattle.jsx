@@ -104,6 +104,13 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
         initBattle();
     }, [fighter1, fighter2]);
 
+    // Passive energy regen when it's the player's turn (prevents being stuck at 0)
+    useEffect(() => {
+        if (turn === 'player' && !winner) {
+            dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'player', amount: 1 });
+        }
+    }, [turn, winner]);
+
     /**
      * Execute a player attack
      */
@@ -126,8 +133,9 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
             amount: selectedMove.cost
         });
 
-        // Calculate damage
-        const damage = calculateSmartDamage(fighter1, fighter2, selectedMove);
+        // Calculate damage (structured result)
+        const dmgResult = calculateSmartDamage(fighter1, fighter2, selectedMove, battleState.lastMoveName);
+        const damage = dmgResult.damage;
 
         // Animate attack
         dispatch({
@@ -167,7 +175,12 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
 
         dispatch({
             type: BATTLE_ACTIONS.ADD_TO_LOG,
-            message: `${fighter1.name} used ${selectedMove.name} - ${damage} damage!`
+            message: `${fighter1.name} used ${selectedMove.name} - ${damage} dmg${dmgResult.message ? ` (${dmgResult.message})` : ''}`
+        });
+
+        dispatch({
+            type: BATTLE_ACTIONS.SET_LAST_MOVE,
+            moveName: selectedMove.name
         });
 
         // Clear animation
@@ -180,7 +193,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
             turn: 'opponent'
         });
 
-    }, [turn, winner, f1Energy, f2HP, fighter1, fighter2, addCoins, onBattleEnd]);
+    }, [turn, winner, f1Energy, f2HP, fighter1, fighter2, addCoins, onBattleEnd, battleState.lastMoveName]);
 
     /**
      * Handle item usage
@@ -246,14 +259,16 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
      * AI opponent turn
      */
     useEffect(() => {
-        if (turn === 'opponent' && !winner && f2Moves.length > 0 && !loadingMoves) {
-            const aiTimer = setTimeout(async () => {
+        if (turn !== 'opponent' || winner) return;
+
+        const takeOpponentTurn = async () => {
+            // If moves are missing, just pass and recharge so the fight continues
+            if (loadingMoves || f2Moves.length === 0) {
+                dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'opponent', amount: 1 });
+                dispatch({ type: BATTLE_ACTIONS.ADD_TO_LOG, message: `${fighter2?.name || 'Opponent'} is waiting...` });
+            } else {
                 // Regenerate energy
-                dispatch({
-                    type: BATTLE_ACTIONS.ADD_ENERGY,
-                    fighter: 'opponent',
-                    amount: 1
-                });
+                dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'opponent', amount: 1 });
 
                 // Choose best affordable move
                 const affordable = f2Moves.filter(m => m.cost <= f2Energy + 1);
@@ -261,88 +276,57 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                 if (affordable.length > 0) {
                     const move = affordable[Math.floor(Math.random() * affordable.length)];
 
-                    // Same attack sequence as player
-                    dispatch({
-                        type: BATTLE_ACTIONS.SPEND_ENERGY,
-                        fighter: 'opponent',
-                        amount: move.cost
-                    });
+                    // Spend and attack
+                    dispatch({ type: BATTLE_ACTIONS.SPEND_ENERGY, fighter: 'opponent', amount: move.cost });
 
-                    const damage = calculateSmartDamage(fighter2, fighter1, move);
+                    const dmgResult = calculateSmartDamage(fighter2, fighter1, move, battleState.lastMoveName);
+                    const damage = dmgResult.damage;
 
-                    dispatch({
-                        type: BATTLE_ACTIONS.SET_ATTACKING_FIGHTER,
-                        fighter: fighter2
-                    });
-
+                    dispatch({ type: BATTLE_ACTIONS.SET_ATTACKING_FIGHTER, fighter: fighter2 });
                     await new Promise(r => setTimeout(r, 300));
-                    dispatch({
-                        type: BATTLE_ACTIONS.SET_DAMAGED_FIGHTER,
-                        fighter: fighter1
-                    });
+                    dispatch({ type: BATTLE_ACTIONS.SET_DAMAGED_FIGHTER, fighter: fighter1 });
 
                     const newF1HP = Math.max(0, f1HP - damage);
-                    dispatch({
-                        type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP,
-                        fighter: 'player',
-                        hp: newF1HP
-                    });
+                    dispatch({ type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP, fighter: 'player', hp: newF1HP });
 
                     if (newF1HP === 0) {
-                        dispatch({
-                            type: BATTLE_ACTIONS.SET_WINNER,
-                            winner: fighter2
-                        });
-                        dispatch({
-                            type: BATTLE_ACTIONS.ADD_TO_LOG,
-                            message: `💔 ${fighter2.name} wins!`
-                        });
+                        dispatch({ type: BATTLE_ACTIONS.SET_WINNER, winner: fighter2 });
+                        dispatch({ type: BATTLE_ACTIONS.ADD_TO_LOG, message: `💔 ${fighter2.name} wins!` });
                         setTimeout(() => onBattleEnd(fighter2), 2000);
                         return;
                     }
 
                     dispatch({
                         type: BATTLE_ACTIONS.ADD_TO_LOG,
-                        message: `${fighter2.name} used ${move.name} - ${damage} damage!`
+                        message: `${fighter2.name} used ${move.name} - ${damage} dmg${dmgResult.message ? ` (${dmgResult.message})` : ''}`
                     });
+
+                    dispatch({ type: BATTLE_ACTIONS.SET_LAST_MOVE, moveName: move.name });
 
                     await new Promise(r => setTimeout(r, 400));
                     dispatch({ type: BATTLE_ACTIONS.CLEAR_ANIMATIONS });
                 } else {
                     // Recharge and pass
-                    dispatch({
-                        type: BATTLE_ACTIONS.ADD_ENERGY,
-                        fighter: 'opponent',
-                        amount: 1
-                    });
-                    dispatch({
-                        type: BATTLE_ACTIONS.ADD_TO_LOG,
-                        message: `${fighter2.name} is recharging...`
-                    });
+                    dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'opponent', amount: 1 });
+                    dispatch({ type: BATTLE_ACTIONS.ADD_TO_LOG, message: `${fighter2.name} is recharging...` });
                 }
+            }
 
-                // Regenerate player energy
-                dispatch({
-                    type: BATTLE_ACTIONS.ADD_ENERGY,
-                    fighter: 'player',
-                    amount: 2
-                });
+            // Regenerate player energy every time opponent turn ends
+            dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'player', amount: 2 });
 
-                // Draw card if hand is small
-                if (hand.length < 4 && deck.length > 0) {
-                    const newCard = deck[Math.floor(Math.random() * deck.length)];
-                    setHand(prev => [...prev, newCard]);
-                }
+            // Draw card if hand is small
+            if (hand.length < 4 && deck.length > 0) {
+                const newCard = deck[Math.floor(Math.random() * deck.length)];
+                setHand(prev => [...prev, newCard]);
+            }
 
-                dispatch({
-                    type: BATTLE_ACTIONS.SET_TURN,
-                    turn: 'player'
-                });
-            }, 1000);
+            dispatch({ type: BATTLE_ACTIONS.SET_TURN, turn: 'player' });
+        };
 
-            return () => clearTimeout(aiTimer);
-        }
-    }, [turn, winner, f2Moves, f2Energy, f1HP, fighter1, fighter2, hand.length, deck.length, loadingMoves]);
+        const aiTimer = setTimeout(takeOpponentTurn, 800);
+        return () => clearTimeout(aiTimer);
+    }, [turn, winner, f2Moves, f2Energy, f1HP, fighter1, fighter2, hand.length, deck.length, loadingMoves, battleState.lastMoveName]);
 
     if (loadingMoves) {
         return <div className="card-battle-arena"><p>Loading battle...</p></div>;
@@ -359,32 +343,34 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                 </div>
             </div>
 
-            {/* Opponent */}
-            <div className="battle-field opponent-side">
-                <div className="fighter-card">
-                    {fighter2 && (
-                        <>
-                            <img src={fighter2.sprites?.front_default} alt={fighter2.name} />
-                            <h3>{fighter2.name}</h3>
-                            <HPBar current={f2HP} max={f2MaxHP} />
-                        </>
-                    )}
+            <div className="battle-stage">
+                {/* Opponent */}
+                <div className="battle-field opponent-side">
+                    <div className="fighter-card">
+                        {fighter2 && (
+                            <>
+                                <img className="battle-sprite" src={fighter2.sprites?.front_default} alt={fighter2.name} />
+                                <h3 className="fighter-name">{fighter2.name}</h3>
+                                <HPBar current={f2HP} max={f2MaxHP} />
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
 
-            {/* Player */}
-            <div className="battle-field player-side">
-                <div className="fighter-card">
-                    {fighter1 && (
-                        <>
-                            <img src={fighter1.sprites?.front_default} alt={fighter1.name} />
-                            <h3>{fighter1.name}</h3>
-                            <HPBar current={f1HP} max={f1MaxHP} />
-                            <div className="energy-display">
-                                <span>⚡ {f1Energy}/{5}</span>
-                            </div>
-                        </>
-                    )}
+                {/* Player */}
+                <div className="battle-field player-side">
+                    <div className="fighter-card">
+                        {fighter1 && (
+                            <>
+                                <img className="battle-sprite" src={fighter1.sprites?.front_default} alt={fighter1.name} />
+                                <h3 className="fighter-name">{fighter1.name}</h3>
+                                <HPBar current={f1HP} max={f1MaxHP} />
+                                <div className="energy-display">
+                                    <span>⚡ {f1Energy}/{5}</span>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
 
