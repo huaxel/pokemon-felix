@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { Droplet, Trophy, RotateCcw, Sparkles, Plus, Minus } from 'lucide-react';
+import { Droplet, Trophy, RotateCcw, Sparkles } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
+import { PotionIngredientsPanel } from './components/PotionIngredientsPanel';
+import { PotionBrewingStation } from './components/PotionBrewingStation';
 import './PotionLabPage.css';
 
 const INGREDIENTS = [
@@ -31,16 +33,14 @@ export function PotionLabPage() {
     const [showTutorial, setShowTutorial] = useState(true);
     const [streak, setStreak] = useState(0);
 
-    useEffect(() => {
-        generateNewChallenge();
-    }, [difficulty]);
+
 
     useEffect(() => {
         const total = selectedIngredients.reduce((sum, ing) => sum + ing.value, 0);
         setCurrentValue(total);
     }, [selectedIngredients]);
 
-    const generateNewChallenge = () => {
+    const generateNewChallenge = useCallback(() => {
         const config = DIFFICULTIES[difficulty];
         const min = config.range[0];
         const max = config.range[1];
@@ -48,7 +48,7 @@ export function PotionLabPage() {
         setTargetValue(target);
         setSelectedIngredients([]);
         setMessage(null);
-    };
+    }, [difficulty]);
 
     const showMessage = (text, type = 'info', duration = 3000) => {
         setMessage({ text, type });
@@ -100,13 +100,18 @@ export function PotionLabPage() {
     };
 
     const getDifficultyColor = () => {
-        switch(difficulty) {
+        switch (difficulty) {
             case 'EASY': return '#10b981';
             case 'MEDIUM': return '#f59e0b';
             case 'HARD': return '#ef4444';
             default: return '#3b82f6';
         }
     };
+
+    // Need to trigger initial challenge when difficulty changes
+    useEffect(() => {
+        generateNewChallenge();
+    }, [generateNewChallenge]);
 
     return (
         <div className="potion-lab-page">
@@ -131,7 +136,7 @@ export function PotionLabPage() {
 
             {showTutorial && (
                 <div className="tutorial-box">
-                    <button 
+                    <button
                         className="close-tutorial"
                         onClick={() => setShowTutorial(false)}
                     >
@@ -166,7 +171,7 @@ export function PotionLabPage() {
                         key={key}
                         className={`difficulty-btn ${difficulty === key ? 'active' : ''}`}
                         onClick={() => setDifficulty(key)}
-                        style={{ 
+                        style={{
                             borderColor: difficulty === key ? getDifficultyColor() : 'transparent',
                             background: difficulty === key ? `${getDifficultyColor()}33` : 'rgba(255,255,255,0.1)'
                         }}
@@ -177,96 +182,25 @@ export function PotionLabPage() {
                 ))}
             </div>
 
-            {/* Brewing Station */}
-            <div className="brewing-station">
-                <div className="target-display">
-                    <h2>Objetivo</h2>
-                    <div className="target-value" style={{ color: getDifficultyColor() }}>
-                        {targetValue}
-                    </div>
-                    <p>Alcanza este número exacto</p>
-                </div>
+            <PotionBrewingStation
+                targetValue={targetValue}
+                currentValue={currentValue}
+                selectedIngredients={selectedIngredients}
+                difficultyColor={getDifficultyColor()}
+                onRemoveLast={removeLastIngredient}
+                onClear={clearIngredients}
+            />
 
-                {/* Current Potion */}
-                <div className="potion-flask">
-                    <Droplet size={80} className="flask-icon" />
-                    <div className="current-value">
-                        <span className={currentValue === targetValue ? 'perfect' : currentValue > targetValue ? 'over' : 'under'}>
-                            {currentValue}
-                        </span>
-                    </div>
-                    {currentValue === targetValue && currentValue > 0 && (
-                        <div className="perfect-indicator">
-                            <Sparkles size={24} />
-                            ¡Perfecto!
-                        </div>
-                    )}
-                </div>
-
-                {/* Selected Ingredients */}
-                <div className="selected-ingredients">
-                    <h3>Ingredientes Mezclados</h3>
-                    <div className="ingredients-list">
-                        {selectedIngredients.length === 0 ? (
-                            <p className="empty-state">Ninguno todavía...</p>
-                        ) : (
-                            selectedIngredients.map((ing, idx) => (
-                                <div key={ing.id} className="selected-ingredient" style={{ borderColor: ing.color }}>
-                                    <span className="ingredient-emoji">{ing.emoji}</span>
-                                    <div className="ingredient-info">
-                                        <span className="ingredient-name">{ing.name}</span>
-                                        <span className={`ingredient-value ${ing.value > 0 ? 'positive' : 'negative'}`}>
-                                            {ing.value > 0 ? '+' : ''}{ing.value}
-                                        </span>
-                                    </div>
-                                    {idx < selectedIngredients.length - 1 && (
-                                        <span className="math-operator">
-                                            {selectedIngredients[idx + 1].value > 0 ? <Plus size={16} /> : <Minus size={16} />}
-                                        </span>
-                                    )}
-                                </div>
-                            ))
-                        )}
-                    </div>
-                    <div className="ingredient-actions">
-                        <button onClick={removeLastIngredient} disabled={selectedIngredients.length === 0}>
-                            Quitar Último
-                        </button>
-                        <button onClick={clearIngredients} disabled={selectedIngredients.length === 0}>
-                            <RotateCcw size={16} />
-                            Limpiar
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* Available Ingredients */}
-            <div className="ingredients-panel">
-                <h3>Ingredientes Disponibles</h3>
-                <div className="ingredients-grid">
-                    {INGREDIENTS.map(ingredient => (
-                        <button
-                            key={ingredient.id}
-                            className="ingredient-card"
-                            onClick={() => addIngredient(ingredient)}
-                            style={{ borderColor: ingredient.color }}
-                            disabled={selectedIngredients.length >= DIFFICULTIES[difficulty].ingredients}
-                        >
-                            <div className="ingredient-emoji-large">{ingredient.emoji}</div>
-                            <div className="ingredient-details">
-                                <span className="ingredient-name">{ingredient.name}</span>
-                                <span className={`ingredient-value ${ingredient.value > 0 ? 'positive' : 'negative'}`}>
-                                    {ingredient.value > 0 ? '+' : ''}{ingredient.value}
-                                </span>
-                            </div>
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <PotionIngredientsPanel
+                availableIngredients={INGREDIENTS}
+                selectedCount={selectedIngredients.length}
+                maxCount={DIFFICULTIES[difficulty].ingredients}
+                onAdd={addIngredient}
+            />
 
             {/* Brew Button */}
             <div className="brew-section">
-                <button 
+                <button
                     className="brew-button"
                     onClick={brewPotion}
                     disabled={selectedIngredients.length === 0}

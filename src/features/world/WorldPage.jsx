@@ -335,7 +335,7 @@ export function WorldPage() {
                 }
             }
         }
-    }, [addCoins, healAll, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, showMessage, navigateWithMessage, setTreasures, getEncounterMultiplier]);
+    }, [addCoins, healAll, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, showMessage, navigateWithMessage, setTreasures, getEncounterMultiplier, generateRandomTarget, targetPos]);
 
     // Beweging logica
     const movePlayer = useCallback((dx, dy) => {
@@ -365,7 +365,7 @@ export function WorldPage() {
         }
 
         handleTileEvent(targetTile);
-    }, [playerPos, mapGrid, isBuildMode, handleTileEvent, targetPos, calculateDistance, getDirectionHint]);
+    }, [playerPos, mapGrid, isBuildMode, handleTileEvent, targetPos, calculateDistance, getDirectionHint, clearMessage]);
 
     // Click navigation + build placement handler
     const handleTileClick = useCallback((x, y) => {
