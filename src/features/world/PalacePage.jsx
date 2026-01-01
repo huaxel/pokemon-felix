@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { Trophy, Gift, Coins } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
