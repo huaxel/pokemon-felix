@@ -1,0 +1,98 @@
+
+> pokemon-felix@0.2.0 lint
+> eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0
+
+
+/home/juan/coding/pokemon-felix/src/components/BattleArena.jsx
+   3:10  warning  'PokemonCard' is defined but never used. Allowed unused vars must match /^_/u                                                 no-unused-vars
+   4:10  warning  'getStat' is defined but never used. Allowed unused vars must match /^_/u                                                     no-unused-vars
+   7:8   warning  Function 'BattleArena' has too many lines (273). Maximum allowed is 150                                                       max-lines-per-function
+   7:8   warning  Function 'BattleArena' has a complexity of 30. Maximum allowed is 15                                                          complexity
+   7:89  warning  'onBattleEnd' is defined but never used. Allowed unused args must match /^_/u                                                 no-unused-vars
+  41:8   warning  React Hook useEffect has missing dependencies: 'fighter1' and 'fighter2'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/home/juan/coding/pokemon-felix/src/components/Navbar.jsx
+  5:8  warning  'pokeballLogo' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/components/PokemonCard.jsx
+  7:39  warning  Unexpected function expression  prefer-arrow-callback
+
+/home/juan/coding/pokemon-felix/src/contexts/PlayerProvider.jsx
+  3:10  warning  'STORAGE_KEYS' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/gacha/GachaPage.jsx
+  2:10  warning  'Link' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/porygon/PorygonLabPage.jsx
+  78:13  warning  'currentPos' is never reassigned. Use 'const' instead  prefer-const
+
+/home/juan/coding/pokemon-felix/src/features/profile/ProfilePage.jsx
+  4:28  warning  'User' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/GymPage.jsx
+   2:16  warning  'useNavigate' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+  15:8   warning  Function 'GymPage' has too many lines (236). Maximum allowed is 150            max-lines-per-function
+
+/home/juan/coding/pokemon-felix/src/features/world/MountainPage.jsx
+  13:8  warning  Function 'MountainPage' has too many lines (190). Maximum allowed is 150  max-lines-per-function
+
+/home/juan/coding/pokemon-felix/src/features/world/PalacePage.jsx
+   4:54  warning  'Zap' is defined but never used. Allowed unused vars must match /^_/u                no-unused-vars
+  54:8   warning  Function 'PalacePage' has too many lines (210). Maximum allowed is 150               max-lines-per-function
+  55:11  warning  'navigate' is assigned a value but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/PotionLabPage.jsx
+  25:8  warning  Function 'PotionLabPage' has too many lines (174). Maximum allowed is 150  max-lines-per-function
+
+/home/juan/coding/pokemon-felix/src/features/world/SecretCavePage.jsx
+  13:36  warning  'pokemonList' is assigned a value but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/InteriorModal.jsx
+  1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/MountainEntryView.jsx
+  1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/MountainHikeView.jsx
+  1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/PotionBrewingStation.jsx
+   1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u   no-unused-vars
+  11:5  warning  'onBrew' is defined but never used. Allowed unused args must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/PotionIngredientsPanel.jsx
+  1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/TreasureTutorial.jsx
+  1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/WorldGrid.jsx
+   1:8   warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+  33:28  warning  Arrow function has a complexity of 30. Maximum allowed is 15             complexity
+
+/home/juan/coding/pokemon-felix/src/features/world/components/WorldHUD.jsx
+  1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/components/WorldWeather.jsx
+  1:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  no-unused-vars
+
+/home/juan/coding/pokemon-felix/src/features/world/hooks/useWorldEvents.js
+  20:24  warning  Arrow function has a complexity of 25. Maximum allowed is 15  complexity
+
+/home/juan/coding/pokemon-felix/src/lib/__tests__/battleReducer.test.js
+   21:27  warning  Arrow function has too many lines (258). Maximum allowed is 150  max-lines-per-function
+  294:17  warning  'state' is never reassigned. Use 'const' instead                 prefer-const
+
+/home/juan/coding/pokemon-felix/src/lib/battle-logic.js
+   90:29  warning  Arrow function has a complexity of 17. Maximum allowed is 15  complexity
+  114:29  warning  Arrow function has a complexity of 18. Maximum allowed is 15  complexity
+  125:9   warning  'newMove' is never reassigned. Use 'const' instead            prefer-const
+  245:19  warning  'effectiveness' is never reassigned. Use 'const' instead      prefer-const
+
+/home/juan/coding/pokemon-felix/src/lib/battleReducer.js
+  97:8  warning  Function 'battleReducer' has a complexity of 23. Maximum allowed is 15  complexity
+
+✖ 39 problems (0 errors, 39 warnings)
+  0 errors and 4 warnings potentially fixable with the `--fix` option.
+
+ESLint found too many warnings (maximum: 0).

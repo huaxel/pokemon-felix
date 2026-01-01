@@ -1,236 +1,95 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { Bracket } from './components/Bracket';
 import { BattleArena } from '../../components/BattleArena';
+import { TournamentSetupView } from './components/TournamentSetupView';
+import { TournamentChampionView } from './components/TournamentChampionView';
 import './TournamentLayout.css';
 
 export function TournamentLayout({ allPokemon }) {
     const { addCoins, squadIds } = usePokemonContext();
     const [participants, setParticipants] = useState([]);
     const [rounds, setRounds] = useState([]);
-    const [currentMatch, setCurrentMatch] = useState(null); // { roundIndex, matchIndex }
+    const [currentMatch, setCurrentMatch] = useState(null);
     const [champion, setChampion] = useState(null);
-    const [view, setView] = useState('setup'); // setup, bracket, battle, champion
-
-    const [story, setStory] = useState(null); // { text: "...", onContinue: () => {} }
-
-    const showStoryModal = (text, onContinue) => {
-        setStory({ text, onContinue });
-    };
-
-    const handleStoryContinue = () => {
-        const onContinue = story.onContinue;
-        setStory(null);
-        if (onContinue) onContinue();
-    };
+    const [view, setView] = useState('setup');
+    const [story, setStory] = useState(null);
 
     const startTournament = () => {
         if (participants.length !== 8) return;
-
-        showStoryModal("¡Bienvenidos a la Liga Félix! 8 entrenadores, 1 campeón. ¿Tienes lo que se necesita?", () => {
-            // Create Quarter Finals
-            const quarterFinals = [];
-            for (let i = 0; i < 8; i += 2) {
-                quarterFinals.push({
-                    p1: participants[i],
-                    p2: participants[i + 1],
-                    winner: null
-                });
+        setStory({
+            text: "¡Bienvenidos a la Liga Félix! 8 entrenadores, 1 campeón. ¿Tienes lo que se necesita?",
+            onContinue: () => {
+                const quarterFinals = [];
+                for (let i = 0; i < 8; i += 2) {
+                    quarterFinals.push({ p1: participants[i], p2: participants[i + 1], winner: null });
+                }
+                setRounds([
+                    { name: 'Cuartos de Final', matches: quarterFinals },
+                    { name: 'Semifinales', matches: Array(2).fill({ p1: null, p2: null, winner: null }) },
+                    { name: 'Final', matches: Array(1).fill({ p1: null, p2: null, winner: null }) }
+                ]);
+                setView('bracket');
+                setCurrentMatch({ roundIndex: 0, matchIndex: 0 });
             }
-
-            const initialRounds = [
-                { name: 'Cuartos de Final', matches: quarterFinals },
-                { name: 'Semifinales', matches: Array(2).fill({ p1: null, p2: null, winner: null }) },
-                { name: 'Final', matches: Array(1).fill({ p1: null, p2: null, winner: null }) }
-            ];
-
-            setRounds(initialRounds);
-            setView('bracket');
-            setCurrentMatch({ roundIndex: 0, matchIndex: 0 });
         });
     };
 
     const autoFill = () => {
-        if (!allPokemon || allPokemon.length === 0) return;
-
-        // Get user's squad
+        if (!allPokemon?.length) return;
         const userSquad = allPokemon.filter(p => squadIds.includes(p.id));
-
-        // Get random opponents (excluding squad)
         const opponents = allPokemon
             .filter(p => !squadIds.includes(p.id))
             .sort(() => 0.5 - Math.random())
             .slice(0, 8 - userSquad.length);
-
-        // Combine squad + opponents
-        // If squad is empty, it will just be randoms
-        // If squad has 4, we add 4 randoms
-        const tournamentParticipants = [...userSquad, ...opponents];
-
-        // Shuffle positions so user isn't always first
-        setParticipants(tournamentParticipants.sort(() => 0.5 - Math.random()));
-    };
-
-    const startNextMatch = () => {
-        const roundName = rounds[currentMatch.roundIndex].name;
-        let msg = `¡Es hora del duelo! ${roundName}`;
-
-        if (currentMatch.roundIndex === 1 && currentMatch.matchIndex === 0) {
-            msg = "¡Las Semifinales! Solo los mejores permanecen.";
-        } else if (currentMatch.roundIndex === 2) {
-            msg = "¡La Gran Final! El destino te espera.";
-        }
-
-        showStoryModal(msg, () => {
-            setView('battle');
-        });
+        setParticipants([...userSquad, ...opponents].sort(() => 0.5 - Math.random()));
     };
 
     const handleMatchEnd = (winner) => {
         const { roundIndex, matchIndex } = currentMatch;
         const newRounds = [...rounds];
-
-        // Update current match winner
         newRounds[roundIndex].matches[matchIndex].winner = winner;
 
-        // Advance winner to next round
         if (roundIndex < 2) {
-            const nextRoundMatchIndex = Math.floor(matchIndex / 2);
-            const isPlayer1 = matchIndex % 2 === 0;
-
-            const nextMatch = { ...newRounds[roundIndex + 1].matches[nextRoundMatchIndex] };
-            if (isPlayer1) {
-                nextMatch.p1 = winner;
-            } else {
-                nextMatch.p2 = winner;
-            }
-            newRounds[roundIndex + 1].matches[nextRoundMatchIndex] = nextMatch;
-        } else {
-            // Champion!
-            setChampion(winner);
-            addCoins(200);
-            setView('champion');
-            return;
-        }
-
-        setRounds(newRounds);
-
-        // Determine next match
-        let nextMatchIndex = matchIndex + 1;
-        let nextRoundIndex = roundIndex;
-
-        if (nextMatchIndex >= newRounds[roundIndex].matches.length) {
-            nextRoundIndex++;
-            nextMatchIndex = 0;
-        }
-
-        if (nextRoundIndex > 2) {
-            // Should be caught by champion check, but just in case
-            setView('champion');
-        } else {
-            setCurrentMatch({ roundIndex: nextRoundIndex, matchIndex: nextMatchIndex });
+            const nextIdx = Math.floor(matchIndex / 2);
+            const match = { ...newRounds[roundIndex + 1].matches[nextIdx] };
+            if (matchIndex % 2 === 0) match.p1 = winner; else match.p2 = winner;
+            newRounds[roundIndex + 1].matches[nextIdx] = match;
+            setRounds(newRounds);
+            let nmi = matchIndex + 1, nri = roundIndex;
+            if (nmi >= newRounds[roundIndex].matches.length) { nri++; nmi = 0; }
+            setCurrentMatch({ roundIndex: nri, matchIndex: nmi });
             setView('bracket');
+        } else {
+            setChampion(winner); addCoins(200); setView('champion');
         }
     };
 
-    if (view === 'setup') {
-        return (
-            <div className="tournament-layout">
-                {story && (
-                    <div className="story-overlay">
-                        <div className="story-modal">
-                            <p>{story.text}</p>
-                            <button onClick={handleStoryContinue}>Continuar</button>
-                        </div>
-                    </div>
-                )}
-                <h1>Torneo Pokémon</h1>
-                <div className="setup-controls">
-                    <button className="autofill-btn" onClick={autoFill} disabled={!allPokemon || allPokemon.length === 0}>
-                        {(!allPokemon || allPokemon.length === 0) ? 'Cargando...' : 'Entrar con Equipo + Rellenar'}
-                    </button>
-                    <button
-                        className="start-btn"
-                        disabled={participants.length !== 8}
-                        onClick={startTournament}
-                    >
-                        Comenzar Torneo
-                    </button>
-                </div>
-                <div className="participants-grid">
-                    {participants.map(p => (
-                        <div key={p.id} className="participant-card">
-                            <img src={p.sprites.front_default} alt={p.name} />
-                            <span>{p.name}</span>
-                        </div>
-                    ))}
-                    {[...Array(8 - participants.length)].map((_, i) => (
-                        <div key={`empty-${i}`} className="participant-card empty">
-                            ?
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
-    if (view === 'champion') {
-        return (
-            <div className="tournament-layout champion-view">
-                <h1>¡Tenemos un Campeón!</h1>
-                <div className="champion-card">
-                    <img src={champion.sprites.other['official-artwork'].front_default} alt={champion.name} />
-                    <h3>{champion.name}</h3>
-                    <div className="winner-badge"><img src={'/src/assets/icons/medal.svg'} alt="winner" className="medal-icon" /></div>
-                    <p className="reward-text"><img src={'/src/assets/icons/coin.svg'} alt="coins" className="coin-icon-inline" /> +200</p>
-                </div>
-                <div className="champion-actions">
-                    <Link to="/gacha" className="spend-btn">
-                        Gastar Ganancias
-                    </Link>
-                    <button className="reset-btn" onClick={() => {
-                        setParticipants([]);
-                        setChampion(null);
-                        setView('setup');
-                    }}>Nuevo Torneo</button>
-                </div>
-            </div>
-        );
-    }
-
+    if (view === 'setup') return <TournamentSetupView allPokemon={allPokemon} participants={participants} onAutoFill={autoFill} onStart={startTournament} story={story} onContinueStory={() => { const cb = story.onContinue; setStory(null); cb(); }} />;
+    if (view === 'champion') return <TournamentChampionView champion={champion} onReset={() => { setParticipants([]); setChampion(null); setView('setup'); }} />;
     if (view === 'battle') {
         const match = rounds[currentMatch.roundIndex].matches[currentMatch.matchIndex];
         return (
             <div className="tournament-layout">
-                <h2>Partido {currentMatch.matchIndex + 1} - {rounds[currentMatch.roundIndex].name}</h2>
-                <BattleArena
-                    key={`${match.p1.id}-${match.p2.id}`}
-                    initialFighter1={match.p1}
-                    initialFighter2={match.p2}
-                    onBattleEnd={handleMatchEnd}
-                />
+                <h2>{rounds[currentMatch.roundIndex].name} - Partido {currentMatch.matchIndex + 1}</h2>
+                <BattleArena key={`${match.p1.id}-${match.p2.id}`} initialFighter1={match.p1} initialFighter2={match.p2} onBattleEnd={handleMatchEnd} />
             </div>
         );
     }
 
-    // Bracket View
     return (
         <div className="tournament-layout">
-            {story && (
-                <div className="story-overlay">
-                    <div className="story-modal">
-                        <p>{story.text}</p>
-                        <button onClick={handleStoryContinue}>Continuar</button>
-                    </div>
-                </div>
-            )}
+            {story && <div className="story-overlay"><div className="story-modal"><p>{story.text}</p><button onClick={() => { const cb = story.onContinue; setStory(null); cb(); }}>Continuar</button></div></div>}
             <h1>Torneo en Progreso</h1>
             <Bracket rounds={rounds} currentMatch={currentMatch} />
             <div className="action-area">
-                <button className="next-match-btn" onClick={startNextMatch}>
-                    Jugar Siguiente Partido
-                </button>
+                <button className="next-match-btn" onClick={() => {
+                    const r = rounds[currentMatch.roundIndex];
+                    let m = `¡Es hora del duelo! ${r.name}`;
+                    if (currentMatch.roundIndex === 1 && currentMatch.matchIndex === 0) m = "¡Las Semifinales! Solo los mejores permanecen.";
+                    else if (currentMatch.roundIndex === 2) m = "¡La Gran Final! El destino te espera.";
+                    setStory({ text: m, onContinue: () => setView('battle') });
+                }}>Jugar Siguiente Partido</button>
             </div>
         </div>
     );

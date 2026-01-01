@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import bagIcon from '../../assets/items/bag_icon.png';
 import { BattleArena } from '../../components/BattleArena';
 import { getPokemonDetails } from '../../lib/api';
 import { GymCard } from './components/GymCard';

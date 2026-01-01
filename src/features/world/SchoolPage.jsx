@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { STORAGE_KEYS } from '../../lib/constants';
-import { GraduationCap, BookOpen, Brain, Trophy, Map, Star, Book, Award } from 'lucide-react';
+import { GraduationCap, BookOpen, Brain } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
+import { SchoolQuizCard } from './components/SchoolQuizCard';
+import { SchoolQuizView } from './components/SchoolQuizView';
+import { SchoolResultView } from './components/SchoolResultView';
+import { SchoolCertificate } from './components/SchoolCertificate';
 import './SchoolPage.css';
 
 const QUIZZES = [
@@ -61,26 +65,10 @@ const QUIZZES = [
         description: 'Lee y comprende historias',
         icon: 'book',
         questions: [
-            {
-                question: 'Pikachu es un Pokémon eléctrico amarillo. Le encanta el ketchup y es muy rápido. ¿De qué color es Pikachu?',
-                options: ['Rojo', 'Amarillo', 'Azul'],
-                answer: 1
-            },
-            {
-                question: 'Bulbasaur tiene una semilla en su espalda que crece con él. Es de tipo Planta. ¿Qué tiene en su espalda?',
-                options: ['Una flor', 'Una semilla', 'Una roca'],
-                answer: 1
-            },
-            {
-                question: 'Charizard puede volar alto en el cielo y lanzar fuego. Es muy fuerte. ¿Qué puede hacer Charizard?',
-                options: ['Nadar', 'Volar', 'Cavar'],
-                answer: 1
-            },
-            {
-                question: 'Snorlax duerme mucho y bloquea caminos. Es muy pesado y le gusta comer. ¿Qué hace Snorlax mucho?',
-                options: ['Correr', 'Dormir', 'Bailar'],
-                answer: 1
-            }
+            { question: 'Pikachu es un Pokémon eléctrico amarillo. Le encanta el ketchup y es muy rápido. ¿De qué color es Pikachu?', options: ['Rojo', 'Amarillo', 'Azul'], answer: 1 },
+            { question: 'Bulbasaur tiene una semilla en su espalda que crece con él. Es de tipo Planta. ¿Qué tiene en su espalda?', options: ['Una flor', 'Una semilla', 'Una roca'], answer: 1 },
+            { question: 'Charizard puede volar alto en el cielo y lanzar fuego. Es muy fuerte. ¿Qué puede hacer Charizard?', options: ['Nadar', 'Volar', 'Cavar'], answer: 1 },
+            { question: 'Snorlax duerme mucho y bloquea caminos. Es muy pesado y le gusta comer. ¿Qué hace Snorlax mucho?', options: ['Correr', 'Dormir', 'Bailar'], answer: 1 }
         ]
     },
     {
@@ -107,8 +95,8 @@ export function SchoolPage() {
         return saved ? JSON.parse(saved) : [];
     });
     const [showCertificate, setShowCertificate] = useState(false);
-    const [view, setView] = useState('menu'); // menu, quiz, result, certificate
-    const [feedback, setFeedback] = useState(null); // { isCorrect: boolean, message: string }
+    const [view, setView] = useState('menu');
+    const [feedback, setFeedback] = useState(null);
 
     const startQuiz = (quiz) => {
         setSelectedQuiz(quiz);
@@ -119,8 +107,7 @@ export function SchoolPage() {
     };
 
     const handleAnswer = (index) => {
-        if (feedback) return; // Prevent multiple clicks
-
+        if (feedback) return;
         const isCorrect = index === selectedQuiz.questions[currentQuestion].answer;
         if (isCorrect) {
             setScore(prev => prev + 1);
@@ -128,27 +115,17 @@ export function SchoolPage() {
         } else {
             setFeedback({ isCorrect: false, message: '¡Ups! Inténtalo de nuevo. 💡' });
         }
-
         setTimeout(() => {
             setFeedback(null);
-            if (currentQuestion + 1 < selectedQuiz.questions.length) {
-                setCurrentQuestion(prev => prev + 1);
-            } else {
-                setView('result');
-            }
+            if (currentQuestion + 1 < selectedQuiz.questions.length) setCurrentQuestion(prev => prev + 1);
+            else setView('result');
         }, 1500);
     };
 
     const finishQuiz = () => {
-        const reward = score * 50;
-        addCoins(reward);
-        if (score >= selectedQuiz.questions.length / 2) {
-            updateQuestProgress('school');
-        }
-
-        // Check if first time completing this quiz
-        const isFirstTime = !completedQuizzes.includes(selectedQuiz.id);
-        if (isFirstTime) {
+        addCoins(score * 50);
+        if (score >= selectedQuiz.questions.length / 2) updateQuestProgress('school');
+        if (!completedQuizzes.includes(selectedQuiz.id)) {
             const newCompleted = [...completedQuizzes, selectedQuiz.id];
             setCompletedQuizzes(newCompleted);
             localStorage.setItem(STORAGE_KEYS.COMPLETED_QUIZZES, JSON.stringify(newCompleted));
@@ -163,18 +140,6 @@ export function SchoolPage() {
         setShowCertificate(false);
         setView('menu');
         setSelectedQuiz(null);
-    };
-
-    const getQuizIcon = (iconName) => {
-        const icons = {
-            brain: Brain,
-            trophy: Trophy,
-            map: Map,
-            star: Star,
-            book: Book
-        };
-        const IconComponent = icons[iconName] || Brain;
-        return <IconComponent color="#3b82f6" />;
     };
 
     return (
@@ -192,32 +157,16 @@ export function SchoolPage() {
                         <h2>¡Hola Felix! Bienvenido a clase.</h2>
                         <p>Aprende sobre tus Pokémon y resuelve problemas para ganar monedas.</p>
                     </div>
-
                     <div className="quiz-grid">
-                        {QUIZZES.map(quiz => {
-                            const isCompleted = completedQuizzes.includes(quiz.id);
-                            return (
-                                <div key={quiz.id} className={`quiz-card ${isCompleted ? 'completed' : ''}`} onClick={() => startQuiz(quiz)}>
-                                    <div className="quiz-icon">
-                                        {getQuizIcon(quiz.icon)}
-                                    </div>
-                                    <div className="quiz-info">
-                                        <h3>{quiz.title} {isCompleted && '✅'}</h3>
-                                        <p>{quiz.description}</p>
-                                    </div>
-                                    <button className="start-quiz-btn">{isCompleted ? 'Repasar' : 'Comenzar'}</button>
-                                </div>
-                            );
-                        })}
+                        {QUIZZES.map(quiz => (
+                            <SchoolQuizCard key={quiz.id} quiz={quiz} isCompleted={completedQuizzes.includes(quiz.id)} onStart={startQuiz} />
+                        ))}
                     </div>
-
                     <div className="advanced-section">
                         <h3>🎓 Clases Avanzadas</h3>
                         <div className="quiz-grid">
                             <div className="quiz-card porygon-card" onClick={() => window.location.href = '/porygon-lab'}>
-                                <div className="quiz-icon">
-                                    <Brain color="#ec4899" />
-                                </div>
+                                <div className="quiz-icon"><Brain color="#ec4899" /></div>
                                 <div className="quiz-info">
                                     <h3>Laboratorio Porygon</h3>
                                     <p>Aprende algoritmos programando a Porygon.</p>
@@ -230,76 +179,15 @@ export function SchoolPage() {
             )}
 
             {view === 'quiz' && selectedQuiz && (
-                <div className="quiz-container">
-                    <div className="quiz-progress">
-                        Pregunta {currentQuestion + 1} de {selectedQuiz.questions.length}
-                        <div className="progress-bar-bg">
-                            <div
-                                className="progress-bar-fill"
-                                style={{ width: `${((currentQuestion) / selectedQuiz.questions.length) * 100}%` }}
-                            ></div>
-                        </div>
-                    </div>
-
-                    <div className="question-box">
-                        <h2>{selectedQuiz.questions[currentQuestion].question}</h2>
-
-                        <div className="options-grid">
-                            {selectedQuiz.questions[currentQuestion].options.map((option, i) => (
-                                <button
-                                    key={i}
-                                    className={`option-btn ${feedback?.isCorrect && selectedQuiz.questions[currentQuestion].answer === i ? 'correct' : ''}`}
-                                    onClick={() => handleAnswer(i)}
-                                    disabled={!!feedback}
-                                >
-                                    {option}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {feedback && (
-                        <div className={`quiz-feedback ${feedback.isCorrect ? 'positive' : 'negative'}`}>
-                            {feedback.message}
-                        </div>
-                    )}
-                </div>
+                <SchoolQuizView quiz={selectedQuiz} currentQuestion={currentQuestion} feedback={feedback} onAnswer={handleAnswer} />
             )}
 
             {view === 'result' && (
-                <div className="quiz-result">
-                    <Trophy size={64} className="trophy-icon" />
-                    <h2>¡Examen Terminado!</h2>
-                    <div className="result-stats">
-                        <p>Puntuación: <strong>{score} / {selectedQuiz.questions.length}</strong></p>
-                        <p>Recompensa: <strong><img src={bagIcon} alt="coins" /> {score * 50}</strong></p>
-                    </div>
-                    <p>¡Has aprendido mucho hoy, Felix!</p>
-                    <button className="finish-btn" onClick={finishQuiz}>Recoger Recompensa</button>
-                </div>
+                <SchoolResultView score={score} total={selectedQuiz.questions.length} onFinish={finishQuiz} />
             )}
 
-            {showCertificate && selectedQuiz && (
-                <div className="certificate-overlay" onClick={closeCertificate}>
-                    <div className="certificate-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="certificate-header">
-                            <Award size={48} color="#eab308" />
-                            <h2>¡CERTIFICADO DE MÉRITO!</h2>
-                        </div>
-                        <div className="certificate-body">
-                            <p className="cert-text">Se otorga el presente diploma a</p>
-                            <h1 className="cert-name">FELIX</h1>
-                            <p className="cert-text">Por haber completado con éxito:</p>
-                            <h3 className="cert-course">{selectedQuiz.title}</h3>
-                            <div className="cert-score">
-                                <p>Puntuación: {score}/{selectedQuiz.questions.length}</p>
-                                <p>Recompensa: {score * 50} monedas</p>
-                            </div>
-                            <div className="cert-seal">🎖️</div>
-                        </div>
-                        <button className="cert-close-btn" onClick={closeCertificate}>¡Gracias Profe!</button>
-                    </div>
-                </div>
+            {showCertificate && (
+                <SchoolCertificate quiz={selectedQuiz} score={score} onClose={closeCertificate} />
             )}
         </div>
     );
