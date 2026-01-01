@@ -27,6 +27,7 @@ import fountainImage from '../../assets/buildings/water_center.png'; // Using wa
 import palaceImage from '../../assets/buildings/city_hall.png'; // Using city_hall as palace
 import evolutionHallImage from '../../assets/buildings/evo_lab.png'; // Using evo_lab as evolution hall
 import mountainImage from '../../assets/buildings/gym_building.png'; // Using gym_building as mountain placeholder
+import secretCaveImage from '../../assets/buildings/house.png'; // Using house as cave placeholder
 
 // Tegel types: 0=Gras, 1=Pad, 2=Huis, 3=Ziekenhuis, 4=Boom
 const TILE_TYPES = {
@@ -52,6 +53,7 @@ const TILE_TYPES = {
     PALACE: 19,
     EVOLUTION_HALL: 20,
     MOUNTAIN: 21,
+    SECRET_CAVE: 22,
 };
 
 const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
@@ -309,6 +311,12 @@ export function WorldPage() {
             return;
         }
 
+        if (tileType === TILE_TYPES.SECRET_CAVE) {
+            setMessage({ text: "🕳️ A mysterious cave entrance beckons...", color: '#8b5cf6' });
+            setTimeout(() => navigate('/secret-cave'), 1000);
+            return;
+        }
+
         if (tileType === TILE_TYPES.CENTER) {
             setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
             healAll();
@@ -424,6 +432,7 @@ export function WorldPage() {
             case TILE_TYPES.PALACE: return <img src={palaceImage} className="building-sprite" alt="Palace" />;
             case TILE_TYPES.EVOLUTION_HALL: return <img src={evolutionHallImage} className="building-sprite" alt="Evolution Hall" />;
             case TILE_TYPES.MOUNTAIN: return <img src={mountainImage} className="building-sprite" alt="Mountain" />;
+            case TILE_TYPES.SECRET_CAVE: return <img src={secretCaveImage} className="building-sprite" alt="Secret Cave" />;
             case TILE_TYPES.CITY_HALL: return <img src={cityHallImage} className="building-sprite" alt="City Hall" />;
             case TILE_TYPES.URBAN_SHOP: return <img src={shopUrbanImage} className="building-sprite" alt="Urban Shop" />;
             default: return null;

@@ -28,6 +28,7 @@ import { FountainPage } from './features/world/FountainPage';
 import { PalacePage } from './features/world/PalacePage';
 import { EvolutionHallPage } from './features/world/EvolutionHallPage';
 import { MountainPage } from './features/world/MountainPage';
+import { SecretCavePage } from './features/world/SecretCavePage';
 import { PorygonLabPage } from './features/porygon/PorygonLabPage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
@@ -119,6 +120,7 @@ function App() {
         <Route path="/palace" element={<PalacePage />} />
         <Route path="/evolution-hall" element={<EvolutionHallPage />} />
         <Route path="/mountain" element={<MountainPage />} />
+        <Route path="/secret-cave" element={<SecretCavePage />} />
         <Route path="/porygon-lab" element={<PorygonLabPage />} />
       </Routes>
 

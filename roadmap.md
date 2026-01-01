@@ -166,7 +166,14 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Rewards: 100 coins + Rare Candy per evolution
   - [x] Educational guide about how evolutions work
   - [x] Integrated into world map at position (6, 9)
-- [ ] **Mountain Tiles** 🏔️ - Blocked without hiking boots
+- [x] **Mountain Tiles** 🏔️ - Hiking system with altitude progression ✅ COMPLETE
+  - [x] Requires hiking boots (collected item)
+  - [x] 4 altitude zones with different Pokemon
+  - [x] Tiredness/stamina system (rest mechanic)
+  - [x] Rare Pokemon at higher altitudes
+  - [x] Summit rewards: 1000 coins + Rare Candy
+  - [x] Educational features about persistence and gradual progress
+  - [x] Integrated into world map at position (9, 7)
 - [ ] **Gym Building** 🏟️ - Multi-stage gym battles with badges
 - [ ] **Market** 🏪 - Sell Pokemon for coins
 
@@ -182,11 +189,21 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Snow (winter)
   - [x] Visual overlays
 
-#### 6.3 Expanded Map
+#### 6.3 Expanded Map 🚧 IN PROGRESS (1/4)
 - [ ] Multiple zones/regions
-- [ ] Caves and dungeons
+- [x] **Secret Cave** 🕳️ - Hidden area with rare Pokemon ✅ COMPLETE
+  - [x] Discovery mechanic (first-time entrance)
+  - [x] Depth-based exploration system (10 floors)
+  - [x] 4 rarity tiers (Uncommon, Rare, Very Rare, Legendary)
+  - [x] Escalating encounter rates with depth
+  - [x] Shiny Pokemon chance (1%)
+  - [x] Variable catch rates by rarity
+  - [x] Legendary Pokemon at deepest floors (Mewtwo, Articuno, Zapdos, Moltres)
+  - [x] Rewards: 200-2000 coins based on rarity
+  - [x] Educational features about exploration and persistence
+- [ ] Caves and dungeons (additional locations)
 - [ ] Water routes (surfing mechanic)
-- [ ] Secret areas with rare Pokemon
+- [ ] Secret areas with rare Pokemon (additional)
 
 ---
 
