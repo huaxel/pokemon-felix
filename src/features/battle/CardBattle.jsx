@@ -81,6 +81,13 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                 setDeck(p1Moves);
                 setF2Moves(p2Moves);
 
+                // Ensure player starts with enough energy to play at least low-cost moves
+                dispatch({
+                    type: BATTLE_ACTIONS.UPDATE_FIGHTER_ENERGY,
+                    fighter: 'player',
+                    energy: Math.max(battleState.fighters.player.energy, 3)
+                });
+
                 // Draw initial hand
                 const initialHand = [];
                 for (let i = 0; i < 4 && i < p1Moves.length; i++) {
@@ -104,10 +111,13 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
         initBattle();
     }, [fighter1, fighter2]);
 
-    // Passive energy regen when it's the player's turn (prevents being stuck at 0)
+    // Simple turn-based recharge: when turn switches, give energy then act
     useEffect(() => {
-        if (turn === 'player' && !winner) {
-            dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'player', amount: 1 });
+        if (winner) return;
+        if (turn === 'player') {
+            dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'player', amount: 2 });
+        } else if (turn === 'opponent') {
+            dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'opponent', amount: 1 });
         }
     }, [turn, winner]);
 
@@ -121,7 +131,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
         if (f1Energy < selectedMove.cost) {
             dispatch({
                 type: BATTLE_ACTIONS.ADD_TO_LOG,
-                message: '⚡ Not enough energy!'
+                message: `⚡ Necesitas ${selectedMove.cost} de energía`
             });
             return;
         }
@@ -255,6 +265,13 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
         }
     }, [turn, winner, f1HP, f1MaxHP, fighter2, removeItem, toggleOwned, onBattleEnd]);
 
+    const handlePassTurn = useCallback(() => {
+        if (turn !== 'player' || winner) return;
+        // Small recharge on pass, then hand control to opponent
+        dispatch({ type: BATTLE_ACTIONS.ADD_ENERGY, fighter: 'player', amount: 2 });
+        dispatch({ type: BATTLE_ACTIONS.SET_TURN, turn: 'opponent' });
+    }, [turn, winner]);
+
     /**
      * AI opponent turn
      */
@@ -385,19 +402,30 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                     >
                         <div className="card-name">{card.name}</div>
                         <div className="card-damage">{card.baseDamage} dmg</div>
-                        <div className="card-cost">⚡ {card.cost}</div>
+                        <div className="card-meta">
+                            <span className="card-cost">⚡ {card.cost}</span>
+                            {card.accuracy && <span className="card-accuracy">🎯 {card.accuracy}%</span>}
+                        </div>
                     </button>
                 ))}
             </div>
 
             {/* Action Buttons */}
             {turn === 'player' && !winner && (
-                <button
-                    className="items-btn"
-                    onClick={() => setShowItems(!showItems)}
-                >
-                    Items {Object.keys(inventory).length > 0 ? '✓' : ''}
-                </button>
+                <div className="action-row">
+                    <button
+                        className="items-btn"
+                        onClick={() => setShowItems(!showItems)}
+                    >
+                        Items {Object.keys(inventory).length > 0 ? '✓' : ''}
+                    </button>
+                    <button
+                        className="pass-btn"
+                        onClick={handlePassTurn}
+                    >
+                        Recargar (terminar turno)
+                    </button>
+                </div>
             )}
 
             {showItems && (

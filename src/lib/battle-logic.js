@@ -41,9 +41,13 @@ export const getEffectiveness = (attackerType, defenderType) => {
 
 // Calculate damage for a single attack (TCG Style: 1-5 Damage)
 export const calculateDamage = (attacker, defender, move) => {
+    // Guard missing data: default to normal typing
+    const attackerTypeSafe = attacker?.types?.[0]?.type?.name || 'normal';
+    const defenderTypeSafe = defender?.types?.[0]?.type?.name || 'normal';
+
     // Use move type if available, otherwise fallback to Pokemon type
-    const attackType = move ? move.type : attacker.types[0].type.name;
-    const defenderType = defender.types[0].type.name;
+    const attackType = move ? move.type : attackerTypeSafe;
+    const defenderType = defenderTypeSafe;
 
     const effectiveness = getEffectiveness(attackType, defenderType);
 
