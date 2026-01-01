@@ -75,7 +75,7 @@ export function PorygonLabPage() {
         if (isRunning || program.length === 0) return;
         setIsRunning(true);
         setMessage(null);
-        let currentPos = { ...level.start };
+        const currentPos = { ...level.start };
 
         for (const cmd of program) {
             await new Promise(r => setTimeout(r, 600));

@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 export function TreasureTutorial({ huntsCompleted, totalHunts, onStart, onBack }) {
     return (

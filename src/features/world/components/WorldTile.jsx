@@ -3,8 +3,6 @@ export function WorldTile({
     x,
     y,
     playerPos,
-    playerName,
-    playerColor,
     treasures,
     seasonStyle,
     getTileContent,

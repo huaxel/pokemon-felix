@@ -4,7 +4,7 @@ import './PokemonCard.css';
 import favIcon from '../assets/items/mystery_box.png';
 import squadIcon from '../assets/items/greatball.png';
 
-export const PokemonCard = React.memo(function PokemonCard({ pokemon, isOwned, onToggleOwned, onClick, index = 0, isInSquad, onToggleSquad }) {
+export const PokemonCard = React.memo(({ pokemon, isOwned, onToggleOwned, onClick, index = 0, isInSquad, onToggleSquad }) => {
     // Determine the main type for styling (defensive: list items may be lightweight)
     const mainType = pokemon.types?.[0]?.type?.name || 'normal';
     // Determine the display name, preferring Spanish if available
