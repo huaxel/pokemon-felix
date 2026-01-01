@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { Crown, Trophy, Sparkles, Star, Gift, Coins, Zap, Shield } from 'lucide-react';
+import { Crown, Trophy, Sparkles, Star, Gift, Coins, Zap } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
+import { PalaceLockedView } from './components/PalaceLockedView';
+import { PalaceChallengeCards } from './components/PalaceChallengeCards';
+import { PalaceWisdomView } from './components/PalaceWisdomView';
+import { PalaceStrengthView } from './components/PalaceStrengthView';
+import { PalaceLuckView } from './components/PalaceLuckView';
 import './PalacePage.css';
 
 const PALACE_CHALLENGES = [
@@ -53,26 +58,25 @@ export function PalacePage() {
     const [message, setMessage] = useState(null);
     const [completedChallenges, setCompletedChallenges] = useState([]);
     const [activeChallenge, setActiveChallenge] = useState(null);
-    
+
     // Wisdom Challenge State
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [score, setScore] = useState(0);
     const [questionsAnswered, setQuestionsAnswered] = useState(0);
-    
+
     // Strength Challenge State
     const [battlePhase, setBattlePhase] = useState('intro');
     const [playerHP, setPlayerHP] = useState(100);
     const [legendaryHP, setLegendaryHP] = useState(100);
-    
+
     // Luck Challenge State
     const [diceRolling, setDiceRolling] = useState(false);
     const [diceResult, setDiceResult] = useState(null);
 
     useEffect(() => {
-        // Check if player is champion (has 50+ Pokémon or specific achievements)
         const champion = ownedIds.length >= 50;
         setIsChampion(champion);
-        
+
         if (!champion) {
             showMessage('⛔ Solo los campeones pueden entrar al palacio. Captura 50+ Pokémon primero.', 'error', 5000);
         } else {
@@ -87,7 +91,7 @@ export function PalacePage() {
 
     const startChallenge = (challengeId) => {
         const challenge = PALACE_CHALLENGES.find(c => c.id === challengeId);
-        
+
         if (completedChallenges.includes(challengeId)) {
             showMessage('Ya completaste este desafío hoy. Regresa mañana.', 'error');
             return;
@@ -99,22 +103,19 @@ export function PalacePage() {
         }
 
         setActiveChallenge(challengeId);
-        
-        if (challengeId === 'wisdom') {
-            startWisdomChallenge();
-        } else if (challengeId === 'strength') {
-            startStrengthChallenge();
-        } else if (challengeId === 'luck') {
-            startLuckChallenge();
-        }
-    };
 
-    // WISDOM CHALLENGE
-    const startWisdomChallenge = () => {
-        const randomQuestion = TRIVIA_QUESTIONS[Math.floor(Math.random() * TRIVIA_QUESTIONS.length)];
-        setCurrentQuestion(randomQuestion);
-        setScore(0);
-        setQuestionsAnswered(0);
+        if (challengeId === 'wisdom') {
+            const randomQuestion = TRIVIA_QUESTIONS[Math.floor(Math.random() * TRIVIA_QUESTIONS.length)];
+            setCurrentQuestion(randomQuestion);
+            setScore(0);
+            setQuestionsAnswered(0);
+        } else if (challengeId === 'strength') {
+            setBattlePhase('battle');
+            setPlayerHP(100);
+            setLegendaryHP(100);
+        } else if (challengeId === 'luck') {
+            setDiceResult(null);
+        }
     };
 
     const answerQuestion = (optionIndex) => {
@@ -128,7 +129,6 @@ export function PalacePage() {
         setQuestionsAnswered(prev => prev + 1);
 
         if (questionsAnswered + 1 >= 3) {
-            // Complete challenge
             setTimeout(() => {
                 if (score >= 2) {
                     completeChallenge('wisdom');
@@ -138,7 +138,6 @@ export function PalacePage() {
                 }
             }, 2000);
         } else {
-            // Next question
             setTimeout(() => {
                 const randomQuestion = TRIVIA_QUESTIONS[Math.floor(Math.random() * TRIVIA_QUESTIONS.length)];
                 setCurrentQuestion(randomQuestion);
@@ -146,15 +145,8 @@ export function PalacePage() {
         }
     };
 
-    // STRENGTH CHALLENGE
-    const startStrengthChallenge = () => {
-        setBattlePhase('battle');
-        setPlayerHP(100);
-        setLegendaryHP(100);
-    };
-
     const attackLegendary = () => {
-        const damage = Math.floor(Math.random() * 25) + 15; // 15-40 damage
+        const damage = Math.floor(Math.random() * 25) + 15;
         const newHP = Math.max(0, legendaryHP - damage);
         setLegendaryHP(newHP);
 
@@ -164,9 +156,8 @@ export function PalacePage() {
             return;
         }
 
-        // Legendary counter-attacks
         setTimeout(() => {
-            const counterDamage = Math.floor(Math.random() * 30) + 10; // 10-40 damage
+            const counterDamage = Math.floor(Math.random() * 30) + 10;
             const newPlayerHP = Math.max(0, playerHP - counterDamage);
             setPlayerHP(newPlayerHP);
 
@@ -178,11 +169,6 @@ export function PalacePage() {
                 }, 2000);
             }
         }, 1000);
-    };
-
-    // LUCK CHALLENGE
-    const startLuckChallenge = () => {
-        setDiceResult(null);
     };
 
     const rollDice = () => {
@@ -207,7 +193,7 @@ export function PalacePage() {
     const completeChallenge = (challengeId) => {
         const challenge = PALACE_CHALLENGES.find(c => c.id === challengeId);
         setCompletedChallenges(prev => [...prev, challengeId]);
-        
+
         addCoins(challenge.reward.coins);
         if (challenge.reward.item) {
             addItem(challenge.reward.item);
@@ -215,8 +201,7 @@ export function PalacePage() {
 
         showMessage(`🏆 ¡Desafío completado! +${challenge.reward.coins} monedas`, 'jackpot', 4000);
         setActiveChallenge(null);
-        
-        // Reset challenge states
+
         setCurrentQuestion(null);
         setScore(0);
         setQuestionsAnswered(0);
@@ -225,38 +210,7 @@ export function PalacePage() {
     };
 
     if (!isChampion) {
-        return (
-            <div className="palace-page locked">
-                <header className="palace-header">
-                    <Link to="/world" className="back-button">
-                        <img src={bagIcon} alt="Back" />
-                    </Link>
-                    <h1>
-                        <Crown size={32} />
-                        Palacio del Campeón
-                    </h1>
-                </header>
-
-                <div className="locked-content">
-                    <Crown size={120} className="locked-icon" />
-                    <h2>Palacio Cerrado</h2>
-                    <p>Solo los campeones pueden entrar a este lugar sagrado.</p>
-                    <div className="requirement">
-                        <Trophy size={24} />
-                        <span>Captura al menos 50 Pokémon</span>
-                    </div>
-                    <div className="progress">
-                        <span>{ownedIds.length} / 50</span>
-                        <div className="progress-bar">
-                            <div 
-                                className="progress-fill" 
-                                style={{ width: `${(ownedIds.length / 50) * 100}%` }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+        return <PalaceLockedView ownedCount={ownedIds.length} />;
     }
 
     return (
@@ -281,7 +235,6 @@ export function PalacePage() {
                 </div>
             )}
 
-            {/* Throne Room Visual */}
             <div className="throne-room">
                 <div className="throne">👑</div>
                 <div className="sparkles">
@@ -298,126 +251,39 @@ export function PalacePage() {
                         <p>Aquí los mejores entrenadores prueban su valía</p>
                     </div>
 
-                    <div className="challenges-grid">
-                        {PALACE_CHALLENGES.map(challenge => (
-                            <div key={challenge.id} className={`challenge-card ${challenge.difficulty} ${completedChallenges.includes(challenge.id) ? 'completed' : ''}`}>
-                                <div className="challenge-icon">{challenge.icon}</div>
-                                <h3>{challenge.name}</h3>
-                                <p className="challenge-description">{challenge.description}</p>
-                                
-                                <div className="challenge-rewards">
-                                    <strong>Recompensas:</strong>
-                                    <div className="reward-list">
-                                        <span>💰 {challenge.reward.coins} monedas</span>
-                                        {challenge.reward.item && <span>🎁 {challenge.reward.item}</span>}
-                                        {challenge.reward.legendary && <span>✨ Pokémon Legendario</span>}
-                                    </div>
-                                </div>
-
-                                {completedChallenges.includes(challenge.id) ? (
-                                    <button className="challenge-button completed" disabled>
-                                        <Trophy size={20} />
-                                        Completado
-                                    </button>
-                                ) : (
-                                    <button
-                                        className="challenge-button"
-                                        onClick={() => startChallenge(challenge.id)}
-                                    >
-                                        {challenge.cost > 0 ? (
-                                            <>
-                                                <Coins size={20} />
-                                                {challenge.cost} monedas
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Zap size={20} />
-                                                Empezar
-                                            </>
-                                        )}
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                    </div>
+                    <PalaceChallengeCards
+                        challenges={PALACE_CHALLENGES}
+                        completedChallenges={completedChallenges}
+                        onStartChallenge={startChallenge}
+                    />
                 </>
             )}
 
-            {/* WISDOM CHALLENGE UI */}
-            {activeChallenge === 'wisdom' && currentQuestion && (
-                <div className="challenge-active wisdom">
-                    <h2>Prueba de Sabiduría 🧠</h2>
-                    <div className="score-display">
-                        Pregunta {questionsAnswered + 1}/3 | Correctas: {score}
-                    </div>
-                    <div className="question-box">
-                        <h3>{currentQuestion.question}</h3>
-                        <div className="options-grid">
-                            {currentQuestion.options.map((option, idx) => (
-                                <button
-                                    key={idx}
-                                    className="option-button"
-                                    onClick={() => answerQuestion(idx)}
-                                >
-                                    {option}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+            {activeChallenge === 'wisdom' && (
+                <PalaceWisdomView
+                    currentQuestion={currentQuestion}
+                    questionsAnswered={questionsAnswered}
+                    score={score}
+                    onAnswer={answerQuestion}
+                />
             )}
 
-            {/* STRENGTH CHALLENGE UI */}
             {activeChallenge === 'strength' && battlePhase === 'battle' && (
-                <div className="challenge-active strength">
-                    <h2>Batalla Legendaria ⚔️</h2>
-                    <div className="battle-field">
-                        <div className="battler player">
-                            <Shield size={48} />
-                            <div className="hp-bar">
-                                <div className="hp-fill" style={{ width: `${playerHP}%` }} />
-                            </div>
-                            <span>Tu Equipo: {playerHP} HP</span>
-                        </div>
-                        <div className="vs">VS</div>
-                        <div className="battler legendary">
-                            <Crown size={48} />
-                            <div className="hp-bar">
-                                <div className="hp-fill legendary" style={{ width: `${legendaryHP}%` }} />
-                            </div>
-                            <span>Legendario: {legendaryHP} HP</span>
-                        </div>
-                    </div>
-                    <button className="attack-button" onClick={attackLegendary}>
-                        <Zap size={24} />
-                        ¡Atacar!
-                    </button>
-                </div>
+                <PalaceStrengthView
+                    playerHP={playerHP}
+                    legendaryHP={legendaryHP}
+                    onAttack={attackLegendary}
+                />
             )}
 
-            {/* LUCK CHALLENGE UI */}
             {activeChallenge === 'luck' && (
-                <div className="challenge-active luck">
-                    <h2>Prueba de Suerte 🎲</h2>
-                    <p>Lanza el dado. Necesitas 4 o más para ganar.</p>
-                    <div className="dice-container">
-                        <div className={`dice ${diceRolling ? 'rolling' : ''}`}>
-                            {diceResult ? diceResult : '?'}
-                        </div>
-                    </div>
-                    {!diceResult && (
-                        <button 
-                            className="roll-button" 
-                            onClick={rollDice}
-                            disabled={diceRolling}
-                        >
-                            {diceRolling ? '🎲 Rodando...' : '🎲 Lanzar Dado'}
-                        </button>
-                    )}
-                </div>
+                <PalaceLuckView
+                    diceRolling={diceRolling}
+                    diceResult={diceResult}
+                    onRoll={rollDice}
+                />
             )}
 
-            {/* Stats */}
             <div className="palace-stats">
                 <div className="stat-box">
                     <Trophy size={24} />
