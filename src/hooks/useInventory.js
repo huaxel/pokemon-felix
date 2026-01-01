@@ -1,20 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useLocalStorage } from './useLocalStorage';
 import * as inventoryService from '../lib/services/inventoryService';
 
 /**
  * Hook to manage a simple inventory system
  */
 export function useInventory() {
-    const [inventory, setInventory] = useState(null);
+    const [inventory, setInventory] = useLocalStorage('pokemon_inventory', null);
 
+    // Initialize from service on mount
     useEffect(() => {
-        let mounted = true;
-        inventoryService.getInventory().then(data => {
-            if (mounted) setInventory(data);
-        });
-        return () => { mounted = false };
-    }, []);
+        if (inventory === null) {
+            inventoryService.getInventory().then(data => {
+                setInventory(data);
+            });
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    // Sync to service when inventory changes
     useEffect(() => {
         if (inventory !== null) {
             inventoryService.saveInventory(inventory);

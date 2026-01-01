@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useLocalStorage } from './useLocalStorage';
 import * as questsService from '../lib/services/questsService';
 
 // Storage key is now managed in questsService
@@ -33,27 +34,30 @@ const INITIAL_QUESTS = [
 ];
 
 export function useQuests() {
-    const [quests, setQuests] = useState(null);
+    const [quests, setQuests] = useLocalStorage('pokemon_quests', null);
 
+    // Initialize from service on mount
     useEffect(() => {
-        let mounted = true;
-        questsService.getQuests().then(saved => {
-            if (!mounted) return;
-            if (saved && saved.length) {
-                const merged = INITIAL_QUESTS.map(q => {
-                    const savedQ = saved.find(sq => sq.id === q.id);
-                    return savedQ ? { ...q, progress: savedQ.progress, completed: savedQ.completed } : { ...q, progress: 0, completed: false };
-                });
-                setQuests(merged);
-            } else {
-                setQuests(INITIAL_QUESTS.map(q => ({ ...q, progress: 0, completed: false })));
-            }
-        });
-        return () => { mounted = false };
-    }, []);
+        if (quests === null) {
+            questsService.getQuests().then(saved => {
+                if (saved && saved.length) {
+                    const merged = INITIAL_QUESTS.map(q => {
+                        const savedQ = saved.find(sq => sq.id === q.id);
+                        return savedQ ? { ...q, progress: savedQ.progress, completed: savedQ.completed } : { ...q, progress: 0, completed: false };
+                    });
+                    setQuests(merged);
+                } else {
+                    setQuests(INITIAL_QUESTS.map(q => ({ ...q, progress: 0, completed: false })));
+                }
+            });
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    // Sync to service when quests change
     useEffect(() => {
-        if (quests !== null) questsService.saveQuests(quests);
+        if (quests !== null) {
+            questsService.saveQuests(quests);
+        }
     }, [quests]);
 
     const updateQuestProgress = (type, amount = 1) => {

@@ -5,6 +5,7 @@ import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useCareContext } from '../../hooks/useCareContext';
 import { STORAGE_KEYS } from '../../lib/constants';
 import { battleReducer, createInitialBattleState, BATTLE_ACTIONS } from '../../lib/battleReducer';
+import { HPBar } from '../../components/HPBar';
 import './CardBattle.css';
 
 /**
@@ -14,10 +15,10 @@ import './CardBattle.css';
 export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
     const { inventory, removeItem, toggleOwned, addCoins } = usePokemonContext();
     const { careStats, addFatigue } = useCareContext();
-    
+
     // Outfit bonus
     const outfitId = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
-    
+
     // Initialize battle state with reducer
     const [battleState, dispatch] = useReducer(
         battleReducer,
@@ -108,7 +109,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
      */
     const executeTurn = useCallback(async (selectedMove) => {
         if (turn !== 'player' || winner) return;
-        
+
         // Validation
         if (f1Energy < selectedMove.cost) {
             dispatch({
@@ -127,7 +128,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
 
         // Calculate damage
         const damage = calculateSmartDamage(fighter1, fighter2, selectedMove);
-        
+
         // Animate attack
         dispatch({
             type: BATTLE_ACTIONS.SET_ATTACKING_FIGHTER,
@@ -213,11 +214,11 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                 });
                 setShowItems(false);
 
-                const catchRate = itemId === 'masterball' ? 1.0 
-                    : itemId === 'ultraball' ? 0.6 
-                    : itemId === 'greatball' ? 0.4 
-                    : 0.2;
-                
+                const catchRate = itemId === 'masterball' ? 1.0
+                    : itemId === 'ultraball' ? 0.6
+                        : itemId === 'greatball' ? 0.4
+                            : 0.2;
+
                 const success = Math.random() < catchRate;
 
                 if (success) {
@@ -256,10 +257,10 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
 
                 // Choose best affordable move
                 const affordable = f2Moves.filter(m => m.cost <= f2Energy + 1);
-                
+
                 if (affordable.length > 0) {
                     const move = affordable[Math.floor(Math.random() * affordable.length)];
-                    
+
                     // Same attack sequence as player
                     dispatch({
                         type: BATTLE_ACTIONS.SPEND_ENERGY,
@@ -268,7 +269,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                     });
 
                     const damage = calculateSmartDamage(fighter2, fighter1, move);
-                    
+
                     dispatch({
                         type: BATTLE_ACTIONS.SET_ATTACKING_FIGHTER,
                         fighter: fighter2
@@ -365,12 +366,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                         <>
                             <img src={fighter2.sprites?.front_default} alt={fighter2.name} />
                             <h3>{fighter2.name}</h3>
-                            <div className="hp-display">
-                                <span>{f2HP}/{f2MaxHP} HP</span>
-                                <div className="hp-bar">
-                                    <div className="hp-fill" style={{ width: `${(f2HP / f2MaxHP) * 100}%` }}></div>
-                                </div>
-                            </div>
+                            <HPBar current={f2HP} max={f2MaxHP} />
                         </>
                     )}
                 </div>
@@ -383,12 +379,7 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
                         <>
                             <img src={fighter1.sprites?.front_default} alt={fighter1.name} />
                             <h3>{fighter1.name}</h3>
-                            <div className="hp-display">
-                                <span>{f1HP}/{f1MaxHP} HP</span>
-                                <div className="hp-bar">
-                                    <div className="hp-fill" style={{ width: `${(f1HP / f1MaxHP) * 100}%` }}></div>
-                                </div>
-                            </div>
+                            <HPBar current={f1HP} max={f1MaxHP} />
                             <div className="energy-display">
                                 <span>⚡ {f1Energy}/{5}</span>
                             </div>
@@ -415,8 +406,8 @@ export function CardBattle({ fighter1, fighter2, onBattleEnd }) {
 
             {/* Action Buttons */}
             {turn === 'player' && !winner && (
-                <button 
-                    className="items-btn" 
+                <button
+                    className="items-btn"
                     onClick={() => setShowItems(!showItems)}
                 >
                     Items {Object.keys(inventory).length > 0 ? '✓' : ''}

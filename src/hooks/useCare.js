@@ -1,15 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useLocalStorage } from './useLocalStorage';
 import { CARE_STORAGE_KEY } from '../lib/constants';
 
 export function useCare(ownedIds) {
-    const [careStats, setCareStats] = useState(() => {
-        const stored = localStorage.getItem(CARE_STORAGE_KEY);
-        return stored ? JSON.parse(stored) : {};
-    });
+    const [careStats, setCareStats] = useLocalStorage(CARE_STORAGE_KEY, {});
 
-    useEffect(() => {
-        localStorage.setItem(CARE_STORAGE_KEY, JSON.stringify(careStats));
-    }, [careStats]);
 
     // Initialize stats for new pokemon and cleanup removed ones
     useEffect(() => {

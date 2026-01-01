@@ -6,70 +6,36 @@ import { useOutfitEffects } from '../../hooks/useOutfitEffects';
 import { useGPS } from '../../hooks/useGPS';
 import { usePlayer } from '../../hooks/usePlayer';
 import { STORAGE_KEYS } from '../../lib/constants';
+import { useWorldNavigation } from './hooks/useWorldNavigation';
+import {
+    TILE_TYPES, SEASONS, SEASON_STYLES, TIME_CONFIG, TREASURE_CONFIG,
+    REWARDS, NPC_POSITIONS, QUEST_REQUIREMENTS, OUTFIT_COLORS,
+    ENCOUNTER_CONFIG, WEATHER_TYPES
+} from './worldConstants';
 import { QuestLog } from './QuestLog';
-import { Trophy, MapPin, Navigation, Compass } from 'lucide-react';
+import { WorldGrid } from './components/WorldGrid';
+import { WorldHUD } from './components/WorldHUD';
+import { WorldWeather } from './components/WorldWeather';
+import { InteriorModal } from './components/InteriorModal';
 import './WorldPage.css';
 
-// Building Assets
-import gachaImage from '../../assets/buildings/gacha_machine.png';
-import marketImage from '../../assets/buildings/market_stall.png';
-import gymImage from '../../assets/buildings/gym_building.png';
-import evoImage from '../../assets/buildings/evo_lab.png';
+// Building image assets (moved to WorldGrid, but kept some for build mode palette if needed)
 import houseImage from '../../assets/buildings/house.png';
-import centerImage from '../../assets/buildings/pokecenter.png';
 import treeImage from '../../assets/buildings/tree.png';
 import bagImage from '../../assets/items/bag_icon.png';
-import waterEdgeImage from '../../assets/buildings/water_edge.png';
-import waterCenterImage from '../../assets/buildings/water_center.png';
-import fishermanImage from '../../assets/buildings/fisherman.png';
-import cityHallImage from '../../assets/buildings/city_hall.png';
-import shopUrbanImage from '../../assets/buildings/shop_urban.png';
-import bankImage from '../../assets/buildings/pokecenter.png'; // Using pokecenter as bank placeholder
-import fountainImage from '../../assets/buildings/water_center.png'; // Using water_center as fountain
-import palaceImage from '../../assets/buildings/city_hall.png'; // Using city_hall as palace
-import evolutionHallImage from '../../assets/buildings/evo_lab.png'; // Using evo_lab as evolution hall
-import mountainImage from '../../assets/buildings/gym_building.png'; // Using gym_building as mountain placeholder
-import secretCaveImage from '../../assets/buildings/house.png'; // Using house as cave placeholder
-import waterRouteImage from '../../assets/buildings/water_center.png'; // Using water_center as water route
 
-// Tegel types: 0=Gras, 1=Pad, 2=Huis, 3=Ziekenhuis, 4=Boom
-const TILE_TYPES = {
-    GRASS: 0,
-    PATH: 1,
-    HOUSE: 2,
-    CENTER: 3,
-    TREE: 4,
-    GACHA: 5,
-    SQUAD: 6,
-    GYM: 7,
-    MARKET: 8,
-    EVOLUTION: 9,
-    WATER: 10,
-    FISHERMAN: 11,
-    SCHOOL: 12,
-    CITY_HALL: 13,
-    WARDROBE: 14,
-    URBAN_SHOP: 15,
-    BANK: 16,
-    POTION_LAB: 17,
-    FOUNTAIN: 18,
-    PALACE: 19,
-    EVOLUTION_HALL: 20,
-    MOUNTAIN: 21,
-    SECRET_CAVE: 22,
-    WATER_ROUTE: 23,
-};
 
-const SEASONS = ['Lente', 'Zomer', 'Herfst', 'Winter'];
 
 export function WorldPage() {
     const navigate = useNavigate();
+    const { message, navigateWithMessage, clearMessage, showMessage } = useWorldNavigation();
     const {
         addCoins,
         healAll,
         quests,
-    } = usePokemonContext(); // Ensure quests is accessed for notification logic
+    } = usePokemonContext();
     const { townObjects, addObject, removeObject, clearTown } = useTownContext();
+    const { playerName } = usePlayer();
 
     const { getEncounterMultiplier, activeEffect } = useOutfitEffects();
 
@@ -96,10 +62,10 @@ export function WorldPage() {
         if (autoTime) {
             const updateTime = () => {
                 const hour = new Date().getHours();
-                setIsNight(hour < 6 || hour >= 20); // Night from 8 PM to 6 AM
+                setIsNight(hour < TIME_CONFIG.NIGHT_END_HOUR || hour >= TIME_CONFIG.NIGHT_START_HOUR);
             };
             updateTime();
-            const interval = setInterval(updateTime, 60000); // Check every minute
+            const interval = setInterval(updateTime, TIME_CONFIG.TIME_CHECK_INTERVAL);
             return () => clearInterval(interval);
         }
     }, [autoTime]);
@@ -113,7 +79,7 @@ export function WorldPage() {
         setAutoTime(!autoTime);
         if (!autoTime) {
             const hour = new Date().getHours();
-            setIsNight(hour < 6 || hour >= 20);
+            setIsNight(hour < TIME_CONFIG.NIGHT_END_HOUR || hour >= TIME_CONFIG.NIGHT_START_HOUR);
         }
     };
 
@@ -121,14 +87,7 @@ export function WorldPage() {
     const [playerColor, setPlayerColor] = useState('#ef4444');
     useEffect(() => {
         const outfitId = localStorage.getItem(STORAGE_KEYS.CURRENT_OUTFIT) || 'default';
-        const colors = {
-            'default': '#ef4444',
-            'cool': '#3b82f6',
-            'nature': '#22c55e',
-            'shiny': '#eab308',
-            'ninja': '#1e293b'
-        };
-        setPlayerColor(colors[outfitId] || '#ef4444');
+        setPlayerColor(OUTFIT_COLORS[outfitId] || OUTFIT_COLORS.default);
     }, []);
 
     // SCHATTEN (✨)
@@ -152,27 +111,17 @@ export function WorldPage() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (treasures.length < 3 && Math.random() < 0.3) {
+            if (treasures.length < TREASURE_CONFIG.MAX_TREASURES && Math.random() < TREASURE_CONFIG.SPAWN_CHANCE) {
                 const newX = Math.floor(Math.random() * 10);
                 const newY = Math.floor(Math.random() * 10);
-                // Niet op de speler of op onbegaanbare tegels
                 setTreasures(prev => [...prev, { x: newX, y: newY }]);
             }
-        }, 10000); // Elke 10 seconden kans op nieuwe schat
+        }, TREASURE_CONFIG.SPAWN_INTERVAL);
         return () => clearInterval(interval);
     }, [treasures]);
 
     const getSeasonStyles = () => {
-        switch (seasonIndex) {
-            case 3: // Winter ❄️
-                return { grass: '#f1f5f9', tree: '#94a3b8', bg: '#e2e8f0', tile: '#f8fafc' };
-            case 2: // Herfst 🍂
-                return { grass: '#fef3c7', tree: '#d97706', bg: '#fffbeb', tile: '#fde68a' };
-            case 0: // Lente 🌸
-                return { grass: '#bbf7d0', tree: '#f472b6', bg: '#f0fdf4', tile: '#dcfce7' };
-            default: // Zomer ☀️
-                return { grass: '#4ade80', tree: '#166534', bg: '#dcfce7', tile: '#bbf7d0' };
-        }
+        return SEASON_STYLES[seasonIndex] || SEASON_STYLES[1];
     };
 
     const seasonStyle = getSeasonStyles();
@@ -192,7 +141,6 @@ export function WorldPage() {
     ]);
 
     const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
-    const [message, setMessage] = useState(null);
     const [isBuildMode, setIsBuildMode] = useState(false);
     const [selectedBuilding, setSelectedBuilding] = useState('house'); // house, tree, path
 
@@ -223,122 +171,107 @@ export function WorldPage() {
         // NPC check op (5, 5)
         if (playerPos.x === 5 && playerPos.y === 5) {
             if (questState === 'none') {
-                setMessage({ text: "Prof. Eik: 'Felix! Ik heb je hulp nodig. Plant 3 bomen om het dorp mooier te maken!'", color: '#8b5cf6' });
+                showMessage("Prof. Eik: 'Felix! Ik heb je hulp nodig. Plant 3 bomen om het dorp mooier te maken!'", '#8b5cf6');
                 setQuestState('active');
             } else if (questState === 'active' && treeCount >= 3) {
-                setMessage({ text: "Prof. Eik: 'Geweldig! Je hebt 3 bomen geplant. Hier is een Gouden Beloning!'", color: '#fbbf24' });
+                showMessage("Prof. Eik: 'Geweldig! Je hebt 3 bomen geplant. Hier is een Gouden Beloning!'", '#fbbf24');
                 addCoins(500);
                 setQuestState('rewarded');
             } else if (questState === 'active') {
-                setMessage({ text: `Prof. Eik: 'Nog even doorzetten! Je hebt nu ${treeCount}/3 bomen geplant.'`, color: '#8b5cf6' });
+                showMessage(`Prof. Eik: 'Nog even doorzetten! Je hebt nu ${treeCount}/3 bomen geplant.'`, '#8b5cf6');
             } else {
-                setMessage({ text: "Prof. Eik: 'Wat een prachtig groen dorp is dit geworden!'", color: '#8b5cf6' });
+                showMessage("Prof. Eik: 'Wat een prachtig groen dorp is dit geworden!'", '#8b5cf6');
             }
             return;
         }
 
         // Fisherman NPC op (5, 7)
         if (tileType === TILE_TYPES.FISHERMAN || (playerPos.x === 5 && playerPos.y === 7)) {
-            setMessage({ text: "De Visser: 'Hee Felix! Wil je een hengel uitwerpen? Soms vang je Pokémon, soms... oude laarzen.'", color: '#0ea5e9' });
+            showMessage("De Visser: 'Hee Felix! Wil je een hengel uitwerpen? Soms vang je Pokémon, soms... oude laarzen.'", '#0ea5e9');
             // Start Fishing Mini-game logic could go here
             const rand = Math.random();
             if (rand < 0.3) {
-                setMessage({ text: "Je hebt een Magikarp gevangen!", color: '#f87171' });
+                showMessage("Je hebt een Magikarp gevangen!", '#f87171');
                 // Logic to add pokemon would go here
             } else if (rand < 0.6) {
-                setMessage({ text: "Een oude laars... die bewaar ik voor m'n verzameling.", color: '#64748b' });
+                showMessage("Een oude laars... die bewaar ik voor m'n verzameling.", '#64748b');
             } else {
-                setMessage({ text: "Geen beet dit keer. Blijf proberen!", color: '#94a3b8' });
+                showMessage("Geen beet dit keer. Blijf proberen!", '#94a3b8');
             }
             return;
         }
 
         if (tileType === TILE_TYPES.WATER) {
-            setMessage({ text: "Het water ziet er verfrissend uit. Ik zou graag willen zwemmen, maar ik heb mijn zwembroek niet mee!", color: '#0ea5e9' });
+            showMessage("Het water ziet er verfrissend uit. Ik zou graag willen zwemmen, maar ik heb mijn zwembroek niet mee!", '#0ea5e9');
             return;
         }
 
         if (tileType === TILE_TYPES.GACHA) {
-            setMessage({ text: "Ik ga kijken in de Poké-Gacha!", color: '#4c1d95' });
-            setTimeout(() => navigate('/gacha'), 1000);
+            navigateWithMessage("Ik ga kijken in de Poké-Gacha!", '/gacha', '#4c1d95');
             return;
         }
         if (tileType === TILE_TYPES.SQUAD) {
-            setMessage({ text: "Ik check even mijn Pokémon team!", color: '#1d4ed8' });
-            setTimeout(() => navigate('/squad'), 1000);
+            navigateWithMessage("Ik check even mijn Pokémon team!", '/squad', '#1d4ed8');
             return;
         }
         if (tileType === TILE_TYPES.MARKET) {
-            setMessage({ text: "Ik denk dat ik wat Pokémon ga verkopen!", color: '#991b1b' });
-            setTimeout(() => navigate('/market'), 1000);
+            navigateWithMessage("Ik denk dat ik wat Pokémon ga verkopen!", '/market', '#991b1b');
             return;
         }
         if (tileType === TILE_TYPES.EVOLUTION) {
-            setMessage({ text: "Ik ga een Pokémon laten evolueren!", color: '#166534' });
-            setTimeout(() => navigate('/evolution'), 1000);
+            navigateWithMessage("Ik ga een Pokémon laten evolueren!", '/evolution', '#166534');
             return;
         }
         if (tileType === TILE_TYPES.GYM) {
-            setMessage({ text: "Ik ga de Gym Leader verslaan! Ik ben er klaar voor!", color: '#b45309' });
-            setTimeout(() => navigate('/gym'), 1000);
+            navigateWithMessage("Ik ga de Gym Leader verslaan! Ik ben er klaar voor!", '/gym', '#b45309');
             return;
         }
         if (tileType === TILE_TYPES.SCHOOL) {
-            setMessage({ text: "Ik ga naar school om te leren! 📚", color: '#166534' });
-            setTimeout(() => navigate('/school'), 1000);
+            navigateWithMessage("Ik ga naar school om te leren! 📚", '/school', '#166534');
             return;
         }
         if (tileType === TILE_TYPES.WARDROBE) {
-            setMessage({ text: "Tijd voor een nieuwe outfit! 👕", color: '#db2777' });
-            setTimeout(() => navigate('/wardrobe'), 1000);
+            navigateWithMessage("Tijd voor een nieuwe outfit! 👕", '/wardrobe', '#db2777');
             return;
         }
         if (tileType === TILE_TYPES.BANK) {
-            setMessage({ text: "Tijd om mijn geld te sparen! 💰", color: '#7c3aed' });
-            setTimeout(() => navigate('/bank'), 1000);
+            navigateWithMessage("Tijd om mijn geld te sparen! 💰", '/bank', '#7c3aed');
             return;
         }
         if (tileType === TILE_TYPES.POTION_LAB) {
-            setMessage({ text: "Tijd om pociones te maken! 🧪", color: '#8b5cf6' });
-            setTimeout(() => navigate('/potion-lab'), 1000);
+            navigateWithMessage("Tijd om pociones te maken! 🧪", '/potion-lab', '#8b5cf6');
             return;
         }
         if (tileType === TILE_TYPES.FOUNTAIN) {
-            setMessage({ text: "¡La Fuente de los Deseos brilla mágicamente! ✨", color: '#06b6d4' });
-            setTimeout(() => navigate('/fountain'), 1000);
+            navigateWithMessage("¡La Fuente de los Deseos brilla mágicamente! ✨", '/fountain', '#06b6d4');
             return;
         }
         if (tileType === TILE_TYPES.PALACE) {
-            setMessage({ text: "El majestuoso palacio se eleva ante ti... 👑", color: '#7c3aed' });
-            setTimeout(() => navigate('/palace'), 1000);
+            navigateWithMessage("El majestuoso palacio se eleva ante ti... 👑", '/palace', '#7c3aed');
             return;
         }
         if (tileType === TILE_TYPES.EVOLUTION_HALL) {
-            setMessage({ text: "El Salón de Evolución brilla con energía mística... ⚡", color: '#d946ef' });
-            setTimeout(() => navigate('/evolution-hall'), 1000);
+            navigateWithMessage("El Salón de Evolución brilla con energía mística... ⚡", '/evolution-hall', '#d946ef');
             return;
         }
 
         if (tileType === TILE_TYPES.MOUNTAIN) {
-            setMessage({ text: "⛰️ The mystical mountain looms ahead...", color: '#8b7355' });
-            setTimeout(() => navigate('/mountain'), 1000);
+            navigateWithMessage("⛰️ The mystical mountain looms ahead...", '/mountain', '#8b7355');
             return;
         }
 
         if (tileType === TILE_TYPES.SECRET_CAVE) {
-            setMessage({ text: "🕳️ A mysterious cave entrance beckons...", color: '#8b5cf6' });
-            setTimeout(() => navigate('/secret-cave'), 1000);
+            navigateWithMessage("🕳️ A mysterious cave entrance beckons...", '/secret-cave', '#8b5cf6');
             return;
         }
 
         if (tileType === TILE_TYPES.WATER_ROUTE) {
-            setMessage({ text: "🌊 The sparkling water route awaits! Ready to surf?", color: '#06b6d4' });
-            setTimeout(() => navigate('/water-route'), 1000);
+            navigateWithMessage("🌊 The sparkling water route awaits! Ready to surf?", '/water-route', '#06b6d4');
             return;
         }
 
         if (tileType === TILE_TYPES.CENTER) {
-            setMessage({ text: "Ik voel me weer super! Pokémon genezen!", color: '#3b82f6' });
+            showMessage("Ik voel me weer super! Pokémon genezen!", '#3b82f6');
             healAll();
             return;
         }
@@ -346,7 +279,7 @@ export function WorldPage() {
         // Check voor schatten ✨
         const treasureIndex = treasures.findIndex(t => t.x === playerPos.x && t.y === playerPos.y);
         if (treasureIndex !== -1) {
-            setMessage({ text: "Wauw! Je hebt een zeldzame schat gevonden! +100 coins", color: '#fbbf24' });
+            showMessage("Wauw! Je hebt een zeldzame schat gevonden! +100 coins", '#fbbf24');
             addCoins(100);
             setTreasures(prev => prev.filter((_, i) => i !== treasureIndex));
             return;
@@ -354,7 +287,7 @@ export function WorldPage() {
 
         // Check voor GPS Treasure 🧭
         if (targetPos && playerPos.x === targetPos.x && playerPos.y === targetPos.y) {
-            setMessage({ text: "GEWELDIG! Je hebt de verborgen schat gevonden met je GPS! +500 coins", color: '#10b981' });
+            showMessage("GEWELDIG! Je hebt de verborgen schat gevonden met je GPS! +500 coins", '#10b981');
             addCoins(500);
             generateRandomTarget(null); // Clear or set new target if desired, setting null for now
             return;
@@ -367,23 +300,20 @@ export function WorldPage() {
             if (Math.random() < encounterChance) {
                 const rand = Math.random();
                 if (rand < 0.6) {
-                    setMessage({ text: "Ik kom een wilde Pokémon tegen!", color: '#ef4444' });
-                    setTimeout(() => navigate('/single-battle'), 1000);
+                    navigateWithMessage("Ik kom een wilde Pokémon tegen!", '/single-battle', '#ef4444');
                 } else if (rand < 0.8) {
-                    setMessage({ text: "Geen genade! Ik versla Team Rocket!", color: '#7f1d1d' });
-                    // Voor nu naar hetzelfde gevecht, maar de tekst is anders
-                    setTimeout(() => navigate('/single-battle'), 1000);
+                    navigateWithMessage("Geen genade! Ik versla Team Rocket!", '/single-battle', '#7f1d1d');
                 } else {
                     // Apply Nature effect (Explorer)
                     // const itemChance = 0.2 * getItemChanceMultiplier();
                     // Just a check, logic below was else, so it was "remaining probability".
                     // Let's make it explicitly check for item if not battle.
-                    setMessage({ text: "Wauw, ik heb iets gevonden! +20 coins", color: '#22c55e' });
+                    showMessage("Wauw, ik heb iets gevonden! +20 coins", '#22c55e');
                     addCoins(20);
                 }
             }
         }
-    }, [addCoins, healAll, navigate, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, setMessage, setTreasures, getEncounterMultiplier]);
+    }, [addCoins, healAll, playerPos.x, playerPos.y, treasures, questState, treeCount, setQuestState, setShowInterior, showMessage, navigateWithMessage, setTreasures, getEncounterMultiplier]);
 
     // Beweging logica
     const movePlayer = useCallback((dx, dy) => {
@@ -399,7 +329,7 @@ export function WorldPage() {
         if (targetTile === TILE_TYPES.TREE || targetTile === TILE_TYPES.HOUSE) return;
 
         setPlayerPos({ x: newX, y: newY });
-        setMessage(null);
+        clearMessage();
 
         // Update GPS stats
         if (targetPos) {
@@ -422,150 +352,33 @@ export function WorldPage() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [movePlayer]);
 
-    const handleTileClick = (x, y) => {
-        if (!isBuildMode) return;
-        if (x === playerPos.x && y === playerPos.y) return;
-
-        // Zoek of er al een gebouwd object staat
-        const existing = townObjects.find(obj => obj.x === x && obj.y === y);
-        if (existing) {
-            removeObject(existing.id);
-        } else {
-            addObject(selectedBuilding, x, y);
-        }
-    };
-
-    const getTileContent = (type, x, y) => {
-        if (x === playerPos.x && y === playerPos.y) {
-            return (
-                <div className="player-sprite-container">
-                    <span className="player-name-label">{playerName}</span>
-                    <div className="player-avatar" style={{ backgroundColor: playerColor }}>P</div>
-                </div>
-            );
-        }
-
-        // Schat
-        if (treasures.some(t => t.x === x && t.y === y)) return 'T';
-
-        // Professor Eik op (5, 5)
-        if (x === 5 && y === 5) return 'Prof';
-
-        switch (type) {
-            case TILE_TYPES.GRASS: return null;
-            case TILE_TYPES.PATH: return null;
-            case TILE_TYPES.HOUSE: return <img src={houseImage} className="building-sprite" alt="House" />;
-            case TILE_TYPES.CENTER: return <img src={centerImage} className="building-sprite" alt="Center" />;
-            case TILE_TYPES.TREE: return <img src={treeImage} className="building-sprite" alt="Tree" />;
-            case TILE_TYPES.GACHA: return <img src={gachaImage} className="building-sprite" alt="Gacha" />;
-            case TILE_TYPES.SQUAD: return <div className="tile squad">Squad</div>;
-            case TILE_TYPES.GYM: return <img src={gymImage} className="building-sprite" alt="Gym" />;
-            case TILE_TYPES.MARKET: return <img src={marketImage} className="building-sprite" alt="Markt" />;
-            case TILE_TYPES.EVOLUTION: return <img src={evoImage} className="building-sprite" alt="Evolutie" />;
-            case TILE_TYPES.WATER: return <img src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterImage : waterEdgeImage} className="water-sprite" alt="Water" />;
-            case TILE_TYPES.FISHERMAN: return <img src={fishermanImage} className="building-sprite" alt="Fisherman" />;
-            case TILE_TYPES.SCHOOL: return <img src={cityHallImage} className="building-sprite" alt="School" />;
-            case TILE_TYPES.WARDROBE: return <img src={shopUrbanImage} className="building-sprite" alt="Wardrobe" />;
-            case TILE_TYPES.BANK: return <img src={bankImage} className="building-sprite" alt="Bank" />;
-            case TILE_TYPES.POTION_LAB: return <img src={evoImage} className="building-sprite" alt="Potion Lab" />;
-            case TILE_TYPES.FOUNTAIN: return <img src={fountainImage} className="building-sprite" alt="Fountain" />;
-            case TILE_TYPES.PALACE: return <img src={palaceImage} className="building-sprite" alt="Palace" />;
-            case TILE_TYPES.EVOLUTION_HALL: return <img src={evolutionHallImage} className="building-sprite" alt="Evolution Hall" />;
-            case TILE_TYPES.MOUNTAIN: return <img src={mountainImage} className="building-sprite" alt="Mountain" />;
-            case TILE_TYPES.SECRET_CAVE: return <img src={secretCaveImage} className="building-sprite" alt="Secret Cave" />;
-            case TILE_TYPES.WATER_ROUTE: return <img src={waterRouteImage} className="building-sprite" alt="Water Route" />;
-            case TILE_TYPES.CITY_HALL: return <img src={cityHallImage} className="building-sprite" alt="City Hall" />;
-            case TILE_TYPES.URBAN_SHOP: return <img src={shopUrbanImage} className="building-sprite" alt="Urban Shop" />;
-            default: return null;
-        }
-    };
-
     return (
         <div className={`world-page ${isNight ? 'night-mode' : ''} weather-${weather}`} style={{ backgroundColor: seasonStyle.bg }}>
 
-            {/* Weather Effects */}
-            {weather === 'rainy' && <div className="rain-overlay"></div>}
-            {weather === 'snowy' && <div className="snow-overlay"></div>}
+            <WorldWeather weather={weather} isNight={isNight} />
 
-            {/* Night Sky Effects */}
-            {isNight && (
-                <div className="night-sky">
-                    <div className="moon"></div>
-                    {[...Array(30)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="star"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 60}%`,
-                                animationDelay: `${Math.random() * 3}s`
-                            }}
-                        />
-                    ))}
-                </div>
-            )}
-
-            <div className="season-hud">
-                <button className="arrow-btn" onClick={prevSeason}>&lt;</button>
-                <div className="season-display">
-                    <span className="season-name">{SEASONS[seasonIndex]}</span>
-                </div>
-                <button className="arrow-btn" onClick={nextSeason}>&gt;</button>
-
-                <button
-                    className={`day-night-toggle ${isNight ? 'night' : 'day'} ${autoTime ? 'auto' : ''}`}
-                    onClick={toggleDayNight}
-                    title={autoTime ? 'Auto (Real Time)' : 'Manual Toggle'}
-                >
-                    {isNight ? '🌙' : '☀️'}
-                </button>
-
-                <button
-                    className={`auto-time-btn ${autoTime ? 'active' : ''}`}
-                    onClick={toggleAutoTime}
-                    title="Toggle Real-Time Clock"
-                >
-                    {autoTime ? '🕐 Auto' : '⏸️ Manual'}
-                </button>
-
-                <button className="pokedex-hud-btn" onClick={() => navigate('/pokedex')}>Pokédex</button>
-                <button className="bag-hud-btn" onClick={() => navigate('/bag')}>
-                    <img src={bagImage} alt="Bag" />
-                </button>
-                <button className="quest-hud-btn" onClick={() => setShowQuestLog(true)}>
-                    <Trophy size={20} color="#92400e" />
-                    {quests && quests.some(q => !q.completed && q.progress >= q.target) && (
-                        <span className="quest-dot">!</span>
-                    )}
-                </button>
-
-                <div className="gps-coordinate-display">
-                    <MapPin size={16} />
-                    <span>X: {playerPos.x}, Y: {playerPos.y}</span>
-                </div>
-
-                <div className="gps-tracker-hud">
-                    {targetPos ? (
-                        <div className="gps-active">
-                            <Navigation size={16} className="gps-icon pulse" />
-                            <div className="gps-info">
-                                <span className="gps-distance">{gpsDistance}m</span>
-                                <span className="gps-hint">{gpsDirection}</span>
-                            </div>
-                        </div>
-                    ) : (
-                        <button className="gps-start-btn" onClick={() => {
-                            const target = generateRandomTarget(playerPos);
-                            setGpsDistance(calculateDistance(playerPos, target));
-                            setGpsDirection(getDirectionHint(playerPos, target));
-                            setMessage({ text: `Zoek de schat op X: ${target.x}, Y: ${target.y}!`, color: '#3b82f6' });
-                        }}>
-                            <Compass size={18} />
-                            <span>GPS Quest</span>
-                        </button>
-                    )}
-                </div>
-            </div>
+            <WorldHUD
+                seasonIndex={seasonIndex}
+                prevSeason={prevSeason}
+                nextSeason={nextSeason}
+                isNight={isNight}
+                toggleDayNight={toggleDayNight}
+                autoTime={autoTime}
+                toggleAutoTime={toggleAutoTime}
+                navigate={navigate}
+                setShowQuestLog={setShowQuestLog}
+                quests={quests}
+                playerPos={playerPos}
+                targetPos={targetPos}
+                gpsDistance={gpsDistance}
+                gpsDirection={gpsDirection}
+                generateRandomTarget={generateRandomTarget}
+                setGpsDistance={setGpsDistance}
+                setGpsDirection={setGpsDirection}
+                calculateDistance={calculateDistance}
+                getDirectionHint={getDirectionHint}
+                showMessage={showMessage}
+            />
 
             {activeEffect.name !== 'Normal' && (
                 <div className="active-effect-hud" style={{
@@ -586,40 +399,24 @@ export function WorldPage() {
                         {message.text}
                     </div>
                 )}
-                {/* Binnenkijken Modal */}
-                {showInterior && (
-                    <div className="interior-modal">
-                        <div className="room-content">
-                            <h2>Felix zijn Kamer</h2>
-                            <div className="pixel-bed">Bed</div>
-                            <div className="pixel-tv">TV</div>
-                            <p>Lekker knus! Hier kan Felix uitrusten na het avontuur.</p>
-                            <button className="close-room-btn" onClick={() => setShowInterior(false)}>Naar Buiten</button>
-                        </div>
-                    </div>
-                )}
+
+                <InteriorModal
+                    showInterior={showInterior}
+                    setShowInterior={setShowInterior}
+                />
             </div>
 
             <div className="game-container">
-                <div className="map-grid" style={{ backgroundColor: seasonStyle.grass, borderColor: '#475569' }}>
-                    {mapGrid.map((row, y) => (
-                        <div key={y} className="map-row">
-                            {row.map((tile, x) => (
-                                <div
-                                    key={`${x}-${y}`}
-                                    className={`tile type-${tile} ${isBuildMode ? 'buildable' : ''}`}
-                                    onClick={() => handleTileClick(x, y)}
-                                    style={
-                                        tile === TILE_TYPES.TREE ? { color: seasonStyle.tree } :
-                                            tile === TILE_TYPES.GRASS ? { color: seasonStyle.tree } : {}
-                                    }
-                                >
-                                    {getTileContent(tile, x, y)}
-                                </div>
-                            ))}
-                        </div>
-                    ))}
-                </div>
+                <WorldGrid
+                    mapGrid={mapGrid}
+                    playerPos={playerPos}
+                    playerName={playerName}
+                    playerColor={playerColor}
+                    treasures={treasures}
+                    isBuildMode={isBuildMode}
+                    handleTileClick={handleTileClick}
+                    seasonStyle={seasonStyle}
+                />
 
                 <div className="controls-panel">
                     <div className="d-pad">
