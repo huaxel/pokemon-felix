@@ -10,7 +10,7 @@ import './SecretCavePage.css';
 
 export function SecretCavePage() {
     const navigate = useNavigate();
-    const { ownedIds, setOwnedIds, pokemonList } = usePokemonContext();
+    const { ownedIds, toggleOwned, addCoins } = usePokemonContext();
     const [discovered, setDiscovered] = useState(false);
     const [depth, setDepth] = useState(0);
     const [encounter, setEncounter] = useState(null);

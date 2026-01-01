@@ -1,8 +1,7 @@
-import { useLocation, Link } from 'react-router-dom';
-import { Map, Library, Upload, Download } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Home, Map, Library, User, Upload, Download } from 'lucide-react';
 import { usePokemonContext } from '../hooks/usePokemonContext';
 import { usePlayer } from '../hooks/usePlayer';
-import pokeballLogo from '../assets/items/pokeball.png';
 import bagIcon from '../assets/items/bag_icon.png';
 import './Navbar.css';
 

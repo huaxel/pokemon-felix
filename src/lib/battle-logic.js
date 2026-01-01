@@ -122,7 +122,7 @@ export const combineMoves = (move1, move2) => {
     const pow1 = move1.power || 40;
     const pow2 = move2.power || 40;
 
-    let newMove = {
+    const newMove = {
         cost: combinedCost,
         isCombo: true,
         accuracy: Math.min(move1.accuracy || 100, move2.accuracy || 100)
@@ -242,7 +242,7 @@ export const getMoves = (pokemon) => {
 export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fatigue = 0) => {
     // 1. Calculate Base Damage using existing helper
     const baseResult = calculateDamage(attacker, defender, move);
-    let { damage, effectiveness } = baseResult;
+    const { damage, effectiveness } = baseResult;
     let message = "";
 
     // 2. Anti-Spam Penalty
