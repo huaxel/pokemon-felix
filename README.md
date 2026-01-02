@@ -32,62 +32,58 @@ npm install
 
 3. (Optional) Create a `.env` file based on `.env.example`:
 ```bash
-cp .env.example .env
+# Pokemon Felix
+
+Pokemon Felix is a modern React + Vite web app that provides a Pokedex, collection system, battle arena, and tournament mode. This repository contains the frontend and a small mock backend (json-server) used for local development.
+
+Quick links
+
+- Project docs: `docs/README.md`
+- Quick start: `docs/quick-start.md`
+- Development guide: `docs/development.md`
+- Contributing guide: `CONTRIBUTING.md`
+
+Getting started (short)
+
+1. Install dependencies:
+
+```bash
+npm install
 ```
 
-## Development
-
-Start the development server (runs both frontend and backend):
+2. Start local development (frontend + mock backend):
 
 ```bash
 npm run dev
 ```
 
-This starts:
-- **Frontend** (Vite): http://localhost:5173
-- **Backend** (json-server): http://localhost:3001
+This will start the Vite frontend (default: http://localhost:5173) and `json-server` backend (http://localhost:3001) used for collection persistence.
 
-## Available Scripts
+Other useful scripts (see `package.json`):
 
-- `npm run dev` - Start development servers (frontend + backend)
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build locally
-- `npm run lint` - Run ESLint to check code quality
+- `npm run build` — build production assets
+- `npm run preview` — preview a production build locally
+- `npm run test` — run unit tests (`vitest`)
+- `npm run lint` — run ESLint
+- `npm run format` — run Prettier
 
-## Project Structure
+Where to go next
+
+- For a quick development setup and common commands open `docs/quick-start.md`.
+- For contribution guidelines and PR process open `CONTRIBUTING.md`.
+
+Project structure (high-level)
 
 ```
 pokemon-felix/
-├── src/
-│   ├── components/       # Reusable UI components
-│   │   ├── BattleArena.jsx
-│   │   ├── PokemonCard.jsx
-│   │   ├── PokemonModal.jsx
-│   │   └── SearchBar.jsx
-│   ├── features/         # Feature-specific modules
-│   │   └── tournament/   # Tournament functionality
-│   ├── hooks/            # Custom React hooks
-│   │   ├── usePokemonData.js
-│   │   ├── useCollection.js
-│   │   └── usePokemonSearch.js
-│   ├── contexts/         # React Context providers
-│   │   └── PokemonContext.jsx
-│   ├── lib/              # Utility functions
-│   │   ├── api.js        # API calls
-│   │   ├── battle-logic.js
-│   │   └── utils.js
-│   ├── App.jsx           # Main application component
-│   └── main.jsx          # Application entry point
-├── docs/                 # Documentation
-├── db.json               # Mock database for json-server
-└── package.json
+├── src/           # React source (components, features, hooks, contexts)
+├── docs/          # Project documentation and guides
+├── db.json        # Mock json-server database
+├── package.json   # scripts, deps, dev-deps
+└── README.md      # this file
 ```
 
-## Architecture
-
-### Custom Hooks
-
-- **`usePokemonData`**: Manages Pokemon fetching and pagination
+If you'd like, I can expand the docs with architecture diagrams, code examples, or API references — tell me which area to prioritize.
 - **`useCollection`**: Handles owned Pokemon collection
 - **`usePokemonSearch`**: Fuzzy search with Fuse.js
 
