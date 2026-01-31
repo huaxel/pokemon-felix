@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { usePlayer } from '../../hooks/usePlayer';
 import { addToCollection } from '../../lib/api';
 import './StarterPage.css';
 
@@ -13,15 +14,18 @@ const STARTERS = [
 
 export function StarterPage() {
     const { setOwnedIds, addToSquad, addCoins, pokemonList, ownedIds } = usePokemonContext();
+    const { hasProfile } = usePlayer();
     const navigate = useNavigate();
     const [selectedStarter, setSelectedStarter] = useState(null);
     const [isChoosing, setIsChoosing] = useState(false);
 
     useEffect(() => {
-        if (ownedIds.length > 0) {
+        if (!hasProfile) {
+            navigate('/character-creation');
+        } else if (ownedIds.length > 0) {
             navigate('/adventure');
         }
-    }, [ownedIds, navigate]);
+    }, [ownedIds, hasProfile, navigate]);
 
     const handleChoose = async () => {
         if (!selectedStarter || isChoosing) return;

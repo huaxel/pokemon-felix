@@ -1,0 +1,169 @@
+.world-selection-page {
+    height: 100vh;
+    background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.selection-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    z-index: 2;
+}
+
+.selection-header h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 2.5rem;
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.selection-header p {
+    color: #94a3b8;
+    font-size: 1.2rem;
+}
+
+.spinning-globe {
+    animation: spin-slow 20s linear infinite;
+}
+
+.worlds-container {
+    display: flex;
+    gap: 2rem;
+    z-index: 2;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+}
+
+.world-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+.world-card:hover,
+.world-card.selected {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+}
+
+.world-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+.world-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.world-info p {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    min-height: 3rem;
+}
+
+.travel-btn {
+    margin-top: auto;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+    justify-content: center;
+}
+
+.travel-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Background Decorations */
+.globe-decoration {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(30, 58, 138, 0.2), transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.orbit-c1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin-slow 30s linear infinite reverse;
+}
+
+.orbit-c2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 900px;
+    height: 900px;
+    border: 1px dashed rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin-slow 60s linear infinite;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .worlds-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .world-card {
+        width: 100%;
+        max-width: 350px;
+    }
+}

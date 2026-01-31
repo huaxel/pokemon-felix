@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DndContext, DragOverlay, useSensor, useSensors, MouseSensor, TouchSensor } from '@dnd-kit/core';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
-import { getPokemonDetails } from '../../lib/api';
 import { PokemonCard } from '../../components/PokemonCard';
-import { DraggablePokemon } from './DraggablePokemon';
+import { MemberDetailModal } from './components/MemberDetailModal';
+import { SquadGrid } from './components/SquadGrid';
+import { BenchGrid } from './components/BenchGrid';
 import { DroppableSlot } from './DroppableSlot';
+import { useSquadData } from './hooks/useSquadData';
 import squadBg from '../../assets/squad_bg.png';
 import './SquadPage.css';
 
 export function SquadPage() {
-    const { ownedIds, squadIds, addToSquad, removeFromSquad } = usePokemonContext();
-    const [benchPokemon, setBenchPokemon] = useState([]);
-    const [squadPokemon, setSquadPokemon] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { addToSquad, removeFromSquad, careStats } = usePokemonContext();
+    const { squadPokemon, benchPokemon, loading } = useSquadData();
+    const [selectedMember, setSelectedMember] = useState(null);
     const [activeId, setActiveId] = useState(null); // For DragOverlay
 
     // Sensors for drag detection
@@ -21,30 +22,6 @@ export function SquadPage() {
         useSensor(MouseSensor, { activationConstraint: { distance: 10 } }),
         useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
     );
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const promises = ownedIds.map(id => getPokemonDetails(id));
-                const results = await Promise.all(promises);
-                const squad = results.filter(p => squadIds.includes(p.id));
-                const bench = results.filter(p => !squadIds.includes(p.id));
-                setSquadPokemon(squad);
-                setBenchPokemon(bench);
-            } catch (error) {
-                console.error("Failed to load squad data", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (ownedIds.length > 0) {
-            fetchData();
-        } else {
-            setLoading(false);
-        }
-    }, [ownedIds, squadIds]);
 
     const handleDragStart = (event) => {
         setActiveId(event.active.id);
@@ -76,6 +53,19 @@ export function SquadPage() {
         return [...squadPokemon, ...benchPokemon].find(p => p.id === id);
     };
 
+    const renderHpBar = (pokemonId) => {
+        const stats = careStats ? careStats[pokemonId] : null;
+        const hp = stats ? stats.hp : 100;
+        const hpColor = hp > 60 ? '#22c55e' : hp > 20 ? '#eab308' : '#ef4444';
+
+        return (
+            <div className="squad-hp-container">
+                <div className="squad-hp-bar" style={{ width: `${hp}%`, backgroundColor: hpColor }}></div>
+                <span className="squad-hp-text">{hp}%</span>
+            </div>
+        );
+    };
+
     if (loading) return <div className="squad-loading">Cargando equipo...</div>;
 
     return (
@@ -104,52 +94,25 @@ export function SquadPage() {
 
                     <div className="active-squad-section">
                         <h2>Equipo Activo</h2>
-                        <div className="squad-grid">
-                            {Array.from({ length: 4 }).map((_, index) => {
-                                const pokemon = squadPokemon[index];
-                                return (
-                                    <DroppableSlot key={index} id={`slot-${index}`} isFilled={!!pokemon}>
-                                        {pokemon ? (
-                                            <DraggablePokemon id={`squad-${pokemon.id}`}>
-                                                <div className="squad-member">
-                                                    <PokemonCard
-                                                        pokemon={pokemon}
-                                                        isOwned={true}
-                                                        onToggleOwned={() => { }}
-                                                        onClick={() => { }}
-                                                        isInSquad={true}
-                                                        onToggleSquad={() => removeFromSquad(pokemon.id)}
-                                                    />
-                                                </div>
-                                            </DraggablePokemon>
-                                        ) : (
-                                            <div className="empty-slot-content">
-                                                <span>Vacío</span>
-                                            </div>
-                                        )}
-                                    </DroppableSlot>
-                                );
-                            })}
-                        </div>
+                        <SquadGrid
+                            squadPokemon={squadPokemon}
+                            selectedMember={selectedMember}
+                            onSelectMember={setSelectedMember}
+                            onRemoveFromSquad={removeFromSquad}
+                            renderHpBar={renderHpBar}
+                        />
                     </div>
 
                     <DroppableSlot id="bench-area" isFilled={false}>
                         <div className="bench-section">
                             <h2>Banca ({benchPokemon.length})</h2>
-                            <div className="bench-grid">
-                                {benchPokemon.map(pokemon => (
-                                    <DraggablePokemon key={pokemon.id} id={`bench-${pokemon.id}`}>
-                                        <PokemonCard
-                                            pokemon={pokemon}
-                                            isOwned={true}
-                                            onToggleOwned={() => { }}
-                                            onClick={() => { }}
-                                            isInSquad={false}
-                                            onToggleSquad={() => addToSquad(pokemon.id)}
-                                        />
-                                    </DraggablePokemon>
-                                ))}
-                            </div>
+                            <BenchGrid
+                                benchPokemon={benchPokemon}
+                                selectedMember={selectedMember}
+                                onSelectMember={setSelectedMember}
+                                onAddToSquad={addToSquad}
+                                renderHpBar={renderHpBar}
+                            />
                         </div>
                     </DroppableSlot>
                 </div>
@@ -161,6 +124,13 @@ export function SquadPage() {
                         </div>
                     ) : null}
                 </DragOverlay>
+
+                {selectedMember && (
+                    <MemberDetailModal
+                        pokemon={selectedMember}
+                        onClose={() => setSelectedMember(null)}
+                    />
+                )}
             </div>
         </DndContext>
     );

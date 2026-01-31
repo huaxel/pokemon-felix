@@ -43,7 +43,7 @@ describe('battle-logic basic behavior', () => {
     const attacker = { types: [{ type: { name: 'fire' } }] };
     const defender = { types: [{ type: { name: 'grass' } }] };
     const move = { name: 'Flame', power: 60, type: 'fire' };
-    const result = calculateSmartDamage(attacker, defender, move, 'Flame', 0);
+    const result = calculateSmartDamage(attacker, defender, move, { lastMoveName: 'Flame', fatigue: 0 });
     expect(result).toHaveProperty('damage');
     expect(result).toHaveProperty('message');
   });

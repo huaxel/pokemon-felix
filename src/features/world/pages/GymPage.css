@@ -1,0 +1,395 @@
+.gym-page {
+    padding: 2rem;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+}
+
+
+/* Header styles removed - replaced by WorldPageHeader */
+
+/* Badge Display */
+.badge-display {
+    text-align: center;
+    margin: 30px 0;
+    background: rgba(0, 0, 0, 0.4);
+    border: 3px solid #fbbf24;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.badge-display h2 {
+    color: #fbbf24;
+    margin: 0 0 20px 0;
+    font-size: 2rem;
+}
+
+.badge-showcase {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.badge-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border: 3px solid #475569;
+    background: #1e293b;
+    transition: all 0.3s ease;
+}
+
+.badge-icon.earned {
+    border-color: #fbbf24;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+    animation: badgeGlow 2s ease-in-out infinite;
+}
+
+@keyframes badgeGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+    }
+}
+
+.badge-icon.locked {
+    opacity: 0.4;
+}
+
+/* Gyms Grid */
+.gyms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gym-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 3px solid;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gym-card:not(.beaten):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.gym-card.beaten {
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.gym-type {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.gym-card h3 {
+    font-size: 1.8rem;
+    margin: 10px 0;
+    color: white;
+}
+
+.gym-desc {
+    color: #cbd5e1;
+    font-size: 1rem;
+    margin: 15px 0;
+}
+
+.gym-rewards {
+    margin: 15px 0;
+    font-size: 1.1rem;
+    color: #fbbf24;
+}
+
+.coin-icon-inline {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.gym-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.gym-btn.challenge {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.gym-btn.challenge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.gym-btn.beaten {
+    background: #475569;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Battle Mode */
+.gym-page.battle-mode {
+    background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+}
+
+.battle-info {
+    text-align: center;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.battle-info h2 {
+    color: #fbbf24;
+    margin: 0 0 10px 0;
+    font-size: 2rem;
+}
+
+.stage-indicator {
+    color: #cbd5e1;
+    font-size: 1.2rem;
+}
+
+/* Victory/Defeat Screens */
+.gym-page.result-mode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #1e293b 0%, #020617 100%);
+}
+
+.victory-scene,
+.defeat-scene {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    padding: 50px;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.victory-scene h1 {
+    color: #fbbf24;
+    font-size: 3rem;
+    margin: 0 0 30px 0;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+}
+
+.earned-badge {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    border: 5px solid #fbbf24;
+    box-shadow: 0 0 40px currentColor;
+    animation: badgePop 0.5s ease;
+}
+
+@keyframes badgePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.victory-scene h2 {
+    color: white;
+    font-size: 1.8rem;
+    margin: 20px 0;
+}
+
+.reward-text {
+    color: #fbbf24;
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+
+.badge-count {
+    color: #cbd5e1;
+    font-size: 1.2rem;
+    margin: 15px 0;
+}
+
+.continue-btn,
+.retry-btn,
+.back-btn-defeat {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+}
+
+.continue-btn:hover,
+.retry-btn:hover,
+.back-btn-defeat:hover {
+    transform: translateY(-2px);
+}
+
+.back-btn-defeat {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.defeat-scene h1 {
+    color: #ef4444;
+    font-size: 2.5rem;
+    margin: 0 0 20px 0;
+}
+
+.defeat-scene p {
+    color: #cbd5e1;
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+/* Champion Message */
+.champion-message {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    margin: 40px auto;
+    max-width: 600px;
+    box-shadow: 0 10px 40px rgba(251, 191, 36, 0.5);
+    animation: championGlow 3s ease-in-out infinite;
+}
+
+@keyframes championGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 10px 40px rgba(251, 191, 36, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 10px 60px rgba(251, 191, 36, 0.8);
+    }
+}
+
+.champion-message h2 {
+    color: #78350f;
+    font-size: 2.5rem;
+    margin: 0 0 20px 0;
+}
+
+.champion-message p {
+    color: #92400e;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gym-page {
+        padding: 15px;
+    }
+
+    .gym-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .gyms-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .badge-showcase {
+        gap: 10px;
+    }
+
+    .badge-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .victory-scene,
+    .defeat-scene {
+        padding: 30px;
+    }
+
+    .earned-badge {
+        width: 120px;
+        height: 120px;
+        font-size: 4rem;
+    }
+}
+
+.hint {
+    color: #94a3b8;
+    margin-top: 1rem;
+}
+
+/* Battle Container */
+.gym-battle-container {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Result */
+.gym-result {
+    text-align: center;
+    padding-top: 5rem;
+}
+
+.medal {
+    font-size: 10rem;
+    display: block;
+    margin-bottom: 2rem;
+}
+
+.finish-btn {
+    display: inline-block;
+    background: #fbbf24;
+    color: #78350f;
+    text-decoration: none;
+    padding: 1rem 3rem;
+    border-radius: 1.5rem;
+    margin-top: 2rem;
+}

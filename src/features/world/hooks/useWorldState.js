@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TIME_CONFIG, TREASURE_CONFIG } from '../worldConstants';
+import { TIME_CONFIG, TREASURE_CONFIG, POKEBALL_CONFIG } from '../worldConstants';
 
 export function useWorldState() {
     // Seizoenen Systeem
@@ -8,8 +8,10 @@ export function useWorldState() {
     const [autoTime, setAutoTime] = useState(true);
     const [weather, setWeather] = useState('sunny');
     const [treasures, setTreasures] = useState([{ x: 3, y: 7 }]);
+    const [pokeballs, setPokeballs] = useState([{ x: 2, y: 4 }]); // Initial pokeball for testing
     const [questState, setQuestState] = useState('none');
     const [showInterior, setShowInterior] = useState(false);
+    const [showPokeballModal, setShowPokeballModal] = useState(false);
     const [showQuestLog, setShowQuestLog] = useState(false);
 
     const nextSeason = () => setSeasonIndex((prev) => (prev + 1) % 4);
@@ -48,6 +50,18 @@ export function useWorldState() {
         return () => clearInterval(interval);
     }, [treasures]);
 
+    // POKEBALL SPAWN
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (pokeballs.length < POKEBALL_CONFIG.MAX_POKEBALLS && Math.random() < POKEBALL_CONFIG.SPAWN_CHANCE) {
+                const newX = Math.floor(Math.random() * 10);
+                const newY = Math.floor(Math.random() * 10);
+                setPokeballs(prev => [...prev, { x: newX, y: newY }]);
+            }
+        }, POKEBALL_CONFIG.SPAWN_INTERVAL);
+        return () => clearInterval(interval);
+    }, [pokeballs]);
+
     return {
         seasonIndex,
         setSeasonIndex,
@@ -59,10 +73,14 @@ export function useWorldState() {
         setWeather,
         treasures,
         setTreasures,
+        pokeballs,
+        setPokeballs,
         questState,
         setQuestState,
         showInterior,
         setShowInterior,
+        showPokeballModal,
+        setShowPokeballModal,
         showQuestLog,
         setShowQuestLog,
         nextSeason,

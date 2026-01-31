@@ -1,42 +1,63 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { usePokemonContext } from './hooks/usePokemonContext';
 import { addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
 import { GameConsole } from './components/GameConsole';
+import { ToastContainer } from './components/ToastContainer';
+
+import './App.css';
 
 const PokemonModal = lazy(() => import('./components/PokemonModal').then(mod => ({ default: mod.PokemonModal })));
-import { CollectionPage } from './components/CollectionPage';
-import { BattlePage } from './components/BattlePage';
+import { CollectionPage } from './features/pokedex/CollectionPage';
+import { BattlePage } from './features/battle/BattlePage';
 import { TournamentLayout } from './features/tournament/TournamentLayout';
 import { GachaPage } from './features/gacha/GachaPage';
 import { StarterPage } from './features/onboarding/StarterPage';
+import { CharacterCreationPage } from './features/onboarding/CharacterCreationPage';
+import { CityHallPage } from './features/world/pages/CityHallPage';
 import { SquadPage } from './features/squad/SquadPage';
 import { PokedexPage } from './features/pokedex/PokedexPage';
 import { WorldPage } from './features/world/WorldPage';
-import { MarketPage } from './features/world/MarketPage';
-import { EvolutionPage } from './features/world/EvolutionPage';
-import { GymPage } from './features/world/GymPage';
-import { BagPage } from './features/world/BagPage';
+import { MarketPage } from './features/world/pages/MarketPage';
+import { EvolutionPage } from './features/world/pages/EvolutionPage';
+import { GymPage } from './features/world/pages/GymPage';
+import { BagPage } from './features/world/pages/BagPage';
 import { CarePage } from './features/care/CarePage';
-import { SchoolPage } from './features/world/SchoolPage';
-import { WardrobePage } from './features/world/WardrobePage';
-import { BankPage } from './features/world/BankPage';
-import { PotionLabPage } from './features/world/PotionLabPage';
-import { FountainPage } from './features/world/FountainPage';
-import { PalacePage } from './features/world/PalacePage';
-import { EvolutionHallPage } from './features/world/EvolutionHallPage';
-import { MountainPage } from './features/world/MountainPage';
-import { SecretCavePage } from './features/world/SecretCavePage';
-import { WaterRoutePage } from './features/world/WaterRoutePage';
+import { SchoolPage } from './features/world/pages/SchoolPage';
+import { WardrobePage } from './features/world/pages/WardrobePage';
+import { BankPage } from './features/world/pages/BankPage';
+import { PotionLabPage } from './features/world/pages/PotionLabPage';
+import { FountainPage } from './features/world/pages/FountainPage';
+import { PalacePage } from './features/world/pages/PalacePage';
+import { EvolutionHallPage } from './features/world/pages/EvolutionHallPage';
+import { MountainPage } from './features/world/pages/MountainPage';
+import { SecretCavePage } from './features/world/pages/SecretCavePage';
+import { WaterRoutePage } from './features/world/pages/WaterRoutePage';
 import { PorygonLabPage } from './features/porygon/PorygonLabPage';
 import { ProfilePage } from './features/profile/ProfilePage';
 import { BattleSelectionPage } from './features/battle/BattleSelectionPage';
 import { SingleBattlePage } from './features/battle/SingleBattlePage';
-import { DesertPage } from './features/world/DesertPage';
-import { CaveDungeonPage } from './features/world/CaveDungeonPage';
-import './App.css';
+import { DesertPage } from './features/world/pages/DesertPage';
+import { CaveDungeonPage } from './features/world/pages/CaveDungeonPage';
+import { ArtStudioPage } from './features/world/pages/ArtStudioPage';
+import { DecorShopPage } from './features/world/pages/DecorShopPage';
+import { PokemonCenterPage } from './features/world/pages/PokemonCenterPage';
+import { WorldSelectionPage } from './features/world/pages/WorldSelectionPage';
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      cacheTime: 1000 * 60 * 30, // 30 minutes
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   const {
@@ -83,70 +104,81 @@ function App() {
       setOwnedIds(imported);
     } catch (error) {
       console.error('Failed to import favorites:', error);
-      alert('Error al importar favoritos: ' + error.message);
+      // Fallback for top-level error
+      console.error('Error al importar favoritos: ' + error.message);
     }
   };
 
   return (
-    <div className="app-container">
-      <Navbar
-        onExport={handleExportFavorites}
-        onImport={handleImportFavorites}
-      />
-      <Routes>
-        <Route path="/" element={<StarterPage />} />
-        <Route path="/pokedex" element={<PokedexPage />} />
-        <Route path="/collection" element={
-          <CollectionPage
-            ownedIds={ownedIds}
-            onToggleOwned={toggleOwned}
-          />
-        } />
-        <Route path="/battle" element={
-          <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
-        } />
-        <Route path="/battle-modes" element={<BattleSelectionPage />} />
-        <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
-        <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
-        <Route path="/gacha" element={<GachaPage />} />
-        <Route path="/squad" element={<SquadPage />} />
-        <Route path="/adventure" element={<WorldPage />} />
-        <Route path="/market" element={<MarketPage />} />
-        <Route path="/evolution" element={<EvolutionPage />} />
-        <Route path="/gym" element={<GymPage />} />
-        <Route path="/bag" element={<BagPage />} />
-        <Route path="/care" element={<CarePage />} />
-        <Route path="/school" element={<SchoolPage />} />
-        <Route path="/wardrobe" element={<WardrobePage />} />
-        <Route path="/bank" element={<BankPage />} />
-        <Route path="/potion-lab" element={<PotionLabPage />} />
-        <Route path="/fountain" element={<FountainPage />} />
-        <Route path="/palace" element={<PalacePage />} />
-        <Route path="/evolution-hall" element={<EvolutionHallPage />} />
-        <Route path="/mountain" element={<MountainPage />} />
-        <Route path="/secret-cave" element={<SecretCavePage />} />
-        <Route path="/water-route" element={<WaterRoutePage />} />
-        <Route path="/porygon-lab" element={<PorygonLabPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/desert" element={<DesertPage />} />
-        <Route path="/cave-dungeon" element={<CaveDungeonPage />} />
-      </Routes>
+    <QueryClientProvider client={queryClient}>
+      <div className="app-container">
+        <Navbar
+          onExport={handleExportFavorites}
+          onImport={handleImportFavorites}
+        />
+        <Routes>
+          <Route path="/character-creation" element={<CharacterCreationPage />} />
+          <Route path="/" element={<StarterPage />} />
+          <Route path="/pokedex" element={<PokedexPage />} />
+          <Route path="/collection" element={
+            <CollectionPage
+              ownedIds={ownedIds}
+              onToggleOwned={toggleOwned}
+            />
+          } />
+          <Route path="/battle" element={
+            <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
+          } />
+          <Route path="/battle-modes" element={<BattleSelectionPage />} />
+          <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
+          <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
+          <Route path="/gacha" element={<GachaPage />} />
+          <Route path="/squad" element={<SquadPage />} />
+          <Route path="/adventure" element={<WorldPage />} />
+          <Route path="/market" element={<MarketPage />} />
+          <Route path="/evolution" element={<EvolutionPage />} />
+          <Route path="/gym" element={<GymPage />} />
+          <Route path="/bag" element={<BagPage />} />
+          <Route path="/care" element={<CarePage />} />
+          <Route path="/school" element={<SchoolPage />} />
+          <Route path="/wardrobe" element={<WardrobePage />} />
+          <Route path="/bank" element={<BankPage />} />
+          <Route path="/potion-lab" element={<PotionLabPage />} />
+          <Route path="/fountain" element={<FountainPage />} />
+          <Route path="/palace" element={<PalacePage />} />
+          <Route path="/evolution-hall" element={<EvolutionHallPage />} />
+          <Route path="/mountain" element={<MountainPage />} />
+          <Route path="/secret-cave" element={<SecretCavePage />} />
+          <Route path="/water-route" element={<WaterRoutePage />} />
+          <Route path="/porygon-lab" element={<PorygonLabPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/desert" element={<DesertPage />} />
+          <Route path="/cave-dungeon" element={<CaveDungeonPage />} />
+          <Route path="/city-hall" element={<CityHallPage />} />
+          <Route path="/art-studio" element={<ArtStudioPage />} />
+          <Route path="/wardrobe" element={<WardrobePage />} />
+          <Route path="/decor-shop" element={<DecorShopPage />} />
+          <Route path="/center" element={<PokemonCenterPage />} />
+          <Route path="/world-select" element={<WorldSelectionPage />} />
+        </Routes>
 
-      {selectedPokemon && (
-        <Suspense fallback={null}>
-          <PokemonModal
-            pokemon={selectedPokemon}
-            onClose={() => setSelectedPokemon(null)}
-            isOwned={ownedIds.includes(selectedPokemon.id)}
-            onToggleOwned={toggleOwned}
-          />
-        </Suspense>
-      )}
+        {selectedPokemon && (
+          <Suspense fallback={null}>
+            <PokemonModal
+              pokemon={selectedPokemon}
+              onClose={() => setSelectedPokemon(null)}
+              isOwned={ownedIds.includes(selectedPokemon.id)}
+              onToggleOwned={toggleOwned}
+            />
+          </Suspense>
+        )}
 
-      {isConsoleOpen && (
-        <GameConsole onClose={() => toggleConsole(false)} />
-      )}
-    </div>
+        {isConsoleOpen && (
+          <GameConsole onClose={() => toggleConsole(false)} />
+        )}
+        <ToastContainer />
+      </div>
+    </QueryClientProvider>
   );
 }
 

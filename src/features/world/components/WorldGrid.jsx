@@ -18,6 +18,8 @@ import roguelikeSheet from '../../../assets/kenney_roguelike-characters/Spritesh
 import grassTile from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
 import pathTile from '../../../assets/kenney_tiny-town/Tiles/tile_0008.png';
 import waterTile from '../../../assets/kenney_tiny-town/Tiles/tile_0032.png';
+import pokeballImage from '../../../assets/items/pokeball.png';
+import artStudioImage from '../../../assets/art_studio_building.png';
 
 const BUILDING_IMAGES = {
     [TILE_TYPES.HOUSE]: houseImage, [TILE_TYPES.CENTER]: centerImage, [TILE_TYPES.TREE]: treeImage,
@@ -27,8 +29,8 @@ const BUILDING_IMAGES = {
     [TILE_TYPES.FOUNTAIN]: waterCenterImage, [TILE_TYPES.PALACE]: cityHallImage, [TILE_TYPES.EVOLUTION_HALL]: evoImage,
     [TILE_TYPES.MOUNTAIN]: gymImage, [TILE_TYPES.SECRET_CAVE]: houseImage, [TILE_TYPES.WATER_ROUTE]: waterCenterImage,
     [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage,
-    [TILE_TYPES.DESERT]: gymImage, // Using gym image as placeholder for desert
-    [TILE_TYPES.CAVE_DUNGEON]: houseImage, // Using house image as placeholder for cave
+    [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage,
+    // Desert and Mountain will be handled via CSS filters
 };
 
 const PlayerSprite = ({ name, color }) => (
@@ -45,18 +47,29 @@ const NPCSprite = () => (
 );
 
 export function WorldGrid({
-    mapGrid, playerPos, playerName, playerColor, treasures, isBuildMode, handleTileClick, seasonStyle
+    mapGrid, playerPos, playerName, playerColor, treasures, pokeballs, isBuildMode, handleTileClick, seasonStyle
 }) {
     const getTileContent = (type, x, y) => {
         if (x === playerPos.x && y === playerPos.y) return <PlayerSprite name={playerName} color={playerColor} />;
         if (treasures.some(t => t.x === x && t.y === y)) return <img src={chestTile} className="item-sprite" alt="T" style={{ width: '80%', height: '80%', imageRendering: 'pixelated' }} />;
+        if (pokeballs && pokeballs.some(p => p.x === x && p.y === y)) return <img src={pokeballImage} className="item-sprite pokeball-sprite" alt="P" style={{ width: '60%', height: '60%', imageRendering: 'pixelated', cursor: 'pointer' }} />;
         if (x === 5 && y === 5) return <NPCSprite />;
         if (type === TILE_TYPES.WATER) return <img src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterImage : waterEdgeImage} className="water-sprite" alt="W" />;
+        if (type === TILE_TYPES.ART_STUDIO) return <img src={artStudioImage} className="building-sprite" alt="Art Studio" />;
+        if (type === TILE_TYPES.ART_STUDIO) return <img src={artStudioImage} className="building-sprite" alt="Art Studio" />;
+        if (type === TILE_TYPES.CAVE_DUNGEON) return <div className="cave-entrance">🕳️</div>;
+        if (type === TILE_TYPES.DESERT) return <div className="desert-marker">🌵</div>;
         const img = BUILDING_IMAGES[type];
         return img ? <img src={img} className="building-sprite" alt={type} /> : null;
     };
 
     const getTileStyle = (type) => {
+        if (type === TILE_TYPES.SAND) {
+            return { backgroundImage: `url(${grassTile})`, backgroundSize: 'cover', filter: 'sepia(1) hue-rotate(-50deg) saturate(1.5) brightness(1.1)' };
+        }
+        if (type === TILE_TYPES.SNOW) {
+            return { backgroundImage: `url(${grassTile})`, backgroundSize: 'cover', filter: 'hue-rotate(180deg) brightness(1.5) saturate(0.5)' };
+        }
         const bg = { [TILE_TYPES.GRASS]: grassTile, [TILE_TYPES.PATH]: pathTile, [TILE_TYPES.WATER]: waterTile }[type];
         return bg ? { backgroundImage: `url(${bg})`, backgroundSize: 'cover' } : {};
     };

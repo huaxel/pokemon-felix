@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { Bracket } from './components/Bracket';
-import { BattleArena } from '../../components/BattleArena';
+import { BattleArena } from '../battle/components/BattleArena';
 import { TournamentSetupView } from './components/TournamentSetupView';
 import { TournamentChampionView } from './components/TournamentChampionView';
 import './TournamentLayout.css';

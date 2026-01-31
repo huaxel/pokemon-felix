@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useCareContext } from '../../hooks/useCareContext';
+import { useToast } from '../../hooks/useToast';
 import { PokemonCard } from '../../components/PokemonCard';
 import { Heart, Utensils, Sparkles } from 'lucide-react';
 import './CarePage.css';
@@ -28,6 +29,8 @@ export function CarePage() {
         }, 3000);
     };
 
+    const { addToast } = useToast();
+
     const handleFeed = (id) => {
         const FOOD_COST = 20;
         if (coins >= FOOD_COST) {
@@ -35,7 +38,7 @@ export function CarePage() {
                 feedPokemon(id);
             }
         } else {
-            alert("¡No tienes suficientes PokeCoins para comida!");
+            addToast("¡No tienes suficientes PokeCoins para comida!", 'error');
         }
     };
 

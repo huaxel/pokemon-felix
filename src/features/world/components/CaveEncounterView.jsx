@@ -3,7 +3,8 @@ export function CaveEncounterView({
     catching,
     catchMessage,
     onCatch,
-    onFlee
+    onFlee,
+    onFight
 }) {
     if (!pokemon) return null;
 
@@ -34,6 +35,13 @@ export function CaveEncounterView({
                     disabled={catching}
                 >
                     Flee
+                </button>
+                <button
+                    className="fight-btn"
+                    onClick={onFight}
+                    disabled={catching}
+                >
+                    Fight
                 </button>
             </div>
         </div>

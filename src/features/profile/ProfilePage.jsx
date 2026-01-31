@@ -116,6 +116,22 @@ export function ProfilePage() {
                     >
                         {isSaving ? 'Guardando...' : '¡Listo para la Aventura!'}
                     </button>
+
+                    <div className="danger-zone">
+                        <h3>Zona de Peligro</h3>
+                        <p>¿Quieres empezar de cero?</p>
+                        <button
+                            className="reset-game-btn"
+                            onClick={() => {
+                                if (window.confirm('¿Estás seguro? Esto borrará TODO tu progreso (Pokémon, monedas, medallas).')) {
+                                    localStorage.clear();
+                                    window.location.reload();
+                                }
+                            }}
+                        >
+                            ⚠️ Borrar Partida y Reiniciar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

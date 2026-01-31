@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { useTownContext } from '../../hooks/useTownContext';
 import { useOutfitEffects } from '../../hooks/useOutfitEffects';
@@ -18,6 +18,7 @@ import { SeasonHUD } from './components/SeasonHUD';
 import { MapLegend } from './components/MapLegend';
 import { MovementControls } from './components/MovementControls';
 import { InteriorModal } from './components/InteriorModal';
+import { PokeballCollectionModal } from './components/PokeballCollectionModal';
 import { useWorldEvents } from './hooks/useWorldEvents';
 import { useWorldState } from './hooks/useWorldState';
 import './WorldPage.css';
@@ -27,7 +28,7 @@ const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
 export function WorldPage() {
     const navigate = useNavigate();
     const { message, navigateWithMessage, clearMessage, showMessage } = useWorldNavigation();
-    const { addCoins, healAll, quests } = usePokemonContext();
+    const { addCoins, addItem, healAll, quests } = usePokemonContext();
     const { townObjects, addObject, removeObject } = useTownContext();
     const { playerName } = usePlayer();
     const { getEncounterMultiplier, activeEffect } = useOutfitEffects();
@@ -46,18 +47,52 @@ export function WorldPage() {
     const treeCount = townObjects.filter(obj => obj.type === TILE_TYPES.TREE).length;
     const seasonStyle = SEASON_STYLES[world.seasonIndex] || SEASON_STYLES[1];
 
-    const [baseGrid] = useState([
-        [1, 1, 1, 14, 0, 4, 4, 0, 19, 3],
-        [1, 12, 1, 13, 0, 4, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 25, 1, 1],  // Cave/Dungeon at (7,2)
-        [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
-        [4, 4, 0, 0, 1, 0, 23, 10, 10, 18],
-        [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
-        [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
-        [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
-        [5, 0, 8, 2, 0, 0, 0, 0, 0, 0],
-        [1, 1, 1, 24, 1, 0, 0, 0, 0, 0],  // Desert at (3,9)
-    ]);
+    const [searchParams] = useSearchParams();
+    const worldId = searchParams.get('world') || 'green_valley';
+
+    const WORLDS_CONFIG = useMemo(() => ({
+        'green_valley': [
+            [1, 1, 1, 14, 0, 4, 4, 0, 19, 3],
+            [1, 12, 1, 13, 16, 17, 4, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 25, 1, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
+            [4, 4, 0, 0, 1, 0, 23, 10, 10, 18],
+            [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
+            [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
+            [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
+            [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
+            [5, 0, 26, 2, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 24, 1, 0, 0, 0, 0, 0],
+        ],
+        'desert_oasis': [
+            [27, 27, 27, 1, 27, 27, 27, 28, 28, 28],
+            [27, 1, 1, 1, 27, 27, 27, 27, 28, 27],
+            [27, 1, 25, 1, 27, 10, 10, 27, 27, 27],
+            [27, 1, 1, 1, 27, 10, 11, 10, 27, 27],
+            [27, 27, 27, 27, 27, 10, 10, 27, 27, 27],
+            [28, 28, 27, 27, 27, 27, 27, 27, 27, 27],
+            [28, 28, 28, 27, 4, 4, 27, 27, 5, 27],
+            [27, 27, 27, 27, 4, 4, 27, 27, 27, 27],
+            [27, 27, 27, 27, 27, 27, 27, 27, 27, 27],
+            [27, 3, 27, 27, 27, 27, 24, 27, 27, 27], // 24 is Portal
+            [27, 27, 27, 27, 27, 27, 27, 27, 27, 27],
+        ],
+        'frozen_peak': [
+            [28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
+            [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
+            [28, 1, 7, 1, 28, 28, 28, 28, 28, 28],
+            [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
+            [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
+            [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
+            [28, 4, 4, 28, 28, 28, 28, 28, 28, 28],
+            [28, 4, 4, 28, 28, 3, 28, 28, 28, 28],
+            [28, 28, 28, 28, 28, 1, 28, 28, 28, 28],
+            [28, 28, 28, 5, 28, 1, 28, 21, 28, 28], // 21 is Portal
+            [28, 28, 28, 28, 28, 1, 28, 28, 28, 28],
+        ]
+    }), []);
+
+    const baseGrid = WORLDS_CONFIG[worldId] || WORLDS_CONFIG['green_valley'];
 
     const [playerPos, setPlayerPos] = useState(() => {
         try {
@@ -89,8 +124,10 @@ export function WorldPage() {
 
     const handleTileEvent = useWorldEvents({
         playerPos, questState: world.questState, setQuestState: world.setQuestState,
-        treeCount, addCoins, healAll, treasures: world.treasures,
-        setTreasures: world.setTreasures, targetPos, showMessage,
+        treeCount, addCoins, addItem, healAll, treasures: world.treasures,
+        setTreasures: world.setTreasures, pokeballs: world.pokeballs,
+
+        setPokeballs: world.setPokeballs, targetPos, showMessage,
         navigateWithMessage, setShowInterior: world.setShowInterior,
         getEncounterMultiplier, generateRandomTarget
     });
@@ -123,8 +160,16 @@ export function WorldPage() {
             addObject(selectedBuilding, x, y);
             return;
         }
+
+        const pokeball = world.pokeballs.find(p => p.x === x && p.y === y);
+        if (pokeball) {
+            world.setShowPokeballModal(true);
+            world.setPokeballs(prev => prev.filter(pb => pb !== pokeball));
+            return;
+        }
+
         if (Math.abs(x - playerPos.x) + Math.abs(y - playerPos.y) === 1) movePlayer(x - playerPos.x, y - playerPos.y);
-    }, [isBuildMode, mapGrid, townObjects, removeObject, selectedBuilding, addObject, playerPos, movePlayer]);
+    }, [isBuildMode, mapGrid, townObjects, removeObject, selectedBuilding, addObject, playerPos, movePlayer, world]);
 
     useEffect(() => {
         const h = (e) => {
@@ -139,6 +184,13 @@ export function WorldPage() {
 
     return (
         <div className={`world-page ${world.isNight ? 'night-mode' : ''} weather-${world.weather}`} style={{ backgroundColor: seasonStyle.bg }}>
+            <button
+                className="exit-world-btn"
+                onClick={() => navigate('/world-select')}
+                style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 100, padding: '5px 10px', background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+            >
+                🌍 Mundo
+            </button>
             <WorldWeather weather={world.weather} isNight={world.isNight} />
             <WorldHUD
                 seasonIndex={world.seasonIndex} prevSeason={world.prevSeason} nextSeason={world.nextSeason}
@@ -156,9 +208,10 @@ export function WorldPage() {
             <div className="world-header">
                 {message && <div className="event-popup" style={{ backgroundColor: message.color }}>{message.text}</div>}
                 <InteriorModal showInterior={world.showInterior} setShowInterior={world.setShowInterior} />
+                <PokeballCollectionModal isOpen={world.showPokeballModal} onClose={() => world.setShowPokeballModal(false)} />
             </div>
             <div className="game-container">
-                <WorldGrid mapGrid={mapGrid} playerPos={playerPos} playerName={playerName} playerColor={playerColor} treasures={world.treasures} isBuildMode={isBuildMode} handleTileClick={handleTileClick} seasonStyle={seasonStyle} />
+                <WorldGrid mapGrid={mapGrid} playerPos={playerPos} playerName={playerName} playerColor={playerColor} treasures={world.treasures} pokeballs={world.pokeballs} isBuildMode={isBuildMode} handleTileClick={handleTileClick} seasonStyle={seasonStyle} />
                 <SeasonHUD seasonIndex={world.seasonIndex} onNext={world.nextSeason} onPrev={world.prevSeason} />
                 <MapLegend />
                 <MovementControls movePlayer={movePlayer} isBuildMode={isBuildMode} setIsBuildMode={setIsBuildMode} selectedBuilding={selectedBuilding} setSelectedBuilding={setSelectedBuilding} />

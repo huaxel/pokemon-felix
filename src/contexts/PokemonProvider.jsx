@@ -1,11 +1,11 @@
 import { useMemo, useCallback, useContext } from 'react';
 import {
     DataProvider, EconomyProvider, ProgressProvider,
-    CollectionProvider, CareProvider, TownProvider, UIProvider
+    CollectionProvider, CareProvider, ExperienceProvider, TownProvider, UIProvider
 } from './DomainProviders';
 import {
     DataContext, EconomyContext, ProgressContext,
-    CollectionContext, CareContext, TownContext, UIContext
+    CollectionContext, CareContext, ExperienceContext, TownContext, UIContext
 } from './DomainContexts';
 import { PokemonContext } from './PokemonContext';
 import { UIContext as UIContextOrig } from './UIContext';
@@ -14,30 +14,32 @@ import { BattleContext as BattleContextOrig } from './BattleContext';
 import { CareContext as CareContextOrig } from './CareContext';
 import { TownContext as TownContextOrig } from './TownContext';
 
-/**
- * Refactored PokemonProvider that composes smaller domain-specific providers
- * Maintains full backward compatibility with the single context and specialized contexts.
- */
+
+import { composeProviders } from '../lib/composeProviders';
+import { BankInterestManager } from '../features/world/bank/components/BankInterestManager';
+
 export function PokemonProvider({ children }) {
+    const ComposedProviders = useMemo(() => composeProviders([
+        DataProvider,
+        EconomyProvider,
+        UIProvider,
+        TownProvider,
+        ProgressProviderWrapper,
+        CollectionCareOrchestrator
+    ]), []);
+
     return (
-        <DataProvider>
-            <EconomyProvider>
-                <UIProvider>
-                    <TownProvider>
-                        <ProgressProviderWrapper>
-                            <CollectionCareOrchestrator>
-                                {children}
-                            </CollectionCareOrchestrator>
-                        </ProgressProviderWrapper>
-                    </TownProvider>
-                </UIProvider>
-            </EconomyProvider>
-        </DataProvider>
+        <ComposedProviders>
+            <BankInterestManager />
+            {children}
+        </ComposedProviders>
     );
 }
 
 /**
  * Handles domains that depend on each other (Collection -> Care, Progress)
+ * This itself is a composed chain, could be further flattened if we wanted, 
+ * but since it contains logic (callbacks), we keep the structure but flatten the render.
  */
 function CollectionCareOrchestrator({ children }) {
     const { updateQuestProgress } = useContext(ProgressContext);
@@ -46,30 +48,37 @@ function CollectionCareOrchestrator({ children }) {
         updateQuestProgress('catch');
     }, [updateQuestProgress]);
 
-    return (
-        <CollectionProvider onCatch={handleCatch}>
-            <CareProviderWrapper>
-                <FinalContextAssembler>
-                    {children}
-                </FinalContextAssembler>
-            </CareProviderWrapper>
-        </CollectionProvider>
-    );
+    const ComposedInner = useMemo(() => composeProviders([
+        [CollectionProvider, { onCatch: handleCatch }],
+        CareProviderWrapper,
+        ExperienceProviderWrapper,
+        FinalContextAssembler
+    ]), [handleCatch]);
+
+    return <ComposedInner>{children}</ComposedInner>;
 }
 
 /**
  * Small wrappers to inject context dependencies before provider initialization
  */
 function ProgressProviderWrapper({ children }) {
-    const { addCoins, addItem } = useContext(EconomyContext);
+    const { showSuccess } = useContext(UIContext);
 
     const handleCompleteQuest = useCallback((reward) => {
         if (reward.coins) addCoins(reward.coins);
         if (reward.item) addItem(reward.item, 1);
     }, [addCoins, addItem]);
 
+    const handleClaimDailyReward = useCallback(() => {
+        addCoins(100);
+        showSuccess('¡Has recibido 100 monedas! 💰');
+    }, [addCoins, showSuccess]);
+
     return (
-        <ProgressProvider onCompleteQuest={handleCompleteQuest}>
+        <ProgressProvider
+            onCompleteQuest={handleCompleteQuest}
+            onClaimDailyReward={handleClaimDailyReward}
+        >
             {children}
         </ProgressProvider>
     );
@@ -84,6 +93,15 @@ function CareProviderWrapper({ children }) {
     );
 }
 
+function ExperienceProviderWrapper({ children }) {
+    const { ownedIds } = useContext(CollectionContext);
+    return (
+        <ExperienceProvider ownedIds={ownedIds}>
+            {children}
+        </ExperienceProvider>
+    );
+}
+
 /**
  * Final step: Assemble the monolithic context for backward compatibility
  */
@@ -91,7 +109,9 @@ function FinalContextAssembler({ children }) {
     const data = useContext(DataContext);
     const economy = useContext(EconomyContext);
     const collection = useContext(CollectionContext);
+
     const care = useContext(CareContext);
+    const experience = useContext(ExperienceContext);
     const town = useContext(TownContext);
     const progress = useContext(ProgressContext);
     const ui = useContext(UIContext);
@@ -121,12 +141,13 @@ function FinalContextAssembler({ children }) {
         ...economy,
         ...collection,
         ...care,
+        ...experience,
         ...town,
         ...progress,
         ...ui,
         sellPokemon,
         evolvePokemon
-    }), [data, economy, collection, care, town, progress, ui, sellPokemon, evolvePokemon]);
+    }), [data, economy, collection, care, experience, town, progress, ui, sellPokemon, evolvePokemon]);
 
     // Legacy Context Values
     const collectionLegacy = useMemo(() => ({

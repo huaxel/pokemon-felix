@@ -169,3 +169,31 @@
     box-shadow: 0 10px 25px rgba(251, 191, 36, 0.6);
     background: linear-gradient(45deg, #fcd34d, #fbbf24);
 }
+
+.squad-hp-container {
+    position: absolute;
+    bottom: 35px;
+    left: 10px;
+    right: 10px;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 15;
+    pointer-events: none;
+}
+
+.squad-hp-bar {
+    height: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.squad-hp-text {
+    position: absolute;
+    right: 0;
+    top: -15px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px black;
+}

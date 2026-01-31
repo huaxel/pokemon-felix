@@ -1,0 +1,111 @@
+.decor-shop-page {
+    min-height: 100vh;
+    background: #fff7ed;
+    /* Orange-ish/Warm background */
+    color: #431407;
+    padding: 1rem;
+}
+
+
+/* Header styles removed - replaced by WorldPageHeader */
+
+.decor-message {
+    position: fixed;
+    top: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ea580c;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: fadeDown 0.3s ease-out;
+}
+
+.decor-intro {
+    background: #ffedd5;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 2rem;
+    border: 2px dashed #fb923c;
+}
+
+.shop-img {
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .catalog-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.catalog-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.catalog-item:hover {
+    transform: translateY(-5px);
+}
+
+.item-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.catalog-item h3 {
+    margin: 0.5rem 0;
+    color: #9a3412;
+}
+
+.catalog-item p {
+    font-size: 0.9rem;
+    color: #78716c;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.price-tag {
+    font-weight: bold;
+    color: #ea580c;
+    margin-bottom: 0.5rem;
+}
+
+.buy-decor-btn {
+    background: #f97316;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.buy-decor-btn:hover {
+    background: #ea580c;
+}

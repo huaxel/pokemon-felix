@@ -1,5 +1,12 @@
 services:
   web:
+    container_name: pokemon-felix
     build: .
     ports:
       - "8081:80"
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true

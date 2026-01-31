@@ -18,6 +18,10 @@ export function PlayerProvider({ children }) {
         return localStorage.getItem('player_avatar') || DEFAULT_PLAYER.avatarId;
     });
 
+    const [hasProfile, setHasProfile] = useState(() => {
+        return localStorage.getItem('player_has_profile') === 'true';
+    });
+
     // Persistence
     useEffect(() => {
         localStorage.setItem('player_name', playerName);
@@ -27,6 +31,10 @@ export function PlayerProvider({ children }) {
         localStorage.setItem('player_avatar', avatarId);
     }, [avatarId]);
 
+    useEffect(() => {
+        localStorage.setItem('player_has_profile', hasProfile);
+    }, [hasProfile]);
+
     const updateProfile = useCallback((name, avatar) => {
         if (name && name.trim().length > 0) {
             setPlayerName(name.trim().substring(0, 12));
@@ -34,15 +42,17 @@ export function PlayerProvider({ children }) {
         if (avatar) {
             setAvatarId(avatar);
         }
+        setHasProfile(true);
     }, []);
 
     const value = useMemo(() => ({
         playerName,
         avatarId,
+        hasProfile,
         updateProfile,
         setPlayerName,
         setAvatarId
-    }), [playerName, avatarId, updateProfile]);
+    }), [playerName, avatarId, hasProfile, updateProfile]);
 
     return (
         <PlayerContext.Provider value={value}>

@@ -1,0 +1,242 @@
+.art-studio-page {
+    height: 100vh;
+    background: #111827;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.studio-header {
+    background: #1f2937;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #374151;
+}
+
+.studio-header h1 {
+    font-size: 1.5rem;
+    background: linear-gradient(to right, #ec4899, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.back-btn,
+.save-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.save-btn {
+    background: #3b82f6;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+}
+
+.save-btn:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+.studio-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 300px;
+    background: #1f2937;
+    border-right: 1px solid #374151;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin: 1.5rem 0 1rem 0;
+}
+
+.sidebar h3:first-child {
+    margin-top: 0;
+}
+
+.pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.pokemon-thumb {
+    aspect-ratio: 1;
+    background: #374151;
+    border-radius: 8px;
+    padding: 2px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.pokemon-thumb.active {
+    border-color: #3b82f6;
+    background: #1e3a8a;
+}
+
+.pokemon-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    background: #374151;
+    border: 2px solid transparent;
+    color: #d1d5db;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background: #4b5563;
+}
+
+.filter-btn.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #60a5fa;
+}
+
+.canvas-area {
+    flex: 1;
+    background: #111827;
+    background-image: radial-gradient(#374151 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.art-canvas {
+    width: 400px;
+    height: 500px;
+    background: white;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+}
+
+.canvas-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.art-subject {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+}
+
+.artist-signature {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 1rem;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 1.2rem;
+    color: #4b5563;
+    background: white;
+}
+
+/* Frames */
+.frame-gold {
+    border: 15px solid #d4af37;
+    outline: 5px solid #AA8C2C;
+}
+
+.frame-wood {
+    border: 20px solid #8b5a2b;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.frame-rainbow {
+    border: 10px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.frame-rainbow::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    z-index: -1;
+    border-radius: 5px;
+}
+
+.frame-modern {
+    border: 20px solid #1f2937;
+    border-bottom-width: 60px;
+}
+
+.saved-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #4ade80;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    z-index: 100;
+    animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}

@@ -1,19 +1,22 @@
 import { useMemo, useState, useCallback } from 'react';
-import { usePokemonData } from '../hooks/usePokemonData';
 import { useCollection } from '../hooks/useCollection';
-import { usePokemonSearch } from '../hooks/usePokemonSearch';
 import { useCoins } from '../hooks/useCoins';
 import { useSquad } from '../hooks/useSquad';
+
 import { useCare } from '../hooks/useCare';
+import { useExperience } from '../hooks/useExperience';
 import { useTown } from '../hooks/useTown';
 import { useInventory } from '../hooks/useInventory';
 import { useQuests } from '../hooks/useQuests';
+import { useDailyRewards } from '../hooks/useDailyRewards';
+import { useToast } from '../hooks/useToast';
 import {
     DataContext,
     EconomyContext,
     ProgressContext,
     CollectionContext,
     CareContext,
+    ExperienceContext,
     TownContext,
     UIContext
 } from './DomainContexts';
@@ -23,20 +26,52 @@ import {
 /**
  * Manages Pokemon data and search
  */
+/**
+ * Manages Pokemon data and search using React Query
+ */
+import { usePokemonListQuery, useAllPokemonNamesQuery } from '../hooks/usePokemonQueries';
+import { usePokemonSearch } from '../hooks/usePokemonSearch';
+
 export function DataProvider({ children }) {
-    const pokemonData = usePokemonData();
-    const search = usePokemonSearch();
+    // React Query Hooks
+    const {
+        data: pokemonPages,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading: isLoadingList
+    } = usePokemonListQuery();
+
+    const {
+        data: allNames,
+        isLoading: isLoadingNames
+    } = useAllPokemonNamesQuery();
+
+    // Flatten pages into a single list
+    const pokemonList = useMemo(() => {
+        return pokemonPages?.pages?.flat() || [];
+    }, [pokemonPages]);
+
+    // Keep search logic separated for now (it relies on local filtering usually)
+    // But we inject the allNames from the query
+    const search = usePokemonSearch(allNames);
+
+    const loadPokemon = useCallback(() => {
+        if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const value = useMemo(() => ({
-        pokemonList: pokemonData.pokemonList,
-        loading: pokemonData.loading || search.loading,
-        loadPokemon: pokemonData.loadPokemon,
-        allPokemonNames: search.allPokemonNames,
+        pokemonList,
+        loading: isLoadingList || isLoadingNames || search.loading,
+        loadPokemon,
+        allPokemonNames: allNames || [],
         searchResults: search.searchResults,
         searchTerm: search.searchTerm,
         handleSearch: search.handleSearch,
         clearSearch: search.clearSearch,
-    }), [pokemonData, search]);
+    }), [pokemonList, isLoadingList, isLoadingNames, search, loadPokemon, allNames]);
 
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }
@@ -45,7 +80,10 @@ export function DataProvider({ children }) {
  * Manages Economy and Inventory
  */
 export function EconomyProvider({ children }) {
-    const { coins, addCoins, removeCoins, spendCoins } = useCoins();
+    const {
+        coins, addCoins, removeCoins, spendCoins,
+        bankBalance, deposit, withdraw, calculateDailyInterest, interestRate
+    } = useCoins();
     const { inventory, addItem, removeItem } = useInventory();
 
     const value = useMemo(() => ({
@@ -55,8 +93,18 @@ export function EconomyProvider({ children }) {
         spendCoins,
         inventory,
         addItem,
-        removeItem
-    }), [coins, addCoins, removeCoins, spendCoins, inventory, addItem, removeItem]);
+        removeItem,
+        // Bank
+        bankBalance,
+        deposit,
+        withdraw,
+        calculateDailyInterest,
+        interestRate
+    }), [
+        coins, addCoins, removeCoins, spendCoins,
+        inventory, addItem, removeItem,
+        bankBalance, deposit, withdraw, calculateDailyInterest, interestRate
+    ]);
 
     return <EconomyContext.Provider value={value}>{children}</EconomyContext.Provider>;
 }
@@ -100,6 +148,19 @@ export function CareProvider({ children, ownedIds }) {
 }
 
 /**
+ * Manages Pokemon Level and XP
+ */
+export function ExperienceProvider({ children, ownedIds }) {
+    const experience = useExperience(ownedIds);
+
+    const value = useMemo(() => ({
+        ...experience
+    }), [experience]);
+
+    return <ExperienceContext.Provider value={value}>{children}</ExperienceContext.Provider>;
+}
+
+/**
  * Manages Town objects
  */
 export function TownProvider({ children }) {
@@ -117,6 +178,7 @@ export function TownProvider({ children }) {
  */
 export function UIProvider({ children }) {
     const [isConsoleOpen, setIsConsoleOpen] = useState(false);
+    const { toasts, removeToast, showSuccess, showError, showInfo, showWarning, showQuest, showCoins } = useToast();
 
     const toggleConsole = useCallback((isOpen) => {
         setIsConsoleOpen(prev => isOpen ?? !prev);
@@ -124,8 +186,21 @@ export function UIProvider({ children }) {
 
     const value = useMemo(() => ({
         isConsoleOpen,
-        toggleConsole
-    }), [isConsoleOpen, toggleConsole]);
+        toggleConsole,
+        // Toast
+        toasts,
+        removeToast,
+        showSuccess,
+        showError,
+        showInfo,
+        showWarning,
+        showQuest,
+        showCoins
+    }), [
+        isConsoleOpen, toggleConsole,
+        toasts, removeToast,
+        showSuccess, showError, showInfo, showWarning, showQuest, showCoins
+    ]);
 
     return <UIContext.Provider value={value}>{children}</UIContext.Provider>;
 }
@@ -133,8 +208,9 @@ export function UIProvider({ children }) {
 /**
  * Manages game progression (Quests)
  */
-export function ProgressProvider({ children, onCompleteQuest }) {
+export function ProgressProvider({ children, onCompleteQuest, onClaimDailyReward }) {
     const { quests, updateQuestProgress, completeQuest } = useQuests();
+    const { canClaim, claimReward } = useDailyRewards();
 
     const handleComplete = useCallback((id) => {
         const reward = completeQuest(id);
@@ -145,11 +221,27 @@ export function ProgressProvider({ children, onCompleteQuest }) {
         return false;
     }, [completeQuest, onCompleteQuest]);
 
+    const handleClaimDailyReward = useCallback(() => {
+        if (canClaim) {
+            claimReward();
+            if (onClaimDailyReward) {
+                onClaimDailyReward();
+            }
+            return true;
+        }
+        return false;
+    }, [canClaim, claimReward, onClaimDailyReward]);
+
     const value = useMemo(() => ({
         quests,
         updateQuestProgress,
-        completeQuest: handleComplete
-    }), [quests, updateQuestProgress, handleComplete]);
+        completeQuest: handleComplete,
+        dailyReward: {
+            canClaim,
+            claimReward, // Keep raw access if needed, but prefer handleClaimDailyReward
+            handleClaimDailyReward
+        }
+    }), [quests, updateQuestProgress, handleComplete, canClaim, claimReward, handleClaimDailyReward]);
 
     return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
 }

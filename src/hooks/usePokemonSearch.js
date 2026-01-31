@@ -4,9 +4,10 @@ import { getAllPokemonNames, getPokemonDetails } from '../lib/api';
 
 /**
  * Custom hook to manage Pokemon search functionality with Fuse.js
+ * @param {string[]} [providedNames] - Optional list of names to skip self-fetching
  * @returns {Object} Search state, results, and search function
  */
-export function usePokemonSearch() {
+export function usePokemonSearch(providedNames) {
     const [allPokemonNames, setAllPokemonNames] = useState([]);
     const [searchResults, setSearchResults] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -20,22 +21,31 @@ export function usePokemonSearch() {
         });
     }, [allPokemonNames]);
 
-    // Load all Pokemon names on mount
+    // Load calls
     useEffect(() => {
-        let ignore = false;
-        const loadNames = async () => {
-            try {
-                const names = await getAllPokemonNames();
-                if (!ignore) {
-                    setAllPokemonNames(names);
+        if (providedNames && providedNames.length > 0) {
+            setAllPokemonNames(providedNames);
+        } else {
+            // Only fetch if not provided
+            let ignore = false;
+            const loadNames = async () => {
+                try {
+                    const names = await getAllPokemonNames();
+                    if (!ignore) {
+                        setAllPokemonNames(names);
+                    }
+                } catch (error) {
+                    console.error("Failed to load names", error);
                 }
-            } catch (error) {
-                console.error("Failed to load names", error);
+            };
+            // Ideally we check if providedNames is null/undefined before fetching
+            // but this is a backward compatible fallback
+            if (!providedNames) {
+                loadNames();
             }
-        };
-        loadNames();
-        return () => { ignore = true; };
-    }, []);
+            return () => { ignore = true; };
+        }
+    }, [providedNames]);
 
     const handleSearch = async (query) => {
         setSearchTerm(query);

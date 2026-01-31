@@ -17,9 +17,9 @@ export function useWorldNavigation() {
      * @param {string} color - Message background color
      * @param {number} delay - Delay before navigation (default: NAVIGATION_DELAY)
      */
-    const navigateWithMessage = useCallback((text, path, color, delay = NAVIGATION_DELAY) => {
+    const navigateWithMessage = useCallback((text, path, color, delay = NAVIGATION_DELAY, state = null) => {
         setMessage({ text, color });
-        setTimeout(() => navigate(path), delay);
+        setTimeout(() => navigate(path, { state }), delay);
     }, [navigate]);
 
     /**

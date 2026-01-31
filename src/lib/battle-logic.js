@@ -1,3 +1,5 @@
+import { randomService } from './RandomService';
+
 // Helper to get a stat from a Pokemon object
 export const getStat = (pokemon, statName) => {
     if (!pokemon || !pokemon.stats) return 10;
@@ -76,7 +78,6 @@ export const calculateDamage = (attacker, defender, move) => {
     return { damage: finalDamage, effectiveness, baseDamage };
 };
 
-// Calculate Energy Cost based on Damage (1-3 Energy)
 // Calculate Energy Cost based on Damage (1-3 Energy)
 export const calculateEnergyCost = (baseDamage) => {
     if (baseDamage >= 5) return 4;
@@ -159,29 +160,29 @@ const MOVE_POOL = {
         { name: 'Scratch', type: 'normal', power: 40, accuracy: 100, cost: 1 },
         { name: 'Quick Attack', type: 'normal', power: 40, accuracy: 100, cost: 1 },
         { name: 'Slam', type: 'normal', power: 80, accuracy: 75, cost: 3 },
-        { name: 'Hyper Beam', type: 'normal', power: 150, accuracy: 90, cost: 4 }
+        { name: 'Hyper Beam', type: 'normal', power: 150, accuracy: 90, cost: 4, recoil: 0.5 }
     ],
     fire: [
         { name: 'Ember', type: 'fire', power: 40, accuracy: 100, cost: 1 },
         { name: 'Flame Wheel', type: 'fire', power: 60, accuracy: 100, cost: 2 },
         { name: 'Flamethrower', type: 'fire', power: 90, accuracy: 100, cost: 3 },
-        { name: 'Fire Blast', type: 'fire', power: 110, accuracy: 85, cost: 4 }
+        { name: 'Fire Blast', type: 'fire', power: 110, accuracy: 85, cost: 4, recoil: 0.2 }
     ],
     water: [
         { name: 'Water Gun', type: 'water', power: 40, accuracy: 100, cost: 1 },
         { name: 'Bubble Beam', type: 'water', power: 65, accuracy: 100, cost: 2 },
         { name: 'Surf', type: 'water', power: 90, accuracy: 100, cost: 3 },
-        { name: 'Hydro Pump', type: 'water', power: 110, accuracy: 80, cost: 4 }
+        { name: 'Hydro Pump', type: 'water', power: 110, accuracy: 80, cost: 4, recoil: 0.2 }
     ],
     grass: [
         { name: 'Vine Whip', type: 'grass', power: 45, accuracy: 100, cost: 1 },
         { name: 'Razor Leaf', type: 'grass', power: 55, accuracy: 95, cost: 2 },
-        { name: 'Solar Beam', type: 'grass', power: 120, accuracy: 100, cost: 4 }
+        { name: 'Solar Beam', type: 'grass', power: 120, accuracy: 100, cost: 4, recoil: 0.3 }
     ],
     electric: [
         { name: 'Thundershock', type: 'electric', power: 40, accuracy: 100, cost: 1 },
         { name: 'Thunderbolt', type: 'electric', power: 90, accuracy: 100, cost: 3 },
-        { name: 'Thunder', type: 'electric', power: 110, accuracy: 70, cost: 4 }
+        { name: 'Thunder', type: 'electric', power: 110, accuracy: 70, cost: 4, recoil: 0.2 }
     ]
 };
 
@@ -232,7 +233,18 @@ export const getMoves = (pokemon) => {
     return uniqueMoves.slice(0, 4);
 };
 
-export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fatigue = 0) => {
+export const calculateSmartDamage = (attacker, defender, move, { lastMoveName, fatigue = 0, isWeakened = false } = {}) => {
+    // 0. Forced Weakness Damage
+    if (isWeakened) {
+        return {
+            damage: 5,
+            recoilDamage: 0,
+            effectiveness: 1,
+            message: " 😵 ¡Debilitado! (Max daño)",
+            isCrit: false
+        };
+    }
+
     // 1. Calculate Base Damage using existing helper
     const baseResult = calculateDamage(attacker, defender, move);
     let { damage } = baseResult;
@@ -260,10 +272,19 @@ export const calculateSmartDamage = (attacker, defender, move, lastMoveName, fat
         message += " 💤 ¡Muy agotado!";
     }
 
+    // 4. Recoil / Damage Split
+    let recoilDamage = 0;
+    if (move.recoil) {
+        recoilDamage = Math.floor(damage * move.recoil);
+        damage = damage - recoilDamage; // The "Split" effect
+        if (recoilDamage > 0) message += ` 💥 Split! -${recoilDamage} HP terug!`;
+    }
+
     return { 
         damage, 
+        recoilDamage,
         effectiveness, 
         message,
-        isCrit: Math.random() < 0.06 // 6% crit chance
+        isCrit: randomService.bool(0.06) // 6% crit chance from seeded RNG
     };
 };

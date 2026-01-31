@@ -18,6 +18,14 @@ export const TREASURE_CONFIG = {
     REWARD_AMOUNT: 100,
 };
 
+// Pokeball System
+export const POKEBALL_CONFIG = {
+    MAX_POKEBALLS: 2,
+    SPAWN_CHANCE: 0.2,
+    SPAWN_INTERVAL: 15000, // 15 seconds
+    REWARD_AMOUNT: 250,
+};
+
 // GPS System
 export const GPS_CONFIG = {
     REWARD_AMOUNT: 500,
@@ -26,6 +34,7 @@ export const GPS_CONFIG = {
 // Rewards
 export const REWARDS = {
     TREASURE: 100,
+    POKEBALL: 250,
     GPS_TREASURE: 500,
     GRASS_COINS: 20,
     QUEST_COMPLETION: 500,
@@ -59,6 +68,9 @@ export const TILE_TYPES = {
     WATER_ROUTE: 23,
     DESERT: 24,
     CAVE_DUNGEON: 25,
+    ART_STUDIO: 26,
+    SAND: 27,
+    SNOW: 28,
 };
 
 // Seasons
