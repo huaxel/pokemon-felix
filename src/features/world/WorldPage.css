@@ -9,15 +9,15 @@
 }
 
 .season-hud {
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--card-bg);
     padding: 0.5rem 1rem;
-    border-radius: 2rem;
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     gap: 1rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
     margin-bottom: 1rem;
-    border: 4px solid #3b82f6;
+    border: 3px solid var(--secondary-color);
     animation: slideDown 0.5s;
     transition: all 0.5s ease;
 }
@@ -72,7 +72,7 @@
 
 .night-mode {
     filter: brightness(0.6) contrast(1.2);
-    background-color: #0f172a !important;
+    background-color: var(--bg-dark) !important;
 }
 
 /* Night Sky Effects */
@@ -137,14 +137,21 @@
 
 .pokedex-hud-btn {
     margin-left: auto;
-    background: #3b82f6;
+    background: var(--secondary-color);
     color: white;
     border: none;
     padding: 0.5rem 1rem;
-    border-radius: 20px;
+    border-radius: var(--radius-full);
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s;
+}
+
+.pokedex-hud-btn:hover {
+    background: #1a5c9a;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .bag-hud-btn {
@@ -360,10 +367,10 @@
     flex-direction: column;
     padding: 10px;
     gap: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
     background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.85));
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     transition: background-color 0.6s ease;
 }
 
@@ -421,8 +428,8 @@
     cursor: default;
     transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
     position: relative;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
     /* Default grass texture feel */
     background:
         linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%),
@@ -535,12 +542,12 @@
 .map-legend {
     min-width: 320px;
     max-width: 380px;
-    background: rgba(15, 23, 42, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-md);
     padding: 12px 14px;
-    color: #e2e8f0;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    color: var(--text-muted);
+    box-shadow: var(--shadow-lg);
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -635,11 +642,12 @@
 }
 
 .controls-panel {
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--bg-surface);
     padding: 2rem;
-    border-radius: 1.5rem;
+    border-radius: var(--radius-lg);
     min-width: 250px;
     backdrop-filter: blur(10px);
+    border: 1px solid var(--border-dim);
 }
 
 .d-pad {
@@ -654,12 +662,12 @@
     width: 50px;
     height: 50px;
     font-size: 1.5rem;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     border: none;
-    background: #4a5568;
+    background: var(--bg-surface-alt);
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 0 #2d3748;
+    box-shadow: 0 4px 0 var(--bg-dark);
 }
 
 .d-pad button:active {

@@ -1,24 +1,25 @@
 .art-studio-page {
     height: 100vh;
-    background: #111827;
+    background: var(--bg-dark);
     color: white;
     display: flex;
     flex-direction: column;
 }
 
 .studio-header {
-    background: #1f2937;
+    background: var(--bg-surface);
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #374151;
+    border-bottom: 1px solid var(--border-dim);
 }
 
 .studio-header h1 {
     font-size: 1.5rem;
     background: linear-gradient(to right, #ec4899, #a855f7);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
 }
@@ -60,17 +61,18 @@
 
 .sidebar {
     width: 300px;
-    background: #1f2937;
-    border-right: 1px solid #374151;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-dim);
     padding: 1.5rem;
     overflow-y: auto;
 }
 
 .sidebar h3 {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    color: #9ca3af;
-    margin: 1.5rem 0 1rem 0;
+    color: var(--text-muted);
+    margin: 1.5rem 0 0.75rem 0;
+    letter-spacing: 0.05em;
 }
 
 .sidebar h3:first-child {
@@ -85,9 +87,9 @@
 
 .pokemon-thumb {
     aspect-ratio: 1;
-    background: #374151;
-    border-radius: 8px;
-    padding: 2px;
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-sm);
+    padding: 4px;
     cursor: pointer;
     border: 2px solid transparent;
     transition: all 0.2s;
@@ -111,13 +113,14 @@
 }
 
 .filter-btn {
-    background: #374151;
+    background: var(--bg-surface-alt);
     border: 2px solid transparent;
-    color: #d1d5db;
+    color: var(--text-muted);
     padding: 0.5rem;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition: all 0.2s;
+    font-size: 0.9rem;
 }
 
 .filter-btn:hover {

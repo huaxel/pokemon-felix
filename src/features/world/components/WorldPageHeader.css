@@ -2,10 +2,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 24px;
-    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--glass-border);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -15,7 +15,7 @@
 .header-back-btn {
     background: rgba(255, 255, 255, 0.15);
     border: none;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     width: 40px;
     height: 40px;
     display: flex;
@@ -53,8 +53,8 @@
     gap: 8px;
     background: rgba(0, 0, 0, 0.4);
     padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(251, 191, 36, 0.3);
 }
 
 .coin-icon {

@@ -4,26 +4,26 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: var(--overlay-bg);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
     animation: fadeIn 0.2s ease-out;
 }
 
 .modal-content {
     background: var(--card-bg);
-    border-radius: 20px;
+    border-radius: var(--radius-lg);
     width: 90%;
     max-width: 800px;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
     padding: 2rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--glass-border);
     animation: slideUp 0.3s ease-out;
 }
 
@@ -72,9 +72,9 @@
 .language-selector {
     display: flex;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-surface-alt);
     padding: 0.25rem;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 }
 
 .language-selector button {
@@ -178,8 +178,8 @@
 
 .stat-bar-bg {
     height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-full);
     overflow: hidden;
 }
 
