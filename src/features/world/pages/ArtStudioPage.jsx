@@ -7,11 +7,11 @@ import './ArtStudioPage.css';
 
 export function ArtStudioPage() {
     const navigate = useNavigate();
-    const { pokemonList, squad } = usePokemonContext();
+    const { pokemonList, squadIds } = usePokemonContext();
     const { playerName } = usePlayer();
 
     // Get squad members
-    const myPokemon = pokemonList.filter(p => squad.includes(p.id));
+    const myPokemon = pokemonList.filter(p => squadIds.includes(p.id));
 
     const [selectedId, setSelectedId] = useState(myPokemon[0]?.id || null);
     const [selectedFilter, setSelectedFilter] = useState('none');

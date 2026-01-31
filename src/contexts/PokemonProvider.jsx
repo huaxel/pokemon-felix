@@ -63,6 +63,7 @@ function CollectionCareOrchestrator({ children }) {
  */
 function ProgressProviderWrapper({ children }) {
     const { showSuccess } = useContext(UIContext);
+    const { addCoins, addItem } = useContext(EconomyContext);
 
     const handleCompleteQuest = useCallback((reward) => {
         if (reward.coins) addCoins(reward.coins);
