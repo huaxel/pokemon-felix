@@ -3,7 +3,7 @@ import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { getPokemonDetails } from '../../../lib/api';
 import { MountainEntryView } from '../components/MountainEntryView';
 import { MountainHikeView } from '../components/MountainHikeView';
-import { ALTITUDE_STAGES } from './mountainConfig';
+import { ALTITUDE_STAGES } from '../mountainConfig';
 import './MountainPage.css';
 
 export function MountainPage() {

@@ -5,7 +5,7 @@ import { getPokemonDetails } from '../../../lib/api';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { GymCard } from '../components/GymCard';
 import { GymBadgeDisplay } from '../components/GymBadgeDisplay';
-import { GYM_LEADERS } from './gymConfig';
+import { GYM_LEADERS } from '../gymConfig';
 import './GymPage.css';
 
 export function GymPage() {

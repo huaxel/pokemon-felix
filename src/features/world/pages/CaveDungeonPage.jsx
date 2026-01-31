@@ -5,7 +5,7 @@ import { useToast } from '../../../hooks/useToast';
 import { getPokemonDetails } from '../../../lib/api';
 import { BattleArena } from '../../battle/components/BattleArena';
 import { BattleRewardModal } from '../components/BattleRewardModal';
-import bagIcon from '../../../assets/items/bag_icon.png';
+import { WorldPageHeader } from '../components/WorldPageHeader';
 import './CaveDungeonPage.css';
 
 const CAVE_POKEMON = [41, 42, 74, 75, 95, 35, 36]; // Zubat, Golbat, Geodude, Graveler, Onix, Clefairy
@@ -28,7 +28,7 @@ const PUZZLES = {
 export function CaveDungeonPage() {
     const { showSuccess, showError, showInfo, showWarning } = useToast();
     const navigate = useNavigate();
-    const { coins, addCoins, toggleOwned, addItem, squadIds, pokemonList } = usePokemonContext();
+    const { addCoins, toggleOwned, addItem, squadIds, pokemonList } = usePokemonContext();
     const [floor, setFloor] = useState(1);
     const [puzzleState, setPuzzleState] = useState({ completed: false, progress: 0 });
     const [encounter, setEncounter] = useState(null);
@@ -139,11 +139,7 @@ export function CaveDungeonPage() {
 
     return (
         <div className="cave-page">
-            <header className="cave-header">
-                <button className="back-btn" onClick={() => navigate('/adventure')}>← Salir</button>
-                <h1>🕳️ Mazmorra Oscura</h1>
-                <div className="coin-display"><img src={bagIcon} alt="coins" /> {coins}</div>
-            </header>
+            <WorldPageHeader title="Mazmorra Oscura" icon="🕳️" />
 
 
             <div className="cave-info">

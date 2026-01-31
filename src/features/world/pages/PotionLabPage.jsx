@@ -5,7 +5,7 @@ import { Trophy, RotateCcw, Sparkles } from 'lucide-react';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { PotionIngredientsPanel } from '../components/PotionIngredientsPanel';
 import { PotionBrewingStation } from '../components/PotionBrewingStation';
-import { INGREDIENTS, DIFFICULTIES } from './potionConfig';
+import { INGREDIENTS, DIFFICULTIES } from '../potionConfig';
 import './PotionLabPage.css';
 
 export function PotionLabPage() {

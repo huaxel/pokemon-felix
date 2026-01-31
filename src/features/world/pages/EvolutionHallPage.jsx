@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { useToast } from '../../../hooks/useToast';
-import { Sparkles, Download, Upload } from 'lucide-react';
-import bagIcon from '../../../assets/items/bag_icon.png';
+import { Download, Upload } from 'lucide-react';
+import { WorldPageHeader } from '../components/WorldPageHeader';
 import fireStone from '../../../assets/items/fire_stone.png';
 import waterStone from '../../../assets/items/water_stone.png';
 // Placeholders for now
@@ -71,10 +70,7 @@ export function EvolutionHallPage() {
 
     return (
         <div className="evolution-hall-page">
-            <header className="evolution-header">
-                <Link to="/world" className="back-button"><img src={bagIcon} alt="Back" /></Link>
-                <h1><Sparkles size={32} /> Salón de Evolución</h1>
-            </header>
+            <WorldPageHeader title="Salón de Evolución" icon="✨" />
 
             <div className="evolution-chamber"><div className="chamber-glow" /><div className="chamber-text">⚡ Cámara de Energía ⚡</div></div>
 

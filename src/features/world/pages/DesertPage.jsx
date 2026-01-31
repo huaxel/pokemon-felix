@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { useToast } from '../../../hooks/useToast';
+import { WorldPageHeader } from '../components/WorldPageHeader';
 import { getPokemonDetails } from '../../../lib/api';
-import bagIcon from '../../../assets/items/bag_icon.png';
 import './DesertPage.css';
 
 const DESERT_SIZE = 10;
@@ -19,8 +18,7 @@ const GEOGRAPHY_FACTS = [
 ];
 
 export function DesertPage() {
-    const navigate = useNavigate();
-    const { coins, addCoins, toggleOwned } = usePokemonContext();
+    const { addCoins, toggleOwned } = usePokemonContext();
     const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
     const [encounter, setEncounter] = useState(null);
     const [sandstorm, setSandstorm] = useState(false);
@@ -106,11 +104,7 @@ export function DesertPage() {
 
     return (
         <div className={`desert-page ${sandstorm ? 'sandstorm' : ''}`}>
-            <header className="desert-header">
-                <button className="back-btn" onClick={() => navigate('/adventure')}>← Volver</button>
-                <h1>🏜️ Desierto Misterioso</h1>
-                <div className="coin-display"><img src={bagIcon} alt="coins" /> {coins}</div>
-            </header>
+            <WorldPageHeader title="Desierto Misterioso" icon="🏜️" />
 
             {sandstorm && (
                 <div className="sandstorm-warning">

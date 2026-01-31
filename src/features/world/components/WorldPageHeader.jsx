@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../../../hooks/usePokemonContext';
+import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { Coins, ChevronLeft } from 'lucide-react';
 import './WorldPageHeader.css';
 

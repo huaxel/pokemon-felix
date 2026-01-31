@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { useToast } from '../../../hooks/useToast';
 import { useOutfitEffects } from '../../../hooks/useOutfitEffects';
+import { WorldPageHeader } from '../components/WorldPageHeader';
 import marketImage from '../../../assets/buildings/market_stall.png';
 import bagIcon from '../../../assets/items/bag_icon.png';
 import pokeballImage from '../../../assets/items/pokeball.png';
@@ -101,11 +101,7 @@ export function MarketPage() {
 
     return (
         <div className="market-page">
-            <header className="market-header">
-                <Link to="/adventure" className="back-btn">← Terug</Link>
-                <h1>🏪 Mercado Pokémon</h1>
-                <div className="coin-balance"><img src={bagIcon} alt="coins" className="coin-icon" /> {coins}</div>
-            </header>
+            <WorldPageHeader title="Mercado Pokémon" icon="🏪" />
 
             {activeEffect.discount > 0 && (
                 <div className="market-discount-banner">

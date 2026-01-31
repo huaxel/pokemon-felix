@@ -9,7 +9,7 @@ import { PalaceChallengeCards } from '../components/PalaceChallengeCards';
 import { PalaceWisdomView } from '../components/PalaceWisdomView';
 import { PalaceStrengthView } from '../components/PalaceStrengthView';
 import { PalaceLuckView } from '../components/PalaceLuckView';
-import { PALACE_CHALLENGES, TRIVIA_QUESTIONS } from './palaceConfig';
+import { PALACE_CHALLENGES, TRIVIA_QUESTIONS } from '../palaceConfig';
 import './PalacePage.css';
 
 export function PalacePage() {

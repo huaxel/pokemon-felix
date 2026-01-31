@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { useToast } from '../../../hooks/useToast';
 import { Star } from 'lucide-react';
-import { FountainHeader } from '../components/FountainHeader';
+import { WorldPageHeader } from '../components/WorldPageHeader';
 import { FountainVisual } from '../components/FountainVisual';
 import { FountainWishCard } from '../components/FountainWishCard';
 import { FountainRecentRewards } from '../components/FountainRecentRewards';
@@ -59,6 +59,10 @@ const WISHES = [
 export function FountainPage() {
     const { coins, addCoins, spendCoins, addItem, healAll } = usePokemonContext();
     const [fountainAnimation, setFountainAnimation] = useState(false);
+    const [isWishing, setIsWishing] = useState(false);
+    const [totalWishes, setTotalWishes] = useState(0);
+    const [recentRewards, setRecentRewards] = useState([]);
+    const [showProbability, setShowProbability] = useState(false);
     const { showSuccess, showError, showCoins, showInfo } = useToast();
 
     const makeWish = async (wishType) => {
@@ -85,7 +89,7 @@ export function FountainPage() {
             }
         }
 
-        let rewardType = 'info';
+        const rewardType = 'info';
         if (selectedReward.type === 'coins') {
             addCoins(selectedReward.amount);
             showCoins(selectedReward.message);
@@ -124,7 +128,7 @@ export function FountainPage() {
 
     return (
         <div className="fountain-page">
-            <FountainHeader coins={coins} />
+            <WorldPageHeader title="Plaza de la Fuente" icon="✨" />
 
 
             <FountainVisual animation={fountainAnimation} />
