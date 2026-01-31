@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { WorldPageHeader } from '../components/WorldPageHeader';
-import nurseJoyImage from '../../../assets/nurse_joy.png';
-import healingMachineImage from '../../../assets/healing_machine.png';
+import healingMachineImage from '../../../assets/buildings/healing_machine.png';
 import './PokemonCenterPage.css';
 
 export function PokemonCenterPage() {
@@ -45,16 +44,16 @@ export function PokemonCenterPage() {
                 </div>
 
                 <div className="nurse-counter">
-                    <img src={nurseJoyImage} alt="Nurse Joy" className="nurse-joy" />
+                    <img src="/src/assets/kenney_tiny-town/Tiles/tile_0108.png" alt="Nurse" className="nurse-npc" style={{ imageRendering: 'pixelated', width: '128px', height: '128px' }} />
                     <div className="dialog-box">
                         <p>{message}</p>
                         {healingState === 'idle' && (
-                            <button className="heal-btn" onClick={handleHeal}>
+                            <button className="btn-adventure primary heal-btn" onClick={handleHeal}>
                                 <Heart fill="white" size={20} /> Curar Equipo
                             </button>
                         )}
                         {healingState === 'done' && (
-                            <button className="heal-btn" onClick={() => navigate('/world')}>
+                            <button className="btn-adventure primary heal-btn" onClick={() => navigate('/world')}>
                                 ¡Gracias! (Salir)
                             </button>
                         )}

@@ -11,36 +11,40 @@ export function MovementControls({
     return (
         <div className="controls-panel">
             <div className="d-pad">
-                <button onClick={() => movePlayer(0, -1)}>Up</button>
+                <button onClick={() => movePlayer(0, -1)}>UP</button>
                 <div className="d-pad-mid">
-                    <button onClick={() => movePlayer(-1, 0)}>Left</button>
-                    <button onClick={() => movePlayer(1, 0)}>Right</button>
+                    <button onClick={() => movePlayer(-1, 0)} style={{ marginRight: '60px' }}>LEFT</button>
+                    <button onClick={() => movePlayer(1, 0)}>RIGHT</button>
                 </div>
-                <button onClick={() => movePlayer(0, 1)}>Down</button>
+                <button onClick={() => movePlayer(0, 1)}>DOWN</button>
             </div>
 
-            <div className="build-controls">
+            <div className="build-controls" style={{ marginTop: '2rem', borderTop: '2px solid rgba(0,0,0,0.1)', paddingTop: '1rem' }}>
                 <button
-                    className={`mode-btn ${isBuildMode ? 'active' : ''}`}
+                    className={`btn-kenney ${isBuildMode ? 'danger active' : 'success'}`}
                     onClick={() => setIsBuildMode(!isBuildMode)}
+                    style={{ width: '100%', marginBottom: '1rem' }}
                 >
-                    {isBuildMode ? 'Klaar met Bouwen' : 'Bouwen'}
+                    {isBuildMode ? 'CERRAR BUILD' : 'MODO CONSTRUIR'}
                 </button>
 
                 {isBuildMode && (
-                    <div className="build-palette">
+                    <div className="build-palette" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                         <button
-                            className={selectedBuilding === 'house' ? 'active' : ''}
+                            className={`btn-kenney ${selectedBuilding === 'house' ? 'success' : ''}`}
                             onClick={() => setSelectedBuilding('house')}
-                        ><img src={houseImage} alt="house" className="build-icon" /></button>
+                            style={{ padding: '0.5rem' }}
+                        ><img src={houseImage} alt="house" className="build-icon" style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }} /></button>
                         <button
-                            className={selectedBuilding === 'tree' ? 'active' : ''}
+                            className={`btn-kenney ${selectedBuilding === 'tree' ? 'success' : ''}`}
                             onClick={() => setSelectedBuilding('tree')}
-                        ><img src={treeImage} alt="tree" className="build-icon" /></button>
+                            style={{ padding: '0.5rem' }}
+                        ><img src={treeImage} alt="tree" className="build-icon" style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }} /></button>
                         <button
-                            className={selectedBuilding === 'path' ? 'active' : ''}
+                            className={`btn-kenney ${selectedBuilding === 'path' ? 'success' : ''}`}
                             onClick={() => setSelectedBuilding('path')}
-                        >Path</button>
+                            style={{ padding: '0.5rem', fontWeight: 'bold' }}
+                        >PATH</button>
                     </div>
                 )}
             </div>

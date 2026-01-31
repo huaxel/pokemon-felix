@@ -1,11 +1,11 @@
 // Centralized asset exports for World components
-import centerImage from '../../assets/buildings/pokecenter.png';
-import gymImage from '../../assets/buildings/gym_building.png';
-import marketImage from '../../assets/buildings/market_stall.png';
-import gachaImage from '../../assets/buildings/gacha_machine.png';
-import treeImage from '../../assets/buildings/tree.png';
-import waterImage from '../../assets/buildings/water_center.png';
-import houseImage from '../../assets/buildings/house.png';
+import centerImage from '../../assets/kenney_tiny-town/Tiles/tile_0120.png';
+import gymImage from '../../assets/buildings/gym_building.png'; // Premium large asset
+import marketImage from '../../assets/buildings/market_stall.png'; // Premium large asset
+import gachaImage from '../../assets/buildings/gacha_machine.png'; // Premium large asset
+import treeImage from '../../assets/kenney_tiny-town/Tiles/tile_0048.png';
+import waterImage from '../../assets/kenney_tiny-town/Tiles/tile_0032.png';
+import houseImage from '../../assets/kenney_tiny-town/Tiles/tile_0121.png';
 import pathTile from '../../assets/kenney_tiny-town/Tiles/tile_0008.png';
 import grassTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png';
 

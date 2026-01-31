@@ -1,9 +1,10 @@
 .single-battle-page {
     min-height: 100vh;
-    background: #1e293b;
+    background: var(--bg-dark);
     color: white;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .single-battle-page.loading {
@@ -15,10 +16,13 @@
 
 .battle-header-simple {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.2);
+    justify-content: flex-end;
+    padding: 1.5rem 2rem;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
 }
 
 .close-btn {
@@ -41,27 +45,36 @@
 }
 
 .single-battle-page.victory {
-    background: linear-gradient(135deg, #166534 0%, #14532d 100%);
+    background:
+        radial-gradient(circle at center, rgba(22, 101, 52, 0.6) 0%, var(--bg-dark) 100%);
 }
 
 .single-battle-page.defeat {
-    background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+    background:
+        radial-gradient(circle at center, rgba(153, 27, 27, 0.6) 0%, var(--bg-dark) 100%);
 }
 
 .result h1 {
-    font-size: 4rem;
+    font-family: var(--header-font);
+    font-size: 5rem;
     margin-bottom: 2rem;
     text-transform: uppercase;
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    color: var(--primary-color);
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
 }
 
 .result-card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 3rem;
-    border-radius: 2rem;
-    backdrop-filter: blur(10px);
+    background: var(--glass-bg);
+    padding: 3rem 4rem;
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(15px);
     margin-bottom: 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .result-card img {
@@ -105,16 +118,23 @@
 }
 
 .replay-btn {
-    background: white;
-    color: #0f172a;
+    background: var(--health-good);
+    color: white;
+    box-shadow: var(--shadow-md);
 }
 
 .back-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--bg-surface-alt);
     color: white;
+    border: 1px solid var(--border-dim);
 }
 
-.replay-btn:hover,
+.replay-btn:hover {
+    background: #15803d;
+    transform: translateY(-3px) scale(1.05);
+}
+
 .back-btn:hover {
-    transform: scale(1.05);
+    background: var(--secondary-color);
+    transform: translateY(-3px) scale(1.05);
 }

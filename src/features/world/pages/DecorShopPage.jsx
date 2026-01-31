@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { useToast } from '../../../hooks/useToast';

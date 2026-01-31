@@ -1,7 +1,24 @@
 .pokedex-page {
-    padding: 1rem;
+    padding: 2rem;
     max-width: 1400px;
     margin: 0 auto;
+    min-height: 100vh;
+    background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.05) 0%, transparent 40%);
+}
+
+.pokedex-page h1 {
+    font-family: var(--header-font);
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    padding-bottom: 4rem;
 }
 
 /* Reusing global styles from App.css for grid and buttons */

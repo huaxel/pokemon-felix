@@ -1,409 +1,208 @@
 .school-page {
     min-height: 100vh;
-    background-color: #f0fdf4;
-    /* Light green theme */
+    background: var(--bg-dark);
+    background-image: radial-gradient(circle at top, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
     padding-bottom: 50px;
+    color: white;
 }
 
 .school-header {
-    background: #166534;
-    color: white;
-    padding: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
 }
 
 .school-header h1 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-    font-size: 1.5rem;
+    font-family: var(--header-font);
+    font-size: 2rem;
+    color: var(--primary-color);
 }
 
 .coin-display {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 5px 15px;
-    border-radius: 20px;
+    background: var(--glass-bg);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-weight: bold;
+    gap: 0.75rem;
+    font-weight: 900;
+    border: 1px solid var(--glass-border);
+    color: var(--primary-color);
 }
 
-.coin-display img {
-    width: 20px;
-}
+.school-intro-container {
+    background: var(--bg-surface);
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    border-radius: var(--radius-sm);
 
-/* MENU */
-.school-menu {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+    /* Kenney Fantasy Border */
+    border: 8px solid transparent;
+    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 8 round;
+    image-rendering: pixelated;
+    box-shadow: var(--shadow-md);
 }
 
 .school-intro {
     text-align: center;
     margin-bottom: 40px;
-    color: #064e3b;
 }
 
-.intro-icon {
-    color: #166534;
-    margin-bottom: 10px;
-}
-
-.quiz-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+.school-intro h2 {
+    font-family: var(--header-font);
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
 }
 
 .quiz-card {
-    background: white;
-    border-radius: 15px;
-    padding: 25px;
+    background: var(--bg-surface);
+    padding: 2.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
-    border: 2px solid #d1fae5;
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-sm);
+
+    /* Kenney Fantasy Border */
+    border: 8px solid transparent;
+    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 8 round;
+    image-rendering: pixelated;
 }
 
 .quiz-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(34, 197, 94, 0.1);
 }
 
 .quiz-icon {
-    background: #f0fdf4;
-    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
-    margin-bottom: 15px;
+    margin-bottom: 1.5rem;
+    border: 2px solid var(--border-dim);
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .quiz-info h3 {
-    margin: 0 0 10px;
-    color: #064e3b;
+    font-family: var(--header-font);
+    margin: 0 0 1rem;
+    color: white;
+    font-size: 1.5rem;
 }
 
 .quiz-info p {
-    margin: 0 0 20px;
-    color: #6b7280;
-    font-size: 0.9rem;
+    margin: 0 0 2rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .start-quiz-btn {
-    background: #166534;
-    color: white;
+    background: var(--primary-color);
+    color: #78350f;
     border: none;
-    padding: 10px 25px;
-    border-radius: 20px;
-    font-weight: bold;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-md);
+    font-family: var(--header-font);
+    font-size: 1.25rem;
     cursor: pointer;
+    box-shadow: 0 6px 0 #b45309;
+    transition: all 0.2s;
 }
 
-/* QUIZ CONTAINER */
 .quiz-container {
-    max-width: 600px;
+    max-width: 700px;
     margin: 40px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
+    padding: 3rem;
+    background: var(--bg-surface);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
 
-.quiz-progress {
-    margin-bottom: 30px;
-    color: #6b7280;
-    font-weight: bold;
-}
-
-.progress-bar-bg {
-    width: 100%;
-    height: 8px;
-    background: #e5e7eb;
-    border-radius: 4px;
-    margin-top: 5px;
-    overflow: hidden;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    background: #10b981;
-    transition: width 0.3s ease;
-}
-
-.question-box h2 {
-    color: #064e3b;
-    margin-bottom: 30px;
-    font-size: 1.4rem;
-}
-
-.options-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    /* Kenney Fantasy Border */
+    border: 16px solid transparent;
+    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 16 round;
+    image-rendering: pixelated;
 }
 
 .option-btn {
-    background: #f9fafb;
-    border: 2px solid #e5e7eb;
-    padding: 15px 20px;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
     text-align: left;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     cursor: pointer;
     transition: all 0.2s;
-    color: #374151;
+    color: white;
+    font-weight: 600;
 }
 
 .option-btn:hover:not(:disabled) {
-    background: #f0fdf4;
-    border-color: #10b981;
-    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(10px);
+    border-color: var(--primary-color);
 }
 
 .option-btn.correct {
-    background: #10b981;
+    background: var(--health-good);
     color: white;
     border-color: #059669;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
 }
 
-.quiz-feedback {
-    margin-top: 25px;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: bold;
-    animation: bounceIn 0.3s;
-}
-
-.quiz-feedback.positive {
-    background: #d1fae5;
-    color: #065f46;
-}
-
-.quiz-feedback.negative {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-@keyframes bounceIn {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    70% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* RESULT */
 .quiz-result {
-    max-width: 500px;
+    max-width: 600px;
     margin: 60px auto;
-    background: white;
-    padding: 40px;
-    border-radius: 25px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    padding: 4rem;
+    border-radius: var(--radius-lg);
     text-align: center;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-}
-
-.trophy-icon {
-    color: #f59e0b;
-    margin-bottom: 20px;
-}
-
-.result-stats {
-    background: #f9fafb;
-    padding: 20px;
-    border-radius: 15px;
-    margin: 25px 0;
-}
-
-.result-stats p {
-    margin: 10px 0;
-    font-size: 1.2rem;
-}
-
-.result-stats img {
-    width: 24px;
-    vertical-align: middle;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
 }
 
 .finish-btn {
-    background: #166534;
-    color: white;
+    background: var(--primary-color);
+    color: #78350f;
     border: none;
-    padding: 15px 40px;
-    border-radius: 25px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    padding: 1.25rem 4rem;
+    border-radius: var(--radius-md);
+    font-family: var(--header-font);
+    font-size: 1.5rem;
     cursor: pointer;
-    box-shadow: 0 4px 0 #064e3b;
-    transition: transform 0.1s;
+    box-shadow: 0 6px 0 #b45309;
+    transition: all 0.2s;
 }
 
 .finish-btn:active {
     transform: translateY(4px);
-    box-shadow: none;
-}
-
-/* COMPLETED QUIZ BADGE */
-.quiz-card.completed {
-    border-color: #10b981;
-    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-}
-
-/* CERTIFICATE MODAL */
-.certificate-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s;
+    box-shadow: 0 2px 0 #b45309;
 }
 
 .certificate-modal {
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    border: 8px double #b45309;
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideDown 0.5s ease-out;
-}
-
-.certificate-header {
-    text-align: center;
-    margin-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.certificate-header h2 {
-    color: #92400e;
-    margin: 0;
-    font-family: 'Georgia', serif;
-    font-size: 1.8rem;
-}
-
-.certificate-body {
-    text-align: center;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-    margin-bottom: 25px;
-}
-
-.cert-text {
-    color: #78350f;
-    font-size: 1rem;
-    margin: 10px 0;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    border: 4px solid #b45309;
+    box-shadow: 0 0 50px rgba(180, 83, 9, 0.3);
 }
 
 .cert-name {
-    color: #92400e;
-    font-size: 2.5rem;
-    margin: 15px 0;
-    font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.cert-course {
-    color: #b45309;
-    font-size: 1.5rem;
-    margin: 15px 0;
-    font-style: italic;
-}
-
-.cert-score {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(251, 191, 36, 0.2);
-    border: 2px dashed #b45309;
-    border-radius: 10px;
-}
-
-.cert-score p {
-    margin: 5px 0;
-    color: #78350f;
-    font-weight: bold;
-}
-
-.cert-seal {
-    font-size: 4rem;
-    margin: 20px 0;
-    animation: rotate 2s ease-in-out infinite;
-}
-
-.cert-close-btn {
-    width: 100%;
-    background: #16a34a;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.cert-close-btn:hover {
-    background: #15803d;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideDown {
-    from {
-        transform: translateY(-50px) scale(0.9);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-}
-
-@keyframes rotate {
-
-    0%,
-    100% {
-        transform: rotate(-5deg);
-    }
-
-    50% {
-        transform: rotate(5deg);
-    }
+    color: var(--primary-color);
 }

@@ -75,7 +75,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
                             alt={currentName}
                         />
                         <button
-                            className={`collection-btn ${isOwned ? 'owned' : ''}`}
+                            className={`btn-adventure primary collection-btn ${isOwned ? 'owned' : ''}`}
                             onClick={() => onToggleOwned(pokemon.id)}
                         >
                             {isOwned ? 'En la Colección' : 'Añadir a la Colección'}

@@ -6,6 +6,7 @@ import { PokemonProvider } from './contexts/PokemonProvider'
 import { PlayerProvider } from './contexts/PlayerProvider'
 import App from './App.jsx'
 import './index.css'
+import './styles/game-ui.css'
 
 const queryClient = new QueryClient({
     defaultOptions: {

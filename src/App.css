@@ -25,22 +25,30 @@
 }
 
 .load-more-btn {
-    background-color: var(--secondary-color);
-    color: white;
-    border: none;
+    background-color: var(--color-ui-active-blue);
+    color: var(--color-ui-text-light);
+    border: 4px solid var(--color-ui-border-brown);
     padding: 1rem 2rem;
     font-size: 1.1rem;
-    border-radius: var(--radius-full);
+    border-radius: 0;
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: bold;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 0 #3d7ab8;
+    image-rendering: pixelated;
+    font-family: var(--header-font);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .load-more-btn:hover {
-    background-color: #1a5c9a;
+    background-color: var(--color-ui-active-blue-dark);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 6px 0 #2a5d91;
+}
+
+.load-more-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #2a5d91;
 }
 
 .load-more-btn:disabled {
@@ -48,19 +56,23 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+    border-color: #555;
 }
 
 .header-stats {
-    background: var(--card-bg);
+    background: var(--color-ui-bg-beige);
     padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-full);
+    border-radius: 0;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 2rem;
-    box-shadow: var(--shadow-md);
+    box-shadow: none;
     font-weight: bold;
-    color: var(--secondary-color);
+    color: var(--color-ui-text-dark);
+    border: 4px solid transparent;
+    border-image: url('./assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-029.png') 4 round;
+    image-rendering: pixelated;
 }
 
 .search-status {
@@ -68,15 +80,19 @@
 }
 
 .clear-search {
-    background: #f0f0f0;
-    border: 1px solid #ccc;
+    background: var(--color-ui-bg-beige);
+    border: 2px solid var(--color-ui-border-brown);
     padding: 0.5rem 1rem;
-    border-radius: 20px;
+    border-radius: 0;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    color: var(--color-ui-text-dark);
+    font-family: var(--font-family);
+    image-rendering: pixelated;
 }
 
 .clear-search:hover {
-    background: #e0e0e0;
+    background: var(--color-ui-active-blue);
+    color: white;
 }

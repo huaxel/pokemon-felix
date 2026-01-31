@@ -24,13 +24,13 @@ export function PalacePage() {
     const [legendaryHP, setLegendaryHP] = useState(100);
     const [diceRolling, setDiceRolling] = useState(false);
     const [diceResult, setDiceResult] = useState(null);
-    const { showSuccess, showError, showCoins } = useToast();
+    const { showError, showCoins } = useToast();
 
     useEffect(() => {
         const champ = ownedIds.length >= 50;
         setIsChampion(champ);
         if (!champ) showError('⛔ Solo los campeones pueden entrar al palacio.');
-    }, [ownedIds]);
+    }, [ownedIds, showError]);
 
     const startChallenge = (id) => {
         const c = PALACE_CHALLENGES.find(x => x.id === id);

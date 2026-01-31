@@ -1,7 +1,10 @@
 .evolution-hall-page {
     min-height: 100vh;
-    background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 50%, #ec4899 100%);
-    padding: 20px;
+    background: var(--bg-dark);
+    background-image:
+        radial-gradient(circle at top right, rgba(139, 92, 246, 0.1) 0%, transparent 60%),
+        radial-gradient(circle at bottom left, rgba(217, 70, 239, 0.05) 0%, transparent 60%);
+    padding: 2rem;
     color: white;
 }
 
@@ -15,10 +18,13 @@
 .evolution-header h1 {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 28px;
+    gap: 1rem;
+    font-family: var(--header-font);
+    font-size: 3rem;
     margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    color: var(--primary-color);
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
 }
 
 .evolution-message {
@@ -57,16 +63,17 @@
 .evolution-chamber {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    margin: 30px auto;
-    height: 150px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.1));
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
+    max-width: 450px;
+    margin: 3rem auto;
+    height: 180px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    box-shadow: var(--shadow-lg), 0 0 50px rgba(168, 85, 247, 0.2);
 }
 
 .chamber-glow {
@@ -168,20 +175,21 @@
 }
 
 .evo-pokemon-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 16px;
-    padding: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 2rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--shadow-md);
 }
 
 .evo-pokemon-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(168, 85, 247, 0.2);
 }
 
 .pokemon-sprite {
@@ -338,24 +346,30 @@
 
 .evolve-btn {
     width: 100%;
-    padding: 20px;
-    background: linear-gradient(135deg, #ec4899, #f472b6);
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #ec4899, #d946ef);
     border: none;
-    border-radius: 16px;
+    border-radius: var(--radius-md);
     color: white;
-    font-weight: bold;
-    font-size: 20px;
+    font-family: var(--header-font);
+    font-size: 1.75rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    transition: all 0.3s ease;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 0 #9d174d, var(--shadow-lg);
 }
 
 .evolve-btn:hover:not(:disabled) {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 0 #9d174d, var(--shadow-lg), 0 0 30px rgba(236, 72, 153, 0.4);
+}
+
+.evolve-btn:active {
+    transform: translateY(6px);
+    box-shadow: 0 2px 0 #9d174d;
 }
 
 .evolve-btn:disabled {

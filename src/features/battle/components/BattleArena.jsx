@@ -119,12 +119,12 @@ export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
                 <div className={`fighter-sprite f1 ${turn === 'player' ? 'active' : ''} ${f1Weakened ? 'weakened' : ''}`}><img src={fighter1.sprites?.front_default} alt={fighter1.name} /></div>
                 <div className={`fighter-sprite f2 ${turn === 'enemy' ? 'active' : ''} ${f2Weakened ? 'weakened' : ''}`}><img src={fighter2.sprites?.front_default} alt={fighter2.name} /></div>
             </div>
-            {!isBattling && !winner && <button className="start-btn" onClick={() => setIsBattling(true)}>¡Comenzar Batalla!</button>}
+            {!isBattling && !winner && <button className="btn-adventure primary start-btn" onClick={() => setIsBattling(true)}>¡LUCHAR!</button>}
             <div className="battle-main">
                 <div className="battle-log"><h3>Registro</h3>{battleLog.map((log, i) => <div key={i} className="log-entry" style={{ color: log.color }}>{log.text}</div>)}</div>
                 <BattleControls moves={f1Moves} energy={f1Energy} turn={turn} isBattling={isBattling} onAttack={(m) => executeMove(fighter1, fighter2, m, true)} getTypeColor={getTypeColor} />
             </div>
-            {winner && <div className="winner-overlay"><h2>¡Victoria para {winner.name}!</h2><button onClick={() => window.location.reload()}>Finalizar</button></div>}
+            {winner && <div className="winner-overlay"><h2>¡Victoria para {winner.name}!</h2><button className="btn-adventure" onClick={() => window.location.reload()}>Finalizar</button></div>}
         </div>
     );
 }

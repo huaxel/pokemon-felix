@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { STORAGE_KEYS, BATTLE_CONFIG } from '../lib/constants';
 
 export function useSquad(initialSquad = []) {
@@ -11,27 +11,31 @@ export function useSquad(initialSquad = []) {
         localStorage.setItem(STORAGE_KEYS.SQUAD, JSON.stringify(squadIds));
     }, [squadIds]);
 
-    const addToSquad = (pokemonId) => {
-        if (squadIds.length < BATTLE_CONFIG.MAX_SQUAD_SIZE && !squadIds.includes(pokemonId)) {
-            setSquadIds(prev => [...prev, pokemonId]);
-            return true;
-        }
-        return false;
-    };
+    const addToSquad = useCallback((pokemonId) => {
+        let success = false;
+        setSquadIds(prev => {
+            if (prev.length < BATTLE_CONFIG.MAX_SQUAD_SIZE && !prev.includes(pokemonId)) {
+                success = true;
+                return [...prev, pokemonId];
+            }
+            return prev;
+        });
+        return success;
+    }, []);
 
-    const removeFromSquad = (pokemonId) => {
+    const removeFromSquad = useCallback((pokemonId) => {
         setSquadIds(prev => prev.filter(id => id !== pokemonId));
-    };
+    }, []);
 
-    const isInSquad = (pokemonId) => {
+    const isInSquad = useCallback((pokemonId) => {
         return squadIds.includes(pokemonId);
-    };
+    }, [squadIds]);
 
-    return {
+    return useMemo(() => ({
         squadIds,
         addToSquad,
         removeFromSquad,
         isInSquad,
         isSquadFull: squadIds.length >= BATTLE_CONFIG.MAX_SQUAD_SIZE
-    };
+    }), [squadIds, addToSquad, removeFromSquad, isInSquad]);
 }

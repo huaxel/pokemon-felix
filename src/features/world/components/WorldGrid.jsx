@@ -10,16 +10,18 @@ import centerImage from '../../../assets/buildings/pokecenter.png';
 import treeImage from '../../../assets/buildings/tree.png';
 import waterEdgeImage from '../../../assets/buildings/water_edge.png';
 import waterCenterImage from '../../../assets/buildings/water_center.png';
-import fishermanImage from '../../../assets/buildings/fisherman.png';
-import cityHallImage from '../../../assets/buildings/city_hall.png';
-import shopUrbanImage from '../../../assets/buildings/shop_urban.png';
+import fishermanImage from '../../../assets/kenney_rpg-urban-pack/Tiles/tile_0200.png';
+import cityHallImage from '../../../assets/kenney_rpg-urban-pack/Tiles/tile_0150.png';
+import shopUrbanImage from '../../../assets/kenney_rpg-urban-pack/Tiles/tile_0170.png';
+import caveEntranceTile from '../../../assets/kenney_tiny-town/Tiles/tile_0110.png';
+import desertCactusTile from '../../../assets/kenney_tiny-town/Tiles/tile_0083.png';
 import chestTile from '../../../assets/kenney_tiny-town/Tiles/tile_0089.png';
 import roguelikeSheet from '../../../assets/kenney_roguelike-characters/Spritesheet/roguelikeChar_transparent.png';
 import grassTile from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
 import pathTile from '../../../assets/kenney_tiny-town/Tiles/tile_0008.png';
 import waterTile from '../../../assets/kenney_tiny-town/Tiles/tile_0032.png';
 import pokeballImage from '../../../assets/items/pokeball.png';
-import artStudioImage from '../../../assets/art_studio_building.png';
+import artStudioImage from '../../../assets/buildings/art_studio_building.png';
 
 const BUILDING_IMAGES = {
     [TILE_TYPES.HOUSE]: houseImage, [TILE_TYPES.CENTER]: centerImage, [TILE_TYPES.TREE]: treeImage,
@@ -57,8 +59,8 @@ export function WorldGrid({
         if (type === TILE_TYPES.WATER) return <img src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterImage : waterEdgeImage} className="water-sprite" alt="W" />;
         if (type === TILE_TYPES.ART_STUDIO) return <img src={artStudioImage} className="building-sprite" alt="Art Studio" />;
         if (type === TILE_TYPES.ART_STUDIO) return <img src={artStudioImage} className="building-sprite" alt="Art Studio" />;
-        if (type === TILE_TYPES.CAVE_DUNGEON) return <div className="cave-entrance">🕳️</div>;
-        if (type === TILE_TYPES.DESERT) return <div className="desert-marker">🌵</div>;
+        if (type === TILE_TYPES.CAVE_DUNGEON) return <img src={caveEntranceTile} className="building-sprite" alt="Cave" style={{ imageRendering: 'pixelated' }} />;
+        if (type === TILE_TYPES.DESERT) return <img src={desertCactusTile} className="building-sprite" alt="Desert" style={{ imageRendering: 'pixelated' }} />;
         const img = BUILDING_IMAGES[type];
         return img ? <img src={img} className="building-sprite" alt={type} /> : null;
     };

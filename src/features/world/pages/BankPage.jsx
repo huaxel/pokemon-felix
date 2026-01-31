@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { PiggyBank, TrendingUp, Calendar } from 'lucide-react';
 import { BankTransactionSection } from '../components/BankTransactionSection';

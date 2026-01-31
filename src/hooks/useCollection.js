@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { getCollection, addToCollection, removeFromCollection } from '../lib/services/collectionService';
 
 /**
@@ -24,7 +24,7 @@ export function useCollection() {
         return () => { ignore = true; };
     }, []);
 
-    const toggleOwned = async (id) => {
+    const toggleOwned = useCallback(async (id) => {
         const isOwned = ownedIds.includes(id);
         setOwnedIds(prev => isOwned ? prev.filter(pId => pId !== id) : [...prev, id]);
 
@@ -39,11 +39,11 @@ export function useCollection() {
             // Revert on error
             setOwnedIds(prev => (isOwned ? [...prev, id] : prev.filter(pId => pId !== id)));
         }
-    };
+    }, [ownedIds]);
 
-    return {
+    return useMemo(() => ({
         ownedIds,
         setOwnedIds,
         toggleOwned
-    };
+    }), [ownedIds, toggleOwned]);
 }

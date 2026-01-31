@@ -62,7 +62,7 @@ export function SearchBar({ allPokemon, onSearch }) {
                     onChange={handleInputChange}
                     onFocus={() => query.length > 1 && setIsOpen(true)}
                 />
-                <button type="submit" className="search-btn">🔍</button>
+                <button type="submit" className="btn-adventure primary search-btn">🔍</button>
             </form>
 
             {isOpen && suggestions.length > 0 && (

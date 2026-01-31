@@ -3,7 +3,7 @@ import { centerImage, gymImage, marketImage, gachaImage, treeImage, waterImage, 
 export function MapLegend() {
     return (
         <div className="map-legend">
-            <h4>Mapa</h4>
+            <h4 style={{ marginBottom: '0.5rem' }}>🗺️ Mapa</h4>
             <div className="legend-row">
                 <span className="legend-chip"><img src={grassTile} alt="grass" /> Prado</span>
                 <span className="legend-chip"><img src={pathTile} alt="path" /> Camino</span>
@@ -16,7 +16,7 @@ export function MapLegend() {
                 <span className="legend-chip"><img src={gachaImage} alt="gacha" /> Gacha</span>
                 <span className="legend-chip"><img src={treeImage} alt="tree" /> Árbol / bosque</span>
             </div>
-            <p className="legend-hint">Click para moverte (adyacente) o construir en modo Build.</p>
+            <p className="legend-hint" style={{ marginTop: '0.5rem', opacity: 0.8 }}>Usa el D-Pad o las flechas para explorar.</p>
         </div>
     );
 }

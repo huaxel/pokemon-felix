@@ -10,9 +10,9 @@ export function BattleControls({ moves, energy, turn, isBattling, onAttack, getT
                     onClick={() => onAttack(move)}
                 >
                     <div className="move-name">{move.name}</div>
-                    <div className="move-info">
+                    <div className="move-meta">
+                        <span className="move-type" style={{ backgroundColor: getTypeColor(move.type) }}>{move.type}</span>
                         <span className="move-cost">⚡ {move.cost}</span>
-                        <span className="move-power">💥 {move.power}</span>
                     </div>
                 </button>
             ))}

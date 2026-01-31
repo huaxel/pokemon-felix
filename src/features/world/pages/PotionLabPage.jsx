@@ -44,9 +44,22 @@ export function PotionLabPage() {
             <div className="difficulty-selector">
                 {Object.entries(DIFFICULTIES).map(([k, v]) => <button key={k} className={difficulty === k ? 'active' : ''} onClick={() => setDifficulty(k)} style={{ background: difficulty === k ? `${diffColor()}33` : 'rgba(255,255,255,0.1)' }}>{v.name}</button>)}
             </div>
+            <div className="lab-intro">
+                <img src="/src/assets/kenney_tiny-town/Tiles/tile_0102.png" alt="Scientist" className="lab-npc" style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }} />
+                <div className="lab-dialog">
+                    <p>¡Bienvenido al Laboratorio! Tu reto hoy es crear una poción con valor <strong>{targetValue}</strong>.</p>
+                </div>
+            </div>
+
             <PotionBrewingStation targetValue={targetValue} currentValue={currentValue} selectedIngredients={selectedIngredients} difficultyColor={diffColor()} onRemoveLast={() => setSelectedIngredients(s => s.slice(0, -1))} onClear={() => setSelectedIngredients([])} />
             <PotionIngredientsPanel availableIngredients={INGREDIENTS} selectedCount={selectedIngredients.length} maxCount={DIFFICULTIES[difficulty].ingredients} onAdd={(i) => setSelectedIngredients(s => [...s, { ...i, id: Math.random() }])} />
-            <div className="brew-section"><button className="brew-button" onClick={brewPotion} style={{ background: diffColor() }}>¡Crear!</button><button onClick={generateNewChallenge}><RotateCcw size={20} /></button></div>
+
+            <div className="brew-section">
+                <button className="btn-adventure primary brew-button" onClick={brewPotion}>¡Crear Poción!</button>
+                <button className="btn-adventure" onClick={generateNewChallenge}>
+                    <RotateCcw size={20} />
+                </button>
+            </div>
         </div>
     );
 }

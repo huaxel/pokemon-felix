@@ -1,25 +1,28 @@
 .pokemon-center-page {
     height: 100vh;
-    background: #fca5a5;
-    /* Light Red */
+    background: var(--bg-dark);
+    background-image: radial-gradient(circle at center, rgba(239, 68, 68, 0.05) 0%, transparent 70%);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    color: white;
 }
 
 .center-header {
-    padding: 1rem;
-    background: #ef4444;
-    color: white;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1.5rem 2rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 1.5rem;
+    box-shadow: var(--shadow-md);
 }
 
 .center-header h1 {
-    font-size: 1.5rem;
-    margin: 0;
+    font-family: var(--header-font);
+    font-size: 2rem;
+    color: var(--primary-color);
 }
 
 .center-content {
@@ -28,157 +31,55 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: white;
+    background: transparent;
     position: relative;
-    padding-bottom: 2rem;
-}
-
-/* Healing Machine */
-.healing-machine-container {
-    position: relative;
-    margin-bottom: -50px;
-    /* Overlap with counter */
-    z-index: 1;
-}
-
-.healing-machine {
-    width: 250px;
-    image-rendering: pixelated;
-}
-
-.pokeballs-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.pokeball-light {
-    width: 15px;
-    height: 15px;
-    background: #374151;
-    /* OFF state */
-    border-radius: 50%;
-    border: 2px solid black;
-    transition: background-color 0.2s;
-}
-
-.healing-machine.active {
-    filter: drop-shadow(0 0 10px #60a5fa);
-}
-
-/* Lights Animation */
-@keyframes flash {
-
-    0%,
-    100% {
-        background: #374151;
-    }
-
-    50% {
-        background: #fee2e2;
-        box-shadow: 0 0 10px red;
-    }
-}
-
-@keyframes heal-flash {
-
-    0%,
-    100% {
-        background: #374151;
-    }
-
-    50% {
-        background: #4ade80;
-        box-shadow: 0 0 15px #22c55e;
-    }
-}
-
-.pokeball-light.animate-1 {
-    animation: flash 0.5s infinite 0.1s;
-}
-
-.pokeball-light.animate-2 {
-    animation: flash 0.5s infinite 0.2s;
-}
-
-.pokeball-light.animate-3 {
-    animation: flash 0.5s infinite 0.3s;
-}
-
-.pokeball-light.animate-4 {
-    animation: flash 0.5s infinite 0.4s;
-}
-
-.pokeball-light.animate-5 {
-    animation: flash 0.5s infinite 0.5s;
-}
-
-.pokeball-light.animate-6 {
-    animation: flash 0.5s infinite 0.6s;
-}
-
-/* Nurse Counter */
-.nurse-counter {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 2;
-}
-
-.nurse-joy {
-    width: 120px;
-    image-rendering: pixelated;
-    margin-bottom: 1rem;
+    padding-bottom: 4rem;
 }
 
 .dialog-box {
-    background: white;
-    border: 4px solid #374151;
-    border-radius: 8px;
-    padding: 1.5rem;
+    background: var(--bg-surface);
+    padding: 3rem;
     width: 90%;
+    max-width: 700px;
     text-align: center;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 0, 0, 0.3);
+
+    /* Kenney Fantasy Border */
+    border: 12px solid transparent;
+    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 12 round;
+    image-rendering: pixelated;
 }
 
 .dialog-box p {
-    font-size: 1.1rem;
-    color: #1f293b;
-    margin-bottom: 1.5rem;
-    font-family: monospace;
-    /* Retro feel */
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 2rem;
+    font-weight: 700;
 }
 
 .heal-btn {
-    background: #ef4444;
+    background: var(--health-critical);
     color: white;
     border: none;
-    padding: 0.75rem 2rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 8px;
+    padding: 1.25rem 3.5rem;
+    font-family: var(--header-font);
+    font-size: 1.75rem;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: transform 0.2s, background-color 0.2s;
-    box-shadow: 0 4px 0 #b91c1c;
+    box-shadow: 0 6px 0 #b91c1c;
+    transition: all 0.2s;
 }
 
 .heal-btn:hover {
+    transform: translateY(-3px);
     background: #dc2626;
-    transform: translateY(-2px);
 }
 
 .heal-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 0 0 #b91c1c;
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #b91c1c;
+}
+
+.pokeball-light {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }

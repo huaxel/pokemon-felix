@@ -9,15 +9,19 @@
 }
 
 .season-hud {
-    background: var(--card-bg);
+    background: var(--color-ui-bg-beige);
     padding: 0.5rem 1rem;
-    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     gap: 1rem;
-    box-shadow: var(--shadow-md);
+
+    /* Kenney Panel Styling */
+    border: 8px solid transparent;
+    border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 8 round;
+    image-rendering: pixelated;
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     margin-bottom: 1rem;
-    border: 3px solid var(--secondary-color);
     animation: slideDown 0.5s;
     transition: all 0.5s ease;
 }
@@ -28,19 +32,23 @@
     font-size: 1.5rem;
     background: linear-gradient(135deg, #fbbf24, #f59e0b);
     border: none;
-    border-radius: 20px;
+    border-radius: 0;
     cursor: pointer;
     transition: all 0.3s ease;
     color: white;
     font-weight: bold;
+    border: 4px solid #b45309;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    image-rendering: pixelated;
 }
 
 .day-night-toggle.night {
     background: linear-gradient(135deg, #1e3a8a, #312e81);
+    border-color: #1e3a8a;
 }
 
 .day-night-toggle.auto {
-    border: 2px solid #10b981;
+    border: 4px solid #10b981;
     box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
 }
 
@@ -51,14 +59,16 @@
 .auto-time-btn {
     background: rgba(255, 255, 255, 0.2);
     color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 4px solid rgba(255, 255, 255, 0.3);
     padding: 0.5rem 1rem;
-    border-radius: 20px;
+    border-radius: 0;
     font-weight: bold;
     cursor: pointer;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     font-size: 14px;
+    image-rendering: pixelated;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
 }
 
 .auto-time-btn.active {
@@ -365,12 +375,17 @@
 .map-grid {
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    gap: 6px;
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.85));
-    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    padding: var(--border-slice-width);
+    gap: 4px;
+    /* Reduced for tighter grid */
+
+    /* Kenney Panel Integration */
+    background: var(--color-ui-bg-beige);
+    border: var(--border-slice-width) solid transparent;
+    border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
+    image-rendering: pixelated;
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     transition: background-color 0.6s ease;
 }
 
@@ -417,7 +432,7 @@
     }
 }
 
-/* Enhanced Tiles */
+/* Enhanced Tiles - Kenney Style */
 .tile {
     width: 54px;
     height: 54px;
@@ -426,44 +441,66 @@
     justify-content: center;
     font-size: 1.5rem;
     cursor: default;
-    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    transition: transform 0.1s ease;
     position: relative;
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-sm);
-    /* Default grass texture feel */
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%),
-        #4ade80;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    /* Subtle inner border */
+    image-rendering: pixelated;
 }
 
-/* Grass Pattern overlay for all tiles */
-.tile::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    opacity: 0.3;
-    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1h2v2H1V1zm4 4h2v2H5V5zm4-4h2v2H9V1zM1 9h2v2H1V9zm4 4h2v2H5v-2zm4-4h2v2H9V9zm4 4h2v2h-2v-2zm4-4h2v2h-2V9zm-4 8h2v2h-2v-2zm-4-4h2v2h-2v-2z' fill='%2315803d' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
-    border-radius: 12px;
-    pointer-events: none;
+/* Remove modern overlays */
+.tile::before,
+.tile::after {
+    display: none;
+}
+
+.tile.type-0 {
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
 }
 
 .tile.type-0::before {
-    /* Grass specific pattern */
-    opacity: 0.5;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2315803d' fill-opacity='0.15' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /* Path styling */
 .tile.type-1 {
-    background-color: #d69e2e !important;
-    border-radius: 6px;
-    transform: scale(0.95);
-    border: 2px dashed rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, #d69e2e 0%, #b45309 100%) !important;
+    border-radius: 4px;
+    transform: scale(0.92);
+    border: none;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .tile.type-1::before {
-    /* Dirt pattern */
-    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2392400e' fill-opacity='0.2' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.3;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23451a03' fill-opacity='0.2' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.tile.type-1::after {
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Water styling */
+.tile.type-2 {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    animation: waterRipple 4s infinite alternate ease-in-out;
+}
+
+.tile.type-2::before {
     opacity: 0.6;
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 C5 5, 10 5, 15 10 C20 15, 25 15, 30 10' stroke='%23fff' stroke-opacity='0.2' fill='none'/%3E%3C/svg%3E");
+    animation: swimPattern 10s linear infinite;
+}
+
+@keyframes swimPattern {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 30px 60px;
+    }
 }
 
 .building-sprite,
@@ -484,10 +521,13 @@
 }
 
 .tile:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    z-index: 20;
+}
+
+.tile:hover::after {
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.4);
 }
 
 .player-avatar {
@@ -542,15 +582,16 @@
 .map-legend {
     min-width: 320px;
     max-width: 380px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-dim);
-    border-radius: var(--radius-md);
+    background: var(--color-ui-bg-beige);
+    border: 8px solid transparent;
+    border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') 8 round;
     padding: 12px 14px;
-    color: var(--text-muted);
+    color: var(--color-ui-text-dark);
     box-shadow: var(--shadow-lg);
     display: flex;
     flex-direction: column;
     gap: 8px;
+    image-rendering: pixelated;
 }
 
 .map-legend h4 {
@@ -615,39 +656,40 @@
 
 /* Center overrides */
 .tile.gym {
-    background: #fbbf24 !important;
-    border: 3px solid #78350f;
-    border-radius: 8px;
+    background: linear-gradient(135deg, #fbbf24, #d97706) !important;
+    border: 2px solid #78350f;
+    border-radius: var(--radius-sm);
     z-index: 2;
-    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
 }
 
 .tile.market {
-    background: #ef4444 !important;
-    border: 3px solid #7f1d1d;
-    border-radius: 8px;
+    background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+    border: 2px solid #7f1d1d;
+    border-radius: var(--radius-sm);
 }
 
 .tile.evolution {
-    background: #10b981 !important;
-    border: 3px solid #064e3b;
-    border-radius: 8px;
+    background: linear-gradient(135deg, #10b981, #047857) !important;
+    border: 2px solid #064e3b;
+    border-radius: var(--radius-sm);
 }
 
-
 .tile.buildable:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.2) saturate(1.2);
     cursor: pointer;
-    border: 2px dashed white;
+    outline: 2px dashed rgba(255, 255, 255, 0.8);
+    outline-offset: -4px;
 }
 
 .controls-panel {
-    background: var(--bg-surface);
+    background: var(--color-ui-bg-beige);
     padding: 2rem;
-    border-radius: var(--radius-lg);
     min-width: 250px;
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border-dim);
+    border: var(--border-slice-width) solid transparent;
+    border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
+    image-rendering: pixelated;
+    box-shadow: var(--shadow-lg);
 }
 
 .d-pad {
@@ -659,15 +701,23 @@
 }
 
 .d-pad button {
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-    border-radius: var(--radius-sm);
+    width: 60px;
+    /* Larger for better feel */
+    height: 60px;
+    font-size: 1rem;
     border: none;
-    background: var(--bg-surface-alt);
+    background: var(--color-ui-active-blue);
     color: white;
     cursor: pointer;
-    box-shadow: 0 4px 0 var(--bg-dark);
+    box-shadow: 0 4px 0 #3b7ab8;
+    image-rendering: pixelated;
+    font-family: var(--header-font);
+    text-transform: uppercase;
+    transition: all 0.1s;
+}
+
+.d-pad button:hover {
+    background: var(--color-ui-active-blue-dark);
 }
 
 .d-pad button:active {

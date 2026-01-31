@@ -145,17 +145,20 @@ export function SchoolPage() {
     return (
         <div className="school-page">
             <header className="school-header">
-                <Link to="/adventure" className="back-btn">Terug naar Wereld</Link>
+                <Link to="/adventure" className="btn-adventure back-btn">Terug naar Wereld</Link>
                 <h1><GraduationCap /> Colegio Pokémon</h1>
                 <div className="coin-display"><img src={bagIcon} alt="coins" /> {coins}</div>
             </header>
 
             {view === 'menu' && (
                 <div className="school-menu">
-                    <div className="school-intro">
-                        <BookOpen size={48} className="intro-icon" />
-                        <h2>¡Hola Felix! Bienvenido a clase.</h2>
-                        <p>Aprende sobre tus Pokémon y resuelve problemas para ganar monedas.</p>
+                    <div className="school-intro-container">
+                        <img src="/src/assets/kenney_tiny-town/Tiles/tile_0100.png" alt="Professor" className="school-npc" style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }} />
+                        <div className="school-intro">
+                            <BookOpen size={48} className="intro-icon" />
+                            <h2>¡Hola Felix! Bienvenido a clase.</h2>
+                            <p>Aprende sobre tus Pokémon y resuelve problemas para ganar monedas.</p>
+                        </div>
                     </div>
                     <div className="quiz-grid">
                         {QUIZZES.map(quiz => (

@@ -76,7 +76,7 @@ export function StarterPage() {
 
                 {selectedStarter && (
                     <div className="action-area">
-                        <button className="choose-btn" onClick={handleChoose} disabled={isChoosing}>
+                        <button className="btn-adventure primary choose-btn" onClick={handleChoose} disabled={isChoosing}>
                             {isChoosing ? '¡Comenzando Aventura!' : `¡Yo te elijo, ${selectedStarter.name}!`}
                         </button>
                     </div>

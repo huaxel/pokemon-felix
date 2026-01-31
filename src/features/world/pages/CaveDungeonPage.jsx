@@ -8,8 +8,8 @@ import { BattleRewardModal } from '../components/BattleRewardModal';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import './CaveDungeonPage.css';
 
-const CAVE_POKEMON = [41, 42, 74, 75, 95, 35, 36]; // Zubat, Golbat, Geodude, Graveler, Onix, Clefairy
-const BOSS_POKEMON = [150, 144, 145, 146]; // Mewtwo, Articuno, Zapdos, Moltres
+const CAVE_POKEMON = [41, 42, 74, 75, 95, 35, 36];
+const BOSS_POKEMON = [150, 144, 145, 146];
 
 const GEOLOGY_FACTS = [
     "🪨 Las cuevas se forman cuando el agua disuelve la roca durante miles de años.",
@@ -19,11 +19,132 @@ const GEOLOGY_FACTS = [
 ];
 
 const PUZZLES = {
-    1: { type: 'push', description: 'Empuja el bloque a la marca X', solution: [0, 1, 0, 1] },
-    2: { type: 'switch', description: 'Activa todos los interruptores', switches: 3 },
-    3: { type: 'dark', description: 'Navega en la oscuridad', moves: 5 },
-    4: { type: 'ice', description: 'Deslízate por el hielo hasta la salida', slides: 4 },
+    1: { type: 'push', description: 'Empuja el bloque a la marca X', solution: [0, 1, 0, 1], target: 4 },
+    2: { type: 'switch', description: 'Activa todos los interruptores', switches: 3, target: 3 },
+    3: { type: 'dark', description: 'Navega en la oscuridad', moves: 5, target: 5 },
+    4: { type: 'ice', description: 'Deslízate por el hielo hasta la salida', slides: 4, target: 4 }
 };
+
+function PuzzleView({ puzzle, puzzleState, onAction, onNext, floor }) {
+    return (
+        <div className="puzzle-container">
+            <h2>{puzzle.description}</h2>
+
+            {puzzle.type === 'push' && (
+                <div className="push-puzzle">
+                    <div className="puzzle-grid">
+                        <div className="block">📦</div>
+                        <div className="target">❌</div>
+                    </div>
+                    <div className="puzzle-progress">
+                        Movimientos: {puzzleState.progress}/{puzzle.solution.length}
+                    </div>
+                    <button className="puzzle-btn" onClick={onAction}>
+                        Empujar Bloque
+                    </button>
+                </div>
+            )}
+
+            {puzzle.type === 'switch' && (
+                <div className="switch-puzzle">
+                    <div className="switches">
+                        {Array.from({ length: puzzle.switches }).map((_, i) => (
+                            <div
+                                key={i}
+                                className={`switch ${i < puzzleState.progress ? 'active' : ''}`}
+                            >
+                                {i < puzzleState.progress ? '🟢' : '🔴'}
+                            </div>
+                        ))}
+                    </div>
+                    <button className="puzzle-btn" onClick={onAction}>
+                        Activar Interruptor
+                    </button>
+                </div>
+            )}
+
+            {puzzle.type === 'dark' && (
+                <div className="dark-puzzle">
+                    <div className="dark-room">🌑</div>
+                    <div className="puzzle-progress">
+                        Pasos: {puzzleState.progress}/{puzzle.moves}
+                    </div>
+                    <button className="puzzle-btn" onClick={onAction}>
+                        Avanzar en la Oscuridad
+                    </button>
+                </div>
+            )}
+
+            {puzzle.type === 'ice' && (
+                <div className="ice-puzzle">
+                    <div className="ice-floor">🧊</div>
+                    <div className="puzzle-progress">
+                        Deslizamientos: {puzzleState.progress}/{puzzle.slides}
+                    </div>
+                    <button className="puzzle-btn" onClick={onAction}>
+                        Deslizarse
+                    </button>
+                </div>
+            )}
+
+            {puzzleState.completed && (
+                <button className="next-floor-btn" onClick={onNext}>
+                    {floor < 5 ? '⬇️ Siguiente Piso' : '🏆 Completar Mazmorra'}
+                </button>
+            )}
+        </div>
+    );
+}
+
+function EncounterModal({
+    encounter,
+    showReward,
+    battleMode,
+    onRewardChoice,
+    onBattleEnd,
+    onCatch,
+    onFight,
+    onFlee,
+    floor,
+    pokemonList,
+    squadIds
+}) {
+    return (
+        <div className="encounter-modal">
+            <div className="encounter-content">
+                {showReward ? (
+                    <BattleRewardModal
+                        pokemon={encounter}
+                        onChoice={onRewardChoice}
+                    />
+                ) : battleMode ? (
+                    <BattleArena
+                        initialFighter1={pokemonList.find(p => p.id === squadIds[0])}
+                        initialFighter2={encounter}
+                        onBattleEnd={onBattleEnd}
+                    />
+                ) : (
+                    <>
+                        <h2>{floor === 5 ? '👑 ¡Jefe Final!' : '¡Pokémon salvaje!'}</h2>
+                        <img src={encounter.sprites.front_default} alt={encounter.name} />
+                        <h3>{encounter.name}</h3>
+                        <div className="encounter-actions">
+                            <button className="catch-btn" onClick={onCatch}>
+                                ⚾ Capturar
+                            </button>
+                            <button className="fight-btn" onClick={onFight}>
+                                ⚔️ Luchar
+                            </button>
+                            <button className="flee-btn" onClick={onFlee}>
+                                🏃 Huir
+                            </button>
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+}
 
 export function CaveDungeonPage() {
     const { showSuccess, showError, showInfo, showWarning } = useToast();
@@ -37,28 +158,11 @@ export function CaveDungeonPage() {
 
     const handlePuzzleAction = () => {
         const puzzle = PUZZLES[floor];
-
-        if (puzzle.type === 'push') {
-            const newProgress = puzzleState.progress + 1;
-            if (newProgress >= puzzle.solution.length) {
-                completePuzzle();
-            } else {
-                setPuzzleState({ ...puzzleState, progress: newProgress });
-            }
-        } else if (puzzle.type === 'switch') {
-            const newProgress = puzzleState.progress + 1;
-            if (newProgress >= puzzle.switches) {
-                completePuzzle();
-            } else {
-                setPuzzleState({ ...puzzleState, progress: newProgress });
-            }
-        } else if (puzzle.type === 'dark' || puzzle.type === 'ice') {
-            const newProgress = puzzleState.progress + 1;
-            if (newProgress >= puzzle.moves) {
-                completePuzzle();
-            } else {
-                setPuzzleState({ ...puzzleState, progress: newProgress });
-            }
+        const newProgress = puzzleState.progress + 1;
+        if (newProgress >= puzzle.target) {
+            completePuzzle();
+        } else {
+            setPuzzleState({ ...puzzleState, progress: newProgress });
         }
     };
 
@@ -66,11 +170,8 @@ export function CaveDungeonPage() {
         setPuzzleState({ completed: true, progress: 0 });
         showSuccess('✅ ¡Puzzle completado!');
 
-        // Random reward
         const reward = Math.floor(Math.random() * 200) + 100;
         addCoins(reward);
-
-        // Chance for encounter
         if (Math.random() > 0.5) {
             triggerEncounter();
         }
@@ -149,107 +250,28 @@ export function CaveDungeonPage() {
                 </div>
             </div>
 
-            <div className="puzzle-container">
-                <h2>{currentPuzzle.description}</h2>
-
-                {currentPuzzle.type === 'push' && (
-                    <div className="push-puzzle">
-                        <div className="puzzle-grid">
-                            <div className="block">📦</div>
-                            <div className="target">❌</div>
-                        </div>
-                        <div className="puzzle-progress">
-                            Movimientos: {puzzleState.progress}/{currentPuzzle.solution.length}
-                        </div>
-                        <button className="puzzle-btn" onClick={handlePuzzleAction}>
-                            Empujar Bloque
-                        </button>
-                    </div>
-                )}
-
-                {currentPuzzle.type === 'switch' && (
-                    <div className="switch-puzzle">
-                        <div className="switches">
-                            {Array.from({ length: currentPuzzle.switches }).map((_, i) => (
-                                <div
-                                    key={i}
-                                    className={`switch ${i < puzzleState.progress ? 'active' : ''}`}
-                                >
-                                    {i < puzzleState.progress ? '🟢' : '🔴'}
-                                </div>
-                            ))}
-                        </div>
-                        <button className="puzzle-btn" onClick={handlePuzzleAction}>
-                            Activar Interruptor
-                        </button>
-                    </div>
-                )}
-
-                {currentPuzzle.type === 'dark' && (
-                    <div className="dark-puzzle">
-                        <div className="dark-room">🌑</div>
-                        <div className="puzzle-progress">
-                            Pasos: {puzzleState.progress}/{currentPuzzle.moves}
-                        </div>
-                        <button className="puzzle-btn" onClick={handlePuzzleAction}>
-                            Avanzar en la Oscuridad
-                        </button>
-                    </div>
-                )}
-
-                {currentPuzzle.type === 'ice' && (
-                    <div className="ice-puzzle">
-                        <div className="ice-floor">🧊</div>
-                        <div className="puzzle-progress">
-                            Deslizamientos: {puzzleState.progress}/{currentPuzzle.slides}
-                        </div>
-                        <button className="puzzle-btn" onClick={handlePuzzleAction}>
-                            Deslizarse
-                        </button>
-                    </div>
-                )}
-
-                {puzzleState.completed && (
-                    <button className="next-floor-btn" onClick={nextFloor}>
-                        {floor < 5 ? '⬇️ Siguiente Piso' : '🏆 Completar Mazmorra'}
-                    </button>
-                )}
-            </div>
+            <PuzzleView
+                puzzle={currentPuzzle}
+                puzzleState={puzzleState}
+                onAction={handlePuzzleAction}
+                onNext={nextFloor}
+                floor={floor}
+            />
 
             {encounter && (
-                <div className="encounter-modal">
-                    <div className="encounter-content">
-                        {showReward ? (
-                            <BattleRewardModal
-                                pokemon={encounter}
-                                onChoice={handleRewardChoice}
-                            />
-                        ) : battleMode ? (
-                            <BattleArena
-                                initialFighter1={pokemonList.find(p => p.id === squadIds[0])}
-                                initialFighter2={encounter}
-                                onBattleEnd={handleBattleEnd}
-                            />
-                        ) : (
-                            <>
-                                <h2>{floor === 5 ? '👑 ¡Jefe Final!' : '¡Pokémon salvaje!'}</h2>
-                                <img src={encounter.sprites.front_default} alt={encounter.name} />
-                                <h3>{encounter.name}</h3>
-                                <div className="encounter-actions">
-                                    <button className="catch-btn" onClick={handleCatch}>
-                                        ⚾ Capturar
-                                    </button>
-                                    <button className="fight-btn" onClick={() => setBattleMode(true)}>
-                                        ⚔️ Luchar
-                                    </button>
-                                    <button className="flee-btn" onClick={() => setEncounter(null)}>
-                                        🏃 Huir
-                                    </button>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
+                <EncounterModal
+                    encounter={encounter}
+                    showReward={showReward}
+                    battleMode={battleMode}
+                    onRewardChoice={handleRewardChoice}
+                    onBattleEnd={handleBattleEnd}
+                    onCatch={handleCatch}
+                    onFight={() => setBattleMode(true)}
+                    onFlee={() => setEncounter(null)}
+                    floor={floor}
+                    pokemonList={pokemonList}
+                    squadIds={squadIds}
+                />
             )}
         </div>
     );

@@ -3,90 +3,106 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--background-color);
-    background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
-    background-size: 20px 20px;
+    background: var(--bg-dark);
+    background-image: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
     padding: 2rem;
-    color: var(--text-color);
+    color: white;
 }
 
 .starter-content {
-    max-width: 1000px;
+    max-width: 1200px;
     width: 100%;
     text-align: center;
 }
 
 .starter-content h1 {
-    font-size: 3rem;
+    font-size: 4rem;
     margin-bottom: 1rem;
     font-family: var(--header-font);
     color: var(--primary-color);
-    text-shadow: 4px 4px 0px var(--secondary-color), -2px -2px 0px var(--accent-color);
-    -webkit-text-stroke: 2px var(--secondary-color);
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
 }
 
 .subtitle {
-    font-size: 1.2rem;
-    color: #94a3b8;
-    margin-bottom: 3rem;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 4rem;
+    font-weight: 500;
 }
 
 .starters-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
 }
 
 .starter-card {
-    background: white;
-    border-radius: 1.5rem;
-    padding: 2rem;
+    background: var(--bg-surface);
+    padding: 2.5rem 2rem;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 4px solid transparent;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    box-shadow: var(--shadow-md);
+
+    /* Kenney Fantasy Border */
+    border: 8px solid transparent;
+    border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 8 round;
+    image-rendering: pixelated;
+}
+
+.starter-card::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    /* Offset to show glow behind border-image */
+    background: var(--starter-glow, var(--primary-color));
+    z-index: -1;
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    filter: blur(15px);
+    transition: opacity 0.4s ease;
 }
 
 .starter-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    border-color: var(--primary-color);
+    transform: translateY(-15px);
+    box-shadow: var(--shadow-lg);
 }
 
 .starter-card.selected {
-    transform: translateY(-10px) scale(1.05);
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(255, 203, 5, 0.3);
+    transform: translateY(-15px) scale(1.05);
+    border-image-source: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png');
+    /* Gold/Bright variant if available or just pulse */
+    box-shadow: var(--shadow-lg);
 }
 
-/* Type-specific styling */
-.starter-card.grass.selected {
-    border-color: #4ade80;
-    box-shadow: 0 0 30px rgba(74, 222, 128, 0.3);
+.starter-card.selected::before {
+    opacity: 0.6;
 }
 
-.starter-card.fire.selected {
-    border-color: #f87171;
-    box-shadow: 0 0 30px rgba(248, 113, 113, 0.3);
+/* Type-specific glowing colors */
+.starter-card.grass {
+    --starter-glow: #4ade80;
 }
 
-.starter-card.water.selected {
-    border-color: #60a5fa;
-    box-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
+.starter-card.fire {
+    --starter-glow: #f87171;
 }
 
-.starter-card.electric.selected {
-    border-color: #facc15;
-    box-shadow: 0 0 30px rgba(250, 204, 21, 0.3);
+.starter-card.water {
+    --starter-glow: #60a5fa;
+}
+
+.starter-card.electric {
+    --starter-glow: #facc15;
 }
 
 .starter-image {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 1rem;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 1.5rem;
     position: relative;
 }
 
@@ -94,54 +110,48 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.3));
-    transition: transform 0.3s;
+    filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.4));
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.starter-card:hover .starter-image img {
-    transform: scale(1.2);
+.starter-card:hover .starter-image img,
+.starter-card.selected .starter-image img {
+    transform: scale(1.2) rotate(5deg);
 }
 
 .starter-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-family: var(--header-font);
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    color: white;
+    text-transform: capitalize;
 }
 
 .starter-card p {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
 }
 
 .choose-btn {
-    background: white;
-    color: #0f172a;
-    border: none;
-    padding: 1rem 3rem;
-    font-size: 1.2rem;
-    font-weight: 800;
-    border-radius: 3rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
     animation: pulse 2s infinite;
-}
-
-.choose-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+        transform: scale(1);
     }
 
-    70% {
-        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+    50% {
+        transform: scale(1.05);
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        transform: scale(1);
     }
+}
+
+.choose-btn:disabled {
+    opacity: 0.6;
+    animation: none;
 }

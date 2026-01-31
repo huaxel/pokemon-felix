@@ -10,20 +10,26 @@
 }
 
 .toast {
-    background: white;
+    background: var(--color-ui-bg-beige);
     padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    box-shadow: none;
     display: flex;
     align-items: center;
     gap: 10px;
     min-width: 250px;
     max-width: 400px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family);
     font-weight: 500;
-    border-left: 4px solid;
     transition: all 0.3s ease;
     pointer-events: auto;
+    
+    /* Kenney Border */
+    border: 8px solid transparent;
+    border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-029.png') 8 round;
+    image-rendering: pixelated;
+    
+    color: var(--color-ui-text-dark);
 }
 
 .toast-visible {
@@ -37,33 +43,33 @@
 }
 
 .toast-success {
-    border-left-color: #10b981;
-    background: #f0fdf4;
+    /* border-left-color: #10b981; */
+    /* background: #f0fdf4; */
 }
 
 .toast-error {
-    border-left-color: #ef4444;
-    background: #fef2f2;
+    /* border-left-color: #ef4444; */
+    /* background: #fef2f2; */
 }
 
 .toast-info {
-    border-left-color: #3b82f6;
-    background: #eff6ff;
+    /* border-left-color: #3b82f6; */
+    /* background: #eff6ff; */
 }
 
 .toast-warning {
-    border-left-color: #f59e0b;
-    background: #fffbeb;
+    /* border-left-color: #f59e0b; */
+    /* background: #fffbeb; */
 }
 
 .toast-quest {
-    border-left-color: #8b5cf6;
-    background: #faf5ff;
+    /* border-left-color: #8b5cf6; */
+    /* background: #faf5ff; */
 }
 
 .toast-coins {
-    border-left-color: #eab308;
-    background: #fefce8;
+    /* border-left-color: #eab308; */
+    /* background: #fefce8; */
 }
 
 .toast-icon {
@@ -73,7 +79,7 @@
 
 .toast-message {
     flex: 1;
-    color: #1e293b;
+    color: var(--color-ui-text-dark);
     font-size: 0.9rem;
 }
 

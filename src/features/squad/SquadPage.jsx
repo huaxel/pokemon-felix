@@ -8,7 +8,7 @@ import { SquadGrid } from './components/SquadGrid';
 import { BenchGrid } from './components/BenchGrid';
 import { DroppableSlot } from './DroppableSlot';
 import { useSquadData } from './hooks/useSquadData';
-import squadBg from '../../assets/squad_bg.png';
+import squadBg from '../../assets/buildings/squad_bg.png';
 import './SquadPage.css';
 
 export function SquadPage() {
@@ -82,10 +82,10 @@ export function SquadPage() {
 
                         {squadPokemon.length > 0 && (
                             <div className="squad-actions" style={{ marginTop: '1.5rem' }}>
-                                <Link to="/adventure" className="tournament-btn">
-                                    Terug naar Wereld
+                                <Link to="/adventure" className="btn-adventure primary tournament-btn">
+                                    Vra de Wereld
                                 </Link>
-                                <Link to="/battle-modes" className="tournament-btn" style={{ marginLeft: '1rem' }}>
+                                <Link to="/battle-modes" className="btn-adventure tournament-btn" style={{ marginLeft: '1rem' }}>
                                     Ir a Batalla
                                 </Link>
                             </div>

@@ -63,7 +63,7 @@ export function PokedexPage() {
 
             {!searchResults && (
                 <div className="load-more-container">
-                    <button className="load-more-btn" onClick={loadPokemon} disabled={loading}>
+                    <button className="btn-adventure primary" onClick={loadPokemon} disabled={loading}>
                         {loading ? 'Cargando...' : 'Cargar Más Pokémon'}
                     </button>
                 </div>

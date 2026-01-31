@@ -37,6 +37,30 @@
   --health-critical: #ef4444;
   --health-good: #22c55e;
   --health-warning: #f59e0b;
+
+  /* Kenney UI Pack Colors - Extracted from assets */
+  --color-ui-bg-beige: #e8d4a2;
+  /* Panel background */
+  --color-ui-border-brown: #8b5a3c;
+  /* Panel borders */
+  --color-ui-border-dark: #5c3a29;
+  /* Dark border accent */
+  --color-ui-active-blue: #5b9bd5;
+  /* Active/selected state */
+  --color-ui-active-blue-dark: #3d7ab8;
+  /* Active hover */
+  --color-ui-text-dark: #2d1810;
+  /* High contrast text */
+  --color-ui-text-light: #f5f5dc;
+  /* Light text on dark */
+  --color-ui-red-accent: #d94848;
+  /* Warning/close buttons */
+  --color-ui-green-accent: #6ab04c;
+  /* Success/confirm */
+
+  /* 9-Slice Border Dimensions */
+  --border-slice-width: 16px;
+  --border-slice-width-thick: 24px;
 }
 
 * {
@@ -45,13 +69,87 @@
   padding: 0;
 }
 
+/* Pixel-Perfect Rendering - Critical for Kenney Assets */
+html,
+body,
+canvas,
+img,
+.pixel-art {
+  image-rendering: -moz-crisp-edges;
+  /* Firefox */
+  image-rendering: -webkit-crisp-edges;
+  /* Webkit (Safari) */
+  image-rendering: pixelated;
+  /* Chrome, Edge */
+  image-rendering: crisp-edges;
+  /* Standard */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE */
+}
+
 body {
   font-family: var(--font-family);
   background-color: var(--background-color);
   background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
   background-size: 20px 20px;
   color: var(--text-color);
-  line-height: 1.6;
+  line-height: 1.5;
+  /* Improved for RPG dialogue legibility */
+  /* Custom Kenney Gauntlet Cursor */
+  cursor: url('/src/assets/icons/custom_cursor.png'), auto;
+
+  /* Pixel-font rendering optimization */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+}
+
+button,
+a,
+input[type="button"],
+input[type="submit"],
+.clickable {
+  cursor: url('/src/assets/icons/custom_cursor.png'), pointer !important;
+}
+
+/* Premium Adventure Button Base Class */
+.btn-adventure {
+  image-rendering: pixelated;
+  font-family: var(--header-font);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: white;
+  background: #78350f;
+  /* Brownish adventure theme */
+  box-shadow: 0 4px 0 #451a03;
+  transition: all 0.1s;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-adventure:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #451a03;
+  background: #92400e;
+}
+
+.btn-adventure:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.btn-adventure.primary {
+  background: var(--secondary-color);
+  box-shadow: 0 4px 0 #1d4ed8;
+}
+
+.btn-adventure.primary:hover {
+  background: #3b82f6;
+  box-shadow: 0 2px 0 #1d4ed8;
 }
 
 /* Accessible focus indicators */

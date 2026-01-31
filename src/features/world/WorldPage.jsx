@@ -24,6 +24,60 @@ import { useWorldState } from './hooks/useWorldState';
 import './WorldPage.css';
 
 const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
+const WORLDS_CONFIG = {
+    green_valley: [
+        [1, 1, 1, 14, 0, 4, 4, 0, 19, 3],
+        [1, 12, 1, 13, 16, 17, 4, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1, 1, 25, 1, 1],
+        [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
+        [4, 4, 0, 0, 1, 0, 23, 10, 10, 18],
+        [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
+        [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
+        [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
+        [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
+        [5, 0, 26, 2, 0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 24, 1, 0, 0, 0, 0, 0]
+    ],
+    desert_oasis: [
+        [27, 27, 27, 1, 27, 27, 27, 28, 28, 28],
+        [27, 1, 1, 1, 27, 27, 27, 27, 28, 27],
+        [27, 1, 25, 1, 27, 10, 10, 27, 27, 27],
+        [27, 1, 1, 1, 27, 10, 11, 10, 27, 27],
+        [27, 27, 27, 27, 27, 10, 10, 27, 27, 27],
+        [28, 28, 27, 27, 27, 27, 27, 27, 27, 27],
+        [28, 28, 28, 27, 4, 4, 27, 27, 5, 27],
+        [27, 27, 27, 27, 4, 4, 27, 27, 27, 27],
+        [27, 27, 27, 27, 27, 27, 27, 27, 27, 27],
+        [27, 3, 27, 27, 27, 27, 24, 27, 27, 27],
+        [27, 27, 27, 27, 27, 27, 27, 27, 27, 27]
+    ],
+    frozen_peak: [
+        [28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
+        [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
+        [28, 1, 7, 1, 28, 28, 28, 28, 28, 28],
+        [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
+        [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
+        [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
+        [28, 4, 4, 28, 28, 28, 28, 28, 28, 28],
+        [28, 4, 4, 28, 28, 3, 28, 28, 28, 28],
+        [28, 28, 28, 28, 28, 1, 28, 28, 28, 28],
+        [28, 28, 28, 5, 28, 1, 28, 21, 28, 28],
+        [28, 28, 28, 28, 28, 1, 28, 28, 28, 28]
+    ]
+};
+
+function getInitialPlayerPos() {
+    try {
+        const saved = localStorage.getItem(PLAYER_POS_STORAGE_KEY);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (typeof parsed?.x === 'number' && typeof parsed?.y === 'number') return parsed;
+        }
+    } catch (err) {
+        console.warn('Pos error', err);
+    }
+    return { x: 0, y: 0 };
+}
 
 export function WorldPage() {
     const navigate = useNavigate();
@@ -50,65 +104,14 @@ export function WorldPage() {
     const [searchParams] = useSearchParams();
     const worldId = searchParams.get('world') || 'green_valley';
 
-    const WORLDS_CONFIG = useMemo(() => ({
-        'green_valley': [
-            [1, 1, 1, 14, 0, 4, 4, 0, 19, 3],
-            [1, 12, 1, 13, 16, 17, 4, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 25, 1, 1],
-            [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
-            [4, 4, 0, 0, 1, 0, 23, 10, 10, 18],
-            [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
-            [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
-            [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
-            [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
-            [5, 0, 26, 2, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 24, 1, 0, 0, 0, 0, 0],
-        ],
-        'desert_oasis': [
-            [27, 27, 27, 1, 27, 27, 27, 28, 28, 28],
-            [27, 1, 1, 1, 27, 27, 27, 27, 28, 27],
-            [27, 1, 25, 1, 27, 10, 10, 27, 27, 27],
-            [27, 1, 1, 1, 27, 10, 11, 10, 27, 27],
-            [27, 27, 27, 27, 27, 10, 10, 27, 27, 27],
-            [28, 28, 27, 27, 27, 27, 27, 27, 27, 27],
-            [28, 28, 28, 27, 4, 4, 27, 27, 5, 27],
-            [27, 27, 27, 27, 4, 4, 27, 27, 27, 27],
-            [27, 27, 27, 27, 27, 27, 27, 27, 27, 27],
-            [27, 3, 27, 27, 27, 27, 24, 27, 27, 27], // 24 is Portal
-            [27, 27, 27, 27, 27, 27, 27, 27, 27, 27],
-        ],
-        'frozen_peak': [
-            [28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
-            [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
-            [28, 1, 7, 1, 28, 28, 28, 28, 28, 28],
-            [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
-            [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
-            [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
-            [28, 4, 4, 28, 28, 28, 28, 28, 28, 28],
-            [28, 4, 4, 28, 28, 3, 28, 28, 28, 28],
-            [28, 28, 28, 28, 28, 1, 28, 28, 28, 28],
-            [28, 28, 28, 5, 28, 1, 28, 21, 28, 28], // 21 is Portal
-            [28, 28, 28, 28, 28, 1, 28, 28, 28, 28],
-        ]
-    }), []);
+    const baseGrid = WORLDS_CONFIG[worldId] || WORLDS_CONFIG.green_valley;
 
-    const baseGrid = WORLDS_CONFIG[worldId] || WORLDS_CONFIG['green_valley'];
-
-    const [playerPos, setPlayerPos] = useState(() => {
-        try {
-            const saved = localStorage.getItem(PLAYER_POS_STORAGE_KEY);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (typeof parsed?.x === 'number' && typeof parsed?.y === 'number') return parsed;
-            }
-        } catch (err) { console.warn('Pos error', err); }
-        return { x: 0, y: 0 };
-    });
+    const [playerPos, setPlayerPos] = useState(getInitialPlayerPos);
 
     const [isBuildMode, setIsBuildMode] = useState(false);
     const [selectedBuilding, setSelectedBuilding] = useState('house');
 
-    const mapGrid = useCallback(() => {
+    const mapGrid = useMemo(() => {
         const grid = baseGrid.map(row => [...row]);
         townObjects.forEach(obj => {
             if (obj.y < 10 && obj.x < 10) {
@@ -120,7 +123,7 @@ export function WorldPage() {
             }
         });
         return grid;
-    }, [baseGrid, townObjects])();
+    }, [baseGrid, townObjects]);
 
     const handleTileEvent = useWorldEvents({
         playerPos, questState: world.questState, setQuestState: world.setQuestState,
@@ -185,11 +188,11 @@ export function WorldPage() {
     return (
         <div className={`world-page ${world.isNight ? 'night-mode' : ''} weather-${world.weather}`} style={{ backgroundColor: seasonStyle.bg }}>
             <button
-                className="exit-world-btn"
+                className="btn-kenney exit-world-btn"
                 onClick={() => navigate('/world-select')}
-                style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 100, padding: '5px 10px', background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+                style={{ position: 'absolute', top: '60px', left: '20px', zIndex: 100 }}
             >
-                🌍 Mundo
+                🌍 MUNDO
             </button>
             <WorldWeather weather={world.weather} isNight={world.isNight} />
             <WorldHUD
@@ -203,10 +206,18 @@ export function WorldPage() {
                 calculateDistance={calculateDistance} getDirectionHint={getDirectionHint}
                 showMessage={showMessage}
             />
-            {activeEffect.name !== 'Normal' && <div className="active-effect-hud" style={{ position: 'absolute', top: '160px', right: '10px', background: 'rgba(0,0,0,0.6)', color: 'white', padding: '5px 10px', borderRadius: '20px', fontSize: '0.8rem', zIndex: 100 }}>✨ {activeEffect.name} Activo</div>}
+            {activeEffect.name !== 'Normal' && (
+                <div className="active-effect-hud dialogue-box-sharp" style={{ position: 'absolute', top: '180px', right: '20px', padding: '0.5rem 1rem', fontSize: '0.9rem', zIndex: 100 }}>
+                    ✨ {activeEffect.name} Activo
+                </div>
+            )}
             {world.showQuestLog && <QuestLog onClose={() => world.setShowQuestLog(false)} />}
             <div className="world-header">
-                {message && <div className="event-popup" style={{ backgroundColor: message.color }}>{message.text}</div>}
+                {message && (
+                    <div className="event-popup dialogue-box-sharp" style={{ borderImageSource: `url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png')` }}>
+                        {message.text}
+                    </div>
+                )}
                 <InteriorModal showInterior={world.showInterior} setShowInterior={world.setShowInterior} />
                 <PokeballCollectionModal isOpen={world.showPokeballModal} onClose={() => world.setShowPokeballModal(false)} />
             </div>
