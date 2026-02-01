@@ -2,17 +2,18 @@
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    background:
-        radial-gradient(circle at center, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.95) 100%),
-        url('../assets/battle_bg.png');
-    background-size: cover;
-    background-position: center;
+    background-color: #2d1810;
+    background-image: url('../../../assets/kenney_tiny-town/Tiles/tile_0000.png');
+    background-size: 64px;
+    background-repeat: repeat;
+    image-rendering: pixelated;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg), 0 0 100px rgba(0, 0, 0, 0.5);
     min-height: 85vh;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--glass-border);
+    border: var(--border-slice-width) solid transparent;
+    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') var(--border-slice-width) round;
     position: relative;
     overflow: hidden;
 }
@@ -28,13 +29,13 @@
 
 .fighter-hud {
     flex: 1;
-    background: var(--bg-surface);
+    background: #e2e8f0;
     padding: 1.25rem;
-    border-radius: var(--radius-sm);
+    border-radius: 4px;
 
     /* Kenney Fantasy Border */
-    border: 8px solid transparent;
-    border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 8 round;
+    border: var(--border-slice-width) solid transparent;
+    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') var(--border-slice-width) round;
     image-rendering: pixelated;
 
     box-shadow: var(--shadow-md);
@@ -326,15 +327,7 @@
 
 .battle-log {
     flex: 1;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 1.5rem;
-    border-radius: var(--radius-sm);
-
-    /* Kenney Fantasy Border */
-    border: 8px solid transparent;
-    border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 8 round;
-    image-rendering: pixelated;
-
+    /* Border handled by game-panel-dark class */
     height: 180px;
     overflow-y: auto;
     box-shadow: var(--shadow-md);
@@ -387,39 +380,16 @@
 }
 
 .move-btn {
-    image-rendering: pixelated;
-    font-family: var(--header-font);
-    padding: 1rem;
-    background: #78350f;
-    border: none;
-    border-radius: var(--radius-sm);
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 0 #451a03;
-    transition: all 0.1s;
+    /* Layout specific to move button content */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
     text-transform: capitalize;
+    /* Other styles handled by btn-kenney */
 }
 
-.move-btn:hover:not(:disabled) {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 #451a03;
-    background: #92400e;
-}
-
-.move-btn:active:not(:disabled) {
-    transform: translateY(4px);
-    box-shadow: none;
-}
-
-.move-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    filter: grayscale(1);
-}
+/* Removed hover/active/disabled styles as btn-kenney handles them */
 
 .move-name {
     font-size: 1rem;
@@ -449,27 +419,15 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 1.5rem 4rem;
-    font-family: var(--header-font);
     font-size: 2rem;
-    background: var(--health-good);
-    color: white;
-    border: none;
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    box-shadow: 0 8px 0 #15803d, var(--shadow-lg);
     z-index: 100;
-    transition: all 0.1s;
-}
-
-.start-btn:active {
-    transform: translate(-50%, -46%);
-    box-shadow: 0 4px 0 #15803d;
+    /* Other styles handled by btn-kenney */
 }
 
 .winner-overlay {
     position: absolute;
     inset: 0;
-    background: var(--overlay-bg);
+    /* Background handled by game-panel-dark */
     backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
@@ -487,23 +445,7 @@
     text-align: center;
 }
 
-.winner-overlay button {
-    padding: 1rem 3rem;
-    background: var(--secondary-color);
-    color: white;
-    border: none;
-    border-radius: var(--radius-full);
-    font-weight: bold;
-    font-size: 1.25rem;
-    cursor: pointer;
-    box-shadow: var(--shadow-md);
-    transition: all 0.2s;
-}
-
-.winner-overlay button:hover {
-    transform: scale(1.05);
-    background: #1a5c9a;
-}
+/* Removed winner-overlay button styles */
 
 .selection-area {
     margin-top: 2rem;

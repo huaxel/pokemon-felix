@@ -15,16 +15,16 @@ export function FountainWishCard({
 
             {showProbability && (
                 <div className="probability-list">
-                    <strong>Posibles recompensas:</strong>
+                    <strong>Mogelijke beloningen:</strong>
                     {wish.rewards.map((reward, idx) => (
                         <div key={idx} className="probability-item">
                             <span>{(reward.chance * 100).toFixed(0)}%</span>
                             <span className="reward-desc">
-                                {reward.type === 'coins' && `${reward.amount} monedas`}
+                                {reward.type === 'coins' && `${reward.amount} munten`}
                                 {reward.type === 'item' && reward.item}
-                                {reward.type === 'heal' && 'Curación total'}
-                                {reward.type === 'lucky' && '¡Día de suerte!'}
-                                {reward.type === 'nothing' && 'Nada'}
+                                {reward.type === 'heal' && 'Volledige genezing'}
+                                {reward.type === 'lucky' && 'Geluksdag!'}
+                                {reward.type === 'nothing' && 'Niets'}
                             </span>
                         </div>
                     ))}
@@ -32,19 +32,19 @@ export function FountainWishCard({
             )}
 
             <button
-                className="wish-button"
+                className="wish-button btn-kenney primary"
                 onClick={() => onWish(wish.id)}
                 disabled={isWishing || !canAfford}
             >
                 {isWishing ? (
                     <>
                         <Zap size={20} className="spinning" />
-                        Deseando...
+                        Wensen...
                     </>
                 ) : (
                     <>
                         <Coins size={20} />
-                        {wish.cost} monedas
+                        {wish.cost} munten
                     </>
                 )}
             </button>

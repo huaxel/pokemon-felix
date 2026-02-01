@@ -3,7 +3,7 @@ import { typeTranslations } from '../lib/utils';
 import './PokemonModal.css';
 
 export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
-    const [language, setLanguage] = useState('es'); // Default to Spanish
+    const [language, setLanguage] = useState('en'); // Default to English (no Dutch in PokeAPI)
 
     if (!pokemon) return null;
 
@@ -20,7 +20,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
         // Find the first entry in the language, preferring later versions (usually more recent games)
         const entries = speciesData.flavor_text_entries.filter(f => f.language.name === lang);
         // Reverse to get latest gen text usually
-        return entries.length > 0 ? entries[entries.length - 1].flavor_text.replace(/[\n\f]/g, ' ') : 'Descripción no disponible.';
+        return entries.length > 0 ? entries[entries.length - 1].flavor_text.replace(/[\n\f]/g, ' ') : 'Beschrijving niet beschikbaar.';
     };
 
     const currentName = getName(language);
@@ -28,12 +28,12 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
 
     // Stats mapping
     const statLabels = {
-        hp: 'PS',
-        attack: 'Ataque',
-        defense: 'Defensa',
-        'special-attack': 'Atq. Esp.',
-        'special-defense': 'Def. Esp.',
-        speed: 'Velocidad'
+        hp: 'HP',
+        attack: 'Aanval',
+        defense: 'Verdediging',
+        'special-attack': 'Sp. Aanv.',
+        'special-defense': 'Sp. Verd.',
+        speed: 'Snelheid'
     };
 
     return (
@@ -75,10 +75,10 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
                             alt={currentName}
                         />
                         <button
-                            className={`btn-adventure primary collection-btn ${isOwned ? 'owned' : ''}`}
+                            className={`btn-kenney primary collection-btn ${isOwned ? 'owned' : ''}`}
                             onClick={() => onToggleOwned(pokemon.id)}
                         >
-                            {isOwned ? 'En la Colección' : 'Añadir a la Colección'}
+                            {isOwned ? 'In collectie' : 'Toevoegen aan collectie'}
                         </button>
                     </div>
 
@@ -94,7 +94,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
                         <p className="flavor-text">{currentDescription}</p>
 
                         <div className="stats-container">
-                            <h3>Estadísticas</h3>
+                            <h3>Statistieken</h3>
                             {pokemon.stats.map(stat => (
                                 <div key={stat.stat.name} className="stat-row">
                                     <span className="stat-label">{statLabels[stat.stat.name] || stat.stat.name}</span>

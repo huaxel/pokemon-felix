@@ -1,14 +1,13 @@
 import React from 'react';
 import { typeTranslations } from '../lib/utils';
 import './PokemonCard.css';
-import favIcon from '../assets/items/mystery_box.png';
-import squadIcon from '../assets/items/greatball.png';
+import { mysteryBoxIcon as favIcon, greatballIcon as squadIcon } from '../features/world/worldAssets';
 
 const PokemonCardComponent = ({ pokemon, isOwned, onToggleOwned, onClick, index = 0, isInSquad, onToggleSquad }) => {
     // Determine the main type for styling (defensive: list items may be lightweight)
     const mainType = pokemon.types?.[0]?.type?.name || 'normal';
-    // Determine the display name, preferring Spanish if available
-    const displayName = pokemon.speciesData?.names?.find(n => n.language.name === 'es')?.name || pokemon.name;
+    // Determine the display name, preferring English if available, otherwise default to name
+    const displayName = pokemon.speciesData?.names?.find(n => n.language.name === 'en')?.name || pokemon.name;
 
     return (
         <div
@@ -33,9 +32,9 @@ const PokemonCardComponent = ({ pokemon, isOwned, onToggleOwned, onClick, index 
                         e.stopPropagation();
                         onToggleOwned(pokemon.id);
                     }}
-                    aria-label={isOwned ? "Eliminar de la colección" : "Añadir a la colección"}
+                    aria-label={isOwned ? "Verwijder uit collectie" : "Voeg toe aan collectie"}
                 >
-                    <img src={favIcon} alt={isOwned ? 'Quitar favorito' : 'Marcar favorito'} className="icon" />
+                    <img src={favIcon} alt={isOwned ? 'Verwijder favoriet' : 'Markeer favoriet'} className="icon" />
                 </button>
                 {onToggleSquad && (
                     <button
@@ -44,23 +43,24 @@ const PokemonCardComponent = ({ pokemon, isOwned, onToggleOwned, onClick, index 
                             e.stopPropagation();
                             onToggleSquad();
                         }}
-                        title={isInSquad ? "Eliminar del equipo" : "Añadir al equipo"}
+                        title={isInSquad ? "Verwijder uit team" : "Voeg toe aan team"}
                     >
-                        <img src={squadIcon} alt={isInSquad ? 'Remover del equipo' : 'Añadir al equipo'} className="icon" />
+                        <img src={squadIcon} alt={isInSquad ? 'Verwijder uit team' : 'Voeg toe aan team'} className="icon" />
                     </button>
                 )}
             </div>
 
             <div className="card-image-container">
                 <img
-                    src={pokemon.sprites.other['official-artwork']?.front_default || pokemon.sprites.front_default}
+                    src={pokemon.sprites.front_default}
                     alt={pokemon.name}
                     className="pokemon-image"
                     loading="lazy"
                     decoding="async"
+                    style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }}
                     onError={(e) => {
                         e.target.onerror = null; // Prevent infinite loop
-                        e.target.src = pokemon.sprites.front_default;
+                        e.target.src = pokemon.sprites.other['official-artwork'].front_default;
                     }}
                 />
             </div>

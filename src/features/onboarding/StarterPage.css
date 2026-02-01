@@ -3,8 +3,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-dark);
-    background-image: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
     padding: 2rem;
     color: white;
 }
@@ -15,140 +13,113 @@
     text-align: center;
 }
 
+.starter-header {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid #4ade80;
+    margin-bottom: 2rem;
+    display: inline-block;
+}
+
 .starter-content h1 {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    font-family: var(--header-font);
-    color: var(--primary-color);
-    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    letter-spacing: 2px;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Press Start 2P', cursive;
+    color: #fff;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+    line-height: 1.4;
 }
 
 .subtitle {
-    font-size: 1.25rem;
-    color: var(--text-muted);
-    margin-bottom: 4rem;
-    font-weight: 500;
+    font-size: 1rem;
+    color: #e0e0e0;
+    font-family: var(--font-family);
+    margin-bottom: 0;
 }
 
 .starters-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2.5rem;
-    margin-bottom: 4rem;
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
 .starter-card {
-    background: var(--bg-surface);
-    padding: 2.5rem 2rem;
+    background: var(--color-ui-bg-beige);
+    padding: 2rem;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.2s;
     position: relative;
-    overflow: visible;
-    box-shadow: var(--shadow-md);
-
-    /* Kenney Fantasy Border */
-    border: 8px solid transparent;
-    border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 8 round;
-    image-rendering: pixelated;
-}
-
-.starter-card::before {
-    content: "";
-    position: absolute;
-    inset: -6px;
-    /* Offset to show glow behind border-image */
-    background: var(--starter-glow, var(--primary-color));
-    z-index: -1;
-    border-radius: var(--radius-sm);
-    opacity: 0;
-    filter: blur(15px);
-    transition: opacity 0.4s ease;
+    /* .game-panel handles border */
 }
 
 .starter-card:hover {
-    transform: translateY(-15px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+    background: #fff;
 }
 
 .starter-card.selected {
-    transform: translateY(-15px) scale(1.05);
-    border-image-source: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png');
-    /* Gold/Bright variant if available or just pulse */
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-10px);
+    background: #fff;
+    border-color: var(--color-ui-active-blue); /* Override border color if needed */
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.5); /* Gold glow */
 }
 
-.starter-card.selected::before {
-    opacity: 0.6;
-}
-
-/* Type-specific glowing colors */
-.starter-card.grass {
-    --starter-glow: #4ade80;
-}
-
-.starter-card.fire {
-    --starter-glow: #f87171;
-}
-
-.starter-card.water {
-    --starter-glow: #60a5fa;
-}
-
-.starter-card.electric {
-    --starter-glow: #facc15;
-}
+/* Type-specific highlights */
+.starter-card.grass.selected { box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.5); }
+.starter-card.fire.selected { box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.5); }
+.starter-card.water.selected { box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.5); }
+.starter-card.electric.selected { box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.5); }
 
 .starter-image {
-    width: 160px;
-    height: 160px;
-    margin: 0 auto 1.5rem;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .starter-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.4));
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.2s;
 }
 
 .starter-card:hover .starter-image img,
 .starter-card.selected .starter-image img {
-    transform: scale(1.2) rotate(5deg);
+    transform: scale(1.2);
 }
 
 .starter-card h3 {
-    font-family: var(--header-font);
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
-    color: white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-ui-text-dark);
     text-transform: capitalize;
 }
 
 .starter-card p {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    line-height: 1.6;
+    font-size: 0.9rem;
+    color: var(--color-ui-text-dark);
+    line-height: 1.5;
+    font-family: var(--font-family);
 }
 
 .choose-btn {
+    font-size: 1.5rem;
+    padding: 1.5rem 3rem;
     animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 .choose-btn:disabled {

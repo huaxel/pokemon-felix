@@ -14,18 +14,18 @@ export function PalaceChallengeCards({
                     <p className="challenge-description">{challenge.description}</p>
 
                     <div className="challenge-rewards">
-                        <strong>Recompensas:</strong>
+                        <strong>Beloningen:</strong>
                         <div className="reward-list">
-                            <span>💰 {challenge.reward.coins} monedas</span>
+                            <span>💰 {challenge.reward.coins} munten</span>
                             {challenge.reward.item && <span>🎁 {challenge.reward.item}</span>}
-                            {challenge.reward.legendary && <span>✨ Pokémon Legendario</span>}
+                            {challenge.reward.legendary && <span>✨ Legendarische Pokémon</span>}
                         </div>
                     </div>
 
                     {completedChallenges.includes(challenge.id) ? (
                         <button className="challenge-button completed" disabled>
                             <Trophy size={20} />
-                            Completado
+                            Voltooid
                         </button>
                     ) : (
                         <button
@@ -35,12 +35,12 @@ export function PalaceChallengeCards({
                             {challenge.cost > 0 ? (
                                 <>
                                     <Coins size={20} />
-                                    {challenge.cost} monedas
+                                    {challenge.cost} munten
                                 </>
                             ) : (
                                 <>
                                     <Zap size={20} />
-                                    Empezar
+                                    Starten
                                 </>
                             )}
                         </button>

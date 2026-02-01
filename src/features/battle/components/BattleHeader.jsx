@@ -1,4 +1,4 @@
-export function BattleHeader({ fighter1, fighter2, f1HP, f1MaxHP, f2HP, f2MaxHP, f1Energy, f2Energy, f1Weakened, f2Weakened }) {
+export function BattleHeader({ fighter1, fighter2, f1HP, f1MaxHP, f2HP, f2MaxHP, f1Energy, f2Energy, f1Weakened, f2Weakened, f1Status, f2Status }) {
     if (!fighter1 || !fighter2) return null;
 
     const hpPercent = (hp, max) => Math.max(0, (hp / max) * 100);
@@ -10,6 +10,11 @@ export function BattleHeader({ fighter1, fighter2, f1HP, f1MaxHP, f2HP, f2MaxHP,
         return 'var(--health-critical)';
     };
 
+    const getStatusIcon = (s) => {
+        const map = { burn: '🔥', paralysis: '⚡', freeze: '❄️', poison: '☠️', sleep: '💤' };
+        return map[s] || s;
+    };
+
     return (
         <div className="battle-header-hud">
             <div className={`fighter-hud player ${f1Weakened ? 'hud-weakened' : ''}`}>
@@ -17,20 +22,22 @@ export function BattleHeader({ fighter1, fighter2, f1HP, f1MaxHP, f2HP, f2MaxHP,
                     <span className="fighter-name">{fighter1.name}</span>
                     <span className="fighter-level">Lvl 12</span>
                 </div>
-                {f1Weakened && <div className="weakened-tag">😵 DEBILITADO</div>}
+                <div className="status-row">
+                    {f1Weakened && <div className="weakened-tag">😵 DEBILITADO</div>}
+                    {f1Status && <div className="status-tag">{getStatusIcon(f1Status)} {f1Status.toUpperCase()}</div>}
+                </div>
                 <div className="hp-container">
                     <div className="hp-label">HP</div>
-                    <div className="hp-bar-bg">
+                    <div className="stat-bar-pixel" style={{ width: '100%', height: '16px' }}>
                         <div
-                            className="hp-bar-fill"
+                            className={`stat-bar-pixel-fill ${hpPercent(f1HP, f1MaxHP) <= 20 ? 'critical' : hpPercent(f1HP, f1MaxHP) <= 50 ? 'warning' : ''}`}
                             style={{
-                                width: `${hpPercent(f1HP, f1MaxHP)}%`,
-                                backgroundColor: getHPColor(f1HP, f1MaxHP)
+                                width: `${hpPercent(f1HP, f1MaxHP)}%`
                             }}
                         ></div>
+                        <span className="stat-value">{f1HP}/{f1MaxHP}</span>
                     </div>
                 </div>
-                <div className="hp-text">{f1HP} / {f1MaxHP}</div>
                 <div className="energy-meter">
                     <div className="energy-label">ENERGY</div>
                     <div className="energy-dots">
@@ -50,20 +57,22 @@ export function BattleHeader({ fighter1, fighter2, f1HP, f1MaxHP, f2HP, f2MaxHP,
                     <span className="fighter-name">{fighter2.name}</span>
                     <span className="fighter-level">Lvl 12</span>
                 </div>
-                {f2Weakened && <div className="weakened-tag">😵 DEBILITADO</div>}
+                <div className="status-row">
+                    {f2Weakened && <div className="weakened-tag">😵 DEBILITADO</div>}
+                    {f2Status && <div className="status-tag">{getStatusIcon(f2Status)} {f2Status.toUpperCase()}</div>}
+                </div>
                 <div className="hp-container">
                     <div className="hp-label">HP</div>
-                    <div className="hp-bar-bg">
+                    <div className="stat-bar-pixel" style={{ width: '100%', height: '16px' }}>
                         <div
-                            className="hp-bar-fill"
+                            className={`stat-bar-pixel-fill ${hpPercent(f2HP, f2MaxHP) <= 20 ? 'critical' : hpPercent(f2HP, f2MaxHP) <= 50 ? 'warning' : ''}`}
                             style={{
-                                width: `${hpPercent(f2HP, f2MaxHP)}%`,
-                                backgroundColor: getHPColor(f2HP, f2MaxHP)
+                                width: `${hpPercent(f2HP, f2MaxHP)}%`
                             }}
                         ></div>
+                        <span className="stat-value">{f2HP}/{f2MaxHP}</span>
                     </div>
                 </div>
-                <div className="hp-text">{f2HP} / {f2MaxHP}</div>
                 <div className="energy-meter">
                     <div className="energy-label">ENERGY</div>
                     <div className="energy-dots">

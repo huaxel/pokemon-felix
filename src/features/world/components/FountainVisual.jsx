@@ -7,8 +7,8 @@ export function FountainVisual({ animation }) {
                 <div className="fountain-sparkle sparkle-2">💫</div>
                 <div className="fountain-sparkle sparkle-3">⭐</div>
             </div>
-            <p className="fountain-legend">
-                Arroja una moneda y pide un deseo...
+            <p className="fountain-legend" style={{ fontFamily: '"Press Start 2P", cursive' }}>
+                Gooi een muntje en doe een wens...
             </p>
         </div>
     );

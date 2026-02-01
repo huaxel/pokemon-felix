@@ -1,38 +1,48 @@
 import { TILE_TYPES } from '../worldConstants';
-
-// Building Assets
-import gachaImage from '../../../assets/buildings/gacha_machine.png';
-import marketImage from '../../../assets/buildings/market_stall.png';
-import gymImage from '../../../assets/buildings/gym_building.png';
-import evoImage from '../../../assets/buildings/evo_lab.png';
-import houseImage from '../../../assets/buildings/house.png';
-import centerImage from '../../../assets/buildings/pokecenter.png';
-import treeImage from '../../../assets/buildings/tree.png';
-import waterEdgeImage from '../../../assets/buildings/water_edge.png';
-import waterCenterImage from '../../../assets/buildings/water_center.png';
-import fishermanImage from '../../../assets/kenney_rpg-urban-pack/Tiles/tile_0200.png';
-import cityHallImage from '../../../assets/kenney_rpg-urban-pack/Tiles/tile_0150.png';
-import shopUrbanImage from '../../../assets/kenney_rpg-urban-pack/Tiles/tile_0170.png';
-import caveEntranceTile from '../../../assets/kenney_tiny-town/Tiles/tile_0110.png';
-import desertCactusTile from '../../../assets/kenney_tiny-town/Tiles/tile_0083.png';
-import chestTile from '../../../assets/kenney_tiny-town/Tiles/tile_0089.png';
-import roguelikeSheet from '../../../assets/kenney_roguelike-characters/Spritesheet/roguelikeChar_transparent.png';
-import grassTile from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
-import pathTile from '../../../assets/kenney_tiny-town/Tiles/tile_0008.png';
-import waterTile from '../../../assets/kenney_tiny-town/Tiles/tile_0032.png';
-import pokeballImage from '../../../assets/items/pokeball.png';
-import artStudioImage from '../../../assets/buildings/art_studio_building.png';
+import {
+    grassTile,
+    pathTile,
+    waterTile,
+    waterEdgeTile,
+    waterCenterTile,
+    houseTile,
+    houseTile2,
+    treeTile,
+    centerTile,
+    marketTile,
+    gymTile,
+    cityHallTile,
+    shopUrbanTile,
+    fishermanTile,
+    caveEntranceTile,
+    desertCactusTile,
+    chestTile,
+    pokeballTile,
+    roguelikeSheet
+} from '../worldAssets';
 
 const BUILDING_IMAGES = {
-    [TILE_TYPES.HOUSE]: houseImage, [TILE_TYPES.CENTER]: centerImage, [TILE_TYPES.TREE]: treeImage,
-    [TILE_TYPES.GACHA]: gachaImage, [TILE_TYPES.GYM]: gymImage, [TILE_TYPES.MARKET]: marketImage,
-    [TILE_TYPES.EVOLUTION]: evoImage, [TILE_TYPES.FISHERMAN]: fishermanImage, [TILE_TYPES.SCHOOL]: cityHallImage,
-    [TILE_TYPES.WARDROBE]: shopUrbanImage, [TILE_TYPES.BANK]: centerImage, [TILE_TYPES.POTION_LAB]: evoImage,
-    [TILE_TYPES.FOUNTAIN]: waterCenterImage, [TILE_TYPES.PALACE]: cityHallImage, [TILE_TYPES.EVOLUTION_HALL]: evoImage,
-    [TILE_TYPES.MOUNTAIN]: gymImage, [TILE_TYPES.SECRET_CAVE]: houseImage, [TILE_TYPES.WATER_ROUTE]: waterCenterImage,
-    [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage,
-    [TILE_TYPES.CITY_HALL]: cityHallImage, [TILE_TYPES.URBAN_SHOP]: shopUrbanImage,
-    // Desert and Mountain will be handled via CSS filters
+    [TILE_TYPES.HOUSE]: houseTile,
+    [TILE_TYPES.CENTER]: centerTile,
+    [TILE_TYPES.TREE]: treeTile,
+    [TILE_TYPES.GACHA]: marketTile, // Reuse market for Gacha
+    [TILE_TYPES.GYM]: gymTile,
+    [TILE_TYPES.MARKET]: marketTile,
+    [TILE_TYPES.EVOLUTION]: cityHallTile, // Reuse City Hall
+    [TILE_TYPES.FISHERMAN]: fishermanTile,
+    [TILE_TYPES.SCHOOL]: cityHallTile,
+    [TILE_TYPES.WARDROBE]: shopUrbanTile,
+    [TILE_TYPES.BANK]: centerTile,
+    [TILE_TYPES.POTION_LAB]: houseTile2,
+    [TILE_TYPES.FOUNTAIN]: waterCenterTile,
+    [TILE_TYPES.PALACE]: cityHallTile,
+    [TILE_TYPES.EVOLUTION_HALL]: cityHallTile,
+    [TILE_TYPES.MOUNTAIN]: gymTile,
+    [TILE_TYPES.SECRET_CAVE]: caveEntranceTile,
+    [TILE_TYPES.WATER_ROUTE]: waterCenterTile,
+    [TILE_TYPES.CITY_HALL]: cityHallTile,
+    [TILE_TYPES.URBAN_SHOP]: shopUrbanTile,
+    [TILE_TYPES.ART_STUDIO]: houseTile2,
 };
 
 const PlayerSprite = ({ name, color }) => (

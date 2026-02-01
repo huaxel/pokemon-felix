@@ -4,11 +4,11 @@ export function TreasureTutorial({ huntsCompleted, totalHunts, onStart, onBack }
     return (
         <div className="treasure-hunt-page tutorial">
             <div className="tutorial-content">
-                <h1>🗺️ GPS Treasure Hunt</h1>
+                <h1>🗺️ GPS Schattenjacht</h1>
 
                 <div className="tutorial-info">
                     <div className="coordinates-lesson">
-                        <h2>📍 Understanding Coordinates</h2>
+                        <h2>📍 Coördinaten Begrijpen</h2>
                         <div className="grid-example">
                             <div className="axis-label y-axis">Y ↑</div>
                             <div className="mini-grid">
@@ -25,42 +25,42 @@ export function TreasureTutorial({ huntsCompleted, totalHunts, onStart, onBack }
                             <div className="axis-label x-axis">X →</div>
                         </div>
                         <p className="example-text">
-                            The treasure 🎁 above is at coordinates <strong>(X: 2, Y: 2)</strong>
+                            De schat 🎁 hierboven bevindt zich op coördinaten <strong>(X: 2, Y: 2)</strong>
                         </p>
                     </div>
 
                     <div className="rules">
-                        <h3>📜 How to Play:</h3>
+                        <h3>📜 Hoe te spelen:</h3>
                         <ul>
-                            <li>🧭 Read the clue about where treasure is hidden</li>
-                            <li>📐 Enter X and Y coordinates (0-9 for each)</li>
-                            <li>🎯 You have 10 attempts to find it</li>
-                            <li>🔥 Distance hints will guide you (Hot/Cold)</li>
-                            <li>💰 Find treasure to earn coins + Pokemon!</li>
+                            <li>🧭 Lees de aanwijzing over waar de schat verborgen is</li>
+                            <li>📐 Voer X en Y coördinaten in (0-9 voor elk)</li>
+                            <li>🎯 Je hebt 10 pogingen om het te vinden</li>
+                            <li>🔥 Afstandstips helpen je (Heet/Koud)</li>
+                            <li>💰 Vind schatten om munten + Pokémon te verdienen!</li>
                         </ul>
                     </div>
 
                     <div className="rewards-preview">
-                        <h3>🏆 Rewards:</h3>
-                        <p>Complete treasure hunts to earn:</p>
+                        <h3>🏆 Beloningen:</h3>
+                        <p>Voltooi schattenjachten om te verdienen:</p>
                         <ul>
-                            <li>💰 300-1500 coins per hunt</li>
-                            <li>✨ Special Pokemon rewards</li>
-                            <li>🎓 Map reading skills</li>
+                            <li>💰 300-1500 munten per jacht</li>
+                            <li>✨ Speciale Pokémon beloningen</li>
+                            <li>🎓 Kaartleesvaardigheden</li>
                         </ul>
                     </div>
 
                     <div className="progress-info">
-                        <p>Hunts Completed: <strong>{huntsCompleted} / {totalHunts}</strong></p>
+                        <p>Voltooide Jachten: <strong>{huntsCompleted} / {totalHunts}</strong></p>
                     </div>
                 </div>
 
                 <div className="tutorial-actions">
-                    <button className="start-hunt-btn" onClick={onStart}>
-                        🗺️ Start Treasure Hunt
+                    <button className="start-hunt-btn btn-kenney primary" onClick={onStart}>
+                        🗺️ Start Schattenjacht
                     </button>
-                    <button className="back-btn" onClick={onBack}>
-                        ← Back to World
+                    <button className="back-btn btn-kenney neutral" onClick={onBack}>
+                        ← Terug naar de Wereld
                     </button>
                 </div>
             </div>

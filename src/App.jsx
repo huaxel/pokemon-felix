@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { usePokemonContext } from './hooks/usePokemonContext';
 import { addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
@@ -22,6 +23,18 @@ function App() {
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
+  // Routes that should NOT scroll (Game Mode - Fixed Viewport)
+  const GAME_ROUTES = [
+    '/adventure',
+    '/battle',
+    '/single-battle',
+    '/desert',
+    '/cave-dungeon',
+    '/secret-cave',
+    '/water-route',
+    '/porygon-lab'
+  ];
+
   // Keyboard shortcut for Python Terminal (Ctrl+`)
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -31,8 +44,22 @@ function App() {
       }
     };
 
+    // Prevent default touch behavior to stop scrolling/rubber-banding
+    const preventDefaultTouch = (e) => {
+      // Allow touch on specific scrollable elements if marked with data-scrollable
+      if (e.target.closest('[data-scrollable="true"]')) {
+        return;
+      }
+      e.preventDefault();
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener('touchmove', preventDefaultTouch, { passive: false });
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('touchmove', preventDefaultTouch);
+    };
   }, [toggleConsole]);
 
   const handleExportFavorites = () => {

@@ -3,21 +3,21 @@ export function MountainEntryView({ hasBoots, zones, onStartHike }) {
     return (
         <div className="mountain-page">
             <div className="mountain-header">
-                <h1>⛰️ Mystic Mountain</h1>
-                <p>A legendary peak said to be home to rare Pokemon</p>
+                <h1>⛰️ Mystieke Berg</h1>
+                <p>Een legendarische top waar zeldzame Pokémon wonen</p>
             </div>
 
             {!hasBoots ? (
                 <div className="mountain-warning">
-                    <h2>🚫 You Need Hiking Boots!</h2>
-                    <p>You must find and collect hiking boots before you can climb the mountain.</p>
-                    <p className="tip">💡 Hiking boots might be found in special locations or bought from the shop.</p>
+                    <h2>🚫 Je hebt wandelschoenen nodig!</h2>
+                    <p>Je moet wandelschoenen vinden en verzamelen voordat je de berg kunt beklimmen.</p>
+                    <p className="tip">💡 Wandelschoenen zijn te vinden op speciale locaties of te koop in de winkel.</p>
                 </div>
             ) : (
                 <div className="mountain-intro">
-                    <h2>Ready to Climb?</h2>
+                    <h2>Klaar om te klimmen?</h2>
                     <p>
-                        The mountain has 4 altitude zones. Each zone is harder but has rarer Pokemon!
+                        De berg heeft 4 hoogtezones. Elke zone is moeilijker maar heeft zeldzamere Pokémon!
                     </p>
 
                     <div className="altitude-zones">
@@ -26,10 +26,10 @@ export function MountainEntryView({ hasBoots, zones, onStartHike }) {
                                 <h3>{zone.name}</h3>
                                 <p>{zone.description}</p>
                                 <div className="zone-stats">
-                                    <span>Danger: {zone.danger}</span>
+                                    <span>Gevaar: {zone.danger}</span>
                                     <span className="pokemon-preview">
                                         {zone.pokemon.slice(0, 2).map(p => `${p} `)}
-                                        {zone.pokemon.length > 2 && `+ ${zone.pokemon.length - 2} more`}
+                                        {zone.pokemon.length > 2 && `+ ${zone.pokemon.length - 2} meer`}
                                     </span>
                                 </div>
                             </div>
@@ -37,18 +37,18 @@ export function MountainEntryView({ hasBoots, zones, onStartHike }) {
                     </div>
 
                     <div className="mountain-tips">
-                        <h3>📚 Before You Go:</h3>
+                        <h3>📚 Voordat je gaat:</h3>
                         <ul>
-                            <li>🥾 You have hiking boots equipped</li>
-                            <li>⛅ The mountain is harder the higher you climb</li>
-                            <li>😴 Rest when tired to continue climbing</li>
-                            <li>💰 Reach the summit for 1000 coins!</li>
-                            <li>🔔 Catch Pokemon at each altitude</li>
+                            <li>🥾 Je hebt wandelschoenen aan</li>
+                            <li>⛅ De berg wordt moeilijker naarmate je hoger klimt</li>
+                            <li>😴 Rust uit als je moe bent om verder te klimmen</li>
+                            <li>💰 Bereik de top voor 1000 munten!</li>
+                            <li>🔔 Vang Pokémon op elke hoogte</li>
                         </ul>
                     </div>
 
-                    <button className="start-hike-btn" onClick={onStartHike}>
-                        🥾 Start Climbing
+                    <button className="start-hike-btn btn-kenney primary" onClick={onStartHike}>
+                        🥾 Start Klimmen
                     </button>
                 </div>
             )}

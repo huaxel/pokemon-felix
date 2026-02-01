@@ -1,140 +1,19 @@
 .single-battle-page {
     min-height: 100vh;
-    background: var(--bg-dark);
     color: white;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.single-battle-page.loading {
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: #94a3b8;
-}
-
 .battle-header-simple {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1.5rem 2rem;
-    background: transparent;
     position: absolute;
     top: 0;
     right: 0;
     z-index: 100;
 }
 
-.close-btn {
-    color: #94a3b8;
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    transition: color 0.2s;
-}
-
-.close-btn:hover {
-    color: white;
-}
-
-.single-battle-page.result {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-}
-
-.single-battle-page.victory {
-    background:
-        radial-gradient(circle at center, rgba(22, 101, 52, 0.6) 0%, var(--bg-dark) 100%);
-}
-
-.single-battle-page.defeat {
-    background:
-        radial-gradient(circle at center, rgba(153, 27, 27, 0.6) 0%, var(--bg-dark) 100%);
-}
-
-.result h1 {
-    font-family: var(--header-font);
-    font-size: 5rem;
-    margin-bottom: 2rem;
-    text-transform: uppercase;
-    color: var(--primary-color);
-    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    letter-spacing: 2px;
-}
-
+/* Result styles handled by inline styles and Kenney classes */
 .result-card {
-    background: var(--glass-bg);
-    padding: 3rem 4rem;
-    border-radius: var(--radius-lg);
-    backdrop-filter: blur(15px);
-    margin-bottom: 3rem;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-lg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.result-card img {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
-}
-
-.result-card p {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.reward-badge {
-    background: #fbbf24;
-    color: #78350f;
-    padding: 0.5rem 1.5rem;
-    border-radius: 2rem;
-    font-weight: bold;
-    display: inline-block;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.actions {
-    display: flex;
-    gap: 1rem;
-}
-
-.replay-btn,
-.back-btn {
-    padding: 1rem 2rem;
-    border-radius: 2rem;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    transition: transform 0.2s;
-}
-
-.replay-btn {
-    background: var(--health-good);
-    color: white;
-    box-shadow: var(--shadow-md);
-}
-
-.back-btn {
-    background: var(--bg-surface-alt);
-    color: white;
-    border: 1px solid var(--border-dim);
-}
-
-.replay-btn:hover {
-    background: #15803d;
-    transform: translateY(-3px) scale(1.05);
-}
-
-.back-btn:hover {
-    background: var(--secondary-color);
-    transform: translateY(-3px) scale(1.05);
+    /* Additional layout if needed */
 }

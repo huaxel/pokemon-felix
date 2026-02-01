@@ -8,6 +8,7 @@ import { SquadGrid } from './components/SquadGrid';
 import { BenchGrid } from './components/BenchGrid';
 import { DroppableSlot } from './DroppableSlot';
 import { useSquadData } from './hooks/useSquadData';
+import { grassTile } from '../world/worldAssets';
 import squadBg from '../../assets/buildings/squad_bg.png';
 import './SquadPage.css';
 
@@ -56,44 +57,55 @@ export function SquadPage() {
     const renderHpBar = (pokemonId) => {
         const stats = careStats ? careStats[pokemonId] : null;
         const hp = stats ? stats.hp : 100;
-        const hpColor = hp > 60 ? '#22c55e' : hp > 20 ? '#eab308' : '#ef4444';
+        const hpColorClass = hp > 60 ? 'success' : hp > 20 ? 'warning' : 'critical';
 
         return (
             <div className="squad-hp-container">
-                <div className="squad-hp-bar" style={{ width: `${hp}%`, backgroundColor: hpColor }}></div>
-                <span className="squad-hp-text">{hp}%</span>
+                <div className="stat-bar-pixel" style={{ width: '100%', height: '12px' }}>
+                    <div 
+                        className={`stat-bar-pixel-fill ${hpColorClass}`} 
+                        style={{ width: `${hp}%` }}
+                    />
+                    <span className="stat-value" style={{ fontSize: '0.6rem' }}>{hp}%</span>
+                </div>
             </div>
         );
     };
 
-    if (loading) return <div className="squad-loading">Cargando equipo...</div>;
+    if (loading) return <div className="squad-loading game-panel-dark" style={{ textAlign: 'center', margin: '2rem' }}>Team laden...</div>;
 
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-            <div className="squad-page" style={{ backgroundImage: `url(${squadBg})` }}>
+            <div className="squad-page" style={{ 
+                backgroundColor: '#2d1810',
+                backgroundImage: `url(${grassTile})`,
+                backgroundSize: '64px',
+                backgroundRepeat: 'repeat',
+                imageRendering: 'pixelated'
+            }}>
                 <div className="squad-overlay"></div>
                 <div className="squad-content">
-                    <div className="squad-header">
-                        <h1>Gestión de Equipo</h1>
-                        <p>Arrastra Pokémon para organizar tu equipo.</p>
-                        <div className="squad-count">
+                    <div className="squad-header" style={{ fontFamily: '"Press Start 2P", cursive' }}>
+                        <h1 style={{ textShadow: '2px 2px 0 #000' }}>Team Beheer</h1>
+                        <p style={{ color: '#fbbf24', fontSize: '0.8rem' }}>Sleep Pokémon om je team te beheren.</p>
+                        <div className="squad-count game-panel" style={{ display: 'inline-block', padding: '0.5rem 1rem', marginTop: '1rem' }}>
                             {squadPokemon.length} / 4
                         </div>
 
                         {squadPokemon.length > 0 && (
-                            <div className="squad-actions" style={{ marginTop: '1.5rem' }}>
-                                <Link to="/adventure" className="btn-adventure primary tournament-btn">
-                                    Vra de Wereld
+                            <div className="squad-actions" style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+                                <Link to="/adventure" className="btn-kenney neutral" style={{ textDecoration: 'none' }}>
+                                    🌍 Wereld
                                 </Link>
-                                <Link to="/battle-modes" className="btn-adventure tournament-btn" style={{ marginLeft: '1rem' }}>
-                                    Ir a Batalla
+                                <Link to="/battle-modes" className="btn-kenney primary" style={{ textDecoration: 'none' }}>
+                                    ⚔️ Naar Gevecht
                                 </Link>
                             </div>
                         )}
                     </div>
 
                     <div className="active-squad-section">
-                        <h2>Equipo Activo</h2>
+                        <h2 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000', marginBottom: '1rem' }}>Actief Team</h2>
                         <SquadGrid
                             squadPokemon={squadPokemon}
                             selectedMember={selectedMember}
@@ -104,8 +116,8 @@ export function SquadPage() {
                     </div>
 
                     <DroppableSlot id="bench-area" isFilled={false}>
-                        <div className="bench-section">
-                            <h2>Banca ({benchPokemon.length})</h2>
+                        <div className="bench-section game-panel-dark" style={{ padding: '2rem', borderRadius: '1rem', marginTop: '2rem' }}>
+                            <h2 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000', marginBottom: '1rem' }}>Box ({benchPokemon.length})</h2>
                             <BenchGrid
                                 benchPokemon={benchPokemon}
                                 selectedMember={selectedMember}

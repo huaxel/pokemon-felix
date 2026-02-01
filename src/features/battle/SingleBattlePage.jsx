@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { BattleArena } from './components/BattleArena';
 import { BattleRewardModal } from '../world/components/BattleRewardModal';
+import { getPokemonDetails } from '../../lib/api';
 import './SingleBattlePage.css';
 
 import { useToast } from '../../hooks/useToast'; // Correct import
@@ -20,13 +21,12 @@ export function SingleBattlePage({ allPokemon }) {
 
     const isLegendary = location.state?.isLegendary || false;
 
-    const startBattle = useCallback(() => {
+    const startBattle = useCallback(async () => {
         // Get user's first squad member (or random from squad)
         const userSquad = allPokemon.filter(p => squadIds.includes(p.id));
         const player = userSquad[0]; // Simple: use first pokemon
 
         // Get random opponent (excluding squad)
-        // Get random opponent
         let potentialOpponents;
         if (isLegendary) {
             const LEGENDARY_IDS = [144, 145, 146, 150, 151];
@@ -44,9 +44,23 @@ export function SingleBattlePage({ allPokemon }) {
 
         if (!player || !randomOpponent) return;
 
-        setPlayerPokemon(player);
-        setOpponent(randomOpponent);
-        setBattleState('battle');
+        try {
+            // Fetch full details to ensure moves are calculated correctly
+            const [playerDetails, opponentDetails] = await Promise.all([
+                getPokemonDetails(player.id),
+                getPokemonDetails(randomOpponent.id)
+            ]);
+
+            setPlayerPokemon(playerDetails);
+            setOpponent(opponentDetails);
+            setBattleState('battle');
+        } catch (error) {
+            console.error("Failed to start battle:", error);
+            // Fallback to basic data if fetch fails (better than nothing)
+            setPlayerPokemon(player);
+            setOpponent(randomOpponent);
+            setBattleState('battle');
+        }
     }, [allPokemon, squadIds, isLegendary]);
 
     useEffect(() => {
@@ -85,22 +99,50 @@ export function SingleBattlePage({ allPokemon }) {
     // ... (rest of render logic is fine until return)
 
     if (battleState === 'loading' || !playerPokemon || !opponent) {
-        return <div className="single-battle-page loading">Preparando batalla...</div>;
+        return (
+            <div className="single-battle-page loading" style={{ 
+                backgroundColor: '#2d1810',
+                backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                backgroundSize: '64px',
+                backgroundRepeat: 'repeat',
+                imageRendering: 'pixelated',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                color: 'white',
+                fontFamily: '"Press Start 2P", cursive'
+            }}>
+                Preparando batalla...
+            </div>
+        );
     }
 
     if (battleState === 'victory') {
         return (
-            <div className="single-battle-page result victory">
-                <h1>¡Victoria!</h1>
-                <div className="result-card">
-                    <img src={playerPokemon.sprites.other['official-artwork'].front_default} alt={playerPokemon.name} />
-                    <p>¡{playerPokemon.name} ha ganado!</p>
-                    <div className="reward-badge">+50 Monedas</div>
-                    <div className="reward-badge exp">+50 EXP</div>
+            <div className="single-battle-page result victory" style={{ 
+                backgroundColor: '#2d1810',
+                backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                backgroundSize: '64px',
+                backgroundRepeat: 'repeat',
+                imageRendering: 'pixelated',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                gap: '2rem'
+            }}>
+                <h1 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000', color: '#fbbf24', fontSize: '3rem' }}>¡Victoria!</h1>
+                <div className="result-card game-panel-dark" style={{ textAlign: 'center', padding: '2rem' }}>
+                    <img src={playerPokemon.sprites.other['official-artwork'].front_default} alt={playerPokemon.name} style={{ width: '200px', height: '200px', objectFit: 'contain' }} />
+                    <p style={{ fontFamily: '"Press Start 2P", cursive', marginTop: '1rem', fontSize: '1.2rem' }}>¡{playerPokemon.name} ha ganado!</p>
+                    <div className="reward-badge" style={{ marginTop: '1rem', color: '#fbbf24', fontFamily: '"Press Start 2P", cursive' }}>+50 Monedas</div>
+                    <div className="reward-badge exp" style={{ color: '#60a5fa', fontFamily: '"Press Start 2P", cursive' }}>+50 EXP</div>
                 </div>
-                <div className="actions">
-                    <button className="replay-btn" onClick={startBattle}>Otra Batalla</button>
-                    <Link to="/adventure" className="back-btn">Volver al Mapa</Link>
+                <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
+                    <button className="replay-btn btn-kenney primary" onClick={startBattle}>Otra Batalla</button>
+                    <Link to="/adventure" className="back-btn btn-kenney neutral" style={{ textDecoration: 'none' }}>Volver al Mapa</Link>
                 </div>
             </div>
         );
@@ -108,24 +150,43 @@ export function SingleBattlePage({ allPokemon }) {
 
     if (battleState === 'defeat') {
         return (
-            <div className="single-battle-page result defeat">
-                <h1>Derrota</h1>
-                <div className="result-card">
-                    <img src={opponent.sprites.other['official-artwork'].front_default} alt={opponent.name} />
-                    <p>{opponent.name} te ha vencido.</p>
+            <div className="single-battle-page result defeat" style={{ 
+                backgroundColor: '#2d1810',
+                backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                backgroundSize: '64px',
+                backgroundRepeat: 'repeat',
+                imageRendering: 'pixelated',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                gap: '2rem'
+            }}>
+                <h1 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000', color: '#ef4444', fontSize: '3rem' }}>Derrota</h1>
+                <div className="result-card game-panel-dark" style={{ textAlign: 'center', padding: '2rem' }}>
+                    <img src={opponent.sprites.other['official-artwork'].front_default} alt={opponent.name} style={{ width: '200px', height: '200px', objectFit: 'contain' }} />
+                    <p style={{ fontFamily: '"Press Start 2P", cursive', marginTop: '1rem', fontSize: '1.2rem' }}>{opponent.name} te ha vencido.</p>
                 </div>
-                <div className="actions">
-                    <button className="replay-btn" onClick={startBattle}>Intentar de Nuevo</button>
-                    <Link to="/adventure" className="back-btn">Volver al Mapa</Link>
+                <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
+                    <button className="replay-btn btn-kenney warning" onClick={startBattle}>Intentar de Nuevo</button>
+                    <Link to="/adventure" className="back-btn btn-kenney neutral" style={{ textDecoration: 'none' }}>Volver al Mapa</Link>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="single-battle-page">
-            <div className="battle-header-simple">
-                <Link to="/adventure" className="close-btn">✕</Link>
+        <div className="single-battle-page" style={{ 
+            backgroundColor: '#2d1810',
+            backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+            backgroundSize: '64px',
+            backgroundRepeat: 'repeat',
+            imageRendering: 'pixelated',
+            minHeight: '100vh'
+        }}>
+            <div className="battle-header-simple" style={{ padding: '1rem' }}>
+                <Link to="/adventure" className="close-btn btn-kenney neutral" style={{ textDecoration: 'none', display: 'inline-flex', width: '40px', height: '40px', justifyContent: 'center', alignItems: 'center' }}>✕</Link>
             </div>
             {showReward ? (
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 100 }}>

@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { usePlayer } from '../../../hooks/usePlayer';
 import { WorldPageHeader } from '../components/WorldPageHeader';
+import { grassTile, mayorTile } from '../worldAssets';
+import bagIcon from '../../../assets/items/bag_icon.png';
 import './CityHallPage.css';
 
 export function CityHallPage() {
@@ -19,49 +21,57 @@ export function CityHallPage() {
 
 
     return (
-        <div className="city-hall-page">
-            <WorldPageHeader title="Ayuntamiento" icon="🏛️" />
+        <div className="city-hall-page" style={{ 
+            backgroundColor: '#2d1810',
+            backgroundImage: `url(${grassTile})`,
+            backgroundSize: '64px',
+            backgroundRepeat: 'repeat',
+            imageRendering: 'pixelated'
+        }}>
+            <WorldPageHeader title="Gemeentehuis" icon="🏛️" />
 
             <main className="hall-content">
-                <div className="mayor-desk">
-                    <div className="mayor-npc">👴</div>
-                    <div className="mayor-dialogue-box">
-                        <p><strong>Alcalde:</strong> ¡Bienvenido, <strong>{playerName}</strong>!</p>
-                        <p>La ciudad prospera gracias a entrenadores como tú.</p>
+                <div className="mayor-desk game-panel-dark" style={{ border: '4px solid #4b5563', backgroundColor: '#1f2937', padding: '1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <img src={mayorTile} alt="Mayor" className="mayor-npc" style={{ width: '64px', height: '64px', imageRendering: 'pixelated' }} />
+                    <div className="mayor-dialogue-box" style={{ color: '#fff' }}>
+                        <p style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem', marginBottom: '0.5rem', color: '#fbbf24' }}><strong>Burgemeester:</strong> Welkom, <strong>{playerName}</strong>!</p>
+                        <p style={{ fontSize: '0.9rem' }}>De stad bloeit dankzij trainers zoals jij.</p>
                         {canClaim ? (
-                            <button className="claim-btn" onClick={onClaim}>
-                                🎁 Reclamar Subsidio Diario (100)
+                            <button className="claim-btn btn-kenney success" onClick={onClaim} style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                🎁 Dagelijkse Subsidie Claimen (100)
                             </button>
                         ) : (
-                            <p className="come-back-msg">Vuelve mañana para tu subsidio.</p>
+                            <p className="come-back-msg" style={{ marginTop: '0.5rem', fontStyle: 'italic', color: '#9ca3af' }}>Kom morgen terug voor je subsidie.</p>
                         )}
                     </div>
                 </div>
 
                 <div className="hall-services">
-                    <div className="service-card records">
-                        <h2>📊 Tus Registros</h2>
+                    <div className="service-card records game-panel-dark" style={{ border: '4px solid #4b5563', backgroundColor: '#1f2937', padding: '1rem', color: '#fff' }}>
+                        <h2 style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '1rem', marginBottom: '1rem', color: '#60a5fa' }}>📊 Jouw Gegevens</h2>
                         <div className="stats-grid">
-                            <div className="stat">
-                                <span className="stat-label">Pokémon</span>
-                                <span className="stat-value">{ownedIds.length}</span>
+                            <div className="stat" style={{ marginBottom: '0.5rem' }}>
+                                <span className="stat-label">Pokémon: </span>
+                                <span className="stat-value" style={{ fontFamily: '"Press Start 2P", cursive', color: '#fbbf24' }}>{ownedIds.length}</span>
                             </div>
-                            <div className="stat">
-                                <span className="stat-label">Batallas Ganadas</span>
-                                <span className="stat-value">{battlesWon}</span>
+                            <div className="stat" style={{ marginBottom: '0.5rem' }}>
+                                <span className="stat-label">Gevechten Gewonnen: </span>
+                                <span className="stat-value" style={{ fontFamily: '"Press Start 2P", cursive', color: '#fbbf24' }}>{battlesWon}</span>
                             </div>
-                            <div className="stat">
-                                <span className="stat-label">Dinero Actual</span>
-                                <span className="stat-value">{coins}</span>
+                            <div className="stat" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <span className="stat-label">Huidig Geld: </span>
+                                <span className="stat-value" style={{ fontFamily: '"Press Start 2P", cursive', color: '#fbbf24', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                    <img src={bagIcon} alt="coins" style={{ width: '16px', height: '16px', imageRendering: 'pixelated' }} /> {coins}
+                                </span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="service-card registry">
-                        <h2>📝 Registro Civil</h2>
-                        <p>Identificación oficial de entrenador.</p>
-                        <button className="registry-btn" onClick={() => navigate('/profile')}>
-                            Ver Pasaporte
+                    <div className="service-card registry game-panel-dark" style={{ border: '4px solid #4b5563', backgroundColor: '#1f2937', padding: '1rem', color: '#fff', marginTop: '1rem' }}>
+                        <h2 style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '1rem', marginBottom: '1rem', color: '#f472b6' }}>📝 Bevolkingsregister</h2>
+                        <p style={{ marginBottom: '1rem' }}>Officiële trainersidentificatie.</p>
+                        <button className="registry-btn btn-kenney primary" onClick={() => navigate('/profile')}>
+                            Paspoort Bekijken
                         </button>
                     </div>
                 </div>

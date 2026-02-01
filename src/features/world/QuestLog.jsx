@@ -16,7 +16,7 @@ export function QuestLog({ onClose }) {
         <div className="quest-log-overlay">
             <div className="quest-log-modal">
                 <header className="quest-header">
-                    <h2><Trophy /> Diario de Misiones</h2>
+                    <h2><Trophy /> Missielogboek</h2>
                     <button className="close-btn" onClick={onClose}>✕</button>
                 </header>
 
@@ -40,14 +40,14 @@ export function QuestLog({ onClose }) {
                                     </div>
 
                                     {quest.completed ? (
-                                        <div className="quest-status done">¡Completado!</div>
+                                        <div className="quest-status done">Voltooid!</div>
                                     ) : isReadyToClaim ? (
                                         <button className="claim-btn" onClick={() => completeQuest(quest.id)}>
-                                            Reclamar <img src={bagIcon} alt="c" className="inline-coin" /> {quest.reward.coins}
+                                            Claimen <img src={bagIcon} alt="c" className="inline-coin" /> {quest.reward.coins}
                                         </button>
                                     ) : (
                                         <div className="quest-reward-preview">
-                                            Premio: {quest.reward.coins} monedas
+                                            Beloning: {quest.reward.coins} munten
                                         </div>
                                     )}
                                 </div>

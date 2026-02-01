@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Composes multiple providers into a single component.
  * Providers are nested from left to right (first in array is the outermost).
@@ -12,7 +14,7 @@ export function composeProviders(providers) {
                 ? ProviderDef 
                 : [ProviderDef, {}];
                 
-            return <Provider {...props}>{acc}</Provider>;
+            return React.createElement(Provider, props, acc);
         }, children);
     };
 }

@@ -6,52 +6,53 @@ import { WorldPageHeader } from '../components/WorldPageHeader';
 import { FountainVisual } from '../components/FountainVisual';
 import { FountainWishCard } from '../components/FountainWishCard';
 import { FountainRecentRewards } from '../components/FountainRecentRewards';
+import { grassTile } from '../worldAssets';
 import './FountainPage.css';
 
 const WISHES = [
     {
         id: 'small',
-        name: 'Deseo Pequeño',
+        name: 'Kleine Wens',
         cost: 20,
         icon: '💫',
-        description: 'Una pequeña esperanza',
+        description: 'Een kleine hoop',
         rewards: [
-            { type: 'coins', amount: 10, chance: 0.3, message: '¡Encontraste 10 monedas!' },
-            { type: 'coins', amount: 30, chance: 0.2, message: '¡Encontraste 30 monedas!' },
-            { type: 'item', item: 'pokeball', chance: 0.25, message: '¡Recibiste una Pokéball!' },
-            { type: 'nothing', chance: 0.25, message: 'El eco de tus esperanzas...' }
+            { type: 'coins', amount: 10, chance: 0.3, message: 'Je hebt 10 munten gevonden!' },
+            { type: 'coins', amount: 30, chance: 0.2, message: 'Je hebt 30 munten gevonden!' },
+            { type: 'item', item: 'pokeball', chance: 0.25, message: 'Je hebt een Pokéball ontvangen!' },
+            { type: 'nothing', chance: 0.25, message: 'De echo van je hoop...' }
         ]
     },
     {
         id: 'medium',
-        name: 'Deseo Normal',
+        name: 'Normale Wens',
         cost: 50,
         icon: '✨',
-        description: 'Un deseo del corazón',
+        description: 'Een wens uit het hart',
         rewards: [
-            { type: 'coins', amount: 40, chance: 0.25, message: '¡La fuente te bendice con 40 monedas!' },
-            { type: 'coins', amount: 80, chance: 0.15, message: '¡Increíble! ¡80 monedas!' },
-            { type: 'item', item: 'greatball', chance: 0.2, message: '¡Una Gran Ball apareció!' },
-            { type: 'item', item: 'potion', amount: 3, chance: 0.2, message: '¡3 Pociones aparecieron!' },
-            { type: 'heal', chance: 0.1, message: '✨ Un aura curativa envuelve a tus Pokémon' },
-            { type: 'nothing', chance: 0.1, message: 'Las aguas permanecen en silencio...' }
+            { type: 'coins', amount: 40, chance: 0.25, message: 'De fontein zegent je met 40 munten!' },
+            { type: 'coins', amount: 80, chance: 0.15, message: 'Ongelooflijk! 80 munten!' },
+            { type: 'item', item: 'greatball', chance: 0.2, message: 'Er verscheen een Great Ball!' },
+            { type: 'item', item: 'potion', amount: 3, chance: 0.2, message: 'Er verschenen 3 Potions!' },
+            { type: 'heal', chance: 0.1, message: '✨ Een helend aura omringt je Pokémon' },
+            { type: 'nothing', chance: 0.1, message: 'Het water blijft stil...' }
         ]
     },
     {
         id: 'big',
-        name: 'Deseo Grande',
+        name: 'Grote Wens',
         cost: 100,
         icon: '🌟',
-        description: '¡Un deseo poderoso!',
+        description: 'Een krachtige wens!',
         rewards: [
-            { type: 'coins', amount: 150, chance: 0.2, message: '¡JACKPOT! ¡150 monedas!' },
-            { type: 'coins', amount: 80, chance: 0.25, message: 'La fuente te recompensa con 80 monedas' },
-            { type: 'item', item: 'ultraball', chance: 0.15, message: '¡Una Ultra Ball mágica!' },
-            { type: 'item', item: 'rare_candy', chance: 0.1, message: '¡Un Caramelo Raro legendario!' },
-            { type: 'item', item: 'mystery_box', chance: 0.08, message: '¡Una Caja Misteriosa!' },
-            { type: 'heal', chance: 0.15, message: '💎 Energía mágica restaura a todos tus Pokémon' },
-            { type: 'lucky', chance: 0.05, message: '🍀 ¡DÍA DE SUERTE! ¡Doble recompensa!' },
-            { type: 'nothing', chance: 0.02, message: 'La magia se resiste hoy...' }
+            { type: 'coins', amount: 150, chance: 0.2, message: 'JACKPOT! 150 munten!' },
+            { type: 'coins', amount: 80, chance: 0.25, message: 'De fontein beloont je met 80 munten' },
+            { type: 'item', item: 'ultraball', chance: 0.15, message: 'Een magische Ultra Ball!' },
+            { type: 'item', item: 'rare_candy', chance: 0.1, message: 'Een legendarische Rare Candy!' },
+            { type: 'item', item: 'mystery_box', chance: 0.08, message: 'Een Mysterieuze Doos!' },
+            { type: 'heal', chance: 0.15, message: '💎 Magische energie herstelt al je Pokémon' },
+            { type: 'lucky', chance: 0.05, message: '🍀 GELUKSDAG! Dubbele beloning!' },
+            { type: 'nothing', chance: 0.02, message: 'De magie verzet zich vandaag...' }
         ]
     }
 ];
@@ -69,7 +70,7 @@ export function FountainPage() {
         const wish = WISHES.find(w => w.id === wishType);
 
         if (!spendCoins(wish.cost)) {
-            showError('¡No tienes suficientes monedas!');
+            showError('Niet genoeg munten!');
             return;
         }
 
@@ -127,8 +128,8 @@ export function FountainPage() {
     };
 
     return (
-        <div className="fountain-page">
-            <WorldPageHeader title="Plaza de la Fuente" icon="✨" />
+        <div className="fountain-page" style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}>
+            <WorldPageHeader title="Fonteinplein" icon="✨" />
 
 
             <FountainVisual animation={fountainAnimation} />
@@ -137,15 +138,15 @@ export function FountainPage() {
                 <div className="stat-box">
                     <Star size={24} />
                     <span className="stat-value">{totalWishes}</span>
-                    <span className="stat-label">Deseos</span>
+                    <span className="stat-label">Wensen</span>
                 </div>
             </div>
 
             <div className="wishes-container">
                 <div className="wishes-header">
-                    <h2>Tipos de Deseos</h2>
-                    <button className="probability-btn" onClick={() => setShowProbability(!showProbability)}>
-                        {showProbability ? '🎲 Ocultar' : '🎲 Ver Chances'}
+                    <h2>Soorten Wensen</h2>
+                    <button className="probability-btn btn-kenney" onClick={() => setShowProbability(!showProbability)}>
+                        {showProbability ? '🎲 Verbergen' : '🎲 Kansen Bekijken'}
                     </button>
                 </div>
 
@@ -166,11 +167,11 @@ export function FountainPage() {
             <FountainRecentRewards recentRewards={recentRewards} getMessageColor={getMessageColor} />
 
             <div className="fountain-info">
-                <h3>💡 Sobre la Probabilidad</h3>
+                <h3>💡 Over de Kans</h3>
                 <div className="info-grid">
-                    <div className="info-card"><span>🎲</span><p>Cada deseo tiene diferentes probabilidades</p></div>
-                    <div className="info-card"><span>📊</span><p>Deseos más caros tienen mejores premios</p></div>
-                    <div className="info-card"><span>🍀</span><p>A veces la suerte te da recompensas extra</p></div>
+                    <div className="info-card"><span>🎲</span><p>Elke wens heeft verschillende kansen</p></div>
+                    <div className="info-card"><span>📊</span><p>Duurdere wensen hebben betere prijzen</p></div>
+                    <div className="info-card"><span>🍀</span><p>Soms geeft geluk je extra beloningen</p></div>
                 </div>
             </div>
         </div>

@@ -1,34 +1,26 @@
 import { Crown, Trophy } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import bagIcon from '../../../assets/items/bag_icon.png';
+import { WorldPageHeader } from './WorldPageHeader';
+import { grassTile } from '../worldAssets';
 
 export function PalaceLockedView({ ownedCount }) {
     return (
-        <div className="palace-page locked">
-            <header className="palace-header">
-                <Link to="/world" className="back-button">
-                    <img src={bagIcon} alt="Back" />
-                </Link>
-                <h1>
-                    <Crown size={32} />
-                    Palacio del Campeón
-                </h1>
-            </header>
+        <div className="palace-page locked" style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}>
+            <WorldPageHeader title="Paleis van de Kampioen" icon="👑" />
 
             <div className="locked-content">
                 <Crown size={120} className="locked-icon" />
-                <h2>Palacio Cerrado</h2>
-                <p>Solo los campeones pueden entrar a este lugar sagrado.</p>
+                <h2>Paleis Gesloten</h2>
+                <p>Alleen kampioenen mogen deze heilige plaats betreden.</p>
                 <div className="requirement">
                     <Trophy size={24} />
-                    <span>Captura al menos 50 Pokémon</span>
+                    <span>Vang minstens 50 Pokémon</span>
                 </div>
                 <div className="progress">
                     <span>{ownedCount} / 50</span>
                     <div className="progress-bar">
                         <div
                             className="progress-fill"
-                            style={{ width: `${(ownedCount / 50) * 100}%` }}
+                            style={{ width: `${Math.min(100, (ownedCount / 50) * 100)}%` }}
                         />
                     </div>
                 </div>

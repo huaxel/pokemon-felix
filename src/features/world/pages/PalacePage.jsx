@@ -10,6 +10,8 @@ import { PalaceWisdomView } from '../components/PalaceWisdomView';
 import { PalaceStrengthView } from '../components/PalaceStrengthView';
 import { PalaceLuckView } from '../components/PalaceLuckView';
 import { PALACE_CHALLENGES, TRIVIA_QUESTIONS } from '../palaceConfig';
+import { WorldPageHeader } from '../components/WorldPageHeader';
+import { grassTile } from '../worldAssets';
 import './PalacePage.css';
 
 export function PalacePage() {
@@ -29,13 +31,13 @@ export function PalacePage() {
     useEffect(() => {
         const champ = ownedIds.length >= 50;
         setIsChampion(champ);
-        if (!champ) showError('⛔ Solo los campeones pueden entrar al palacio.');
+        if (!champ) showError('⛔ Alleen kampioenen mogen het paleis betreden.');
     }, [ownedIds, showError]);
 
     const startChallenge = (id) => {
         const c = PALACE_CHALLENGES.find(x => x.id === id);
-        if (completedChallenges.includes(id)) return showError('Ya completaste este desafío hoy.');
-        if (c.cost > 0 && !spendCoins(c.cost)) return showError('No tienes suficientes monedas.');
+        if (completedChallenges.includes(id)) return showError('Je hebt deze uitdaging vandaag al voltooid.');
+        if (c.cost > 0 && !spendCoins(c.cost)) return showError('Niet genoeg munten.');
         setActiveChallenge(id);
         if (id === 'wisdom') { setCurrentQuestion(TRIVIA_QUESTIONS[0]); setScore(0); setQuestionsAnswered(0); }
         else if (id === 'strength') { setPlayerHP(100); setLegendaryHP(100); }
@@ -46,18 +48,18 @@ export function PalacePage() {
         setCompletedChallenges(p => [...p, id]);
         addCoins(c.reward.coins);
         if (c.reward.item) addItem(c.reward.item);
-        showCoins(`🏆 ¡Desafío completado! +${c.reward.coins}`);
+        showCoins(`🏆 Uitdaging voltooid! +${c.reward.coins}`);
         setActiveChallenge(null);
     };
 
     if (!isChampion) return <PalaceLockedView ownedCount={ownedIds.length} />;
 
     return (
-        <div className="palace-page">
-            <header className="palace-header"><Link to="/world"><img src={bagIcon} alt="Back" /></Link><h1>👑 Palacio</h1><div className="coins-display"><Coins size={20} /><span>{coins}</span></div></header>
+        <div className="palace-page" style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}>
+            <WorldPageHeader title="Paleis van de Kampioen" icon="👑" />
             {!activeChallenge ? (
                 <>
-                    <div className="welcome-text"><h2>Bienvenido, Campeón</h2></div>
+                    <div className="welcome-text"><h2>Welkom, Kampioen</h2></div>
                     <PalaceChallengeCards challenges={PALACE_CHALLENGES} completedChallenges={completedChallenges} onStartChallenge={startChallenge} />
                     <div className="palace-stats">
                         <div className="stat-box"><Trophy size={24} /><span>{completedChallenges.length}</span></div>

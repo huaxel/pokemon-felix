@@ -45,13 +45,18 @@ export const getEffectiveness = (attackerType, defenderType) => {
 export const calculateDamage = (attacker, defender, move) => {
     // Guard missing data: default to normal typing
     const attackerTypeSafe = attacker?.types?.[0]?.type?.name || 'normal';
-    const defenderTypeSafe = defender?.types?.[0]?.type?.name || 'normal';
+    
+    // Support dual types for defender
+    const defenderTypes = defender?.types?.map(t => t.type.name) || ['normal'];
 
     // Use move type if available, otherwise fallback to Pokemon type
     const attackType = move ? move.type : attackerTypeSafe;
-    const defenderType = defenderTypeSafe;
 
-    const effectiveness = getEffectiveness(attackType, defenderType);
+    // Calculate combined effectiveness (e.g. 2 * 2 = 4x, 0.5 * 2 = 1x)
+    let effectiveness = 1;
+    for (const type of defenderTypes) {
+        effectiveness *= getEffectiveness(attackType, type);
+    }
 
     // TCG Damage Scale based on Power
     // Power < 50: 1 Dmg
@@ -71,7 +76,10 @@ export const calculateDamage = (attacker, defender, move) => {
     // Apply Effectiveness (TCG Style: +1 or -1 Damage, min 1)
     let finalDamage = baseDamage;
 
-    if (effectiveness > 1) finalDamage += 1; // Super effective = +1 Dmg
+    if (effectiveness > 1) {
+        finalDamage += 1; // Super effective = +1 Dmg
+        if (effectiveness >= 4) finalDamage += 1; // Double Super Effective = +2 Dmg
+    } 
     else if (effectiveness < 1 && effectiveness > 0) finalDamage = Math.max(1, finalDamage - 1); // Not very effective = -1 Dmg (min 1)
     else if (effectiveness === 0) finalDamage = 0; // Immune
 
@@ -116,10 +124,10 @@ const getFusionMove = (m1, m2) => {
     const t1 = m1.type;
     const t2 = m2.type;
     if ((t1 === 'fire' && t2 === 'water') || (t1 === 'water' && t2 === 'fire')) {
-        return { name: 'Steam Eruption', type: 'water', power: 100, description: "Scalding steam burns the opponent." };
+        return { name: 'Steam Eruption', type: 'water', power: 100, description: "Kokende stoom verbrandt de tegenstander." };
     }
     if ((t1 === 'electric' && t2 === 'water') || (t1 === 'water' && t2 === 'electric')) {
-        return { name: 'Thunder Storm', type: 'electric', power: 110, description: "Electrified water conducts perfectly." };
+        return { name: 'Thunder Storm', type: 'electric', power: 110, description: "Geëlektrificeerd water geleidt perfect." };
     }
     return null;
 };
@@ -127,7 +135,7 @@ const getFusionMove = (m1, m2) => {
 const getBaseCombo = (m1, m2, isSame) => ({
     name: isSame ? `MEGA ${m1.name}` : `${m1.name} & ${m2.name}`,
     power: isSame ? Math.floor(((m1.power || 40) + (m2.power || 40)) * 1.2) : Math.floor((m1.power || 40) + (m2.power || 40)),
-    description: isSame ? "Type Fusion! Massive Damage!" : "Tactical combination attack."
+    description: isSame ? "Type Fusie! Enorme Schade!" : "Tactische combinatie-aanval."
 });
 
 export const combineMoves = (move1, move2) => {
@@ -163,26 +171,87 @@ const MOVE_POOL = {
         { name: 'Hyper Beam', type: 'normal', power: 150, accuracy: 90, cost: 4, recoil: 0.5 }
     ],
     fire: [
-        { name: 'Ember', type: 'fire', power: 40, accuracy: 100, cost: 1 },
-        { name: 'Flame Wheel', type: 'fire', power: 60, accuracy: 100, cost: 2 },
-        { name: 'Flamethrower', type: 'fire', power: 90, accuracy: 100, cost: 3 },
-        { name: 'Fire Blast', type: 'fire', power: 110, accuracy: 85, cost: 4, recoil: 0.2 }
+        { name: 'Ember', type: 'fire', power: 40, accuracy: 100, cost: 1, status: 'burn', statusChance: 0.1 },
+        { name: 'Flame Wheel', type: 'fire', power: 60, accuracy: 100, cost: 2, status: 'burn', statusChance: 0.1 },
+        { name: 'Flamethrower', type: 'fire', power: 90, accuracy: 100, cost: 3, status: 'burn', statusChance: 0.1 },
+        { name: 'Fire Blast', type: 'fire', power: 110, accuracy: 85, cost: 4, recoil: 0.2, status: 'burn', statusChance: 0.3 }
     ],
     water: [
         { name: 'Water Gun', type: 'water', power: 40, accuracy: 100, cost: 1 },
-        { name: 'Bubble Beam', type: 'water', power: 65, accuracy: 100, cost: 2 },
+        { name: 'Bubble Beam', type: 'water', power: 65, accuracy: 100, cost: 2, status: 'speed_down', statusChance: 0.1 },
         { name: 'Surf', type: 'water', power: 90, accuracy: 100, cost: 3 },
         { name: 'Hydro Pump', type: 'water', power: 110, accuracy: 80, cost: 4, recoil: 0.2 }
     ],
     grass: [
         { name: 'Vine Whip', type: 'grass', power: 45, accuracy: 100, cost: 1 },
         { name: 'Razor Leaf', type: 'grass', power: 55, accuracy: 95, cost: 2 },
-        { name: 'Solar Beam', type: 'grass', power: 120, accuracy: 100, cost: 4, recoil: 0.3 }
+        { name: 'Solar Beam', type: 'grass', power: 120, accuracy: 100, cost: 4, recoil: 0.3 },
+        { name: 'Sleep Powder', type: 'grass', power: 0, accuracy: 75, cost: 2, status: 'sleep', statusChance: 1.0 }
     ],
     electric: [
-        { name: 'Thundershock', type: 'electric', power: 40, accuracy: 100, cost: 1 },
-        { name: 'Thunderbolt', type: 'electric', power: 90, accuracy: 100, cost: 3 },
-        { name: 'Thunder', type: 'electric', power: 110, accuracy: 70, cost: 4, recoil: 0.2 }
+        { name: 'Thundershock', type: 'electric', power: 40, accuracy: 100, cost: 1, status: 'paralysis', statusChance: 0.1 },
+        { name: 'Thunderbolt', type: 'electric', power: 90, accuracy: 100, cost: 3, status: 'paralysis', statusChance: 0.1 },
+        { name: 'Thunder', type: 'electric', power: 110, accuracy: 70, cost: 4, recoil: 0.2, status: 'paralysis', statusChance: 0.3 }
+    ],
+    ice: [
+        { name: 'Powder Snow', type: 'ice', power: 40, accuracy: 100, cost: 1, status: 'freeze', statusChance: 0.1 },
+        { name: 'Ice Beam', type: 'ice', power: 90, accuracy: 100, cost: 3, status: 'freeze', statusChance: 0.1 },
+        { name: 'Blizzard', type: 'ice', power: 110, accuracy: 70, cost: 4, status: 'freeze', statusChance: 0.3 }
+    ],
+    fighting: [
+        { name: 'Karate Chop', type: 'fighting', power: 50, accuracy: 100, cost: 1 },
+        { name: 'Brick Break', type: 'fighting', power: 75, accuracy: 100, cost: 2 },
+        { name: 'Close Combat', type: 'fighting', power: 120, accuracy: 100, cost: 4, recoil: 0.3 }
+    ],
+    poison: [
+        { name: 'Poison Sting', type: 'poison', power: 15, accuracy: 100, cost: 1, status: 'poison', statusChance: 0.3 },
+        { name: 'Sludge Bomb', type: 'poison', power: 90, accuracy: 100, cost: 3, status: 'poison', statusChance: 0.3 },
+        { name: 'Gunk Shot', type: 'poison', power: 120, accuracy: 80, cost: 4, status: 'poison', statusChance: 0.3 }
+    ],
+    ground: [
+        { name: 'Mud Slap', type: 'ground', power: 20, accuracy: 100, cost: 1 },
+        { name: 'Earthquake', type: 'ground', power: 100, accuracy: 100, cost: 3 },
+        { name: 'Earth Power', type: 'ground', power: 90, accuracy: 100, cost: 3 }
+    ],
+    flying: [
+        { name: 'Peck', type: 'flying', power: 35, accuracy: 100, cost: 1 },
+        { name: 'Aerial Ace', type: 'flying', power: 60, accuracy: 100, cost: 2 },
+        { name: 'Brave Bird', type: 'flying', power: 120, accuracy: 100, cost: 4, recoil: 0.3 }
+    ],
+    psychic: [
+        { name: 'Confusion', type: 'psychic', power: 50, accuracy: 100, cost: 1 },
+        { name: 'Psybeam', type: 'psychic', power: 65, accuracy: 100, cost: 2 },
+        { name: 'Psychic', type: 'psychic', power: 90, accuracy: 100, cost: 3 }
+    ],
+    bug: [
+        { name: 'Bug Bite', type: 'bug', power: 60, accuracy: 100, cost: 1 },
+        { name: 'Signal Beam', type: 'bug', power: 75, accuracy: 100, cost: 2 },
+        { name: 'X-Scissor', type: 'bug', power: 80, accuracy: 100, cost: 3 }
+    ],
+    rock: [
+        { name: 'Rock Throw', type: 'rock', power: 50, accuracy: 90, cost: 1 },
+        { name: 'Rock Slide', type: 'rock', power: 75, accuracy: 90, cost: 2 },
+        { name: 'Stone Edge', type: 'rock', power: 100, accuracy: 80, cost: 3 }
+    ],
+    ghost: [
+        { name: 'Lick', type: 'ghost', power: 30, accuracy: 100, cost: 1 },
+        { name: 'Shadow Ball', type: 'ghost', power: 80, accuracy: 100, cost: 3 },
+        { name: 'Shadow Claw', type: 'ghost', power: 70, accuracy: 100, cost: 2 }
+    ],
+    dragon: [
+        { name: 'Dragon Breath', type: 'dragon', power: 60, accuracy: 100, cost: 2 },
+        { name: 'Dragon Claw', type: 'dragon', power: 80, accuracy: 100, cost: 3 },
+        { name: 'Outrage', type: 'dragon', power: 120, accuracy: 100, cost: 4, recoil: 0.3 }
+    ],
+    steel: [
+        { name: 'Metal Claw', type: 'steel', power: 50, accuracy: 95, cost: 1 },
+        { name: 'Iron Head', type: 'steel', power: 80, accuracy: 100, cost: 3 },
+        { name: 'Flash Cannon', type: 'steel', power: 80, accuracy: 100, cost: 3 }
+    ],
+    fairy: [
+        { name: 'Fairy Wind', type: 'fairy', power: 40, accuracy: 100, cost: 1 },
+        { name: 'Dazzling Gleam', type: 'fairy', power: 80, accuracy: 100, cost: 3 },
+        { name: 'Moonblast', type: 'fairy', power: 95, accuracy: 100, cost: 3 }
     ]
 };
 
@@ -190,6 +259,42 @@ const DEFAULT_MOVES = [
     { name: 'Tackle', type: 'normal', power: 40, accuracy: 100, cost: 1 },
     { name: 'Leer', type: 'normal', power: 0, accuracy: 100, cost: 1 } // Placeholder for non-damaging
 ];
+
+export const chooseBestMove = (attacker, defender, moves, energy) => {
+    // Filter moves we can afford
+    const affordableMoves = moves.filter(m => (m.cost || 1) <= energy);
+
+    // If no moves affordable, return null (BattleArena should handle "Wait/Recharge")
+    if (affordableMoves.length === 0) return null;
+
+    // Score each move
+    const scoredMoves = affordableMoves.map(move => {
+        // Use calculateDamage to predict effectiveness (ignoring RNG/Crits for AI decision)
+        const prediction = calculateDamage(attacker, defender, move);
+        
+        let score = prediction.damage;
+
+        // Bonus for Super Effective
+        if (prediction.effectiveness > 1) score += 2;
+        
+        // Bonus for STAB
+        if (attacker.types?.some(t => t.type.name === move.type)) score += 1;
+
+        // Penalty for high cost if damage isn't great (efficiency)
+        const cost = move.cost || 1;
+        if (cost > 2 && prediction.damage < 3) score -= 1;
+
+        // Random jitter to make AI less predictable (0-1.5)
+        score += randomService.float() * 1.5;
+
+        return { move, score };
+    });
+
+    // Sort by score descending
+    scoredMoves.sort((a, b) => b.score - a.score);
+
+    return scoredMoves[0].move;
+};
 
 export const getMoves = (pokemon) => {
     if (!pokemon || !pokemon.types) return DEFAULT_MOVES;
@@ -233,15 +338,16 @@ export const getMoves = (pokemon) => {
     return uniqueMoves.slice(0, 4);
 };
 
-export const calculateSmartDamage = (attacker, defender, move, { lastMoveName, fatigue = 0, isWeakened = false } = {}) => {
+export const calculateSmartDamage = (attacker, defender, move, { lastMoveName, fatigue = 0, isWeakened = false, attackerStatus = null } = {}) => {
     // 0. Forced Weakness Damage
     if (isWeakened) {
         return {
             damage: 5,
             recoilDamage: 0,
             effectiveness: 1,
-            message: " 😵 ¡Debilitado! (Max daño)",
-            isCrit: false
+            message: " 😵 Verzwakt! (Max schade)",
+            isCrit: false,
+            appliedStatus: null
         };
     }
 
@@ -251,7 +357,13 @@ export const calculateSmartDamage = (attacker, defender, move, { lastMoveName, f
     const { effectiveness } = baseResult; // Changed to const
     let message = "";
 
-    const isSpecialist = attacker.types?.[0]?.type?.name === move.type; // Assuming attacker.type is the primary type
+    // Status: Burn reduces attack by 50% (unless ability says otherwise, ignoring guts for now)
+    if (attackerStatus === 'burn' && move.category !== 'special') { // Simplify: just reduce all damage for now
+        damage = Math.floor(damage * 0.5);
+        message += " (Verbrand)";
+    }
+
+    const isSpecialist = attacker.types?.some(t => t.type.name === move.type);
     if (isSpecialist) damage = Math.floor(damage * 1.5);
 
     const isCombo = move.isCombo;
@@ -260,24 +372,54 @@ export const calculateSmartDamage = (attacker, defender, move, { lastMoveName, f
     // 2. Anti-Spam Penalty
     if (lastMoveName && move.name === lastMoveName) {
         damage = Math.floor(damage * 0.6); // 40% reduction
-        message = "⚠️ ¡Repetitivo!";
+        message = "⚠️ Herhalend!";
     }
 
     // 3. Fatigue Penalty (Sprint 4)
     if (fatigue > 50) {
         damage = Math.floor(damage * 0.8); // 20% reduction
-        message += " 🥱 Cansado!";
+        message += " 🥱 Moe!";
     } else if (fatigue > 80) {
         damage = Math.floor(damage * 0.5); // 50% reduction
-        message += " 💤 ¡Muy agotado!";
+        message += " 💤 Uitgeput!";
     }
 
-    // 4. Recoil / Damage Split
+    // 4. Critical Hit
+    const isCrit = randomService.bool(0.06); // 6% chance
+    if (isCrit) {
+        damage = Math.floor(damage * 1.5);
+        message += " 🎯 KRITIEK!";
+    }
+
+    // 5. Recoil / Damage Split
     let recoilDamage = 0;
     if (move.recoil) {
         recoilDamage = Math.floor(damage * move.recoil);
         damage = damage - recoilDamage; // The "Split" effect
-        if (recoilDamage > 0) message += ` 💥 Split! -${recoilDamage} HP terug!`;
+        if (recoilDamage > 0) message += ` 💥 Split! -${recoilDamage} HP terugslag!`;
+    }
+
+    // 6. Status Effects
+    let appliedStatus = null;
+    if (move.status && randomService.bool(move.statusChance || 0.1)) {
+        appliedStatus = move.status;
+        const statusIcons = {
+            burn: '🔥',
+            paralysis: '⚡',
+            freeze: '❄️',
+            poison: '☠️',
+            sleep: '💤',
+            speed_down: '🐌'
+        };
+        const statusNames = {
+            burn: 'VERBRAND',
+            paralysis: 'VERLAMD',
+            freeze: 'BEVROREN',
+            poison: 'VERGIFTIGD',
+            sleep: 'SLAAP',
+            speed_down: 'SNELHEID OMLAAG'
+        };
+        message += ` ${statusIcons[move.status] || '✨'} ${statusNames[move.status] || move.status.toUpperCase()}!`;
     }
 
     return { 
@@ -285,6 +427,7 @@ export const calculateSmartDamage = (attacker, defender, move, { lastMoveName, f
         recoilDamage,
         effectiveness, 
         message,
-        isCrit: randomService.bool(0.06) // 6% crit chance from seeded RNG
+        isCrit,
+        appliedStatus
     };
 };

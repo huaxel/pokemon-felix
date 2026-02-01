@@ -5,8 +5,8 @@ export function PalaceLuckView({
 }) {
     return (
         <div className="challenge-active luck">
-            <h2>Prueba de Suerte 🎲</h2>
-            <p>Lanza el dado. Necesitas 4 o más para ganar.</p>
+            <h2>Test van Geluk 🎲</h2>
+            <p>Rol de dobbelsteen. Je hebt 4 of hoger nodig om te winnen.</p>
             <div className="dice-container">
                 <div className={`dice ${diceRolling ? 'rolling' : ''}`}>
                     {diceResult ? diceResult : '?'}
@@ -18,7 +18,7 @@ export function PalaceLuckView({
                     onClick={onRoll}
                     disabled={diceRolling}
                 >
-                    {diceRolling ? '🎲 Rodando...' : '🎲 Lanzar Dado'}
+                    {diceRolling ? '🎲 Rollen...' : '🎲 Gooi Dobbelsteen'}
                 </button>
             )}
         </div>

@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useContext } from 'react';
+import React, { useMemo, useCallback, useContext } from 'react';
 import {
     DataProvider, EconomyProvider, ProgressProvider,
     CollectionProvider, CareProvider, ExperienceProvider, TownProvider, UIProvider
@@ -29,10 +29,12 @@ export function PokemonProvider({ children }) {
     ]), []);
 
     return (
-        <ComposedProviders>
-            <BankInterestManager />
-            {children}
-        </ComposedProviders>
+        <React.Fragment>
+            <ComposedProviders>
+                <BankInterestManager />
+                {children}
+            </ComposedProviders>
+        </React.Fragment>
     );
 }
 

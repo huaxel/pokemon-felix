@@ -7,7 +7,7 @@ export function FountainRecentRewards({ recentRewards, getMessageColor }) {
         <div className="recent-rewards">
             <h3>
                 <Gift size={20} />
-                Recompensas Recientes
+                Recente Beloningen
             </h3>
             <div className="rewards-list">
                 {recentRewards.map((reward, idx) => (

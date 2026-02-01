@@ -16,13 +16,13 @@ export function MountainHikeView({
     return (
         <div className="mountain-page hiking">
             <div className="hiking-header">
-                <h2>⛰️ Mountain Climb</h2>
-                <button className="exit-btn" onClick={onExit}>Exit</button>
+                <h2>⛰️ Berg Beklimmen</h2>
+                <button className="exit-btn btn-kenney neutral" onClick={onExit}>Verlaten</button>
             </div>
 
             <div className="climb-stats">
                 <div className="stat">
-                    <span>📍 Altitude</span>
+                    <span>📍 Hoogte</span>
                     <div className="altitude-display">{altitude}m</div>
                     <div className="progress-bar">
                         <div className="progress-fill" style={{ width: `${progressPercent}%` }}></div>
@@ -30,7 +30,7 @@ export function MountainHikeView({
                 </div>
 
                 <div className="stat">
-                    <span>😫 Tiredness</span>
+                    <span>😫 Vermoeidheid</span>
                     <div className="tiredness-display">{tiredness}/100</div>
                     <div className="energy-bar">
                         <div
@@ -53,30 +53,30 @@ export function MountainHikeView({
 
             {foundPokemon ? (
                 <div className="pokemon-encounter">
-                    <h3>Encountered!</h3>
-                    <img src={foundPokemon.sprites?.front_default} alt={foundPokemon.name} />
+                    <h3>Ontmoeting!</h3>
+                    <img src={foundPokemon.sprites?.front_default} alt={foundPokemon.name} style={{ imageRendering: 'pixelated' }} />
                     <h4>{foundPokemon.name}</h4>
                     <div className="encounter-buttons">
-                        <button className="catch-btn" onClick={onCatch}>
-                            🎯 Catch
+                        <button className="catch-btn btn-kenney primary" onClick={onCatch}>
+                            🎯 Vangen
                         </button>
-                        <button className="pass-btn" onClick={onPass}>
-                            👋 Pass
+                        <button className="pass-btn btn-kenney neutral" onClick={onPass}>
+                            👋 Overslaan
                         </button>
                     </div>
                 </div>
             ) : (
                 <div className="climb-actions">
                     <button
-                        className="climb-btn"
+                        className="climb-btn btn-kenney primary"
                         onClick={onClimb}
                         disabled={tiredness >= 100}
                     >
-                        ⬆️ Climb Higher
+                        ⬆️ Hoger Klimmen
                     </button>
                     {tiredness > 20 && (
-                        <button className="rest-btn" onClick={onRest}>
-                            😴 Rest
+                        <button className="rest-btn btn-kenney warning" onClick={onRest}>
+                            😴 Rusten
                         </button>
                     )}
                 </div>

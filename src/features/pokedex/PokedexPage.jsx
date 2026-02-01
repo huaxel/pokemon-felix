@@ -4,6 +4,7 @@ import { getPokemonDetails } from '../../lib/api';
 import { SearchBar } from '../../components/SearchBar';
 import { PokemonCard } from '../../components/PokemonCard';
 const PokemonModal = lazy(() => import('../../components/PokemonModal').then(mod => ({ default: mod.PokemonModal })));
+import { grassTile } from '../world/worldAssets';
 import './PokedexPage.css';
 
 export function PokedexPage() {
@@ -37,18 +38,24 @@ export function PokedexPage() {
     const displayList = (searchResults && searchResults.length > 0) ? searchResults : pokemonList;
 
     return (
-        <div className="pokedex-page">
+        <div className="pokedex-page" style={{ 
+            backgroundColor: '#2d1810',
+            backgroundImage: `url(${grassTile})`,
+            backgroundSize: '64px',
+            backgroundRepeat: 'repeat',
+            imageRendering: 'pixelated'
+        }}>
             <SearchBar allPokemon={allPokemonNames} onSearch={handleSearch} />
 
             {searchResults && (
-                <div className="search-status">
-                    <button className="clear-search" onClick={clearSearch}>
-                        REINICIAR BÚSQUEDA
+                <div className="search-status" style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                    <button className="clear-search btn-kenney warning" onClick={clearSearch}>
+                        ZOEKOPDRACHT WISSEN
                     </button>
                 </div>
             )}
 
-            <div className="pokemon-grid">
+            <div className="pokemon-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem', padding: '1rem' }}>
                 {displayList.map((pokemon, index) => (
                     <PokemonCard
                         key={pokemon.id}
@@ -62,9 +69,9 @@ export function PokedexPage() {
             </div>
 
             {!searchResults && (
-                <div className="load-more-container">
-                    <button className="btn-adventure primary" onClick={loadPokemon} disabled={loading}>
-                        {loading ? 'Cargando...' : 'Cargar Más Pokémon'}
+                <div className="load-more-container" style={{ textAlign: 'center', margin: '2rem 0' }}>
+                    <button className="btn-kenney primary" onClick={loadPokemon} disabled={loading}>
+                        {loading ? 'Laden...' : 'Meer Pokémon laden'}
                     </button>
                 </div>
             )}

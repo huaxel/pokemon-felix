@@ -3,18 +3,21 @@ import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { useToast } from '../../../hooks/useToast';
 import { useOutfitEffects } from '../../../hooks/useOutfitEffects';
 import { WorldPageHeader } from '../components/WorldPageHeader';
-import marketImage from '../../../assets/buildings/market_stall.png';
-import bagIcon from '../../../assets/items/bag_icon.png';
-import pokeballImage from '../../../assets/items/pokeball.png';
-import greatballImage from '../../../assets/items/greatball.png';
-import ultraballImage from '../../../assets/items/ultraball.png';
-import potionImage from '../../../assets/items/potion.png';
-import superPotionImage from '../../../assets/items/super_potion.png';
-import rareCandyImage from '../../../assets/items/rare_candy.png';
-import mysteryBoxImage from '../../../assets/items/mystery_box.png';
-import oranBerryImage from '../../../assets/items/berry.png';
-import sitrusBerryImage from '../../../assets/items/sitrus_berry.png';
-import razzBerryImage from '../../../assets/items/razz_berry.png';
+import { 
+    grassTile, 
+    marketImage, 
+    bagIcon,
+    pokeballTile as pokeballImage,
+    greatballIcon as greatballImage,
+    ultraballIcon as ultraballImage,
+    potionIcon as potionImage,
+    superPotionIcon as superPotionImage,
+    rareCandyIcon as rareCandyImage,
+    mysteryBoxIcon as mysteryBoxImage,
+    berryIcon as oranBerryImage,
+    sitrusBerryIcon as sitrusBerryImage,
+    razzBerryIcon as razzBerryImage
+} from '../worldAssets';
 import './MarketPage.css';
 
 const calculatePokemonValue = (pokemon) => {
@@ -31,58 +34,58 @@ const calculatePokemonValue = (pokemon) => {
 
 const SHOP_ITEMS = {
     pokeballs: [
-        { id: 'pokeball', name: 'Poké Ball', price: 100, description: 'Balón estándar para atrapar Pokémon.', image: pokeballImage },
-        { id: 'greatball', name: 'Súper Ball', price: 250, description: 'Más efectiva que la Poké Ball.', image: greatballImage },
-        { id: 'ultraball', name: 'Ultra Ball', price: 500, description: 'Alta probabilidad de captura.', image: ultraballImage }
+        { id: 'pokeball', name: 'Poké Ball', price: 100, description: 'Standaard bal om Pokémon te vangen.', image: pokeballImage },
+        { id: 'greatball', name: 'Super Ball', price: 250, description: 'Effectiever dan de Poké Ball.', image: greatballImage },
+        { id: 'ultraball', name: 'Ultra Ball', price: 500, description: 'Hoge vangkans.', image: ultraballImage }
     ],
     potions: [
-        { id: 'potion', name: 'Poción', price: 200, description: 'Cura un poco de HP.', image: potionImage },
-        { id: 'super-potion', name: 'Súper Poción', price: 400, description: 'Cura más HP.', image: superPotionImage }
+        { id: 'potion', name: 'Potion', price: 200, description: 'Geneest een beetje HP.', image: potionImage },
+        { id: 'super-potion', name: 'Super Potion', price: 400, description: 'Geneest meer HP.', image: superPotionImage }
     ],
     berries: [
-        { id: 'berry', name: 'Baya Aranja', price: 50, description: 'Restaura 30 HP.', image: oranBerryImage },
-        { id: 'sitrus-berry', name: 'Baya Zidra', price: 100, description: 'Restaura 80 HP.', image: sitrusBerryImage },
-        { id: 'razz-berry', name: 'Baya Frambu', price: 150, description: 'Facilita la captura.', image: razzBerryImage }
+        { id: 'berry', name: 'Oran Bes', price: 50, description: 'Herstelt 30 HP.', image: oranBerryImage },
+        { id: 'sitrus-berry', name: 'Sitrus Bes', price: 100, description: 'Herstelt 80 HP.', image: sitrusBerryImage },
+        { id: 'razz-berry', name: 'Frambu Bes', price: 150, description: 'Maakt vangen makkelijker.', image: razzBerryImage }
     ],
     special: [
-        { id: 'rare-candy', name: 'Caramelo Raro', price: 1000, description: 'Sube de nivel.', image: rareCandyImage },
-        { id: 'mystery-box', name: 'Caja Misteriosa', price: 500, description: '¿Qué habrá dentro?', image: mysteryBoxImage }
+        { id: 'rare-candy', name: 'Zeldzaam Snoepje', price: 1000, description: 'Verhoogt level.', image: rareCandyImage },
+        { id: 'mystery-box', name: 'Mysterieuze Doos', price: 500, description: 'Wat zit erin?', image: mysteryBoxImage }
     ]
 };
 
 const ECONOMICS_TIPS = [
-    "💡 Tip: ¡Los Pokémon más fuertes valen más monedas!",
-    "💡 Tip: Ahorra para comprar objetos especiales.",
-    "💡 Tip: Vender Pokémon duplicados es una buena forma de ganar monedas.",
-    "💡 Tip: Los Pokémon legendarios valen mucho más en el mercado."
+    "💡 Tip: Sterkere Pokémon zijn meer munten waard!",
+    "💡 Tip: Spaar voor speciale items.",
+    "💡 Tip: Dubbele Pokémon verkopen is een goede manier om te verdienen.",
+    "💡 Tip: Legendarische Pokémon zijn veel meer waard op de markt."
 ];
 
 function CategoryTabs({ category, setCategory }) {
     return (
         <div className="category-tabs">
             <button
-                className={`category-btn ${category === 'pokeballs' ? 'active' : ''}`}
+                className={`category-btn btn-kenney ${category === 'pokeballs' ? 'primary' : 'neutral'}`}
                 onClick={() => setCategory('pokeballs')}
             >
                 ⚾ Poké Balls
             </button>
             <button
-                className={`category-btn ${category === 'potions' ? 'active' : ''}`}
+                className={`category-btn btn-kenney ${category === 'potions' ? 'primary' : 'neutral'}`}
                 onClick={() => setCategory('potions')}
             >
-                🧪 Pociones
+                🧪 Drankjes
             </button>
             <button
-                className={`category-btn ${category === 'berries' ? 'active' : ''}`}
+                className={`category-btn btn-kenney ${category === 'berries' ? 'primary' : 'neutral'}`}
                 onClick={() => setCategory('berries')}
             >
-                🍒 Bayas
+                🍒 Bessen
             </button>
             <button
-                className={`category-btn ${category === 'special' ? 'active' : ''}`}
+                className={`category-btn btn-kenney ${category === 'special' ? 'primary' : 'neutral'}`}
                 onClick={() => setCategory('special')}
             >
-                ✨ Especiales
+                ✨ Speciaal
             </button>
         </div>
     );
@@ -96,12 +99,12 @@ function ShopSection({ category, setCategory, items, onBuy, discount, getPrice }
                 {items.map(item => (
                     <div key={item.id} className="item-card">
                         <div className="item-icon-circle">
-                            <img src={item.image} alt={item.name} className="shop-item-img" />
+                            <img src={item.image} alt={item.name} className="shop-item-img" style={{ imageRendering: 'pixelated' }} />
                         </div>
                         <h3>{item.name}</h3>
                         <p className="item-desc">{item.description}</p>
-                        <button className="buy-btn" onClick={() => onBuy(item)}>
-                            Comprar <img src={bagIcon} alt="coins" className="coin-icon-inline" />
+                        <button className="buy-btn btn-kenney primary" onClick={() => onBuy(item)}>
+                            Kopen <img src={bagIcon} alt="coins" className="coin-icon-inline" style={{ imageRendering: 'pixelated' }} />
                             {discount > 0 ? (
                                 <span><s style={{ opacity: 0.6 }}>{item.price}</s> <b>{getPrice(item.price)}</b></span>
                             ) : (
@@ -120,12 +123,12 @@ function SellSection({ sellablePokemon, onSell }) {
         <>
             <div className="market-intro">
                 <img src={marketImage} className="market-promo-img" alt="Market" />
-                <p>¡Vende tus Pokémon extra! El precio depende de su fuerza. Los Pokémon en tu equipo no se pueden vender.</p>
+                <p>Verkoop je extra Pokémon! De prijs hangt af van hun kracht. Pokémon in je team kunnen niet worden verkocht.</p>
             </div>
 
             <div className="pokemon-grid">
                 {sellablePokemon.length === 0 ? (
-                    <p className="empty-msg">No tienes Pokémon extra para vender...</p>
+                    <p className="empty-msg">Je hebt geen extra Pokémon om te verkopen...</p>
                 ) : (
                     sellablePokemon.map(pokemon => {
                         const value = calculatePokemonValue(pokemon);
@@ -137,11 +140,11 @@ function SellSection({ sellablePokemon, onSell }) {
                                 <img src={pokemon.sprites.front_default} alt={pokemon.name} />
                                 <h3>{pokemon.name}</h3>
                                 <div className="pokemon-value-info">
-                                    <span className="stat-label">Fuerza Total: {bst}</span>
-                                    {pokemon.id > 130 && <span className="legendary-badge">⭐ Legendario</span>}
+                                    <span className="stat-label">Kracht: {bst}</span>
+                                    {pokemon.id > 130 && <span className="legendary-badge">⭐ Legendarisch</span>}
                                 </div>
                                 <button className="sell-btn" onClick={() => onSell(pokemon)}>
-                                    Vender por <img src={bagIcon} alt="coins" className="coin-icon-inline" /> {value}
+                                    Verkopen voor <img src={bagIcon} alt="coins" className="coin-icon-inline" /> {value}
                                 </button>
                             </div>
                         );
@@ -169,10 +172,10 @@ export function MarketPage() {
         if (coins >= finalPrice) {
             if (spendCoins(finalPrice)) {
                 addItem(item.id, 1);
-                showSuccess(`✅ ¡Has comprado 1 ${item.name}!`);
+                showSuccess(`✅ Je hebt 1 ${item.name} gekocht!`);
             }
         } else {
-            showError('❌ No tienes suficientes monedas.');
+            showError('❌ Je hebt niet genoeg munten.');
         }
     };
 
@@ -185,17 +188,24 @@ export function MarketPage() {
         const success = await sellPokemon(pokemon.id);
         if (success) {
             addCoins(value - 50); // sellPokemon already adds 50, so add the difference
-            showSuccess(`✅ ¡Vendiste ${pokemon.name} por ${value} monedas!`);
+            showSuccess(`✅ Je hebt ${pokemon.name} verkocht voor ${value} munten!`);
         }
     };
 
     return (
-        <div className="market-page">
-            <WorldPageHeader title="Mercado Pokémon" icon="🏪" />
+        <div className="market-page" style={{ 
+            backgroundColor: '#2d1810',
+            backgroundImage: `url(${grassTile})`,
+            backgroundSize: '64px',
+            backgroundRepeat: 'repeat',
+            imageRendering: 'pixelated',
+            minHeight: '100vh'
+        }}>
+            <WorldPageHeader title="Pokémon Markt" icon="🏪" />
 
             {activeEffect.discount > 0 && (
                 <div className="market-discount-banner">
-                    ✨ ¡Descuento de {activeEffect.discount * 100}% activo por tu traje!
+                    ✨ Korting van {activeEffect.discount * 100}% actief dankzij je outfit!
                 </div>
             )}
 
@@ -209,10 +219,10 @@ export function MarketPage() {
 
             <div className="market-tabs">
                 <button className={`tab-btn ${tab === 'buy' ? 'active' : ''}`} onClick={() => setTab('buy')}>
-                    🛒 Comprar
+                    🛒 Kopen
                 </button>
                 <button className={`tab-btn ${tab === 'sell' ? 'active' : ''}`} onClick={() => setTab('sell')}>
-                    💰 Vender
+                    💰 Verkopen
                 </button>
             </div>
 

@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { useCollection } from '../hooks/useCollection';
 import { useCoins } from '../hooks/useCoins';
 import { useSquad } from '../hooks/useSquad';
@@ -73,7 +73,11 @@ export function DataProvider({ children }) {
         clearSearch: search.clearSearch,
     }), [pokemonList, isLoadingList, isLoadingNames, search, loadPokemon, allNames]);
 
-    return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
+    return (
+        <React.Fragment>
+            <DataContext.Provider value={value}>{children}</DataContext.Provider>
+        </React.Fragment>
+    );
 }
 
 /**

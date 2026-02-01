@@ -143,7 +143,7 @@ export function GachaPage() {
                     }
                     setResult({ ...pokemon, rarity, isShiny });
                 } else {
-                    setError("Error");
+                    setError("Er is een fout opgetreden bij het ophalen van de Pokémon.");
                 }
                 setIsAnimating(false);
             }, 2000);
@@ -151,43 +151,55 @@ export function GachaPage() {
     };
 
     return (
-        <div className="gacha-page">
+        <div className="gacha-page" style={{ 
+            backgroundColor: '#2d1810',
+            backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+            backgroundSize: '64px',
+            backgroundRepeat: 'repeat',
+            imageRendering: 'pixelated'
+        }}>
             <GachaHeader coins={coins} />
 
-            <div className="gacha-intro">
-                <img src={gachaImage} className="gacha-promo-img" alt="Gacha" />
-                <h2>Welkom bij de Poké-Gacha!</h2>
-                <p>Kies een categorie en beproef je geluk!</p>
-            </div>
-
             <div className="gacha-nav">
-                <button className={`nav-item ${category === 'catch' ? 'active' : ''}`} onClick={() => { setCategory('catch'); setSelectedBall('pokeball'); }}>
-                    <img src={pokeballImage} alt="Vangen" className="nav-icon" />
-                    <span>Vangen</span>
+                <button 
+                    className={`nav-item btn-kenney ${category === 'catch' ? 'primary' : 'neutral'}`}
+                    onClick={() => { setCategory('catch'); setSelectedBall('pokeball'); }}
+                >
+                    Vangen
                 </button>
-                <button className={`nav-item ${category === 'mystery' ? 'active' : ''}`} onClick={() => { setCategory('mystery'); setSelectedBall('mystery'); }}>
-                    <img src={mysteryImage} alt="Extra's" className="nav-icon" />
-                    <span>Extra&apos;s</span>
+                <button 
+                    className={`nav-item btn-kenney ${category === 'mystery' ? 'primary' : 'neutral'}`}
+                    onClick={() => { setCategory('mystery'); setSelectedBall('mystery'); }}
+                >
+                    Items
                 </button>
             </div>
 
             <div className="gacha-stage">
-                {error && <div className="error-message">{error}</div>}
+                {error && <div className="error-message game-panel-dark" style={{ borderColor: '#ef4444' }}>{error}</div>}
 
                 {!result && !isAnimating && (
-                    <GachaSelector
-                        category={category}
-                        selectedBall={selectedBall}
-                        setSelectedBall={setSelectedBall}
-                        tiers={GACHA_TIERS}
-                        onSummon={summon}
-                        currentTier={currentTier}
-                    />
+                    <>
+                        <div className="gacha-intro game-panel-dark" style={{ maxWidth: '600px', margin: '0 auto 2rem auto' }}>
+                            <img src={gachaImage} className="gacha-promo-img" alt="Gacha" style={{ imageRendering: 'pixelated' }} />
+                            <h2 style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '1rem', marginTop: '1rem' }}>Welkom bij de Poké-Gacha!</h2>
+                            <p style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.7rem', color: '#fbbf24', lineHeight: '1.5' }}>Kies een categorie en beproef je geluk!</p>
+                        </div>
+
+                        <GachaSelector
+                            category={category}
+                            selectedBall={selectedBall}
+                            setSelectedBall={setSelectedBall}
+                            tiers={GACHA_TIERS}
+                            onSummon={summon}
+                            currentTier={currentTier}
+                        />
+                    </>
                 )}
 
                 {isAnimating && (
                     <div className="animation-container">
-                        <img src={currentTier.image} alt="Summoning..." className="summon-pokeball shaking" />
+                        <img src={currentTier.image} alt="Summoning..." className="summon-pokeball shaking" style={{ imageRendering: 'pixelated' }} />
                         <div className="light-burst"></div>
                     </div>
                 )}

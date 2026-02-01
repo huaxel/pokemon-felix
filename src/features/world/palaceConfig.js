@@ -1,27 +1,27 @@
 export const PALACE_CHALLENGES = [
     {
         id: 'wisdom',
-        name: 'Prueba de Sabiduría',
+        name: 'Test van Wijsheid',
         icon: '🧠',
-        description: 'Responde correctamente trivia de Pokémon',
+        description: 'Beantwoord Pokémon trivia correct',
         cost: 0,
         reward: { coins: 200, item: 'rare_candy' },
         difficulty: 'medium'
     },
     {
         id: 'strength',
-        name: 'Prueba de Fuerza',
+        name: 'Test van Kracht',
         icon: '💪',
-        description: 'Derrota a un Pokémon legendario',
+        description: 'Versla een legendarische Pokémon',
         cost: 100,
         reward: { coins: 500, legendary: true },
         difficulty: 'hard'
     },
     {
         id: 'luck',
-        name: 'Prueba de Suerte',
+        name: 'Test van Geluk',
         icon: '🎲',
-        description: 'Lanza los dados reales del campeón',
+        description: 'Rol de koninklijke dobbelstenen',
         cost: 50,
         reward: { coins: 300, item: 'mystery_box' },
         difficulty: 'easy'
@@ -29,12 +29,12 @@ export const PALACE_CHALLENGES = [
 ];
 
 export const TRIVIA_QUESTIONS = [
-    { question: '¿Qué tipo es Pikachu?', options: ['Eléctrico', 'Fuego', 'Agua', 'Planta'], answer: 0 },
-    { question: '¿Cuántos tipos de Pokémon existen?', options: ['16', '17', '18', '19'], answer: 2 },
-    { question: '¿Qué Pokémon es conocido como el Pokémon Legendario del Fuego?', options: ['Articuno', 'Zapdos', 'Moltres', 'Mewtwo'], answer: 2 },
-    { question: '¿En qué se convierte Eevee con una Piedra Agua?', options: ['Vaporeon', 'Jolteon', 'Flareon', 'Espeon'], answer: 0 },
-    { question: '¿Cuál es el Pokémon inicial de tipo Planta en Kanto?', options: ['Charmander', 'Squirtle', 'Bulbasaur', 'Pikachu'], answer: 2 },
-    { question: '¿Qué movimiento tiene 100% de precisión y nunca falla?', options: ['Rayo', 'Impactrueno', 'Ataque Rápido', 'Hidrobomba'], answer: 2 },
-    { question: '¿Cuál es el Pokémon con el número 001 en la Pokédex?', options: ['Pikachu', 'Mew', 'Bulbasaur', 'Charizard'], answer: 2 },
-    { question: '¿Qué tipo es súper efectivo contra Dragón?', options: ['Fuego', 'Agua', 'Hielo', 'Eléctrico'], answer: 2 },
+    { question: 'Welk type is Pikachu?', options: ['Elektrisch', 'Vuur', 'Water', 'Gras'], answer: 0 },
+    { question: 'Hoeveel Pokémon types zijn er?', options: ['16', '17', '18', '19'], answer: 2 },
+    { question: 'Welke Pokémon is de Legendarische Vuurvogel?', options: ['Articuno', 'Zapdos', 'Moltres', 'Mewtwo'], answer: 2 },
+    { question: 'Waarin evolueert Eevee met een Watersteen?', options: ['Vaporeon', 'Jolteon', 'Flareon', 'Espeon'], answer: 0 },
+    { question: 'Wat is de Gras-starter van Kanto?', options: ['Charmander', 'Squirtle', 'Bulbasaur', 'Pikachu'], answer: 2 },
+    { question: 'Welke aanval mist nooit?', options: ['Thunderbolt', 'Thunder Shock', 'Quick Attack', 'Swift'], answer: 3 },
+    { question: 'Welke Pokémon is nummer 001 in de Pokédex?', options: ['Pikachu', 'Mew', 'Bulbasaur', 'Charizard'], answer: 2 },
+    { question: 'Welk type is super effectief tegen Draak?', options: ['Vuur', 'Water', 'IJs', 'Elektrisch'], answer: 2 },
 ];

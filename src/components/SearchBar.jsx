@@ -57,12 +57,12 @@ export function SearchBar({ allPokemon, onSearch }) {
                 <input
                     type="text"
                     className="search-input"
-                    placeholder="Buscar Pokémon..."
+                    placeholder="Zoek Pokémon..."
                     value={query}
                     onChange={handleInputChange}
                     onFocus={() => query.length > 1 && setIsOpen(true)}
                 />
-                <button type="submit" className="btn-adventure primary search-btn">🔍</button>
+                <button type="submit" className="btn-kenney primary search-btn">🔍</button>
             </form>
 
             {isOpen && suggestions.length > 0 && (

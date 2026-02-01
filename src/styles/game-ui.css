@@ -10,11 +10,21 @@
     border-radius: 0;
     /* Pixel art doesn't use border-radius */
     position: relative;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
 }
 
 .game-panel.thick-border {
     border-width: var(--border-slice-width-thick);
     border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png') var(--border-slice-width-thick) round;
+}
+
+.game-panel-dark {
+    background: #2d1810;
+    border: var(--border-slice-width) solid transparent;
+    border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') var(--border-slice-width) round;
+    image-rendering: pixelated;
+    padding: 1.5rem;
+    color: var(--color-ui-text-light);
 }
 
 /* Dialogue Box - WCAG AA Compliant */
@@ -51,11 +61,18 @@
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
     transition: all 0.1s;
     cursor: url('/src/assets/icons/custom_cursor.png'), pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .btn-kenney:hover {
     background: var(--color-ui-active-blue-dark);
     transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
 .btn-kenney:active {
@@ -65,18 +82,37 @@
 .btn-kenney.danger,
 .btn-kenney-red {
     background: var(--color-ui-red-accent);
+    border-color: #5c1818;
     box-shadow: 0 4px 0 #8b1e1e;
 }
 
 .btn-kenney.success,
 .btn-kenney-green {
     background: var(--color-ui-green-accent);
+    border-color: #2d4d20;
     box-shadow: 0 4px 0 #3e6d2a;
+}
+
+.btn-kenney.warning,
+.btn-kenney-yellow {
+    background: #f59e0b;
+    border-color: #92400e;
+    box-shadow: 0 4px 0 #b45309;
+    color: #fff;
+}
+
+.btn-kenney.neutral,
+.btn-kenney-gray {
+    background: #64748b;
+    border-color: #334155;
+    box-shadow: 0 4px 0 #1e293b;
 }
 
 .btn-kenney:active,
 .btn-kenney-red:active,
-.btn-kenney-green:active {
+.btn-kenney-green:active,
+.btn-kenney-yellow:active,
+.btn-kenney-gray:active {
     transform: translateY(2px);
     box-shadow: none;
 }
@@ -114,4 +150,34 @@
     flex: 1;
     color: var(--color-ui-text-dark);
     line-height: 1.5;
+}
+
+/* Modal Overlay - Pixelated Blur */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Stat Bar - Pixel Style */
+.stat-bar-pixel {
+    height: 16px;
+    background: #2d1810;
+    border: 2px solid #5c3a29;
+    padding: 1px;
+    position: relative;
+}
+
+.stat-bar-pixel-fill {
+    height: 100%;
+    background: var(--color-ui-active-blue);
+    image-rendering: pixelated;
 }

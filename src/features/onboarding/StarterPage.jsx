@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../../hooks/usePokemonContext';
 import { usePlayer } from '../../hooks/usePlayer';
 import { addToCollection } from '../../lib/api';
+import { grassTile } from '../world/worldAssets';
 import './StarterPage.css';
 
 const STARTERS = [
-    { id: 1, name: 'Bulbasaur', type: 'grass', description: 'Un Pokémon tipo Planta/Veneno. Lleva una semilla en su lomo desde que nace.' },
-    { id: 4, name: 'Charmander', type: 'fire', description: 'Un Pokémon tipo Fuego. La llama de su cola indica su salud y estado de ánimo.' },
-    { id: 7, name: 'Squirtle', type: 'water', description: 'Un Pokémon tipo Agua. Su caparazón no solo lo protege, también reduce la resistencia al agua.' },
-    { id: 25, name: 'Pikachu', type: 'electric', description: 'Un Pokémon tipo Eléctrico. Almacena electricidad en sus mejillas para atacar.' }
+    { id: 1, name: 'Bulbasaur', type: 'grass', description: 'Een Gras/Gif Pokémon. Hij draagt een zaadje op zijn rug dat groeit naarmate hij ouder wordt.' },
+    { id: 4, name: 'Charmander', type: 'fire', description: 'Een Vuur Pokémon. De vlam op zijn staart toont zijn gezondheid en stemming.' },
+    { id: 7, name: 'Squirtle', type: 'water', description: 'Een Water Pokémon. Zijn schild biedt niet alleen bescherming, maar helpt ook bij het zwemmen.' },
+    { id: 25, name: 'Pikachu', type: 'electric', description: 'Een Elektrische Pokémon. Hij slaat elektriciteit op in zijn wangen om vijanden te schokken.' }
 ];
 
 export function StarterPage() {
@@ -53,31 +54,48 @@ export function StarterPage() {
     };
 
     return (
-        <div className="starter-page">
+        <div className="starter-page" style={{ 
+            backgroundImage: `url(${grassTile})`,
+            backgroundSize: '64px',
+            imageRendering: 'pixelated',
+            fontFamily: '"Press Start 2P", cursive'
+        }}>
             <div className="starter-content">
-                <h1>¡Bienvenido, Entrenador!</h1>
-                <p className="subtitle">Para comenzar tu aventura, elige tu primer compañero Pokémon.</p>
+                <div className="starter-header">
+                    <h1 style={{ textShadow: '2px 2px 0 #000', fontFamily: '"Press Start 2P", cursive' }}>Welkom, Trainer!</h1>
+                    <p className="subtitle" style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem', lineHeight: '1.5' }}>Kies je eerste Pokémon partner om je avontuur te beginnen.</p>
+                </div>
 
                 <div className="starters-grid">
                     {STARTERS.map(starter => (
                         <div
                             key={starter.id}
-                            className={`starter-card ${selectedStarter?.id === starter.id ? 'selected' : ''} ${starter.type}`}
+                            className={`starter-card game-panel ${selectedStarter?.id === starter.id ? 'selected' : ''} ${starter.type}`}
                             onClick={() => setSelectedStarter(starter)}
+                            style={{ fontFamily: '"Press Start 2P", cursive' }}
                         >
                             <div className="starter-image">
-                                <img src={getSprite(starter.id)} alt={starter.name} />
+                                <img 
+                                    src={getSprite(starter.id)} 
+                                    alt={starter.name} 
+                                    style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }}
+                                />
                             </div>
-                            <h3>{starter.name}</h3>
-                            <p>{starter.description}</p>
+                            <h3 style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>{starter.name}</h3>
+                            <p style={{ fontSize: '0.6rem', lineHeight: '1.4', marginTop: '0.5rem' }}>{starter.description}</p>
                         </div>
                     ))}
                 </div>
 
                 {selectedStarter && (
                     <div className="action-area">
-                        <button className="btn-adventure primary choose-btn" onClick={handleChoose} disabled={isChoosing}>
-                            {isChoosing ? '¡Comenzando Aventura!' : `¡Yo te elijo, ${selectedStarter.name}!`}
+                        <button 
+                            className="btn-kenney choose-btn" 
+                            onClick={handleChoose} 
+                            disabled={isChoosing}
+                            style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.9rem', padding: '1rem 2rem' }}
+                        >
+                            {isChoosing ? 'Avontuur Starten...' : `Ik kies jou, ${selectedStarter.name}!`}
                         </button>
                     </div>
                 )}

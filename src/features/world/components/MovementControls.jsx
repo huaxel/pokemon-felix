@@ -1,5 +1,4 @@
-import houseImage from '../../../assets/buildings/house.png';
-import treeImage from '../../../assets/buildings/tree.png';
+import { houseImage, treeImage } from '../worldAssets';
 
 export function MovementControls({
     movePlayer,
@@ -11,12 +10,12 @@ export function MovementControls({
     return (
         <div className="controls-panel">
             <div className="d-pad">
-                <button onClick={() => movePlayer(0, -1)}>UP</button>
+                <button onClick={() => movePlayer(0, -1)}>▲</button>
                 <div className="d-pad-mid">
-                    <button onClick={() => movePlayer(-1, 0)} style={{ marginRight: '60px' }}>LEFT</button>
-                    <button onClick={() => movePlayer(1, 0)}>RIGHT</button>
+                    <button onClick={() => movePlayer(-1, 0)} style={{ marginRight: '60px' }}>◀</button>
+                    <button onClick={() => movePlayer(1, 0)}>▶</button>
                 </div>
-                <button onClick={() => movePlayer(0, 1)}>DOWN</button>
+                <button onClick={() => movePlayer(0, 1)}>▼</button>
             </div>
 
             <div className="build-controls" style={{ marginTop: '2rem', borderTop: '2px solid rgba(0,0,0,0.1)', paddingTop: '1rem' }}>
@@ -25,7 +24,7 @@ export function MovementControls({
                     onClick={() => setIsBuildMode(!isBuildMode)}
                     style={{ width: '100%', marginBottom: '1rem' }}
                 >
-                    {isBuildMode ? 'CERRAR BUILD' : 'MODO CONSTRUIR'}
+                    {isBuildMode ? 'STOP BOUWEN' : 'BOUWMODUS'}
                 </button>
 
                 {isBuildMode && (
@@ -44,7 +43,7 @@ export function MovementControls({
                             className={`btn-kenney ${selectedBuilding === 'path' ? 'success' : ''}`}
                             onClick={() => setSelectedBuilding('path')}
                             style={{ padding: '0.5rem', fontWeight: 'bold' }}
-                        >PATH</button>
+                        >PAD</button>
                     </div>
                 )}
             </div>

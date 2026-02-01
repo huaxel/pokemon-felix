@@ -3,43 +3,32 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--glass-border);
+    background: #2d1810;
+    border-bottom: 4px solid #4a3b32;
     position: sticky;
     top: 0;
     z-index: 10;
     color: white;
+    image-rendering: pixelated;
+    background-image: url('/src/assets/kenney_tiny-town/Tiles/tile_0000.png');
+    background-size: 64px;
+    background-repeat: repeat;
 }
 
 .header-back-btn {
-    background: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: var(--radius-full);
-    width: 40px;
-    height: 40px;
-    display: flex;
+    font-family: "Press Start 2P", cursive;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: white;
-    text-decoration: none;
-}
-
-.header-back-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateX(-2px);
 }
 
 .header-title {
-    font-size: 1.5rem;
-    font-weight: 700;
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 12px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: #fbbf24;
 }
 
 .header-icon {
@@ -48,22 +37,7 @@
 }
 
 .header-wallet {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 8px 16px;
-    border-radius: var(--radius-full);
-    border: 1px solid rgba(251, 191, 36, 0.3);
-}
-
-.coin-icon {
-    color: #fbbf24;
-}
-
-.header-wallet span {
-    font-weight: 700;
-    font-family: 'Consolas', monospace;
-    font-size: 1.1rem;
-    color: #fbbf24;
+    background: #e2e8f0;
+    border: 4px solid #94a3b8;
+    color: #1e293b;
 }

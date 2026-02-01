@@ -5,7 +5,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(2px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,113 +14,99 @@
 }
 
 .member-modal-content {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
+    /* Styles handled by game-panel-dark class in JSX */
     width: 90%;
     max-width: 500px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    padding: 2rem;
     position: relative;
     color: white;
 }
 
 .close-btn {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    top: -10px;
+    right: -10px;
+    z-index: 10;
+    /* Handled by btn-kenney danger */
+    padding: 0.5rem !important;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.close-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
 }
 
 .member-header {
     text-align: center;
     margin-bottom: 2rem;
+    font-family: "Press Start 2P", cursive;
 }
 
 .member-header h2 {
-    font-size: 2rem;
+    font-size: 1.2rem;
     margin: 0;
     text-transform: capitalize;
-    background: linear-gradient(to right, #60a5fa, #c084fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.id-badge {
+    background: #000;
+    color: #fbbf24;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.6rem;
+    margin-top: 0.5rem;
+    display: inline-block;
+    border: 2px solid #fbbf24;
 }
 
 .member-body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
+}
+
+.member-image {
+    background: #4a3b32; /* Dark frame background */
+    border: 4px solid #2d1810;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    image-rendering: pixelated;
 }
 
 .member-image img {
-    width: 200px;
-    height: 200px;
+    width: 128px;
+    height: 128px;
     object-fit: contain;
-    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5));
+    image-rendering: pixelated;
+}
+
+.bounce-in {
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 .member-stats-panel {
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1.5rem;
-    border-radius: 15px;
+    /* Handled by game-panel inside */
 }
 
 .stat-row {
     margin-bottom: 1rem;
+    font-family: "Press Start 2P", cursive;
+    font-size: 0.7rem;
 }
 
 .stat-row label {
     display: block;
     margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #94a3b8;
-    font-size: 0.9rem;
-}
-
-.stat-bar-container {
-    height: 12px;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
-}
-
-.stat-bar-fill {
-    height: 100%;
-    border-radius: 6px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stat-bar-fill.hunger {
-    background: #f59e0b;
-}
-
-.stat-bar-fill.happiness {
-    background: #ec4899;
-}
-
-.stat-value {
-    position: absolute;
-    right: 5px;
-    top: -18px;
-    font-size: 0.75rem;
     color: #cbd5e1;
 }
 
@@ -128,98 +114,16 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-top: 2rem;
+    width: 100%;
 }
 
-.action-btn {
-    border: none;
-    border-radius: 12px;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: white;
-    font-weight: bold;
+.cost {
+    font-size: 0.6rem;
+    opacity: 0.8;
+    margin-top: 2px;
 }
 
-.action-btn div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.2;
-}
-
-.action-btn.heal {
-    background: linear-gradient(to bottom right, #ef4444, #b91c1c);
-    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
-}
-
-.action-btn.feed {
-    background: linear-gradient(to bottom right, #f59e0b, #b45309);
-    box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
-}
-
-.action-btn:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
-
-.action-btn:active {
-    transform: translateY(0);
-}
-
-.action-btn .cost {
-    font-size: 0.75rem;
-    opacity: 0.9;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.bounce-in {
-    animation: bounce 0.5s cubic-bezier(0.36, 0, 0.66, -0.56) forwards;
-}
-
-.action-feedback {
-    background: rgba(16, 185, 129, 0.2);
-    color: #34d399;
-    padding: 0.5rem;
-    border-radius: 8px;
-    text-align: center;
-    margin-bottom: 1rem;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.action-btn.berry-btn {
-    grid-column: span 1;
-    /* Reset grid column */
-}
-
-.action-btn.berry-btn.oran {
-    background: linear-gradient(to bottom right, #3b82f6, #1d4ed8);
-    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
-}
-
-.action-btn.berry-btn.sitrus {
-    background: linear-gradient(to bottom right, #facc15, #ca8a04);
-    box-shadow: 0 4px 6px rgba(250, 204, 21, 0.2);
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.action-btn.berry-btn.razz {
-    background: linear-gradient(to bottom right, #ef4444, #b91c1c);
-    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+.berry-section {
+    width: 100%;
+    font-family: "Press Start 2P", cursive;
 }

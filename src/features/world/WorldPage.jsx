@@ -66,6 +66,14 @@ const WORLDS_CONFIG = {
     ]
 };
 
+// Map new continents to existing layouts for now
+WORLDS_CONFIG.na = WORLDS_CONFIG.green_valley;
+WORLDS_CONFIG.sa = WORLDS_CONFIG.green_valley;
+WORLDS_CONFIG.eu = WORLDS_CONFIG.green_valley;
+WORLDS_CONFIG.af = WORLDS_CONFIG.desert_oasis;
+WORLDS_CONFIG.as = WORLDS_CONFIG.frozen_peak;
+WORLDS_CONFIG.oc = WORLDS_CONFIG.green_valley;
+
 function getInitialPlayerPos() {
     try {
         const saved = localStorage.getItem(PLAYER_POS_STORAGE_KEY);
@@ -192,7 +200,7 @@ export function WorldPage() {
                 onClick={() => navigate('/world-select')}
                 style={{ position: 'absolute', top: '60px', left: '20px', zIndex: 100 }}
             >
-                🌍 MUNDO
+                🌍 Wereld
             </button>
             <WorldWeather weather={world.weather} isNight={world.isNight} />
             <WorldHUD

@@ -11,10 +11,10 @@ export function TreasureHuntingView({
     return (
         <div className="treasure-hunt-page hunting">
             <div className="hunt-header">
-                <button className="exit-btn" onClick={onBack}>
-                    ← Exit
+                <button className="exit-btn btn-kenney neutral" onClick={onBack}>
+                    ← Verlaten
                 </button>
-                <h2>Treasure Hunt #{currentHunt.id}</h2>
+                <h2>Schattenjacht #{currentHunt.id}</h2>
                 <div className="difficulty-badge" data-difficulty={currentHunt.difficulty}>
                     {currentHunt.difficulty}
                 </div>
@@ -22,25 +22,25 @@ export function TreasureHuntingView({
 
             <div className="hunt-content">
                 <div className="clue-card">
-                    <h3>🗺️ Clue:</h3>
+                    <h3>🗺️ Aanwijzing:</h3>
                     <p className="clue-text">{currentHunt.clue}</p>
                 </div>
 
                 <div className="progress-stats">
                     <div className="stat">
-                        <span className="stat-label">Attempts:</span>
+                        <span className="stat-label">Pogingen:</span>
                         <span className="stat-value">{attempts} / 10</span>
                     </div>
                     {distance !== null && (
                         <div className="stat">
-                            <span className="stat-label">Distance:</span>
-                            <span className="stat-value">{distance.toFixed(2)} units</span>
+                            <span className="stat-label">Afstand:</span>
+                            <span className="stat-value">{distance.toFixed(2)} eenheden</span>
                         </div>
                     )}
                 </div>
 
                 {message && (
-                    <div className={`hunt-message ${message.includes('close') ? 'hot' :
+                    <div className={`hunt-message ${message.includes('dichtbij') ? 'hot' :
                             message.includes('warmer') ? 'warm' : 'cold'
                         }`}>
                         {message}
@@ -48,7 +48,7 @@ export function TreasureHuntingView({
                 )}
 
                 <div className="coordinate-input">
-                    <h3>📍 Enter Coordinates:</h3>
+                    <h3>📍 Voer Coördinaten in:</h3>
                     <div className="input-row">
                         <div className="input-group">
                             <label>X:</label>
@@ -73,18 +73,18 @@ export function TreasureHuntingView({
                             />
                         </div>
                     </div>
-                    <button className="guess-btn" onClick={onGuess}>
-                        🔍 Check Location
+                    <button className="guess-btn btn-kenney primary" onClick={onGuess}>
+                        🔍 Controleer Locatie
                     </button>
                 </div>
 
                 <div className="hunt-guide">
-                    <h4>📚 Coordinate Guide:</h4>
+                    <h4>📚 Coördinaten Gids:</h4>
                     <ul>
-                        <li><strong>X = 0</strong>: Far West (left side)</li>
-                        <li><strong>X = 9</strong>: Far East (right side)</li>
-                        <li><strong>Y = 0</strong>: Far North (top)</li>
-                        <li><strong>Y = 9</strong>: Far South (bottom)</li>
+                        <li><strong>X = 0</strong>: Ver West (linkerkant)</li>
+                        <li><strong>X = 9</strong>: Ver Oost (rechterkant)</li>
+                        <li><strong>Y = 0</strong>: Ver Noord (bovenkant)</li>
+                        <li><strong>Y = 9</strong>: Ver Zuid (onderkant)</li>
                     </ul>
                 </div>
             </div>

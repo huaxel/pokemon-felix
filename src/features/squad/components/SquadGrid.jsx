@@ -27,8 +27,17 @@ export function SquadGrid({ squadPokemon, onSelectMember, onRemoveFromSquad, ren
                                 </div>
                             </DraggablePokemon>
                         ) : (
-                            <div className="empty-slot-content">
-                                <span>Vacío</span>
+                            <div className="empty-slot-content game-panel-dark" style={{ 
+                                display: 'flex', 
+                                justifyContent: 'center', 
+                                alignItems: 'center', 
+                                height: '100%', 
+                                color: '#94a3b8',
+                                fontFamily: '"Press Start 2P", cursive',
+                                fontSize: '0.6rem',
+                                opacity: 0.5
+                            }}>
+                                <span>Leeg</span>
                             </div>
                         )}
                     </DroppableSlot>

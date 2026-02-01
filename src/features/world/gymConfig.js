@@ -2,11 +2,11 @@ export const GYM_LEADERS = [
     {
         id: 0,
         name: 'Brock',
-        type: '🪨 Rock',
+        type: '🪨 Rots',
         pokemon: ['geodude', 'onix'],
         color: '#a0826d',
         reward: 500,
-        description: 'The Boulder Badge awaits!'
+        description: 'De Boulder Badge wacht op je!'
     },
     {
         id: 1,
@@ -15,60 +15,60 @@ export const GYM_LEADERS = [
         pokemon: ['staryu', 'starmie'],
         color: '#4a90e2',
         reward: 600,
-        description: 'The Cascade Badge is yours to earn!'
+        description: 'Verdien de Cascade Badge!'
     },
     {
         id: 2,
         name: 'Lt. Surge',
-        type: '⚡ Electric',
+        type: '⚡ Elektrisch',
         pokemon: ['pikachu', 'raichu'],
         color: '#ffd700',
         reward: 700,
-        description: 'The Thunder Badge - electrifying!'
+        description: 'De Donder Badge - elektrificerend!'
     },
     {
         id: 3,
         name: 'Erika',
-        type: '🌿 Grass',
+        type: '🌿 Gras',
         pokemon: ['oddish', 'vileplume'],
         color: '#66bb6a',
         reward: 800,
-        description: 'The Rainbow Badge blooms here!'
+        description: 'De Regenboog Badge bloeit hier!'
     },
     {
         id: 4,
         name: 'Koga',
-        type: '☠️ Poison',
+        type: '☠️ Vergif',
         pokemon: ['koffing', 'weezing'],
         color: '#9c27b0',
         reward: 900,
-        description: 'The Soul Badge - toxic power!'
+        description: 'De Ziel Badge - giftige kracht!'
     },
     {
         id: 5,
         name: 'Sabrina',
-        type: '🧠 Psychic',
+        type: '🧠 Psychisch',
         pokemon: ['kadabra', 'alakazam'],
         color: '#e91e63',
         reward: 1000,
-        description: 'The Marsh Badge - mind over matter!'
+        description: 'De Moeras Badge - geest boven materie!'
     },
     {
         id: 6,
         name: 'Blaine',
-        type: '🔥 Fire',
+        type: '🔥 Vuur',
         pokemon: ['ponyta', 'arcanine'],
         color: '#ff5722',
         reward: 1200,
-        description: 'The Volcano Badge burns bright!'
+        description: 'De Vulkaan Badge brandt helder!'
     },
     {
         id: 7,
         name: 'Giovanni',
-        type: '⚔️ Boss',
+        type: '⚔️ Baas',
         pokemon: ['rhydon', 'nidoking'],
         color: '#673ab7',
         reward: 2000,
-        description: 'The Earth Badge - the ultimate test!'
+        description: 'De Aarde Badge - de ultieme test!'
     }
 ];

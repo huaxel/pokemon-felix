@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { getPokemonDetails } from '../../lib/api';
 import { PokemonCard } from '../../components/PokemonCard';
+import { grassTile } from '../world/worldAssets';
 const PokemonModal = lazy(() => import('../../components/PokemonModal').then(mod => ({ default: mod.PokemonModal })));
 import './CollectionPage.css';
 
@@ -52,29 +53,43 @@ export function CollectionPage({ ownedIds, onToggleOwned }) {
     };
 
     if (loading) {
-        return <div className="collection-loading">Cargando tu colección...</div>;
+        return <div className="collection-loading">Je collectie laden...</div>;
     }
 
     if (ownedIds.length === 0) {
         return (
-            <div className="empty-collection">
-                <h2>¡Tu colección está vacía!</h2>
-                <p>Vuelve al inicio para atrapar algunos Pokémon.</p>
-                <Link to="/" className="go-home-btn">Buscar Pokémon</Link>
+            <div className="collection-page" style={{ 
+                backgroundColor: '#2d1810',
+                backgroundImage: `url(${grassTile})`,
+                backgroundSize: '64px',
+                backgroundRepeat: 'repeat',
+                imageRendering: 'pixelated'
+            }}>
+                <div className="empty-collection game-panel-dark">
+                    <h2 style={{ fontFamily: '"Press Start 2P", cursive' }}>Je collectie is leeg!</h2>
+                    <p style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem', lineHeight: '1.5' }}>Ga terug naar het begin om Pokémon te vangen.</p>
+                    <Link to="/" className="btn-kenney primary" style={{ textDecoration: 'none', display: 'inline-block', marginTop: '1rem' }}>Pokémon zoeken</Link>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="collection-page">
-            <div className="collection-header">
-                <h2>Mi Colección</h2>
-                <div className="collection-stats">
-                    <span>Total: {collectedPokemon.length}</span>
+        <div className="collection-page" style={{ 
+            backgroundColor: '#2d1810',
+            backgroundImage: `url(${grassTile})`,
+            backgroundSize: '64px',
+            backgroundRepeat: 'repeat',
+            imageRendering: 'pixelated'
+        }}>
+            <div className="collection-header game-panel-dark" style={{ marginBottom: '2rem' }}>
+                <h2 style={{ fontFamily: '"Press Start 2P", cursive', margin: 0, fontSize: '1.5rem', textShadow: '2px 2px 0 #000' }}>Mijn Collectie</h2>
+                <div className="collection-stats" style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem', color: '#fbbf24' }}>
+                    <span>Totaal: {collectedPokemon.length}</span>
                 </div>
             </div>
 
-            <div className="pokemon-grid">
+            <div className="pokemon-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem' }}>
                 {collectedPokemon.map((pokemon) => (
                     <PokemonCard
                         key={pokemon.id}

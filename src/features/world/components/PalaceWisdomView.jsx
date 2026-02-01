@@ -8,9 +8,9 @@ export function PalaceWisdomView({
 
     return (
         <div className="challenge-active wisdom">
-            <h2>Prueba de Sabiduría 🧠</h2>
+            <h2>Test van Wijsheid 🧠</h2>
             <div className="score-display">
-                Pregunta {questionsAnswered + 1}/3 | Correctas: {score}
+                Vraag {questionsAnswered + 1}/3 | Correct: {score}
             </div>
             <div className="question-box">
                 <h3>{currentQuestion.question}</h3>

@@ -1,169 +1,189 @@
 .world-selection-page {
+    position: relative;
+    width: 100%;
     height: 100vh;
-    background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
-    color: white;
+    background: radial-gradient(circle at center, #4facfe 0%, #00f2fe 100%);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
-    overflow: hidden;
-    position: relative;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .selection-header {
+    margin-top: 2rem;
     text-align: center;
-    margin-bottom: 3rem;
-    z-index: 2;
+    z-index: 10;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .selection-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    font-size: 2.5rem;
-    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-    margin-bottom: 0.5rem;
-}
-
-.selection-header p {
-    color: #94a3b8;
-    font-size: 1.2rem;
+    color: #ffcb05; /* Pokemon Yellow */
+    -webkit-text-stroke: 2px #3b4cca; /* Pokemon Blue */
 }
 
 .spinning-globe {
-    animation: spin-slow 20s linear infinite;
+    animation: spin 10s linear infinite;
 }
 
-.worlds-container {
-    display: flex;
-    gap: 2rem;
-    z-index: 2;
-    flex-wrap: wrap;
-    justify-content: center;
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.world-map-container {
+    flex: 1;
+    width: 90%;
     max-width: 1200px;
-}
-
-.world-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 2rem;
-    width: 300px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    cursor: pointer;
+    justify-content: center;
+    position: relative;
+    perspective: 1000px;
+}
+
+.interactive-map {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+    transition: transform 0.5s ease;
+}
+
+.continent-path {
+    fill: #4ade80;
+    stroke: #166534;
+    stroke-width: 2;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transform-origin: center;
 }
 
-.world-card:hover,
-.world-card.selected {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+.continent-path:hover {
+    fill: #facc15; /* Yellow highlight */
+    filter: drop-shadow(0 0 10px gold);
+    transform: scale(1.02);
 }
 
-.world-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+.continent-path.selected {
+    fill: #f87171; /* Red selected */
+    stroke: #991b1b;
+    transform: scale(1.05);
 }
 
-.world-info h2 {
-    font-size: 1.5rem;
+/* Specific continent colors */
+.continent-na { fill: #86efac; }
+.continent-sa { fill: #4ade80; }
+.continent-eu { fill: #c084fc; }
+.continent-af { fill: #fcd34d; }
+.continent-as { fill: #f87171; }
+.continent-oc { fill: #60a5fa; }
+
+.globe-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 80%);
+    pointer-events: none;
+    box-shadow: inset -20px -20px 50px rgba(0,0,0,0.3);
+    z-index: 5;
+}
+
+.confirmation-modal {
+    position: absolute;
+    bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    text-align: center;
+    color: #333;
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 20;
+    border: 4px solid #3b4cca;
+    max-width: 400px;
+    width: 90%;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.confirmation-modal h2 {
+    color: #3b4cca;
     margin-bottom: 0.5rem;
 }
 
-.world-info p {
-    color: #cbd5e1;
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
-    min-height: 3rem;
+.btn-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
-.travel-btn {
-    margin-top: auto;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
+.btn-travel {
+    background: #ffcb05;
     border: none;
-    padding: 0.8rem 2rem;
+    padding: 0.8rem 1.5rem;
     border-radius: 50px;
     font-weight: bold;
-    font-size: 1.1rem;
+    color: #3b4cca;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    width: 100%;
-    justify-content: center;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 0 #c7a008;
 }
 
-.travel-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+.btn-travel:active {
+    transform: translateY(4px);
+    box-shadow: none;
 }
 
-/* Background Decorations */
-.globe-decoration {
+.btn-cancel {
+    background: #e5e7eb;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.sound-controls {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(30, 58, 138, 0.2), transparent 70%);
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem;
     border-radius: 50%;
-    z-index: 1;
+    cursor: pointer;
+}
+
+/* Pokemon Decorations */
+.cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.6);
+    border-radius: 50px;
     pointer-events: none;
 }
+.cloud-1 { width: 100px; height: 40px; top: 20%; left: 10%; animation: float 20s infinite linear; }
+.cloud-2 { width: 140px; height: 50px; top: 15%; right: 15%; animation: float 25s infinite linear reverse; }
+.cloud-3 { width: 80px; height: 30px; bottom: 30%; left: 20%; animation: float 18s infinite linear; }
 
-.orbit-c1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 600px;
-    height: 600px;
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: spin-slow 30s linear infinite reverse;
-}
-
-.orbit-c2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 900px;
-    height: 900px;
-    border: 1px dashed rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: spin-slow 60s linear infinite;
-}
-
-@keyframes spin-slow {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
-@media (max-width: 768px) {
-    .worlds-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .world-card {
-        width: 100%;
-        max-width: 350px;
-    }
+@keyframes float {
+    0% { transform: translateX(-20px); }
+    50% { transform: translateX(20px); }
+    100% { transform: translateX(-20px); }
 }

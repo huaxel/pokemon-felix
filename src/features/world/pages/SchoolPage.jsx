@@ -4,6 +4,7 @@ import { usePokemonContext } from '../../../hooks/usePokemonContext';
 import { STORAGE_KEYS } from '../../../lib/constants';
 import { GraduationCap, BookOpen, Brain } from 'lucide-react';
 import bagIcon from '../../../assets/items/bag_icon.png';
+import { grassTile } from '../worldAssets';
 import { SchoolQuizCard } from '../components/SchoolQuizCard';
 import { SchoolQuizView } from '../components/SchoolQuizView';
 import { SchoolResultView } from '../components/SchoolResultView';
@@ -13,74 +14,74 @@ import './SchoolPage.css';
 const QUIZZES = [
     {
         id: 'types',
-        title: 'Experto en Tipos',
-        description: '¿Qué tipo es efectivo contra qué?',
+        title: 'Type Expert',
+        description: 'Welk type is effectief waartegen?',
         icon: 'brain',
         questions: [
-            { question: 'Fuego es súper efectivo contra...', options: ['Agua', 'Planta', 'Roca'], answer: 1 },
-            { question: 'Agua es débil ante...', options: ['Planta', 'Fuego', 'Tierra'], answer: 0 },
-            { question: 'Planta es súper efectivo contra...', options: ['Fuego', 'Hielo', 'Agua'], answer: 2 },
-            { question: '¿Qué color representa al tipo Eléctrico?', options: ['Azul', 'Amarillo', 'Rojo'], answer: 1 }
+            { question: 'Vuur is super effectief tegen...', options: ['Water', 'Gras', 'Steen'], answer: 1 },
+            { question: 'Water is zwak tegen...', options: ['Gras', 'Vuur', 'Grond'], answer: 0 },
+            { question: 'Gras is super effectief tegen...', options: ['Vuur', 'IJs', 'Water'], answer: 2 },
+            { question: 'Welke kleur staat voor het type Elektrisch?', options: ['Blauw', 'Geel', 'Rood'], answer: 1 }
         ]
     },
     {
         id: 'math',
-        title: 'Maestro de Cálculos',
-        description: '¡Las matemáticas nos ayudan en batalla!',
+        title: 'Rekenmeester',
+        description: 'Wiskunde helpt ons in gevechten!',
         icon: 'trophy',
         questions: [
-            { question: 'Si haces 5 de daño y luego 3 de daño, ¿cuánto daño total haces?', options: ['7', '8', '9'], answer: 1 },
-            { question: 'Tienes 10 de vida y te quitan 4. ¿Cuánta vida te queda?', options: ['5', '6', '7'], answer: 1 },
-            { question: 'Un ataque cuesta 2 de energía. Si tienes 5, ¿cuánta energía te queda?', options: ['2', '3', '4'], answer: 1 },
-            { question: 'Si un ataque que hace 2 de daño es súper efectivo (+1), ¿cuánto daño hace?', options: ['2', '3', '4'], answer: 1 }
+            { question: 'Als je 5 schade doet en daarna 3, hoeveel schade doe je totaal?', options: ['7', '8', '9'], answer: 1 },
+            { question: 'Je hebt 10 levenspunten en verliest er 4. Hoeveel heb je er over?', options: ['5', '6', '7'], answer: 1 },
+            { question: 'Een aanval kost 2 energie. Als je er 5 hebt, hoeveel energie heb je over?', options: ['2', '3', '4'], answer: 1 },
+            { question: 'Als een aanval van 2 schade super effectief is (+1), hoeveel schade doet hij dan?', options: ['2', '3', '4'], answer: 1 }
         ]
     },
     {
         id: 'geography',
-        title: 'Explorador del Mundo',
-        description: '¿Dónde viven los Pokémon?',
+        title: 'Wereldverkenner',
+        description: 'Waar leven Pokémon?',
         icon: 'map',
         questions: [
-            { question: '¿Dónde es más probable encontrar un Geodude?', options: ['En el mar', 'En una cueva', 'En el cielo'], answer: 1 },
-            { question: 'Los Pokémon de tipo Agua viven en...', options: ['Montañas', 'Ríos y lagos', 'Desiertos'], answer: 1 },
-            { question: '¿Qué Pokémon encontrarías volando en el cielo?', options: ['Magikarp', 'Pidgey', 'Diglett'], answer: 1 },
-            { question: 'Los Pokémon de tipo Planta prefieren...', options: ['Bosques', 'Volcanes', 'Cuevas'], answer: 0 }
+            { question: 'Waar vind je waarschijnlijk een Geodude?', options: ['In de zee', 'In een grot', 'In de lucht'], answer: 1 },
+            { question: 'Pokémon van het type Water leven in...', options: ['Bergen', 'Rivieren en meren', 'Woestijnen'], answer: 1 },
+            { question: 'Welke Pokémon zou je in de lucht zien vliegen?', options: ['Magikarp', 'Pidgey', 'Diglett'], answer: 1 },
+            { question: 'Pokémon van het type Gras geven de voorkeur aan...', options: ['Bossen', 'Vulkanen', 'Grotten'], answer: 0 }
         ]
     },
     {
         id: 'evolution',
-        title: 'Maestro de Evolución',
-        description: '¿Conoces las evoluciones?',
+        title: 'Evolutie Meester',
+        description: 'Ken jij de evoluties?',
         icon: 'star',
         questions: [
-            { question: 'Charmander evoluciona a...', options: ['Charizard', 'Charmeleon', 'Pikachu'], answer: 1 },
-            { question: 'Pikachu evoluciona de...', options: ['Pichu', 'Raichu', 'Eevee'], answer: 0 },
-            { question: '¿Cuántas evoluciones tiene Eevee?', options: ['3', '5', '8'], answer: 2 },
-            { question: 'Squirtle NO evoluciona a...', options: ['Wartortle', 'Blastoise', 'Gyarados'], answer: 2 }
+            { question: 'Charmander evolueert in...', options: ['Charizard', 'Charmeleon', 'Pikachu'], answer: 1 },
+            { question: 'Pikachu evolueert van...', options: ['Pichu', 'Raichu', 'Eevee'], answer: 0 },
+            { question: 'Hoeveel evoluties heeft Eevee?', options: ['3', '5', '8'], answer: 2 },
+            { question: 'Squirtle evolueert NIET in...', options: ['Wartortle', 'Blastoise', 'Gyarados'], answer: 2 }
         ]
     },
     {
         id: 'reading',
-        title: 'Lectura Pokémon',
-        description: 'Lee y comprende historias',
+        title: 'Pokémon Lezen',
+        description: 'Lees en begrijp verhalen',
         icon: 'book',
         questions: [
-            { question: 'Pikachu es un Pokémon eléctrico amarillo. Le encanta el ketchup y es muy rápido. ¿De qué color es Pikachu?', options: ['Rojo', 'Amarillo', 'Azul'], answer: 1 },
-            { question: 'Bulbasaur tiene una semilla en su espalda que crece con él. Es de tipo Planta. ¿Qué tiene en su espalda?', options: ['Una flor', 'Una semilla', 'Una roca'], answer: 1 },
-            { question: 'Charizard puede volar alto en el cielo y lanzar fuego. Es muy fuerte. ¿Qué puede hacer Charizard?', options: ['Nadar', 'Volar', 'Cavar'], answer: 1 },
-            { question: 'Snorlax duerme mucho y bloquea caminos. Es muy pesado y le gusta comer. ¿Qué hace Snorlax mucho?', options: ['Correr', 'Dormir', 'Bailar'], answer: 1 }
+            { question: 'Pikachu is een gele elektrische Pokémon. Hij houdt van ketchup en is erg snel. Welke kleur heeft Pikachu?', options: ['Rood', 'Geel', 'Blauw'], answer: 1 },
+            { question: 'Bulbasaur heeft een zaadje op zijn rug dat met hem meegroeit. Hij is van het type Gras. Wat heeft hij op zijn rug?', options: ['Een bloem', 'Een zaadje', 'Een steen'], answer: 1 },
+            { question: 'Charizard kan hoog in de lucht vliegen en vuur spuwen. Hij is erg sterk. Wat kan Charizard doen?', options: ['Zwemmen', 'Vliegen', 'Graven'], answer: 1 },
+            { question: 'Snorlax slaapt veel en blokkeert wegen. Hij is erg zwaar en houdt van eten. Wat doet Snorlax veel?', options: ['Rennen', 'Slapen', 'Dansen'], answer: 1 }
         ]
     },
     {
         id: 'coding_basics',
-        title: 'Básicos de Código',
-        description: 'Variables, bucles y lógica.',
+        title: 'Code Basis',
+        description: 'Variabelen, lussen en logica.',
         icon: 'brain',
         questions: [
-            { question: 'Una variable es como...', options: ['Una caja para guardar datos', 'Un tipo de Pokémon', 'Un error'], answer: 0 },
-            { question: '¿Qué hace un bucle (loop)?', options: ['Rompe el juego', 'Repite acciones', 'Borra datos'], answer: 1 },
-            { question: 'if (tengoHambre) { comer() } significa...', options: ['Siempre como', 'Como si tengo hambre', 'Nunca como'], answer: 1 },
-            { question: 'El operador == sirve para...', options: ['Asignar valor', 'Comparar igualdad', 'Sumar'], answer: 1 }
+            { question: 'Een variabele is als...', options: ['Een doos om gegevens in te bewaren', 'Een type Pokémon', 'Een fout'], answer: 0 },
+            { question: 'Wat doet een lus (loop)?', options: ['Maakt het spel kapot', 'Herhaalt acties', 'Wist gegevens'], answer: 1 },
+            { question: 'if (hebHonger) { eten() } betekent...', options: ['Ik eet altijd', 'Ik eet als ik honger heb', 'Ik eet nooit'], answer: 1 },
+            { question: 'De operator == dient voor...', options: ['Waarde toewijzen', 'Gelijkheid vergelijken', 'Optellen'], answer: 1 }
         ]
     }
 ];
@@ -111,9 +112,9 @@ export function SchoolPage() {
         const isCorrect = index === selectedQuiz.questions[currentQuestion].answer;
         if (isCorrect) {
             setScore(prev => prev + 1);
-            setFeedback({ isCorrect: true, message: '¡Correcto! ✨' });
+            setFeedback({ isCorrect: true, message: 'Correct! ✨' });
         } else {
-            setFeedback({ isCorrect: false, message: '¡Ups! Inténtalo de nuevo. 💡' });
+            setFeedback({ isCorrect: false, message: 'Oeps! Probeer het opnieuw. 💡' });
         }
         setTimeout(() => {
             setFeedback(null);
@@ -143,21 +144,29 @@ export function SchoolPage() {
     };
 
     return (
-        <div className="school-page">
+        <div className="school-page" style={{ 
+            backgroundColor: '#2d1810',
+            backgroundImage: `url(${grassTile})`,
+            backgroundSize: '64px',
+            backgroundRepeat: 'repeat',
+            imageRendering: 'pixelated'
+        }}>
             <header className="school-header">
                 <Link to="/adventure" className="btn-adventure back-btn">Terug naar Wereld</Link>
-                <h1><GraduationCap /> Colegio Pokémon</h1>
-                <div className="coin-display"><img src={bagIcon} alt="coins" /> {coins}</div>
+                <h1 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000' }}><GraduationCap /> Pokémon School</h1>
+                <div className="coin-display" style={{ fontFamily: '"Press Start 2P", cursive' }}>
+                    <img src={bagIcon} alt="coins" style={{ imageRendering: 'pixelated', width: '24px', height: '24px' }} /> {coins}
+                </div>
             </header>
 
             {view === 'menu' && (
                 <div className="school-menu">
-                    <div className="school-intro-container">
-                        <img src="/src/assets/kenney_tiny-town/Tiles/tile_0100.png" alt="Professor" className="school-npc" style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }} />
+                    <div className="school-intro-container" style={{ backgroundColor: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '8px', border: '4px solid #8b5cf6' }}>
+                        <img src={professorTile} alt="Professor" className="school-npc" style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }} />
                         <div className="school-intro">
-                            <BookOpen size={48} className="intro-icon" />
-                            <h2>¡Hola Felix! Bienvenido a clase.</h2>
-                            <p>Aprende sobre tus Pokémon y resuelve problemas para ganar monedas.</p>
+                            <BookOpen size={48} className="intro-icon" color="#fbbf24" />
+                            <h2 style={{ fontFamily: '"Press Start 2P", cursive', color: '#fbbf24', fontSize: '1.2rem', marginBottom: '0.5rem' }}>Hallo Felix! Welkom in de klas.</h2>
+                            <p style={{ color: '#fff' }}>Leer over je Pokémon en los problemen op om munten te verdienen.</p>
                         </div>
                     </div>
                     <div className="quiz-grid">
@@ -166,15 +175,15 @@ export function SchoolPage() {
                         ))}
                     </div>
                     <div className="advanced-section">
-                        <h3>🎓 Clases Avanzadas</h3>
+                        <h3 style={{ fontFamily: '"Press Start 2P", cursive', color: '#fff', textShadow: '2px 2px 0 #000' }}>🎓 Geavanceerde Lessen</h3>
                         <div className="quiz-grid">
-                            <div className="quiz-card porygon-card" onClick={() => window.location.href = '/porygon-lab'}>
+                            <div className="quiz-card porygon-card" onClick={() => window.location.href = '/porygon-lab'} style={{ cursor: 'pointer', border: '4px solid #ec4899', backgroundColor: '#fff' }}>
                                 <div className="quiz-icon"><Brain color="#ec4899" /></div>
                                 <div className="quiz-info">
-                                    <h3>Laboratorio Porygon</h3>
-                                    <p>Aprende algoritmos programando a Porygon.</p>
+                                    <h3 style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.9rem' }}>Porygon Laboratorium</h3>
+                                    <p>Leer algoritmen door Porygon te programmeren.</p>
                                 </div>
-                                <button className="start-quiz-btn">Entrar al Lab</button>
+                                <button className="start-quiz-btn btn-kenney primary">Naar het Lab</button>
                             </div>
                         </div>
                     </div>

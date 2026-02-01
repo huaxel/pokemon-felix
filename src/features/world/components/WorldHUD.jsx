@@ -36,7 +36,7 @@ export function WorldHUD({
             <button
                 className={`day-night-toggle ${isNight ? 'night' : 'day'} ${autoTime ? 'auto' : ''}`}
                 onClick={toggleDayNight}
-                title={autoTime ? 'Auto (Real Time)' : 'Manual Toggle'}
+                title={autoTime ? 'Auto (Real Time)' : 'Handmatige Wissel'}
             >
                 {isNight ? '🌙' : '☀️'}
             </button>
@@ -44,14 +44,14 @@ export function WorldHUD({
             <button
                 className={`auto-time-btn ${autoTime ? 'active' : ''}`}
                 onClick={toggleAutoTime}
-                title="Toggle Real-Time Clock"
+                title="Wissel Real-Time Klok"
             >
-                {autoTime ? '🕐 Auto' : '⏸️ Manual'}
+                {autoTime ? '🕐 Auto' : '⏸️ Handmatig'}
             </button>
 
             <button className="pokedex-hud-btn" onClick={() => navigate('/pokedex')}>Pokédex</button>
             <button className="bag-hud-btn" onClick={() => navigate('/bag')}>
-                <img src={bagImage} alt="Bag" />
+                <img src={bagImage} alt="Tas" />
             </button>
             <button className="quest-hud-btn" onClick={() => setShowQuestLog(true)}>
                 <Trophy size={20} color="#92400e" />
@@ -82,7 +82,7 @@ export function WorldHUD({
                         showMessage(`Zoek de schat op X: ${target.x}, Y: ${target.y}!`, '#3b82f6');
                     }}>
                         <Compass size={18} />
-                        <span>GPS Quest</span>
+                        <span>GPS Missie</span>
                     </button>
                 )}
             </div>
