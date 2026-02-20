@@ -10,7 +10,7 @@ export function TrainerSelectionPage() {
             className="trainer-selection-page"
             style={{
                 backgroundColor: '#2d1810',
-                backgroundImage: 'url(${grassTile})',
+                backgroundImage: `url(${grassTile})`,
                 backgroundSize: '64px',
                 backgroundRepeat: 'repeat',
                 imageRendering: 'pixelated',

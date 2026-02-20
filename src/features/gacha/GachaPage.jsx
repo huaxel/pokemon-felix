@@ -9,6 +9,7 @@ import mysteryImage from '../../assets/items/mystery_box.png';
 import { GachaHeader } from './components/GachaHeader';
 import { GachaSelector } from './components/GachaSelector';
 import { GachaResult } from './components/GachaResult';
+import { grassTile } from '../world/worldAssets';
 import './GachaPage.css';
 
 const GACHA_TIERS = {
@@ -169,7 +170,7 @@ export function GachaPage() {
       className="gacha-page"
       style={{
         backgroundColor: '#2d1810',
-        backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
+        backgroundImage: `url(${grassTile})`,
         backgroundSize: '64px',
         backgroundRepeat: 'repeat',
         imageRendering: 'pixelated',

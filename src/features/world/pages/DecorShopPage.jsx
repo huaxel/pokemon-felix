@@ -46,7 +46,7 @@ export function DecorShopPage() {
       className="decor-shop-page"
       style={{
         backgroundColor: '#2d1810',
-        backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
+        backgroundImage: `url(${grassTile})`,
         backgroundSize: '64px',
         backgroundRepeat: 'repeat',
         imageRendering: 'pixelated',
@@ -60,7 +60,7 @@ export function DecorShopPage() {
           style={{ marginTop: '2rem', textAlign: 'center', marginBottom: '2rem' }}
         >
           <img
-            src={shopUrbanImage}
+            src={shopUrbanTile}
             alt="Shop"
             className="shop-img"
             style={{ imageRendering: 'pixelated', height: '128px', marginBottom: '1rem' }}

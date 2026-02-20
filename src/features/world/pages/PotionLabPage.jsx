@@ -5,6 +5,7 @@ import { Trophy, RotateCcw, Sparkles } from 'lucide-react';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { PotionIngredientsPanel } from '../components/PotionIngredientsPanel';
 import { PotionBrewingStation } from '../components/PotionBrewingStation';
+import { scientistTile } from '../worldAssets';
 import { INGREDIENTS, DIFFICULTIES } from '../potionConfig';
 import './PotionLabPage.css';
 
@@ -75,7 +76,7 @@ export function PotionLabPage() {
       </div>
       <div className="lab-intro">
         <img
-          src="/src/assets/kenney_tiny-town/Tiles/tile_0102.png"
+          src={scientistTile}
           alt="Scientist"
           className="lab-npc"
           style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }}

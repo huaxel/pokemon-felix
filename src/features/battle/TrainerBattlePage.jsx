@@ -79,7 +79,7 @@ export function TrainerBattlePage({ allPokemon }) {
                 className="single-battle-page loading"
                 style={{
                     backgroundColor: '#2d1810',
-                    backgroundImage: 'url(${grassTile})',
+                    backgroundImage: `url(${grassTile})`,
                     backgroundSize: '64px',
                     backgroundRepeat: 'repeat',
                     imageRendering: 'pixelated',
@@ -102,7 +102,7 @@ export function TrainerBattlePage({ allPokemon }) {
                 className="single-battle-page result victory"
                 style={{
                     backgroundColor: '#2d1810',
-                    backgroundImage: 'url(${grassTile})',
+                    backgroundImage: `url(${grassTile})`,
                     backgroundSize: '64px',
                     backgroundRepeat: 'repeat',
                     imageRendering: 'pixelated',
@@ -178,7 +178,7 @@ export function TrainerBattlePage({ allPokemon }) {
                 className="single-battle-page result defeat"
                 style={{
                     backgroundColor: '#2d1810',
-                    backgroundImage: 'url(${grassTile})',
+                    backgroundImage: `url(${grassTile})`,
                     backgroundSize: '64px',
                     backgroundRepeat: 'repeat',
                     imageRendering: 'pixelated',
@@ -241,7 +241,7 @@ export function TrainerBattlePage({ allPokemon }) {
             className="single-battle-page"
             style={{
                 backgroundColor: '#2d1810',
-                backgroundImage: 'url(${grassTile})',
+                backgroundImage: `url(${grassTile})`,
                 backgroundSize: '64px',
                 backgroundRepeat: 'repeat',
                 imageRendering: 'pixelated',
