@@ -35,7 +35,7 @@ export function TrainerChatPage() {
         scrollToBottom();
     }, [messages, isTyping]);
 
-    const handleSendMessage = (text) => {
+    const handleSendMessage = (text, category = null) => {
         if (!trainer || isTyping) return;
 
         // Add user message
@@ -45,14 +45,21 @@ export function TrainerChatPage() {
 
         // Simulate thinking delay
         setTimeout(() => {
-            // Pick a random response
-            const responseOptions = trainer.dialogue || [trainer.quote];
+            let responseOptions = [];
+
+            if (category && trainer.dialogue[category]) {
+                responseOptions = trainer.dialogue[category];
+            } else {
+                // Flatten all dialogues if no category or random fallback
+                responseOptions = Object.values(trainer.dialogue).flat();
+            }
+
             const randomResponse = randomService.pick(responseOptions);
 
             const newTrainerMsg = { id: Date.now() + 1, sender: 'trainer', text: randomResponse, timestamp: new Date() };
             setMessages(prev => [...prev, newTrainerMsg]);
             setIsTyping(false);
-        }, 1200 + Math.random() * 800);
+        }, 1000 + Math.random() * 500);
     };
 
     const handleBattleClick = () => {
@@ -62,10 +69,10 @@ export function TrainerChatPage() {
     if (!trainer) return <div className="loading-screen">Laden...</div>;
 
     const SUGGESTED_REPLIES = [
-        "Hallo!",
-        "Vertel me over je Pokémon",
-        "Wat is je favoriete type?",
-        "Klaar voor een gevecht?"
+        { text: "Vertel eens over je Pokémon", category: "pokemon" },
+        { text: "Heb je wat tips voor mij?", category: "tips" },
+        { text: "Zijn er nog nieuwtjes?", category: "gossip" },
+        { text: "Klaar voor een gevecht?", category: "battle", action: handleBattleClick }
     ];
 
     return (
@@ -88,7 +95,7 @@ export function TrainerChatPage() {
                 </button>
             </div>
 
-            <div className="chat-messages game-panel">
+            <div className="chat-messages game-panel" data-scrollable="true">
                 {messages.map((msg) => (
                     <div key={msg.id} className={`message-wrapper ${msg.sender}`}>
                         {msg.sender === 'trainer' && (
@@ -117,10 +124,10 @@ export function TrainerChatPage() {
                         <button
                             key={i}
                             className="reply-chip"
-                            onClick={() => handleSendMessage(reply)}
+                            onClick={() => reply.action ? reply.action() : handleSendMessage(reply.text, reply.category)}
                             disabled={isTyping}
                         >
-                            {reply}
+                            {reply.text}
                         </button>
                     ))}
                 </div>
@@ -128,3 +135,4 @@ export function TrainerChatPage() {
         </div>
     );
 }
+
