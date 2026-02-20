@@ -19,6 +19,7 @@ import { InteriorModal } from './components/InteriorModal';
 import { PokeballCollectionModal } from './components/PokeballCollectionModal';
 import { useWorldEvents } from './hooks/useWorldEvents';
 import { useWorldState } from './hooks/useWorldState';
+import panelBorder010 from '../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png';
 import './WorldPage.css';
 
 const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
@@ -292,7 +293,7 @@ export function WorldPage() {
           <div
             className="event-popup dialogue-box-sharp"
             style={{
-              borderImageSource: `url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png')`,
+              borderImageSource: `url(${panelBorder010})`,
             }}
           >
             {message.text}

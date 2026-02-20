@@ -9,7 +9,7 @@ import './BankPage.css';
 const MIN_DEPOSIT = 10;
 
 export function BankPage() {
-  const { coins, deposit, withdraw, interestRate } = useEconomy();
+  const { coins, deposit, withdraw, interestRate, bankBalance } = useEconomy();
   const { showSuccess, showError } = useUI();
 
   const [depositAmount, setDepositAmount] = useState('');

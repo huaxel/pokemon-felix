@@ -19,7 +19,7 @@
 
   /* Kenney Panel Styling */
   border: 8px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 8 round;
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 8 round;
   image-rendering: pixelated;
 
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -371,7 +371,7 @@
   /* Kenney Panel Integration */
   background: var(--color-ui-bg-beige);
   border: var(--border-slice-width) solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
   image-rendering: pixelated;
 
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
@@ -571,7 +571,7 @@
   max-width: 380px;
   background: var(--color-ui-bg-beige);
   border: 8px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') 8 round;
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') 8 round;
   padding: 12px 14px;
   color: var(--color-ui-text-dark);
   box-shadow: var(--shadow-lg);
@@ -674,7 +674,7 @@
   padding: 2rem;
   min-width: 250px;
   border: var(--border-slice-width) solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
   image-rendering: pixelated;
   box-shadow: var(--shadow-lg);
 }
