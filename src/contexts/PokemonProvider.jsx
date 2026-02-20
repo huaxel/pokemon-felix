@@ -20,11 +20,6 @@ import {
   UIContext,
 } from './DomainContexts';
 import { PokemonContext } from './PokemonContext';
-import { UIContext as UIContextOrig } from './UIContext';
-import { CollectionContext as CollectionContextOrig } from './CollectionContext';
-import { BattleContext as BattleContextOrig } from './BattleContext';
-import { CareContext as CareContextOrig } from './CareContext';
-import { TownContext as TownContextOrig } from './TownContext';
 
 import { composeProviders } from '../lib/composeProviders';
 import { BankInterestManager } from '../features/world/bank/components/BankInterestManager';
@@ -44,12 +39,10 @@ export function PokemonProvider({ children }) {
   );
 
   return (
-    <React.Fragment>
-      <ComposedProviders>
-        <BankInterestManager />
-        {children}
-      </ComposedProviders>
-    </React.Fragment>
+    <ComposedProviders>
+      <BankInterestManager />
+      {children}
+    </ComposedProviders>
   );
 }
 
@@ -175,38 +168,9 @@ function FinalContextAssembler({ children }) {
     [data, economy, collection, care, experience, town, progress, ui, sellPokemon, evolvePokemon]
   );
 
-  // Legacy Context Values
-  const collectionLegacy = useMemo(
-    () => ({
-      ownedIds: collection.ownedIds,
-      setOwnedIds: collection.setOwnedIds,
-      toggleOwned: collection.toggleOwned,
-    }),
-    [collection]
-  );
-
-  const battleLegacy = useMemo(
-    () => ({
-      squadIds: collection.squadIds,
-      addToSquad: collection.addToSquad,
-      removeFromSquad: collection.removeFromSquad,
-      isInSquad: collection.isInSquad,
-      isSquadFull: collection.isSquadFull,
-    }),
-    [collection]
-  );
-
   return (
     <PokemonContext.Provider value={value}>
-      <UIContextOrig.Provider value={ui}>
-        <CollectionContextOrig.Provider value={collectionLegacy}>
-          <BattleContextOrig.Provider value={battleLegacy}>
-            <CareContextOrig.Provider value={care}>
-              <TownContextOrig.Provider value={town}>{children}</TownContextOrig.Provider>
-            </CareContextOrig.Provider>
-          </BattleContextOrig.Provider>
-        </CollectionContextOrig.Provider>
-      </UIContextOrig.Provider>
+      {children}
     </PokemonContext.Provider>
   );
 }

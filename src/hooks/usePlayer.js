@@ -1,10 +1,5 @@
-import { useContext } from 'react';
+import { createContextHook } from '../lib/createContextHook';
 import { PlayerContext } from '../contexts/PlayerContext';
 
-export function usePlayer() {
-  const context = useContext(PlayerContext);
-  if (!context) {
-    throw new Error('usePlayer must be used within a PlayerProvider');
-  }
-  return context;
-}
+export const usePlayer = createContextHook(PlayerContext, 'usePlayer');
+

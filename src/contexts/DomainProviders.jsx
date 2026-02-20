@@ -73,11 +73,7 @@ export function DataProvider({ children }) {
     [pokemonList, isLoadingList, isLoadingNames, search, loadPokemon, allNames]
   );
 
-  return (
-    <React.Fragment>
-      <DataContext.Provider value={value}>{children}</DataContext.Provider>
-    </React.Fragment>
-  );
+  return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }
 
 /**

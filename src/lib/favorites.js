@@ -1,14 +1,13 @@
 // Utility functions for managing favorites persistence
 import { COLLECTION_STORAGE_KEY } from './constants';
 
-const STORAGE_KEY = COLLECTION_STORAGE_KEY;
 
 /**
  * Load favorites from localStorage
  */
 export const loadFavorites = () => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(COLLECTION_STORAGE_KEY);
     return saved ? JSON.parse(saved) : [];
   } catch (error) {
     console.error('Failed to load favorites from localStorage:', error);
@@ -21,7 +20,7 @@ export const loadFavorites = () => {
  */
 export const saveFavorites = favorites => {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
+    localStorage.setItem(COLLECTION_STORAGE_KEY, JSON.stringify(favorites));
   } catch (error) {
     console.error('Failed to save favorites to localStorage:', error);
   }

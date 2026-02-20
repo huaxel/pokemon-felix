@@ -22,7 +22,6 @@ export const BATTLE_CONFIG = {
   PAGINATION_SIZE: 50,
 };
 
-// Legacy exports for backward compatibility (will be removed)
+// Legacy exports for backward compatibility
 export const COLLECTION_STORAGE_KEY = STORAGE_KEYS.COLLECTION;
 export const CARE_STORAGE_KEY = STORAGE_KEYS.CARE;
-export const TOWN_STORAGE_KEY = STORAGE_KEYS.TOWN;

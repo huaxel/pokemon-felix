@@ -193,7 +193,7 @@ describe('calculateSmartDamage', () => {
   it('handles weakened state', () => {
     const res = calculateSmartDamage(attacker, defender, move, { isWeakened: true });
     expect(res.damage).toBe(5);
-    expect(res.message).toContain('Debilitado');
+    expect(res.message).toContain('Verzwakt');
   });
 
   it('applies STAB (Specialist) bonus', () => {
@@ -219,13 +219,13 @@ describe('calculateSmartDamage', () => {
   it('applies anti-spam penalty', () => {
     const res = calculateSmartDamage(attacker, defender, move, { lastMoveName: 'Flame' });
     expect(res.damage).toBe(2);
-    expect(res.message).toContain('Repetitivo');
+    expect(res.message).toContain('Herhalend');
   });
 
   it('applies fatigue penalty', () => {
     const res = calculateSmartDamage(attacker, defender, move, { fatigue: 60 });
     expect(res.damage).toBe(3);
-    expect(res.message).toContain('Cansado');
+    expect(res.message).toContain('Moe');
   });
 
   it('handles recoil split', () => {
@@ -250,7 +250,7 @@ describe('calculateSmartDamage', () => {
     // Crit: 4 * 1.5 = 6
     expect(res.isCrit).toBe(true);
     expect(res.damage).toBe(6);
-    expect(res.message).toContain('CRÍTICO');
+    expect(res.message).toContain('KRITIEK');
   });
 
   it('applies status effects when luck favors', () => {
@@ -261,7 +261,7 @@ describe('calculateSmartDamage', () => {
     const res = calculateSmartDamage(attacker, defender, statusMove);
 
     expect(res.appliedStatus).toBe('burn');
-    expect(res.message).toContain('BURN');
+    expect(res.message).toContain('VERBRAND');
   });
 
   it('reduces damage when attacker is burned', () => {
@@ -270,7 +270,7 @@ describe('calculateSmartDamage', () => {
     // Burn: floor(3 * 0.5) = 1
     // STAB: floor(1 * 1.5) = 1
     expect(res.damage).toBe(1);
-    expect(res.message).toContain('Quemado');
+    expect(res.message).toContain('Verbrand');
   });
 });
 

@@ -4,63 +4,56 @@
  * Uses a linear congruential generator (LCG).
  */
 
-class RandomService {
-  constructor(seed = Date.now()) {
-    this.seed = seed;
-    this.m = 2147483647; // 2^31 - 1
-    this.a = 16807; // 7^5
-    this.c = 0;
-    this.current = seed % this.m;
-  }
+const LCG_M = 2147483647; // 2^31 - 1
+const LCG_A = 16807; // 7^5
 
-  /**
-   * Set a specific seed for deterministic results
-   * @param {number} seed
-   */
-  setSeed(seed) {
-    this.seed = seed;
-    this.current = seed % this.m;
-  }
+let currentSeed = Date.now() % LCG_M;
 
-  /**
-   * Returns a float between 0 (inclusive) and 1 (exclusive)
-   */
-  next() {
-    this.current = (this.a * this.current + this.c) % this.m;
-    // Transform to 0..1
-    return (this.current - 1) / (this.m - 1);
-  }
-
-  /**
-   * Alias for next() to match Math.random() signature
-   */
-  float() {
-    return this.next();
-  }
-
-  /**
-   * Returns an integer between min and max (inclusive)
-   */
-  int(min, max) {
-    return Math.floor(this.next() * (max - min + 1)) + min;
-  }
-
-  /**
-   * Returns true with the given probability (0..1)
-   */
-  bool(probability = 0.5) {
-    return this.next() < probability;
-  }
-
-  /**
-   * Pick a random item from an array
-   */
-  pick(array) {
-    if (!array || array.length === 0) return null;
-    return array[this.int(0, array.length - 1)];
-  }
+/**
+ * Set a specific seed for deterministic results
+ * @param {number} seed
+ */
+export function setSeed(seed) {
+  currentSeed = seed % LCG_M;
 }
 
-// Export a singleton instance by default
-export const randomService = new RandomService();
-export { RandomService };
+/**
+ * Returns a float between 0 (inclusive) and 1 (exclusive)
+ */
+function next() {
+  currentSeed = (LCG_A * currentSeed) % LCG_M;
+  return (currentSeed - 1) / (LCG_M - 1);
+}
+
+/**
+ * Returns a float between 0 (inclusive) and 1 (exclusive)
+ * Alias for readability matching Math.random() signature
+ */
+export function float() {
+  return next();
+}
+
+/**
+ * Returns an integer between min and max (inclusive)
+ */
+export function int(min, max) {
+  return Math.floor(next() * (max - min + 1)) + min;
+}
+
+/**
+ * Returns true with the given probability (0..1)
+ */
+export function bool(probability = 0.5) {
+  return next() < probability;
+}
+
+/**
+ * Pick a random item from an array
+ */
+export function pick(array) {
+  if (!array || array.length === 0) return null;
+  return array[int(0, array.length - 1)];
+}
+
+// Legacy compatibility: default export as an object matching old API
+export const randomService = { setSeed, float, int, bool, pick };
