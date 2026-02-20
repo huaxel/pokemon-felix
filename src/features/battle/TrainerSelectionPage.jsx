@@ -1,3 +1,79 @@
+import { Link } from 'react-router-dom';
+import { TRAINERS } from '../../lib/trainers';
+import bagIcon from '../../assets/items/bag_icon.png';
+import './TrainerSelectionPage.css';
+
 export function TrainerSelectionPage() {
-    const { allPokemon } = usePokemonContext(); // Wait, I should pass allPokemon or use PokeAPI
+    return (
+        <div
+            className="trainer-selection-page"
+            style={{
+                backgroundColor: '#2d1810',
+                backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                backgroundSize: '64px',
+                backgroundRepeat: 'repeat',
+                imageRendering: 'pixelated',
+                minHeight: '100vh',
+                padding: '2rem'
+            }}
+        >
+            <div className="battle-header" style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                <h1
+                    style={{
+                        fontFamily: '"Press Start 2P", cursive',
+                        textShadow: '2px 2px 0 #000',
+                        color: 'white',
+                    }}
+                >
+                    Entrenadores
+                </h1>
+                <p
+                    style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem', color: '#fbbf24', marginTop: '1rem' }}
+                >
+                    Desafía a tus amigos y rivales
+                </p>
+            </div>
+
+            <div className="trainers-grid">
+                {TRAINERS.map(trainer => (
+                    <div key={trainer.id} className="trainer-card game-panel">
+                        <div className="trainer-avatar-container">
+                            <img src={trainer.avatar} alt={trainer.name} className="trainer-avatar" />
+                            <div className={`trainer-type-badge ${trainer.type}`}>
+                                {trainer.type === 'friend' ? 'Amigo' : 'Rival'}
+                            </div>
+                        </div>
+                        <div className="trainer-info">
+                            <h2 style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '1rem', marginBottom: '0.5rem' }}>
+                                {trainer.name}
+                            </h2>
+                            <p className="trainer-quote">"{trainer.quote}"</p>
+
+                            <div className="mode-rewards" style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                                <span className="reward-label" style={{ fontWeight: 'bold' }}>Recompensa:</span>
+                                <span className="reward-value" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#fbbf24' }}>
+                                    <img src={bagIcon} alt="coins" className="coin-icon" style={{ width: '16px', imageRendering: 'pixelated' }} />
+                                    {trainer.reward}
+                                </span>
+                            </div>
+                        </div>
+
+                        <Link to={`/trainer-battle/${trainer.id}`} className="btn-kenney primary" style={{ textDecoration: 'none', display: 'block', textAlign: 'center', marginTop: '1rem' }}>
+                            Desafiar
+                        </Link>
+                    </div>
+                ))}
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+                <Link
+                    to="/battle-modes"
+                    className="btn-kenney neutral"
+                    style={{ textDecoration: 'none', display: 'inline-block' }}
+                >
+                    ⬅️ Volver
+                </Link>
+            </div>
+        </div>
+    );
 }

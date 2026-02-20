@@ -1,3 +1,67 @@
-.trainer-selection-page {
-  /* empty */
+.trainers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.trainer-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+}
+
+.trainer-avatar-container {
+    position: relative;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.trainer-avatar {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+.trainer-type-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-family: "Press Start 2P", cursive;
+    color: white;
+    text-transform: uppercase;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.trainer-type-badge.friend {
+    background-color: #3b82f6;
+    /* Blue for friends */
+}
+
+.trainer-type-badge.rival {
+    background-color: #ef4444;
+    /* Red for rivals */
+}
+
+.trainer-info {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.trainer-quote {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+    line-height: 1.4;
 }

@@ -104,6 +104,73 @@ export function BattleSelectionPage() {
         </Link>
 
         <Link
+          to="/trainer-selection"
+          className="battle-mode-card trainers game-panel"
+          style={{
+            textDecoration: 'none',
+            maxWidth: '300px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
+          <div className="mode-icon" style={{ textAlign: 'center' }}>
+            <img
+              src={pokeballImage}
+              alt="trainers"
+              className="mode-icon-img"
+              style={{ width: '64px', imageRendering: 'pixelated' }}
+            />
+          </div>
+          <div className="mode-content" style={{ textAlign: 'center' }}>
+            <h2
+              style={{
+                fontFamily: '"Press Start 2P", cursive',
+                fontSize: '1rem',
+                marginBottom: '0.5rem',
+              }}
+            >
+              Entrenadores
+            </h2>
+            <p style={{ fontSize: '0.9rem', lineHeight: '1.4' }}>
+              Desafía a tus amigos y rivales en combates 1v1.
+            </p>
+            <div
+              className="mode-rewards"
+              style={{
+                marginTop: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+              }}
+            >
+              <span className="reward-label" style={{ fontWeight: 'bold' }}>
+                Recompensa:
+              </span>
+              <span
+                className="reward-value"
+                style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#fbbf24' }}
+              >
+                <img
+                  src={bagIcon}
+                  alt="coins"
+                  className="coin-icon"
+                  style={{ width: '16px', imageRendering: 'pixelated' }}
+                />
+                150+
+              </span>
+            </div>
+          </div>
+          <div
+            className="mode-action btn-kenney success"
+            style={{ textAlign: 'center', marginTop: 'auto' }}
+          >
+            Ver Entrenadores
+          </div>
+        </Link>
+
+        <Link
           to="/single-battle"
           className="battle-mode-card quick-battle game-panel"
           style={{

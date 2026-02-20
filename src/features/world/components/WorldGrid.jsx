@@ -107,7 +107,7 @@ export function WorldGrid({
     if (pokeballs && pokeballs.some(p => p.x === x && p.y === y))
       return (
         <img
-          src={pokeballImage}
+          src={pokeballTile}
           className="item-sprite pokeball-sprite"
           alt="P"
           style={{ width: '60%', height: '60%', imageRendering: 'pixelated', cursor: 'pointer' }}
@@ -117,15 +117,13 @@ export function WorldGrid({
     if (type === TILE_TYPES.WATER)
       return (
         <img
-          src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterImage : waterEdgeImage}
+          src={mapGrid[y][x - 1] === TILE_TYPES.WATER ? waterCenterTile : waterEdgeTile}
           className="water-sprite"
           alt="W"
         />
       );
     if (type === TILE_TYPES.ART_STUDIO)
-      return <img src={artStudioImage} className="building-sprite" alt="Art Studio" />;
-    if (type === TILE_TYPES.ART_STUDIO)
-      return <img src={artStudioImage} className="building-sprite" alt="Art Studio" />;
+      return <img src={houseTile2} className="building-sprite" alt="Art Studio" />;
     if (type === TILE_TYPES.CAVE_DUNGEON)
       return (
         <img

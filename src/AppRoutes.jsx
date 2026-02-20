@@ -42,6 +42,8 @@ import { ArtStudioPage } from './features/world/pages/ArtStudioPage';
 import { DecorShopPage } from './features/world/pages/DecorShopPage';
 import { PokemonCenterPage } from './features/world/pages/PokemonCenterPage';
 import { WorldSelectionPage } from './features/world/pages/WorldSelectionPage';
+import { TrainerSelectionPage } from './features/battle/TrainerSelectionPage';
+import { TrainerBattlePage } from './features/battle/TrainerBattlePage';
 
 export function AppRoutes({
   ownedIds,
@@ -67,6 +69,8 @@ export function AppRoutes({
         />
         <Route path="/battle-modes" element={<BattleSelectionPage />} />
         <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
+        <Route path="/trainer-selection" element={<TrainerSelectionPage />} />
+        <Route path="/trainer-battle/:trainerId" element={<TrainerBattlePage allPokemon={pokemonList} />} />
         <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
         <Route path="/gacha" element={<GachaPage />} />
         <Route path="/squad" element={<SquadPage />} />
