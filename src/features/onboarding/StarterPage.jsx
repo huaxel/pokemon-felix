@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDomainCollection, useEconomy, useData } from '../../contexts/DomainContexts';
 import { usePlayer } from '../../hooks/usePlayer';
-import { addToCollection } from '../../lib/api';
+import { addToCollection } from '../../lib/services/collectionService';
 import { grassTile } from '../world/worldAssets';
 import './StarterPage.css';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useData, useDomainCollection, useUI } from './contexts/DomainContexts';
-import { addToCollection, removeFromCollection } from './lib/api';
+import { addToCollection, removeFromCollection } from './lib/services/collectionService';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
 import { GameConsole } from './components/GameConsole';
