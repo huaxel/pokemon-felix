@@ -4,7 +4,7 @@ import { useEconomy, useProgress } from '../../../contexts/DomainContexts';
 import { STORAGE_KEYS } from '../../../lib/constants';
 import { GraduationCap, BookOpen, Brain } from 'lucide-react';
 import bagIcon from '../../../assets/items/bag_icon.png';
-import { grassTile } from '../worldAssets';
+import { grassTile, professorTile } from '../worldAssets';
 import { SchoolQuizCard } from '../components/SchoolQuizCard';
 import { SchoolQuizView } from '../components/SchoolQuizView';
 import { SchoolResultView } from '../components/SchoolResultView';
