@@ -80,7 +80,7 @@ export function SingleBattlePage({ allPokemon }) {
         setBattleState('victory');
         addCoins(50);
         const { leveledUp, newLevel } = gainExperience(playerPokemon.id, 50);
-        if (leveledUp) addToast(`¡${playerPokemon.name} subió al nivel ${newLevel}!`, 'success');
+        if (leveledUp) addToast(`¡${playerPokemon.name} is nu level ${newLevel}!`, 'success');
       }
     } else {
       setBattleState('defeat');
@@ -95,7 +95,7 @@ export function SingleBattlePage({ allPokemon }) {
     }
     setShowReward(false);
     const { leveledUp, newLevel } = gainExperience(playerPokemon.id, 50);
-    if (leveledUp) addToast(`¡${playerPokemon.name} subió al nivel ${newLevel}!`, 'success');
+    if (leveledUp) addToast(`¡${playerPokemon.name} is nu level ${newLevel}!`, 'success');
     setBattleState('victory'); // Now show victory screen
   };
   // ... (rest of render logic is fine until return)
@@ -118,7 +118,7 @@ export function SingleBattlePage({ allPokemon }) {
           fontFamily: '"Press Start 2P", cursive',
         }}
       >
-        Preparando batalla...
+        Gevecht voorbereiden...
       </div>
     );
   }
@@ -149,7 +149,7 @@ export function SingleBattlePage({ allPokemon }) {
             fontSize: '3rem',
           }}
         >
-          ¡Victoria!
+          Overwinning!
         </h1>
         <div
           className="result-card game-panel-dark"
@@ -167,13 +167,13 @@ export function SingleBattlePage({ allPokemon }) {
               fontSize: '1.2rem',
             }}
           >
-            ¡{playerPokemon.name} ha ganado!
+            {playerPokemon.name} heeft gewonnen!
           </p>
           <div
             className="reward-badge"
             style={{ marginTop: '1rem', color: '#fbbf24', fontFamily: '"Press Start 2P", cursive' }}
           >
-            +50 Monedas
+            +50 Munten
           </div>
           <div
             className="reward-badge exp"
@@ -184,14 +184,14 @@ export function SingleBattlePage({ allPokemon }) {
         </div>
         <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
           <button className="replay-btn btn-kenney primary" onClick={startBattle}>
-            Otra Batalla
+            Nog een keer
           </button>
           <Link
             to="/adventure"
             className="back-btn btn-kenney neutral"
             style={{ textDecoration: 'none' }}
           >
-            Volver al Mapa
+            Terug naar de Wereld
           </Link>
         </div>
       </div>
@@ -224,7 +224,7 @@ export function SingleBattlePage({ allPokemon }) {
             fontSize: '3rem',
           }}
         >
-          Derrota
+          Nederlaag
         </h1>
         <div
           className="result-card game-panel-dark"
@@ -242,19 +242,19 @@ export function SingleBattlePage({ allPokemon }) {
               fontSize: '1.2rem',
             }}
           >
-            {opponent.name} te ha vencido.
+            {opponent.name} heeft je verslagen.
           </p>
         </div>
         <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
           <button className="replay-btn btn-kenney warning" onClick={startBattle}>
-            Intentar de Nuevo
+            Probeer Opnieuw
           </button>
           <Link
             to="/adventure"
             className="back-btn btn-kenney neutral"
             style={{ textDecoration: 'none' }}
           >
-            Volver al Mapa
+            Terug naar de Wereld
           </Link>
         </div>
       </div>

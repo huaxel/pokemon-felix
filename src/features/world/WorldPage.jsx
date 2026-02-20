@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useEconomy, useCare, useProgress } from '../../contexts/DomainContexts';
+import { useEconomy, useCare, useProgress, useDomainCollection } from '../../contexts/DomainContexts';
 import { useTownContext } from '../../hooks/useTownContext';
 import { useOutfitEffects } from '../../hooks/useOutfitEffects';
 import { useGPS } from '../../hooks/useGPS';
@@ -95,6 +95,7 @@ export function WorldPage() {
   const { playerName } = usePlayer();
   const { getEncounterMultiplier, activeEffect } = useOutfitEffects();
   const { targetPos, generateRandomTarget, calculateDistance, getDirectionHint } = useGPS();
+  const { squadIds } = useDomainCollection();
 
   const world = useWorldState();
   const [gpsDistance, setGpsDistance] = useState(null);
@@ -115,6 +116,15 @@ export function WorldPage() {
   const baseGrid = WORLDS_CONFIG[worldId] || WORLDS_CONFIG.green_valley;
 
   const [playerPos, setPlayerPos] = useState(getInitialPlayerPos);
+
+  // Intro message tutorialization
+  useEffect(() => {
+    if (squadIds && squadIds.length === 0) {
+      setTimeout(() => {
+        showMessage('Welkom! Zoek de eerste Pokéball (rood-wit) op de kaart om te beginnen.', '#3b82f6');
+      }, 1000);
+    }
+  }, [squadIds, showMessage]);
 
   const [isBuildMode, setIsBuildMode] = useState(false);
   const [selectedBuilding, setSelectedBuilding] = useState('house');
@@ -152,6 +162,7 @@ export function WorldPage() {
     setShowInterior: world.setShowInterior,
     getEncounterMultiplier,
     generateRandomTarget,
+    squadIds,
   });
 
   const movePlayer = useCallback(

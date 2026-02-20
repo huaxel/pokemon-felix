@@ -1,7 +1,7 @@
 .pokemon-card {
   background: var(--color-ui-bg-beige);
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
   overflow: hidden;

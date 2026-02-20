@@ -17,7 +17,7 @@
 
   /* Kenney Panel Styling */
   border: 8px solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
     8 round;
   image-rendering: pixelated;
 
@@ -384,7 +384,7 @@
   /* Kenney Panel Integration */
   background: var(--color-ui-bg-beige);
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
 
@@ -587,7 +587,7 @@
   max-width: 380px;
   background: var(--color-ui-bg-beige);
   border: 8px solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png')
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png')
     8 round;
   padding: 12px 14px;
   color: var(--color-ui-text-dark);
@@ -690,7 +690,7 @@
   padding: 2rem;
   min-width: 250px;
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
   box-shadow: var(--shadow-lg);

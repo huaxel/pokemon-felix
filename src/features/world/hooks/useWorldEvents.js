@@ -57,12 +57,18 @@ const getNavTile = tileType =>
 
 // Helper for Grass Encounters
 const handleGrassEncounter = (
+  squadIds,
   getEncounterMultiplier,
   navigateWithMessage,
   showMessage,
   addItem,
   addCoins
 ) => {
+  if (!squadIds || squadIds.length === 0) {
+    showMessage('Je hebt nog geen Pokémon! Zoek eerst een Pokéball.', '#ef4444');
+    return;
+  }
+
   const chance = 0.3 * (getEncounterMultiplier ? getEncounterMultiplier() : 1);
   if (!randomService.bool(chance)) return;
 
@@ -143,6 +149,7 @@ export function useWorldEvents({
   setShowInterior,
   getEncounterMultiplier,
   generateRandomTarget,
+  squadIds,
 }) {
   return useCallback(
     tileType => {
@@ -169,6 +176,7 @@ export function useWorldEvents({
 
       if (tileType === TILE_TYPES.GRASS) {
         handleGrassEncounter(
+          squadIds,
           getEncounterMultiplier,
           navigateWithMessage,
           showMessage,

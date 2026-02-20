@@ -31,7 +31,7 @@
   /* Kenney Fantasy Border - using token */
   border: var(--border-slice-width) solid transparent;
   border-style: solid;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
 

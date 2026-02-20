@@ -40,7 +40,7 @@ export function ProfilePage() {
           <button className="back-btn" onClick={() => navigate('/adventure')}>
             <ArrowLeft size={24} />
           </button>
-          <h1>Tu Perfil</h1>
+          <h1>Je Profiel</h1>
           <div className="header-spacer"></div>
         </header>
 

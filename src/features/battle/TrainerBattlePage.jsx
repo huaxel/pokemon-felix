@@ -11,8 +11,8 @@ export function TrainerBattlePage({ allPokemon }) {
     const { trainerId } = useParams();
     const navigate = useNavigate();
     const { squadIds } = useDomainCollection();
-  const { addCoins } = useEconomy();
-  const { gainExperience } = useExperience();
+    const { addCoins } = useEconomy();
+    const { gainExperience } = useExperience();
     const { addToast } = useToast();
 
     const [trainer, setTrainer] = useState(null);
@@ -65,7 +65,7 @@ export function TrainerBattlePage({ allPokemon }) {
         if (winner.id === playerPokemon.id) {
             addCoins(trainer.reward);
             const { leveledUp, newLevel } = gainExperience(playerPokemon.id, 100);
-            if (leveledUp) addToast(`¡${playerPokemon.name} subió al nivel ${newLevel}!`, 'success');
+            if (leveledUp) addToast(`¡${playerPokemon.name} is nu level ${newLevel}!`, 'success');
             setBattleState('victory');
         } else {
             setBattleState('defeat');
@@ -90,7 +90,7 @@ export function TrainerBattlePage({ allPokemon }) {
                     fontFamily: '"Press Start 2P", cursive',
                 }}
             >
-                Preparando batalla...
+                Gevecht voorbereiden...
             </div>
         );
     }
@@ -121,7 +121,7 @@ export function TrainerBattlePage({ allPokemon }) {
                         fontSize: '3rem',
                     }}
                 >
-                    ¡Victoria!
+                    Overwinning!
                 </h1>
                 <div
                     className="result-card game-panel-dark"
@@ -146,7 +146,7 @@ export function TrainerBattlePage({ allPokemon }) {
                         className="reward-badge"
                         style={{ marginTop: '1rem', color: '#fbbf24', fontFamily: '"Press Start 2P", cursive' }}
                     >
-                        +{trainer.reward} Monedas
+                        +{trainer.reward} Munten
                     </div>
                     <div
                         className="reward-badge exp"
@@ -164,7 +164,7 @@ export function TrainerBattlePage({ allPokemon }) {
                         className="back-btn btn-kenney neutral"
                         style={{ textDecoration: 'none' }}
                     >
-                        Volver
+                        Terug
                     </Link>
                 </div>
             </div>
@@ -197,7 +197,7 @@ export function TrainerBattlePage({ allPokemon }) {
                         fontSize: '3rem',
                     }}
                 >
-                    Derrota
+                    Nederlaag
                 </h1>
                 <div
                     className="result-card game-panel-dark"
@@ -221,14 +221,14 @@ export function TrainerBattlePage({ allPokemon }) {
                 </div>
                 <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
                     <button className="replay-btn btn-kenney warning" onClick={startBattle}>
-                        Intentar de Nuevo
+                        Probeer Opnieuw
                     </button>
                     <Link
                         to="/trainer-selection"
                         className="back-btn btn-kenney neutral"
                         style={{ textDecoration: 'none' }}
                     >
-                        Volver
+                        Terug
                     </Link>
                 </div>
             </div>

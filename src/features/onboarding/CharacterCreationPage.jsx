@@ -49,7 +49,7 @@ export function CharacterCreationPage() {
       <div className="character-creation-container">
         <header className="creation-header">
           <h1 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000' }}>
-            Maak je Karakter!
+            Maak je Personage!
           </h1>
           <p style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem' }}>
             Voordat we beginnen, vertel ons wie je bent.
@@ -135,7 +135,7 @@ export function CharacterCreationPage() {
             disabled={isSaving || name.trim().length === 0}
             style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.9rem' }}
           >
-            {isSaving ? 'Opslaan...' : 'Start Avontuur!'}
+            {isSaving ? 'Bezig met opslaan...' : 'Start Avontuur!'}
           </button>
         </div>
       </div>

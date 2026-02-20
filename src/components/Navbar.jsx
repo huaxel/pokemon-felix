@@ -41,7 +41,7 @@ export function Navbar({ onExport, onImport }) {
             className={`nav-item ${location.pathname === '/adventure' ? 'active' : ''}`}
           >
             <Map size={18} className="nav-icon globe" />
-            <span>Mundo</span>
+            <span>Wereld</span>
           </Link>
           <Link
             to="/pokedex"
