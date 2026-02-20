@@ -22,6 +22,7 @@ function App() {
     '/adventure',
     '/battle',
     '/single-battle',
+    '/trainer-chat',
     '/desert',
     '/cave-dungeon',
     '/secret-cave',

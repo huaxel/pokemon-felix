@@ -5,14 +5,14 @@ import { ArrowLeft, Check, Shield, Zap, Heart } from 'lucide-react';
 import './ProfilePage.css';
 
 const AVATARS = [
-  { id: 'boy_blue', emoji: '👦', color: '#3b82f6', label: 'Entrenador Azul' },
-  { id: 'girl_pink', emoji: '👧', color: '#ec4899', label: 'Entrenadora Rosa' },
-  { id: 'boy_green', emoji: '👦', color: '#22c55e', label: 'Entrenador Verde' },
-  { id: 'girl_yellow', emoji: '👧', color: '#eab308', label: 'Entrenadora Amarilla' },
-  { id: 'ninja', emoji: '🥷', color: '#1e293b', label: 'Ninja Pokémon' },
-  { id: 'scientist', emoji: '👨‍🔬', color: '#6366f1', label: 'Científico' },
-  { id: 'explorer', emoji: '🤠', color: '#8b4513', label: 'Explorador' },
-  { id: 'superhero', emoji: '🦸‍♂️', color: '#ef4444', label: 'Súper Félix' },
+  { id: 'boy_blue', emoji: '👦', color: '#3b82f6', label: 'Trainer Blauw' },
+  { id: 'girl_pink', emoji: '👧', color: '#ec4899', label: 'Trainer Roze' },
+  { id: 'boy_green', emoji: '👦', color: '#22c55e', label: 'Trainer Groen' },
+  { id: 'girl_yellow', emoji: '👧', color: '#eab308', label: 'Trainer Geel' },
+  { id: 'ninja', emoji: '🥷', color: '#1e293b', label: 'Pokémon Ninja' },
+  { id: 'scientist', emoji: '👨‍🔬', color: '#6366f1', label: 'Wetenschapper' },
+  { id: 'explorer', emoji: '🤠', color: '#8b4513', label: 'Verkenner' },
+  { id: 'superhero', emoji: '🦸‍♂️', color: '#ef4444', label: 'Super Felix' },
 ];
 
 export function ProfilePage() {
@@ -50,7 +50,7 @@ export function ProfilePage() {
               <span className="preview-emoji">{currentAvatar.emoji}</span>
             </div>
             <div className="name-input-group">
-              <label>Nombre del Entrenador</label>
+              <label>Naam van Trainer</label>
               <input
                 type="text"
                 value={tempName}
@@ -63,7 +63,7 @@ export function ProfilePage() {
           </div>
 
           <div className="avatar-selection-section">
-            <h2>Elige tu Avatar</h2>
+            <h2>Kies je Avatar</h2>
             <div className="avatar-grid">
               {AVATARS.map(avatar => (
                 <button
@@ -88,7 +88,7 @@ export function ProfilePage() {
           <div className="stats-preview">
             <div className="stat-item">
               <Shield size={20} color="#3b82f6" />
-              <span>Defensa</span>
+              <span>Verdediging</span>
               <div className="stat-bar">
                 <div
                   className="stat-fill"
@@ -98,7 +98,7 @@ export function ProfilePage() {
             </div>
             <div className="stat-item">
               <Zap size={20} color="#eab308" />
-              <span>Velocidad</span>
+              <span>Snelheid</span>
               <div className="stat-bar">
                 <div
                   className="stat-fill"
@@ -108,7 +108,7 @@ export function ProfilePage() {
             </div>
             <div className="stat-item">
               <Heart size={20} color="#ef4444" />
-              <span>Amistad</span>
+              <span>Vriendschap</span>
               <div className="stat-bar">
                 <div
                   className="stat-fill"
@@ -123,18 +123,18 @@ export function ProfilePage() {
             onClick={handleSave}
             disabled={isSaving || tempName.trim().length === 0}
           >
-            {isSaving ? 'Guardando...' : '¡Listo para la Aventura!'}
+            {isSaving ? 'Opslaan...' : 'Klaar voor Avontuur!'}
           </button>
 
           <div className="danger-zone">
-            <h3>Zona de Peligro</h3>
-            <p>¿Quieres empezar de cero?</p>
+            <h3>Gevarenzone</h3>
+            <p>Wil je opnieuw beginnen?</p>
             <button
               className="reset-game-btn"
               onClick={() => {
                 if (
                   window.confirm(
-                    '¿Estás seguro? Esto borrará TODO tu progreso (Pokémon, monedas, medallas).'
+                    'Weet je zeker dat je je spel wilt wissen? Je verliest al je Pokémon en voortgang.'
                   )
                 ) {
                   localStorage.clear();
@@ -142,7 +142,7 @@ export function ProfilePage() {
                 }
               }}
             >
-              ⚠️ Borrar Partida y Reiniciar
+              ⚠️ Spel Wissen en Hernieuwen
             </button>
           </div>
         </div>

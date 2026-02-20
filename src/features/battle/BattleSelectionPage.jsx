@@ -23,12 +23,12 @@ export function BattleSelectionPage() {
             color: 'white',
           }}
         >
-          Modos de Batalla
+          Gevechtsmodi
         </h1>
         <p
           style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem', color: '#fbbf24' }}
         >
-          Elige tu desafío
+          Kies je uitdaging
         </p>
       </div>
 
@@ -63,10 +63,10 @@ export function BattleSelectionPage() {
                 marginBottom: '0.5rem',
               }}
             >
-              Torneo
+              Toernooi
             </h2>
             <p style={{ fontSize: '0.9rem', lineHeight: '1.4' }}>
-              Enfréntate a 8 entrenadores en un torneo de eliminación directa.
+              Neem het op tegen 8 trainers in een knock-out toernooi.
             </p>
             <div
               className="mode-rewards"
@@ -79,7 +79,7 @@ export function BattleSelectionPage() {
               }}
             >
               <span className="reward-label" style={{ fontWeight: 'bold' }}>
-                Recompensa:
+                Beloning:
               </span>
               <span
                 className="reward-value"
@@ -99,7 +99,7 @@ export function BattleSelectionPage() {
             className="mode-action btn-kenney primary"
             style={{ textAlign: 'center', marginTop: 'auto' }}
           >
-            Entrar al Torneo
+            Toernooi Binnengaan
           </div>
         </Link>
 
@@ -130,10 +130,10 @@ export function BattleSelectionPage() {
                 marginBottom: '0.5rem',
               }}
             >
-              Entrenadores
+              Trainers
             </h2>
             <p style={{ fontSize: '0.9rem', lineHeight: '1.4' }}>
-              Desafía a tus amigos y rivales en combates 1v1.
+              Daag je vrienden en rivalen uit in 1v1 gevechten.
             </p>
             <div
               className="mode-rewards"
@@ -146,7 +146,7 @@ export function BattleSelectionPage() {
               }}
             >
               <span className="reward-label" style={{ fontWeight: 'bold' }}>
-                Recompensa:
+                Beloning:
               </span>
               <span
                 className="reward-value"
@@ -166,7 +166,7 @@ export function BattleSelectionPage() {
             className="mode-action btn-kenney success"
             style={{ textAlign: 'center', marginTop: 'auto' }}
           >
-            Ver Entrenadores
+            Bekijk Trainers
           </div>
         </Link>
 
@@ -197,10 +197,10 @@ export function BattleSelectionPage() {
                 marginBottom: '0.5rem',
               }}
             >
-              Batalla Rápida
+              Snel Gevecht
             </h2>
             <p style={{ fontSize: '0.9rem', lineHeight: '1.4' }}>
-              Un combate rápido contra un oponente aleatorio.
+              Een snel gevecht tegen een willekeurige tegenstander.
             </p>
             <div
               className="mode-rewards"
@@ -213,7 +213,7 @@ export function BattleSelectionPage() {
               }}
             >
               <span className="reward-label" style={{ fontWeight: 'bold' }}>
-                Recompensa:
+                Beloning:
               </span>
               <span
                 className="reward-value"
@@ -233,7 +233,7 @@ export function BattleSelectionPage() {
             className="mode-action btn-kenney warning"
             style={{ textAlign: 'center', marginTop: 'auto' }}
           >
-            Luchar Ahora
+            Nu Vechten
           </div>
         </Link>
       </div>
@@ -244,7 +244,7 @@ export function BattleSelectionPage() {
           className="btn-kenney neutral"
           style={{ textDecoration: 'none', display: 'inline-block' }}
         >
-          ⬅️ Volver al Mapa
+          ⬅️ Terug naar Wereld
         </Link>
       </div>
     </div>

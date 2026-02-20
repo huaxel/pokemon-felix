@@ -44,8 +44,10 @@ import { PokemonCenterPage } from './features/world/pages/PokemonCenterPage';
 import { WorldSelectionPage } from './features/world/pages/WorldSelectionPage';
 import { TrainerSelectionPage } from './features/battle/TrainerSelectionPage';
 import { TrainerBattlePage } from './features/battle/TrainerBattlePage';
+import { TrainerChatPage } from './features/chat/TrainerChatPage';
 
 export function AppRoutes({
+
   ownedIds,
   toggleOwned,
   pokemonList,
@@ -71,6 +73,7 @@ export function AppRoutes({
         <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
         <Route path="/trainer-selection" element={<TrainerSelectionPage />} />
         <Route path="/trainer-battle/:trainerId" element={<TrainerBattlePage allPokemon={pokemonList} />} />
+        <Route path="/trainer-chat/:trainerId" element={<TrainerChatPage />} />
         <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
         <Route path="/gacha" element={<GachaPage />} />
         <Route path="/squad" element={<SquadPage />} />

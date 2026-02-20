@@ -25,12 +25,12 @@ export function TrainerSelectionPage() {
                         color: 'white',
                     }}
                 >
-                    Entrenadores
+                    Trainers
                 </h1>
                 <p
                     style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.8rem', color: '#fbbf24', marginTop: '1rem' }}
                 >
-                    Desafía a tus amigos y rivales
+                    Daag je vrienden en rivalen uit
                 </p>
             </div>
 
@@ -40,7 +40,7 @@ export function TrainerSelectionPage() {
                         <div className="trainer-avatar-container">
                             <img src={trainer.avatar} alt={trainer.name} className="trainer-avatar" />
                             <div className={`trainer-type-badge ${trainer.type}`}>
-                                {trainer.type === 'friend' ? 'Amigo' : 'Rival'}
+                                {trainer.type === 'friend' ? 'Vriend' : 'Rivaal'}
                             </div>
                         </div>
                         <div className="trainer-info">
@@ -50,7 +50,7 @@ export function TrainerSelectionPage() {
                             <p className="trainer-quote">"{trainer.quote}"</p>
 
                             <div className="mode-rewards" style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                                <span className="reward-label" style={{ fontWeight: 'bold' }}>Recompensa:</span>
+                                <span className="reward-label" style={{ fontWeight: 'bold' }}>Beloning:</span>
                                 <span className="reward-value" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: '#fbbf24' }}>
                                     <img src={bagIcon} alt="coins" className="coin-icon" style={{ width: '16px', imageRendering: 'pixelated' }} />
                                     {trainer.reward}
@@ -58,9 +58,14 @@ export function TrainerSelectionPage() {
                             </div>
                         </div>
 
-                        <Link to={`/trainer-battle/${trainer.id}`} className="btn-kenney primary" style={{ textDecoration: 'none', display: 'block', textAlign: 'center', marginTop: '1rem' }}>
-                            Desafiar
-                        </Link>
+                        <div className="trainer-actions" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginTop: '1rem' }}>
+                            <Link to={`/trainer-chat/${trainer.id}`} className="btn-kenney success" style={{ textDecoration: 'none', textAlign: 'center', padding: '0.5rem' }}>
+                                💬 Praten
+                            </Link>
+                            <Link to={`/trainer-battle/${trainer.id}`} className="btn-kenney primary" style={{ textDecoration: 'none', textAlign: 'center', padding: '0.5rem' }}>
+                                ⚔️ Uitdagen
+                            </Link>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -71,7 +76,7 @@ export function TrainerSelectionPage() {
                     className="btn-kenney neutral"
                     style={{ textDecoration: 'none', display: 'inline-block' }}
                 >
-                    ⬅️ Volver
+                    ⬅️ Terug
                 </Link>
             </div>
         </div>

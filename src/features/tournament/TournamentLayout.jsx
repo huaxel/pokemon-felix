@@ -19,16 +19,16 @@ export function TournamentLayout({ allPokemon }) {
   const startTournament = () => {
     if (participants.length !== 8) return;
     setStory({
-      text: '¡Bienvenidos a la Liga Félix! 8 entrenadores, 1 campeón. ¿Tienes lo que se necesita?',
+      text: 'Welkom bij de Felix Liga! 8 trainers, 1 kampioen. Heb jij wat nodig is?',
       onContinue: () => {
         const quarterFinals = [];
         for (let i = 0; i < 8; i += 2) {
           quarterFinals.push({ p1: participants[i], p2: participants[i + 1], winner: null });
         }
         setRounds([
-          { name: 'Cuartos de Final', matches: quarterFinals },
-          { name: 'Semifinales', matches: Array(2).fill({ p1: null, p2: null, winner: null }) },
-          { name: 'Final', matches: Array(1).fill({ p1: null, p2: null, winner: null }) },
+          { name: 'Kwartfinales', matches: quarterFinals },
+          { name: 'Halve Finales', matches: Array(2).fill({ p1: null, p2: null, winner: null }) },
+          { name: 'Finale', matches: Array(1).fill({ p1: null, p2: null, winner: null }) },
         ]);
         setView('bracket');
         setCurrentMatch({ roundIndex: 0, matchIndex: 0 });
@@ -104,7 +104,7 @@ export function TournamentLayout({ allPokemon }) {
     return (
       <div className="tournament-layout">
         <h2>
-          {rounds[currentMatch.roundIndex].name} - Partido {currentMatch.matchIndex + 1}
+          {rounds[currentMatch.roundIndex].name} - Wedstrijd {currentMatch.matchIndex + 1}
         </h2>
         <BattleArena
           key={`${match.p1.id}-${match.p2.id}`}
@@ -129,26 +129,26 @@ export function TournamentLayout({ allPokemon }) {
                 cb();
               }}
             >
-              Continuar
+              Verder
             </button>
           </div>
         </div>
       )}
-      <h1>Torneo en Progreso</h1>
+      <h1>Toernooi in Uitvoering</h1>
       <Bracket rounds={rounds} currentMatch={currentMatch} />
       <div className="action-area">
         <button
           className="next-match-btn"
           onClick={() => {
             const r = rounds[currentMatch.roundIndex];
-            let m = `¡Es hora del duelo! ${r.name}`;
+            let m = `Tijd voor het duel! ${r.name}`;
             if (currentMatch.roundIndex === 1 && currentMatch.matchIndex === 0)
-              m = '¡Las Semifinales! Solo los mejores permanecen.';
-            else if (currentMatch.roundIndex === 2) m = '¡La Gran Final! El destino te espera.';
+              m = 'De Halve Finales! Alleen de besten blijven over.';
+            else if (currentMatch.roundIndex === 2) m = 'De Grote Finale! Het lot wacht op je.';
             setStory({ text: m, onContinue: () => setView('battle') });
           }}
         >
-          Jugar Siguiente Partido
+          Speel Volgende Wedstrijd
         </button>
       </div>
     </div>
