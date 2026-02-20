@@ -44,6 +44,7 @@ The CardBattle component had critical state management issues causing race condi
 ## Implementation Details
 
 ### Before (Broken)
+
 ```javascript
 const [f1HP, setF1HP] = useState(calculateMaxHP(fighter1));
 const [f1MaxHP, setF1MaxHP] = useState(calculateMaxHP(fighter1));
@@ -51,32 +52,34 @@ const [f1Energy, setF1Energy] = useState(3);
 // ... 14 more useState calls
 
 async function executeTurn(selectedMove) {
-    // Multiple async setState calls = race conditions
-    setF1Energy(prev => prev - cost); // ❌ Can execute out of order
-    setF2HP(prev => Math.max(0, prev - damage)); // ❌ Stale damage value
-    setTurn('opponent'); // ❌ Can happen before setF2HP finishes
+  // Multiple async setState calls = race conditions
+  setF1Energy(prev => prev - cost); // ❌ Can execute out of order
+  setF2HP(prev => Math.max(0, prev - damage)); // ❌ Stale damage value
+  setTurn('opponent'); // ❌ Can happen before setF2HP finishes
 }
 ```
 
 ### After (Fixed)
+
 ```javascript
 const [battleState, dispatch] = useReducer(
-    battleReducer,
-    { fighter1, fighter2 },
-    createInitialBattleState
+  battleReducer,
+  { fighter1, fighter2 },
+  createInitialBattleState
 );
 
 async function executeTurn(selectedMove) {
-    // Single dispatch queue = guaranteed order
-    dispatch({ type: BATTLE_ACTIONS.SPEND_ENERGY, fighter: 'player', amount: cost }); // ✅ Immediate
-    dispatch({ type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP, fighter: 'opponent', hp: newHP }); // ✅ Waits for previous
-    dispatch({ type: BATTLE_ACTIONS.SET_TURN, turn: 'opponent' }); // ✅ Guarantees order
+  // Single dispatch queue = guaranteed order
+  dispatch({ type: BATTLE_ACTIONS.SPEND_ENERGY, fighter: 'player', amount: cost }); // ✅ Immediate
+  dispatch({ type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP, fighter: 'opponent', hp: newHP }); // ✅ Waits for previous
+  dispatch({ type: BATTLE_ACTIONS.SET_TURN, turn: 'opponent' }); // ✅ Guarantees order
 }
 ```
 
 ## Verification
 
 ### Build Status
+
 ```
 ✓ 1818 modules transformed
 ✓ built in 1.29s
@@ -84,6 +87,7 @@ Bundle: 373.60 kB (gzip: 121.51 kB)
 ```
 
 ### Tests
+
 ```
 ✓ 24/24 battleReducer tests passing
 ✓ All HP boundary tests passing (HP ≤ maxHP, HP ≥ 0)
@@ -102,11 +106,11 @@ Bundle: 373.60 kB (gzip: 121.51 kB)
 ## What's Next
 
 The battle system is now **stable and production-ready**. Remaining features:
+
 - 🎯 Mountain Tiles (blocked without hiking boots item)
 - 🏟️ Gym Building (multi-stage battles with badges)
 - 🏪 Market (sell Pokemon for coins)
 - Other Phase 6+ features
 
 All critical technical debt is resolved. The game is ready for more feature development.
-
 ````

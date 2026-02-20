@@ -11,7 +11,7 @@ export async function getPokemonList(limit = 20, offset = 0) {
 
   // Return a lightweight but compatible shape for list views to avoid N+1 fetches.
   // We build an id and an artwork URL from the item URL.
-  const list = data.results.map((pokemon) => {
+  const list = data.results.map(pokemon => {
     // pokemon.url usually ends with "/{id}/"
     const parts = pokemon.url.split('/').filter(Boolean);
     const id = parseInt(parts[parts.length - 1], 10);
@@ -24,12 +24,12 @@ export async function getPokemonList(limit = 20, offset = 0) {
       sprites: {
         other: {
           'official-artwork': {
-            front_default: artwork
-          }
+            front_default: artwork,
+          },
         },
-        front_default: artwork
+        front_default: artwork,
       },
-      speciesData: null // keep field for compatibility; fetch on demand in getPokemonDetails
+      speciesData: null, // keep field for compatibility; fetch on demand in getPokemonDetails
     };
   });
 
@@ -57,7 +57,7 @@ export async function getPokemonDetails(name) {
 
   return {
     ...details,
-    speciesData
+    speciesData,
   };
 }
 
@@ -82,7 +82,7 @@ export async function getCollection() {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
-    console.error("Error fetching collection:", error);
+    console.error('Error fetching collection:', error);
     return [];
   }
 }
@@ -95,7 +95,7 @@ export async function addToCollection(id) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     }
   } catch (error) {
-    console.error("Error adding to collection:", error);
+    console.error('Error adding to collection:', error);
   }
 }
 
@@ -105,7 +105,7 @@ export async function removeFromCollection(id) {
     const updated = current.filter(itemId => itemId !== id);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   } catch (error) {
-    console.error("Error removing from collection:", error);
+    console.error('Error removing from collection:', error);
   }
 }
 
@@ -119,10 +119,10 @@ export async function getMoveDetails(url) {
       type: data.type.name,
       power: data.power || 40, // Default to 40 if null (status moves)
       accuracy: data.accuracy || 100,
-      pp: data.pp
+      pp: data.pp,
     };
   } catch (error) {
-    console.error("Error fetching move:", error);
+    console.error('Error fetching move:', error);
     return null;
   }
 }

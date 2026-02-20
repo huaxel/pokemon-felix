@@ -24,7 +24,8 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 ## 🎯 Development Phases
 
 ### Phase 1: Core Foundation ✅ COMPLETE
-*Status: Fully implemented and stable*
+
+_Status: Fully implemented and stable_
 
 - [x] React + Vite setup
 - [x] React Router navigation
@@ -36,7 +37,8 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 - [x] Tournament bracket (8-player elimination)
 
 ### Phase 2: World & Exploration ✅ COMPLETE
-*Status: Implemented Dec 31, 2025*
+
+_Status: Implemented Dec 31, 2025_
 
 - [x] Tile-based world map (10x10 grid)
 - [x] Keyboard + D-Pad navigation
@@ -48,7 +50,8 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 - [x] localStorage persistence for world state
 
 ### Phase 3: RPG Mechanics ✅ COMPLETE
-*Status: Implemented Dec 31, 2025*
+
+_Status: Implemented Dec 31, 2025_
 
 - [x] Pokemon care (HP, Hunger, Happiness)
 - [x] Healing at PokeCenter
@@ -64,11 +67,13 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 ## 🚀 Upcoming Features
 
 ### Phase 4: Educational Systems ✅ COMPLETE
-*Status: Implemented Dec 31, 2025*
+
+_Status: Implemented Dec 31, 2025_
 
 Integrate learning mechanics for Felix (age 7) to practice math, reading, and logic.
 
 #### 4.1 Pokemon Academy ✅
+
 - [x] Create `SchoolPage.jsx` component
 - [x] Quiz system with multiple-choice questions
   - [x] Type advantages (Fire > Grass > Water)
@@ -81,6 +86,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] **Rewards**: Coins, items, badges
 
 #### 4.2 Python Terminal (Coding Introduction) ✅
+
 - [x] Create `GameConsole.jsx` component
 - [x] Command interpreter for simplified Python syntax
   - [x] `heal_all()` - Heal all Pokemon
@@ -91,6 +97,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Secret access (Ctrl+` shortcut)
 
 #### 4.3 Porygon Algorithm Puzzle ✅
+
 - [x] Create `PorygonLabPage.jsx` component
 - [x] Sequential command builder
   - [x] `step()` - Move forward
@@ -100,6 +107,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Progressive difficulty levels (3+ levels)
 
 #### 4.4 Potion Lab (Math Practice) ✅
+
 - [x] Create `PotionLabPage.jsx` component
 - [x] Berry mixing interface
 - [x] Target number challenges (Easy: 10-30, Medium: 20-50, Hard: 30-80)
@@ -113,9 +121,11 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ---
 
 ### Phase 5: Customization & Identity ✅ COMPLETE
-*Status: Implemented Dec 31, 2025*
+
+_Status: Implemented Dec 31, 2025_
 
 #### 5.1 Wardrobe System ✅
+
 - [x] Create `WardrobePage.jsx`
 - [x] Define clothing items with effects:
   - [x] **Clásico** 🔴 - Default outfit
@@ -129,6 +139,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Coin-based purchase system
 
 #### 5.2 Player Customization ✅ COMPLETE
+
 - [x] Name input for player character
 - [x] Avatar selection or customization
 - [x] Display Player Name/Avatar in UI
@@ -138,9 +149,11 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ---
 
 ### Phase 6: Advanced World Features 🚧 IN PROGRESS
-*Priority: MEDIUM | Complexity: HIGH*
+
+_Priority: MEDIUM | Complexity: HIGH_
 
 #### 6.0 Battle System Refactoring ✅ COMPLETE
+
 - [x] **Migrated CardBattle from 17+ useState to battleReducer**
   - [x] Eliminated race conditions in turn execution
   - [x] Fixed HP synchronization issues (never > maxHP, never < 0)
@@ -151,6 +164,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Documentation: `docs/battle-system-fix.md`
 
 #### 6.1 Unique Buildings & Landmarks ✅ COMPLETE (3/7)
+
 - [x] **Palace** 🏰 - Requires champion status to enter ✅ COMPLETE
   - [x] Champion requirement (50+ Pokémon captured)
   - [x] Three unique challenges (Wisdom, Strength, Luck)
@@ -191,6 +205,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Integrated into world map at existing position
 
 #### 6.2 Environmental Systems ✅ ENHANCED
+
 - [x] **Day/Night Cycle** - Real-time based automatic system
   - [x] Auto mode (syncs with real clock: 6 AM - 8 PM = day)
   - [x] Manual toggle option
@@ -203,6 +218,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
   - [x] Visual overlays
 
 #### 6.3 Expanded Map ✅ ENHANCED (5/7)
+
 - [x] **Desert Region** 🏜️ - New explorable zone ✅ COMPLETE
   - [x] 10x10 tile-based desert navigation
   - [x] Desert Pokemon encounters (Ground/Rock types)
@@ -245,9 +261,11 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ---
 
 ### Phase 7: Banking & Economy ✅ COMPLETE
-*Status: Implemented January 1, 2026*
+
+_Status: Implemented January 1, 2026_
 
 #### 7.1 Pokemon Bank ✅
+
 - [x] Create `BankPage.jsx`
 - [x] Savings account with interest (2% daily)
 - [x] Teach delayed gratification
@@ -259,6 +277,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Bank building on world map
 
 #### 7.2 GPS Coordinates System ✅ COMPLETE
+
 - [x] Teach map reading with coordinates
 - [x] Treasure hunt quests with X,Y positions
 - [x] Distance calculations
@@ -268,7 +287,8 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ---
 
 ### Phase 8: Social & Multiplayer 🤝
-*Priority: LOW | Complexity: VERY HIGH*
+
+_Priority: LOW | Complexity: VERY HIGH_
 
 - [ ] Trading system (local or online)
 - [ ] Battle with friends
@@ -279,26 +299,31 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ---
 
 ### Phase 9: Polish & Accessibility ✨
-*Priority: ONGOING | Complexity: LOW-MEDIUM*
+
+_Priority: ONGOING | Complexity: LOW-MEDIUM_
 
 #### 9.1 Audio
+
 - [ ] Background music (per zone/season)
 - [ ] Sound effects (walking, battles, items)
 - [ ] Volume controls
 
 #### 9.2 Animations
+
 - [ ] Pokemon entrance animations
 - [ ] Battle move effects
 - [ ] Seasonal transition effects
 - [ ] Particle effects for special events
 
 #### 9.3 Accessibility
+
 - [ ] Screen reader improvements
 - [ ] Colorblind modes
 - [ ] Font size options
 - [ ] Reduced motion mode
 
 #### 9.4 Performance
+
 - [ ] Lazy loading for Pokemon data
 - [ ] Image optimization
 - [ ] Code splitting
@@ -309,6 +334,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ## 🎮 Feature Backlog (Ideas)
 
 ### Gameplay Enhancements
+
 - [ ] Pokemon breeding system
 - [ ] Egg hatching mechanics
 - [ ] Mega Evolution
@@ -318,6 +344,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [ ] EV/IV training system (simplified)
 
 ### World Expansion
+
 - [ ] Safari Zone
 - [ ] Battle Frontier
 - [ ] Contest Hall (beauty/talent shows)
@@ -325,12 +352,14 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [ ] Radio Tower (music player)
 
 ### Educational Extensions
+
 - [ ] Reading comprehension quests
 - [ ] Science facts about real animals
 - [ ] History lessons through NPCs
 - [ ] Art gallery (drawing mini-game)
 
 ### Meta Features
+
 - [ ] Achievement system
 - [ ] Daily challenges
 - [ ] Seasonal events (Christmas, Halloween)
@@ -342,6 +371,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ## 📝 Technical Debt & Refactoring
 
 ### Code Quality
+
 - [ ] Add TypeScript for type safety
 - [ ] Unit tests for battle logic
 - [ ] Integration tests for world navigation
@@ -349,6 +379,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [ ] Storybook for UI components
 
 ### Architecture
+
 - [ ] Migrate to Zustand or Redux for state management
 - [ ] Separate business logic from UI components
 - [ ] Create reusable hook library
@@ -356,6 +387,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [ ] Add loading states and skeletons
 
 ### Performance
+
 - [ ] Memoize expensive calculations
 - [ ] Virtual scrolling for Pokemon lists
 - [ ] Optimize re-renders with React.memo
@@ -366,30 +398,37 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 ## 🎯 Milestones
 
 ### v0.1.0 - "The Foundation" ✅
+
 - Basic Pokedex and battle system
 - **Released**: Initial development phase
 
 ### v0.2.0 - "The World" ✅
+
 - World map, seasons, town builder
 - **Released**: Dec 31, 2025
 
 ### v0.3.0 - "The Academy" ✅ COMPLETE
+
 - Educational features (School, Console, Puzzles, Potion Lab)
 - **Released**: January 1, 2026
 
 ### v0.4.0 - "The Wardrobe" ✅ COMPLETE
+
 - Customization and clothing system
 - **Released**: January 1, 2026
 
 ### v0.5.0 - "The Banker" ✅ COMPLETE
+
 - Banking system with interest
 - **Released**: January 1, 2026
 
 ### v0.6.0 - "The Expansion" 🏔️
+
 - Advanced world features and landmarks
 - **Target**: Q1 2026
 
 ### v1.0.0 - "The Complete Experience" 🎉
+
 - All core features implemented
 - Polished UI/UX
 - Full accessibility
@@ -402,6 +441,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 This is a personal project for Felix's learning and enjoyment. Ideas and suggestions are welcome!
 
 ### How to Suggest Features
+
 1. Consider Felix's age (7 years old)
 2. Focus on educational value
 3. Keep it fun and engaging
@@ -429,4 +469,4 @@ This is a personal project for Felix's learning and enjoyment. Ideas and suggest
 
 ---
 
-*"The best way to learn is to build something you love."* 🚀
+_"The best way to learn is to build something you love."_ 🚀

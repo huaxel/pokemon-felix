@@ -3,6 +3,7 @@
 The Core Loop follows a daily cycle structure.
 
 ## The Loop
+
 1. **Morning (Care)**
    - Check Pokemon status.
    - Feed and Groom to prepare for the day.
@@ -18,5 +19,6 @@ The Core Loop follows a daily cycle structure.
    - **Gacha**: Spend Coins to summon new Pokemon.
 
 ## End Goal
+
 - Complete the Pokedex.
 - Beat the Regional Champion (Tournament System).

@@ -112,7 +112,7 @@ export function DesertPage() {
     };
 
     return (
-        <div className={`desert-page ${sandstorm ? 'sandstorm' : ''}`} style={{ 
+        <div className={`desert-page ${sandstorm ? 'sandstorm' : ''}`} style={{
             backgroundColor: '#d97706', // Sandy color
             backgroundImage: `url(${desertCactusTile})`,
             backgroundSize: '64px',
@@ -146,11 +146,11 @@ export function DesertPage() {
                         <div
                             key={`${x}-${y}`}
                             className={`desert-tile ${x === playerPos.x && y === playerPos.y ? 'player' : ''} ${isOasis(x, y) ? 'oasis' : ''}`}
-                            style={{ 
-                                backgroundColor: isOasis(x, y) && discoveredOases.some(o => o.x === x && o.y === y) ? '#3b82f6' : '#fcd34d', 
-                                aspectRatio: '1/1', 
-                                display: 'flex', 
-                                alignItems: 'center', 
+                            style={{
+                                backgroundColor: isOasis(x, y) && discoveredOases.some(o => o.x === x && o.y === y) ? '#3b82f6' : '#fcd34d',
+                                aspectRatio: '1/1',
+                                display: 'flex',
+                                alignItems: 'center',
                                 justifyContent: 'center',
                                 fontSize: '1.2rem',
                                 border: x === playerPos.x && y === playerPos.y ? '2px solid #ef4444' : 'none'
@@ -193,8 +193,4 @@ export function DesertPage() {
         </div>
     );
 }
-                </div>
-            )}
-        </div>
-    );
-}
+

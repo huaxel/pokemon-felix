@@ -1,135 +1,135 @@
 .mountain-page {
-    min-height: 100vh;
-    background: var(--bg-dark);
-    background-image:
-        radial-gradient(circle at top, rgba(135, 206, 235, 0.1) 0%, transparent 70%),
-        radial-gradient(circle at bottom, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2.5rem;
-    color: white;
+  min-height: 100vh;
+  background: var(--bg-dark);
+  background-image:
+    radial-gradient(circle at top, rgba(135, 206, 235, 0.1) 0%, transparent 70%),
+    radial-gradient(circle at bottom, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  color: white;
 }
 
 .mountain-header h1 {
-    font-family: var(--header-font);
-    font-size: 3rem;
-    color: var(--primary-color);
-    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  font-family: var(--header-font);
+  font-size: 3rem;
+  color: var(--primary-color);
+  text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 .mountain-warning {
-    background: rgba(239, 68, 68, 0.1);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--health-critical);
-    border-radius: var(--radius-lg);
-    padding: 3rem;
-    text-align: center;
-    max-width: 600px;
-    box-shadow: var(--shadow-lg);
+  background: rgba(239, 68, 68, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--health-critical);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  text-align: center;
+  max-width: 600px;
+  box-shadow: var(--shadow-lg);
 }
 
 .zone-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    text-align: center;
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .zone-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .zone-stats span {
-    padding: 0.5rem 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--primary-color);
-    border: 1px solid var(--glass-border);
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  color: var(--primary-color);
+  border: 1px solid var(--glass-border);
 }
 
 .mountain-tips {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-lg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
 }
 
 .start-hike-btn {
-    background: var(--primary-color);
-    color: #78350f;
-    border: none;
-    padding: 1.25rem 4rem;
-    font-family: var(--header-font);
-    font-size: 1.5rem;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    box-shadow: 0 6px 0 #b45309;
-    transition: all 0.2s;
+  background: var(--primary-color);
+  color: #78350f;
+  border: none;
+  padding: 1.25rem 4rem;
+  font-family: var(--header-font);
+  font-size: 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: 0 6px 0 #b45309;
+  transition: all 0.2s;
 }
 
 .stat {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
 }
 
 .progress-bar,
 .energy-bar {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--glass-border);
-    height: 24px;
-    border-radius: var(--radius-full);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-border);
+  height: 24px;
+  border-radius: var(--radius-full);
 }
 
 .climb-btn {
-    background: var(--secondary-color);
-    color: white;
-    border: none;
-    padding: 1.25rem 4rem;
-    font-family: var(--header-font);
-    font-size: 1.5rem;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    box-shadow: 0 6px 0 #1d4ed8;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 1.25rem 4rem;
+  font-family: var(--header-font);
+  font-size: 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: 0 6px 0 #1d4ed8;
 }
 
 .rest-btn {
-    background: var(--primary-color);
-    color: #78350f;
-    border: none;
-    padding: 1rem 3rem;
-    border-radius: var(--radius-md);
-    font-family: var(--header-font);
-    font-size: 1.25rem;
-    cursor: pointer;
-    box-shadow: 0 6px 0 #b45309;
+  background: var(--primary-color);
+  color: #78350f;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: var(--radius-md);
+  font-family: var(--header-font);
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #b45309;
 }
 
 .summit-scene {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border: 2px solid var(--primary-color);
-    border-radius: var(--radius-lg);
-    padding: 4rem;
-    text-align: center;
-    box-shadow: 0 0 50px rgba(251, 191, 36, 0.2);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--primary-color);
+  border-radius: var(--radius-lg);
+  padding: 4rem;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(251, 191, 36, 0.2);
 }
 
 .reward {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
 }

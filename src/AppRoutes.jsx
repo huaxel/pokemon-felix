@@ -2,7 +2,9 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Lazy load components
-const PokemonModal = lazy(() => import('./components/PokemonModal').then(mod => ({ default: mod.PokemonModal })));
+const PokemonModal = lazy(() =>
+  import('./components/PokemonModal').then(mod => ({ default: mod.PokemonModal }))
+);
 
 // Feature Pages
 import { CollectionPage } from './features/pokedex/CollectionPage';
@@ -42,70 +44,69 @@ import { PokemonCenterPage } from './features/world/pages/PokemonCenterPage';
 import { WorldSelectionPage } from './features/world/pages/WorldSelectionPage';
 
 export function AppRoutes({
-    ownedIds,
-    toggleOwned,
-    pokemonList,
-    loadPokemon,
-    selectedPokemon,
-    setSelectedPokemon
+  ownedIds,
+  toggleOwned,
+  pokemonList,
+  loadPokemon,
+  selectedPokemon,
+  setSelectedPokemon,
 }) {
-    return (
-        <>
-            <Routes>
-                <Route path="/character-creation" element={<CharacterCreationPage />} />
-                <Route path="/" element={<StarterPage />} />
-                <Route path="/pokedex" element={<PokedexPage />} />
-                <Route path="/collection" element={
-                    <CollectionPage
-                        ownedIds={ownedIds}
-                        onToggleOwned={toggleOwned}
-                    />
-                } />
-                <Route path="/battle" element={
-                    <BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />
-                } />
-                <Route path="/battle-modes" element={<BattleSelectionPage />} />
-                <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
-                <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
-                <Route path="/gacha" element={<GachaPage />} />
-                <Route path="/squad" element={<SquadPage />} />
-                <Route path="/adventure" element={<WorldPage />} />
-                <Route path="/market" element={<MarketPage />} />
-                <Route path="/evolution" element={<EvolutionPage />} />
-                <Route path="/gym" element={<GymPage />} />
-                <Route path="/bag" element={<BagPage />} />
-                <Route path="/care" element={<CarePage />} />
-                <Route path="/school" element={<SchoolPage />} />
-                <Route path="/wardrobe" element={<WardrobePage />} />
-                <Route path="/bank" element={<BankPage />} />
-                <Route path="/potion-lab" element={<PotionLabPage />} />
-                <Route path="/fountain" element={<FountainPage />} />
-                <Route path="/palace" element={<PalacePage />} />
-                <Route path="/evolution-hall" element={<EvolutionHallPage />} />
-                <Route path="/mountain" element={<MountainPage />} />
-                <Route path="/secret-cave" element={<SecretCavePage />} />
-                <Route path="/water-route" element={<WaterRoutePage />} />
-                <Route path="/porygon-lab" element={<PorygonLabPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/desert" element={<DesertPage />} />
-                <Route path="/cave-dungeon" element={<CaveDungeonPage />} />
-                <Route path="/city-hall" element={<CityHallPage />} />
-                <Route path="/art-studio" element={<ArtStudioPage />} />
-                <Route path="/decor-shop" element={<DecorShopPage />} />
-                <Route path="/center" element={<PokemonCenterPage />} />
-                <Route path="/world-select" element={<WorldSelectionPage />} />
-            </Routes>
+  return (
+    <>
+      <Routes>
+        <Route path="/character-creation" element={<CharacterCreationPage />} />
+        <Route path="/" element={<StarterPage />} />
+        <Route path="/pokedex" element={<PokedexPage />} />
+        <Route
+          path="/collection"
+          element={<CollectionPage ownedIds={ownedIds} onToggleOwned={toggleOwned} />}
+        />
+        <Route
+          path="/battle"
+          element={<BattlePage allPokemon={pokemonList} onLoadMore={loadPokemon} />}
+        />
+        <Route path="/battle-modes" element={<BattleSelectionPage />} />
+        <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
+        <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
+        <Route path="/gacha" element={<GachaPage />} />
+        <Route path="/squad" element={<SquadPage />} />
+        <Route path="/adventure" element={<WorldPage />} />
+        <Route path="/market" element={<MarketPage />} />
+        <Route path="/evolution" element={<EvolutionPage />} />
+        <Route path="/gym" element={<GymPage />} />
+        <Route path="/bag" element={<BagPage />} />
+        <Route path="/care" element={<CarePage />} />
+        <Route path="/school" element={<SchoolPage />} />
+        <Route path="/wardrobe" element={<WardrobePage />} />
+        <Route path="/bank" element={<BankPage />} />
+        <Route path="/potion-lab" element={<PotionLabPage />} />
+        <Route path="/fountain" element={<FountainPage />} />
+        <Route path="/palace" element={<PalacePage />} />
+        <Route path="/evolution-hall" element={<EvolutionHallPage />} />
+        <Route path="/mountain" element={<MountainPage />} />
+        <Route path="/secret-cave" element={<SecretCavePage />} />
+        <Route path="/water-route" element={<WaterRoutePage />} />
+        <Route path="/porygon-lab" element={<PorygonLabPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/desert" element={<DesertPage />} />
+        <Route path="/cave-dungeon" element={<CaveDungeonPage />} />
+        <Route path="/city-hall" element={<CityHallPage />} />
+        <Route path="/art-studio" element={<ArtStudioPage />} />
+        <Route path="/decor-shop" element={<DecorShopPage />} />
+        <Route path="/center" element={<PokemonCenterPage />} />
+        <Route path="/world-select" element={<WorldSelectionPage />} />
+      </Routes>
 
-            {selectedPokemon && (
-                <Suspense fallback={null}>
-                    <PokemonModal
-                        pokemon={selectedPokemon}
-                        onClose={() => setSelectedPokemon(null)}
-                        isOwned={ownedIds.includes(selectedPokemon.id)}
-                        onToggleOwned={toggleOwned}
-                    />
-                </Suspense>
-            )}
-        </>
-    );
+      {selectedPokemon && (
+        <Suspense fallback={null}>
+          <PokemonModal
+            pokemon={selectedPokemon}
+            onClose={() => setSelectedPokemon(null)}
+            isOwned={ownedIds.includes(selectedPokemon.id)}
+            onToggleOwned={toggleOwned}
+          />
+        </Suspense>
+      )}
+    </>
+  );
 }

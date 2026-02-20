@@ -1,10 +1,13 @@
 # 📡 PROJECT PULSE (Mobile Context)
-**Generated:** Thu Jan  1 02:39:16 PM CET 2026
+
+**Generated:** Thu Jan 1 02:39:16 PM CET 2026
 
 ## 🏛️ 1. ARCHITECTURE & VISION
+
 # Architecture & Vision
 
 ## Tech Stack
+
 - **Frontend:** React 18 + Vite
 - **State Management:** Context API (PokemonProvider, PlayerProvider, BattleContext, etc.)
 - **Styling:** CSS Modules
@@ -13,12 +16,14 @@
 - **External APIs:** PokeAPI (https://pokeapi.co)
 
 ## Core Patterns
+
 - **Architecture:** Component-based with Context API for state management
 - **Data Persistence:** localStorage for save states and collections
 - **Data Flow:** Context providers with custom hooks
 - **File Structure:** Feature-based organization in `src/`
 
 ## Project Structure
+
 ```
 src/
 ├── components/     # React UI components (pages, UI elements)
@@ -34,6 +39,7 @@ agents/             # AI agent definitions
 ```
 
 ## Core Systems
+
 - **World Navigation:** Tile-based 10x10 grid with keyboard/D-pad controls
 - **Battle System:** Turn-based combat with stat calculations and energy management
 - **Collection System:** Pokemon ownership, care (HP, hunger, happiness)
@@ -43,6 +49,7 @@ agents/             # AI agent definitions
 - **Customization:** Player profile, wardrobe, town building
 
 ## Constraints
+
 - **Child-Friendly:** All content appropriate for age 7
 - **Educational Focus:** Every feature should teach something valuable
 - **Fun First:** If it's not fun, Felix won't play it
@@ -50,20 +57,25 @@ agents/             # AI agent definitions
 - **PokeAPI Integration:** Pokemon data fetched from external API
 
 ## Mobile Context (Included in Pulse)
+
 The `pulse.sh` script generates rich context for mobile conversations including:
+
 - **Roadmap**: Current feature status and planned work
 - **File Tree**: 3-level deep project structure
 - **Git Status**: Uncommitted changes and modified files
 - **Project Overview**: Educational Pokemon game for Felix (age 7)
 
 ## 📰 2. ACTIVE STATE & TASKS
+
 # Active State
 
 ## Current Focus
+
 - Agent system adapted for Pokemon Felix (educational game development)
 - Ready for Pokemon-focused feature development
 
 ## Recent Work
+
 - [2026-01-01] **Adapted Agent System for Pokemon Felix**
   - Created Pokemon Expert agent (content & mechanics)
   - Created Educational Specialist agent (age-appropriate learning)
@@ -76,14 +88,17 @@ The `pulse.sh` script generates rich context for mobile conversations including:
   - Updated AI context system (pulse.sh, docs/ai)
 
 ## Known Issues
+
 - Old Belgian Politics agents still present (belgian_politics_expert.md, data_engineer.md, logic_engineer.md) - can be removed if desired
 
 ## Next Steps
+
 1. Continue Pokemon Felix development with new agent system
 2. Use agents for feature planning and implementation
 3. Focus on Phase 6 roadmap items (Advanced World Features)
 
 ## 🗺️ 3. PROJECT MAP
+
 ```
 .
 ├── agents
@@ -212,7 +227,9 @@ The `pulse.sh` script generates rich context for mobile conversations including:
 
 10 directories, 114 files
 ```
+
 ## 🔧 4. KEY PROJECT FILES
+
 ```
 # Key React contexts and hooks
 -rw-r--r-- 1 juan juan  160 Dec 31 20:48 src/contexts/CareContext.jsx
@@ -237,6 +254,7 @@ The `pulse.sh` script generates rich context for mobile conversations including:
 ```
 
 ## 🎮 5. PROJECT OVERVIEW
+
 # Pokemon Felix
 
 A modern Pokemon web application built with React + Vite, featuring a comprehensive Pokedex, battle system, and tournament mode.
@@ -259,17 +277,20 @@ A modern Pokemon web application built with React + Vite, featuring a comprehens
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd pokemon-felix
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. (Optional) Create a `.env` file based on `.env.example`:
+
 ```bash
 cp .env.example .env
 ```
@@ -283,12 +304,14 @@ npm run dev
 ```
 
 This starts:
+
 - **Frontend** (Vite): http://localhost:5173
 - **Backend** (json-server): http://localhost:3001
 
 ## Available Scripts
 
 ## 🗺️ 6. ROADMAP STATUS
+
 # Pokemon Felix - Roadmap 🗺️
 
 > **Version**: 0.0.0  
@@ -315,7 +338,8 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 ## 🎯 Development Phases
 
 ### Phase 1: Core Foundation ✅ COMPLETE
-*Status: Fully implemented and stable*
+
+_Status: Fully implemented and stable_
 
 - [x] React + Vite setup
 - [x] React Router navigation
@@ -327,7 +351,8 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 - [x] Tournament bracket (8-player elimination)
 
 ### Phase 2: World & Exploration ✅ COMPLETE
-*Status: Implemented Dec 31, 2025*
+
+_Status: Implemented Dec 31, 2025_
 
 - [x] Tile-based world map (10x10 grid)
 - [x] Keyboard + D-Pad navigation
@@ -339,7 +364,8 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 - [x] localStorage persistence for world state
 
 ### Phase 3: RPG Mechanics ✅ COMPLETE
-*Status: Implemented Dec 31, 2025*
+
+_Status: Implemented Dec 31, 2025_
 
 - [x] Pokemon care (HP, Hunger, Happiness)
 - [x] Healing at PokeCenter
@@ -355,11 +381,13 @@ Pokemon Felix has evolved from a simple Pokedex app into an **interactive RPG wo
 ## 🚀 Upcoming Features
 
 ### Phase 4: Educational Systems ✅ COMPLETE
-*Status: Implemented Dec 31, 2025*
+
+_Status: Implemented Dec 31, 2025_
 
 Integrate learning mechanics for Felix (age 7) to practice math, reading, and logic.
 
 #### 4.1 Pokemon Academy ✅
+
 - [x] Create `SchoolPage.jsx` component
 - [x] Quiz system with multiple-choice questions
   - [x] Type advantages (Fire > Grass > Water)
@@ -372,6 +400,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] **Rewards**: Coins, items, badges
 
 #### 4.2 Python Terminal (Coding Introduction) ✅
+
 - [x] Create `GameConsole.jsx` component
 - [x] Command interpreter for simplified Python syntax
   - [x] `heal_all()` - Heal all Pokemon
@@ -382,6 +411,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Secret access (Ctrl+` shortcut)
 
 #### 4.3 Porygon Algorithm Puzzle ✅
+
 - [x] Create `PorygonLabPage.jsx` component
 - [x] Sequential command builder
   - [x] `step()` - Move forward
@@ -391,6 +421,7 @@ Integrate learning mechanics for Felix (age 7) to practice math, reading, and lo
 - [x] Progressive difficulty levels (3+ levels)
 
 ## 🩸 7. UNCOMMITTED CHANGES
+
 ```diff
  M docs/ai/current_pulse.md
  M src/features/world/WorldPage.jsx

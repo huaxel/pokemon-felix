@@ -2,21 +2,21 @@ import { usePokemonContext } from '../hooks/usePokemonContext';
 import './ToastContainer.css';
 
 export function ToastContainer() {
-    const { toasts, removeToast } = usePokemonContext();
+  const { toasts, removeToast } = usePokemonContext();
 
-    if (toasts.length === 0) return null;
+  if (toasts.length === 0) return null;
 
-    return (
-        <div className="toast-container">
-            {toasts.map(toast => (
-                <div
-                    key={toast.id}
-                    className={`toast-notification ${toast.type}`}
-                    onClick={() => removeToast(toast.id)}
-                >
-                    <span className="toast-message">{toast.message}</span>
-                </div>
-            ))}
+  return (
+    <div className="toast-container">
+      {toasts.map(toast => (
+        <div
+          key={toast.id}
+          className={`toast-notification ${toast.type}`}
+          onClick={() => removeToast(toast.id)}
+        >
+          <span className="toast-message">{toast.message}</span>
         </div>
-    );
+      ))}
+    </div>
+  );
 }

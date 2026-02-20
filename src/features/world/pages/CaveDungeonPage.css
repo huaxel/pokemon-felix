@@ -1,285 +1,283 @@
 .cave-page {
-    min-height: 100vh;
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    padding: 2rem;
-    font-family: 'Luckiest Guy', cursive;
-    color: white;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  padding: 2rem;
+  font-family: 'Luckiest Guy', cursive;
+  color: white;
 }
 
 .cave-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1rem 2rem;
-    border-radius: 1rem;
-    margin-bottom: 1.5rem;
-    backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
 }
 
 .cave-header h1 {
-    margin: 0;
+  margin: 0;
 }
 
 .back-btn {
-    background: #64748b;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 0.8rem;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
+  background: #64748b;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
 }
 
 .coin-display {
-    font-size: 1.3rem;
+  font-size: 1.3rem;
 }
 
 .coin-display img {
-    width: 24px;
-    vertical-align: middle;
+  width: 24px;
+  vertical-align: middle;
 }
 
 .cave-message {
-    padding: 1rem;
-    text-align: center;
-    border-radius: 0.8rem;
-    margin-bottom: 1rem;
-    color: white;
-    font-weight: bold;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 0.8rem;
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: bold;
 }
 
 .cave-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1rem;
-    border-radius: 1rem;
-    margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .floor-indicator {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fbbf24;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fbbf24;
 }
 
 .geology-fact {
-    font-size: 0.9rem;
-    color: #cbd5e1;
+  font-size: 0.9rem;
+  color: #cbd5e1;
 }
 
 .puzzle-container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 2rem;
-    text-align: center;
-    backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 2rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
 }
 
 .puzzle-container h2 {
-    color: #fbbf24;
-    margin-bottom: 2rem;
+  color: #fbbf24;
+  margin-bottom: 2rem;
 }
 
 .puzzle-grid {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    margin: 2rem 0;
-    font-size: 3rem;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 2rem 0;
+  font-size: 3rem;
 }
 
 .puzzle-progress {
-    font-size: 1.2rem;
-    margin: 1rem 0;
-    color: #cbd5e1;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  color: #cbd5e1;
 }
 
 .switches {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
 }
 
 .switch {
-    font-size: 3rem;
-    transition: all 0.3s;
+  font-size: 3rem;
+  transition: all 0.3s;
 }
 
 .dark-room {
-    font-size: 5rem;
-    margin: 2rem 0;
-    animation: pulse 2s ease-in-out infinite;
+  font-size: 5rem;
+  margin: 2rem 0;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 .ice-floor {
-    font-size: 5rem;
-    margin: 2rem 0;
-    animation: slide 2s ease-in-out infinite;
+  font-size: 5rem;
+  margin: 2rem 0;
+  animation: slide 2s ease-in-out infinite;
 }
 
 @keyframes slide {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
 
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    50% {
-        transform: translateX(20px);
-    }
+  50% {
+    transform: translateX(20px);
+  }
 }
 
 .puzzle-btn {
-    background: #3b82f6;
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: all 0.2s;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.2s;
 }
 
 .puzzle-btn:hover {
-    background: #2563eb;
-    transform: scale(1.05);
+  background: #2563eb;
+  transform: scale(1.05);
 }
 
 .next-floor-btn {
-    background: #10b981;
-    color: white;
-    border: none;
-    padding: 1.2rem 2.5rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-top: 1.5rem;
-    animation: bounce 1s ease-in-out infinite;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  animation: bounce 1s ease-in-out infinite;
 }
 
 @keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
 
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .encounter-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .encounter-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 2rem;
-    text-align: center;
-    max-width: 400px;
-    color: #1e293b;
+  background: white;
+  padding: 2rem;
+  border-radius: 2rem;
+  text-align: center;
+  max-width: 400px;
+  color: #1e293b;
 }
 
 .encounter-content img {
-    width: 150px;
-    height: 150px;
+  width: 150px;
+  height: 150px;
 }
 
 .encounter-content h2 {
-    color: #dc2626;
-    margin-bottom: 1rem;
+  color: #dc2626;
+  margin-bottom: 1rem;
 }
 
 .encounter-content h3 {
-    text-transform: capitalize;
-    color: #1e293b;
+  text-transform: capitalize;
+  color: #1e293b;
 }
 
 .encounter-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .catch-btn {
-    flex: 1;
-    background: #10b981;
-    color: white;
-    border: none;
-    padding: 1rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
+  flex: 1;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
 }
 
 .flee-btn {
-    flex: 1;
-    background: #6b7280;
-    color: white;
-    border: none;
-    padding: 1rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
+  flex: 1;
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .cave-page {
-        padding: 1rem;
-    }
+  .cave-page {
+    padding: 1rem;
+  }
 
-    .puzzle-container {
-        padding: 1rem;
-    }
+  .puzzle-container {
+    padding: 1rem;
+  }
 
-    .puzzle-container h2 {
-        font-size: 1.2rem;
-    }
+  .puzzle-container h2 {
+    font-size: 1.2rem;
+  }
 
-    .puzzle-grid {
-        font-size: 2rem;
-    }
+  .puzzle-grid {
+    font-size: 2rem;
+  }
 
-    .dark-room,
-    .ice-floor {
-        font-size: 3rem;
-    }
+  .dark-room,
+  .ice-floor {
+    font-size: 3rem;
+  }
 
-    .puzzle-btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
-    }
+  .puzzle-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
 
-    .encounter-content {
-        padding: 1.5rem;
-        max-width: 90%;
-    }
+  .encounter-content {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
 
-    .encounter-content img {
-        width: 120px;
-        height: 120px;
-    }
+  .encounter-content img {
+    width: 120px;
+    height: 120px;
+  }
 }

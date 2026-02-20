@@ -3,32 +3,32 @@ import { useState, useCallback } from 'react';
 let toastId = 0;
 
 export function useToast() {
-    const [toasts, setToasts] = useState([]);
+  const [toasts, setToasts] = useState([]);
 
-    const addToast = useCallback((message, type = 'info', duration = 3000) => {
-        const id = toastId++;
-        setToasts(prev => [...prev, { id, message, type, duration }]);
-    }, []);
+  const addToast = useCallback((message, type = 'info', duration = 3000) => {
+    const id = toastId++;
+    setToasts(prev => [...prev, { id, message, type, duration }]);
+  }, []);
 
-    const removeToast = useCallback((id) => {
-        setToasts(prev => prev.filter(toast => toast.id !== id));
-    }, []);
+  const removeToast = useCallback(id => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  }, []);
 
-    const showSuccess = useCallback((message) => addToast(message, 'success'), [addToast]);
-    const showError = useCallback((message) => addToast(message, 'error'), [addToast]);
-    const showInfo = useCallback((message) => addToast(message, 'info'), [addToast]);
-    const showWarning = useCallback((message) => addToast(message, 'warning'), [addToast]);
-    const showQuest = useCallback((message) => addToast(message, 'quest'), [addToast]);
-    const showCoins = useCallback((message) => addToast(message, 'coins'), [addToast]);
+  const showSuccess = useCallback(message => addToast(message, 'success'), [addToast]);
+  const showError = useCallback(message => addToast(message, 'error'), [addToast]);
+  const showInfo = useCallback(message => addToast(message, 'info'), [addToast]);
+  const showWarning = useCallback(message => addToast(message, 'warning'), [addToast]);
+  const showQuest = useCallback(message => addToast(message, 'quest'), [addToast]);
+  const showCoins = useCallback(message => addToast(message, 'coins'), [addToast]);
 
-    return {
-        toasts,
-        removeToast,
-        showSuccess,
-        showError,
-        showInfo,
-        showWarning,
-        showQuest,
-        showCoins
-    };
+  return {
+    toasts,
+    removeToast,
+    showSuccess,
+    showError,
+    showInfo,
+    showWarning,
+    showQuest,
+    showCoins,
+  };
 }

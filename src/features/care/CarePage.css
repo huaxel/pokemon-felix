@@ -1,235 +1,234 @@
 .care-page {
-    padding: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
-    color: white;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: white;
 }
 
 .care-header {
-    text-align: center;
-    margin-bottom: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .care-header h1 {
-    font-size: 3rem;
-    color: #ef4444;
-    text-shadow: 3px 3px 0 #000;
+  font-size: 3rem;
+  color: #ef4444;
+  text-shadow: 3px 3px 0 #000;
 }
 
 .icon {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 0.5rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
 }
 
 .icon.red {
-    color: #ef4444;
+  color: #ef4444;
 }
 
 .icon.orange {
-    color: #f59e0b;
+  color: #f59e0b;
 }
 
 .hospital-section {
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 .hospital-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 3px solid #ef4444;
-    border-radius: 20px;
-    padding: 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 3px solid #ef4444;
+  border-radius: 20px;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .hospital-info h2 {
-    font-size: 2rem;
-    margin: 0;
+  font-size: 2rem;
+  margin: 0;
 }
 
 .heal-all-btn {
-    padding: 1.5rem 3rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    background: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 6px 0 #b91c1c;
-    transition: all 0.2s;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  padding: 1.5rem 3rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #b91c1c;
+  transition: all 0.2s;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .heal-all-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 0 #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #b91c1c;
 }
 
 .heal-all-btn:active:not(:disabled) {
-    transform: translateY(4px);
-    box-shadow: none;
+  transform: translateY(4px);
+  box-shadow: none;
 }
 
 .heal-all-btn:disabled {
-    background: #4b5563;
-    box-shadow: 0 6px 0 #1f2937;
-    cursor: not-allowed;
+  background: #4b5563;
+  box-shadow: 0 6px 0 #1f2937;
+  cursor: not-allowed;
 }
 
 .healing-animation {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(239, 68, 68, 0.2);
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(239, 68, 68, 0.2);
+  z-index: 1;
 }
 
 .healing-light {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
-    border-radius: 50%;
-    animation: float-around 3s infinite ease-in-out;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  animation: float-around 3s infinite ease-in-out;
 }
 
 .healing-light:nth-child(1) {
-    top: -50px;
-    left: 100px;
-    animation-delay: 0s;
+  top: -50px;
+  left: 100px;
+  animation-delay: 0s;
 }
 
 .healing-light:nth-child(2) {
-    bottom: -50px;
-    right: 100px;
-    animation-delay: 1s;
+  bottom: -50px;
+  right: 100px;
+  animation-delay: 1s;
 }
 
 .healing-light:nth-child(3) {
-    top: 50%;
-    left: 50%;
-    animation-delay: 0.5s;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.5s;
 }
 
 .squad-care-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 .pokemon-care-card {
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px solid #374151;
-    border-radius: 15px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid #374151;
+  border-radius: 15px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .care-stats {
-    width: 100%;
+  width: 100%;
 }
 
 .stat-bar-group {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .stat-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    margin-bottom: 0.3rem;
-    text-transform: uppercase;
-    font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .care-bar-bg {
-    height: 12px;
-    background: #1f2937;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid #374151;
+  height: 12px;
+  background: #1f2937;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #374151;
 }
 
 .care-bar-fill {
-    height: 100%;
-    transition: width 0.5s ease-out;
+  height: 100%;
+  transition: width 0.5s ease-out;
 }
 
 .care-bar-fill.hp {
-    background: linear-gradient(90deg, #ef4444, #f87171);
+  background: linear-gradient(90deg, #ef4444, #f87171);
 }
 
 .care-bar-fill.hunger {
-    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
 }
 
 .feed-btn {
-    width: 100%;
-    padding: 1rem;
-    background: #f59e0b;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: background 0.2s;
+  width: 100%;
+  padding: 1rem;
+  background: #f59e0b;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
 }
 
 .feed-btn:hover {
-    background: #d97706;
+  background: #d97706;
 }
 
 .spin {
-    animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
 
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes float-around {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
 
-    0%,
-    100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: translate(30px, 30px) scale(1.2);
-        opacity: 0.8;
-    }
+  50% {
+    transform: translate(30px, 30px) scale(1.2);
+    opacity: 0.8;
+  }
 }
 
 @media (max-width: 768px) {
-    .hospital-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-    }
+  .hospital-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
 }

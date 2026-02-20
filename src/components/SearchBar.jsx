@@ -2,78 +2,78 @@ import { useState, useEffect, useRef } from 'react';
 import './SearchBar.css';
 
 export function SearchBar({ allPokemon, onSearch }) {
-    const [query, setQuery] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const wrapperRef = useRef(null);
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef(null);
 
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-                setIsOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []); // Empty dependency array - setup once
-
-    const handleInputChange = (e) => {
-        const value = e.target.value;
-        setQuery(value);
-
-        if (value.length > 1) {
-            const filtered = allPokemon.filter(name =>
-                name.toLowerCase().includes(value.toLowerCase())
-            ).slice(0, 10); // Limit to 10 suggestions
-            setSuggestions(filtered);
-            setIsOpen(true);
-        } else {
-            setSuggestions([]);
-            setIsOpen(false);
-        }
-    };
-
-
-
-    const handleSelect = (name) => {
-        setQuery(name);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setIsOpen(false);
-        onSearch(name);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, []); // Empty dependency array - setup once
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (query) {
-            onSearch(query);
-            setIsOpen(false);
-        }
-    };
+  const handleInputChange = e => {
+    const value = e.target.value;
+    setQuery(value);
 
-    return (
-        <div className="search-wrapper" ref={wrapperRef}>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    className="search-input"
-                    placeholder="Zoek Pokémon..."
-                    value={query}
-                    onChange={handleInputChange}
-                    onFocus={() => query.length > 1 && setIsOpen(true)}
-                />
-                <button type="submit" className="btn-kenney primary search-btn">🔍</button>
-            </form>
+    if (value.length > 1) {
+      const filtered = allPokemon
+        .filter(name => name.toLowerCase().includes(value.toLowerCase()))
+        .slice(0, 10); // Limit to 10 suggestions
+      setSuggestions(filtered);
+      setIsOpen(true);
+    } else {
+      setSuggestions([]);
+      setIsOpen(false);
+    }
+  };
 
-            {isOpen && suggestions.length > 0 && (
-                <ul className="suggestions-list">
-                    {suggestions.map(name => (
-                        <li key={name} onClick={() => handleSelect(name)}>
-                            {name}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+  const handleSelect = name => {
+    setQuery(name);
+    setIsOpen(false);
+    onSearch(name);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (query) {
+      onSearch(query);
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <div className="search-wrapper" ref={wrapperRef}>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Zoek Pokémon..."
+          value={query}
+          onChange={handleInputChange}
+          onFocus={() => query.length > 1 && setIsOpen(true)}
+        />
+        <button type="submit" className="btn-kenney primary search-btn">
+          🔍
+        </button>
+      </form>
+
+      {isOpen && suggestions.length > 0 && (
+        <ul className="suggestions-list">
+          {suggestions.map(name => (
+            <li key={name} onClick={() => handleSelect(name)}>
+              {name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }

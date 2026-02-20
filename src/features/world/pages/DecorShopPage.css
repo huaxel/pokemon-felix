@@ -1,17 +1,17 @@
 .decor-shop-page {
-    min-height: 100vh;
-    color: white;
-    padding-bottom: 2rem;
+  min-height: 100vh;
+  color: white;
+  padding-bottom: 2rem;
 }
 
 .catalog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
-    padding: 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1rem;
 }
 
 /* Remove old styles that conflict */
 .buy-decor-btn {
-    display: none;
+  display: none;
 }

@@ -2,7 +2,6 @@
 
 High-level architecture notes and reviews.
 
-
 ## Architecture Sections
 
 - **[01 Core Concepts](./01-core-concepts/README.md)**: Game loops, State Management (Contexts), and Entities.
@@ -17,4 +16,3 @@ High-level architecture notes and reviews.
 - AI and system prompts: `../ai/architecture.md`, `../ai/current_pulse.md`, `../ai/system_prompt.md`
 - Library & hook reviews: `../planning/development-log/lib-review.md`, `../planning/development-log/hooks-review.md`
 - Code review summaries: `05-reference/code_review.md`, `../planning/development-log/PR_SUMMARY.md`
-

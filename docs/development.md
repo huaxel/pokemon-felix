@@ -1,4 +1,3 @@
-
 # Development Guide — Pokemon Felix
 
 Developer checklist and conventions.

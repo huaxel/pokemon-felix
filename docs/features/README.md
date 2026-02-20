@@ -5,23 +5,29 @@ This directory details the gameplay features, mechanics, and design philosophies
 ## Structure
 
 ### **[00 Design Pillars](./00-DESIGN-PILLARS.md)**
+
 The core philosophy: Care, Training, and Battle.
 
 ### **[01 Core Mechanics](./01-core-mechanics)**
+
 - **[Care System](./01-core-mechanics/care-system.md)**: Feeding, grooming, and affection.
 - **[Progression Loop](./01-core-mechanics/progression-loop.md)**: The daily cycle of gameplay.
 
 ### **[02 Game Systems](./02-game-systems)**
+
 - **[Battle System](./02-game-systems/battle-system.md)**: Card-based combat rules.
 - **[World System](./02-game-systems/world-exploration.md)**: Travel and map logic.
 
 ### **[03 Design Philosophy](./03-design-philosophy)**
+
 - **[Age Appropriate Design](./03-design-philosophy/age-appropriate-design.md)**: Guidelines for the target audience (7yo).
 
 ### **[04 Advanced Features](./04-advanced-features)**
+
 - **[Porygon Lab](./04-advanced-features/porygon-lab.md)**: The coding mini-game.
 
 ## Implementation Logs
+
 Legacy implementation logs have been archived in `../planning/development-log/from_features/`.
 
 - Battle system

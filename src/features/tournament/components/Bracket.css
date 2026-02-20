@@ -1,81 +1,81 @@
 .bracket-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4rem;
-    padding: 2rem;
-    overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  padding: 2rem;
+  overflow-x: auto;
 }
 
 .bracket-round {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
 }
 
 .bracket-round h3 {
-    text-align: center;
-    color: #475569;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
+  text-align: center;
+  color: #475569;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
 }
 
 .matches-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    flex-grow: 1;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1;
+  gap: 2rem;
 }
 
 .bracket-match {
-    background: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    position: relative;
-    transition: all 0.3s ease;
-    border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .match-participant.winner {
-    background: #f0fdf4;
-    color: #166534;
-    font-weight: 700;
+  background: #f0fdf4;
+  color: #166534;
+  font-weight: 700;
 }
 
 .match-participant.winner::after {
-    content: '✓';
-    color: #22c55e;
+  content: '✓';
+  color: #22c55e;
 }
 
 /* Connectors */
 .bracket-round:not(:last-child) .bracket-match::after {
-    content: '';
-    position: absolute;
-    right: -2rem;
-    top: 50%;
-    width: 2rem;
-    height: 2px;
-    background: #cbd5e1;
+  content: '';
+  position: absolute;
+  right: -2rem;
+  top: 50%;
+  width: 2rem;
+  height: 2px;
+  background: #cbd5e1;
 }
 
 .bracket-round:not(:last-child) .matches-column {
-    position: relative;
+  position: relative;
 }
 
 /* Vertical connectors for Quarter Finals to Semis */
 .bracket-round:nth-child(1) .bracket-match:nth-child(odd)::before {
-    content: '';
-    position: absolute;
-    right: -2rem;
-    top: 50%;
-    width: 2px;
-    height: calc(100% + 2rem);
-    /* Connect to next match */
-    background: #cbd5e1;
-    transform: translateY(50%);
+  content: '';
+  position: absolute;
+  right: -2rem;
+  top: 50%;
+  width: 2px;
+  height: calc(100% + 2rem);
+  /* Connect to next match */
+  background: #cbd5e1;
+  transform: translateY(50%);
 }

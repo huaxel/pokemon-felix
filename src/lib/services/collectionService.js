@@ -13,7 +13,7 @@ export async function getCollection() {
 export async function addToCollection(id) {
   // Basic validation
   if (typeof id !== 'number') throw new TypeError('id must be a number');
-  
+
   try {
     return await api.addToCollection(id);
   } catch (error) {
@@ -24,7 +24,7 @@ export async function addToCollection(id) {
 
 export async function removeFromCollection(id) {
   if (typeof id !== 'number') throw new TypeError('id must be a number');
-  
+
   try {
     return await api.removeFromCollection(id);
   } catch (error) {

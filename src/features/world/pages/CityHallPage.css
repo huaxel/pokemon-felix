@@ -1,149 +1,159 @@
 .city-hall-page {
-    min-height: 100vh;
-    background: var(--bg-dark);
-    background-image: radial-gradient(circle at top, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
-    display: flex;
-    flex-direction: column;
-    color: white;
+  min-height: 100vh;
+  background: var(--bg-dark);
+  background-image: radial-gradient(circle at top, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  display: flex;
+  flex-direction: column;
+  color: white;
 }
 
 .hall-header {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--glass-border);
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--shadow-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-md);
 }
 
 .hall-header h1 {
-    font-family: var(--header-font);
-    font-size: 2rem;
-    color: var(--primary-color);
+  font-family: var(--header-font);
+  font-size: 2rem;
+  color: var(--primary-color);
 }
 
 .hall-content {
-    flex: 1;
-    padding: 3rem 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
+  flex: 1;
+  padding: 3rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 .mayor-desk {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border-radius: var(--radius-lg);
-    padding: 3rem;
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
 }
 
 .mayor-npc {
-    font-size: 5rem;
-    background: rgba(0, 0, 0, 0.2);
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid var(--border-dim);
-    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
+  font-size: 5rem;
+  background: rgba(0, 0, 0, 0.2);
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--border-dim);
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .mayor-dialogue-box p {
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
-    color: white;
-    line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: white;
+  line-height: 1.6;
 }
 
 .claim-btn {
-    background: var(--primary-color);
-    color: #78350f;
-    border: none;
-    padding: 1rem 2rem;
-    font-family: var(--header-font);
-    font-size: 1.25rem;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    margin-top: 1rem;
-    box-shadow: 0 6px 0 #b45309, var(--shadow-md);
-    transition: all 0.2s;
+  background: var(--primary-color);
+  color: #78350f;
+  border: none;
+  padding: 1rem 2rem;
+  font-family: var(--header-font);
+  font-size: 1.25rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow:
+    0 6px 0 #b45309,
+    var(--shadow-md);
+  transition: all 0.2s;
 }
 
 .claim-btn:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 0 #b45309, var(--shadow-lg);
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 0 #b45309,
+    var(--shadow-lg);
 }
 
 .claim-btn:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #b45309;
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #b45309;
 }
 
 .service-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--glass-border);
 }
 
 .service-card h2 {
-    font-family: var(--header-font);
-    color: var(--primary-color);
-    margin-bottom: 2rem;
-    font-size: 1.75rem;
-    border-bottom: 1px solid var(--glass-border);
-    padding-bottom: 1rem;
+  font-family: var(--header-font);
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 1rem;
 }
 
 .stat-label {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .stat-value {
-    font-size: 2rem;
-    color: white;
-    font-weight: 900;
+  font-size: 2rem;
+  color: white;
+  font-weight: 900;
 }
 
 .registry-btn {
-    width: 100%;
-    padding: 1.25rem;
-    background: var(--secondary-color);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    font-family: var(--header-font);
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 6px 0 #1d4ed8, var(--shadow-lg);
+  width: 100%;
+  padding: 1.25rem;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--header-font);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 6px 0 #1d4ed8,
+    var(--shadow-lg);
 }
 
 .registry-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    background: #1d4ed8;
-    box-shadow: 0 8px 0 #1d4ed8, var(--shadow-lg);
+  transform: translateY(-3px) scale(1.02);
+  background: #1d4ed8;
+  box-shadow:
+    0 8px 0 #1d4ed8,
+    var(--shadow-lg);
 }
 
 .registry-btn:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #1d4ed8;
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #1d4ed8;
 }

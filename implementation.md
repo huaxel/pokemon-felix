@@ -32,27 +32,27 @@ Design System Expansion
 New CSS Classes to Create
 .game-button variants
 .game-button {
-    /* Base Kenney button */
+/_ Base Kenney button _/
 }
 .game-button-primary {
-    /* Blue active state */
+/_ Blue active state _/
 }
 .game-button-secondary {
-    /* Neutral/gray state */
+/_ Neutral/gray state _/
 }
 .game-button-success {
-    /* Green confirmation */
+/_ Green confirmation _/
 }
 .game-button-danger {
-    /* Red warning/delete */
+/_ Red warning/delete _/
 }
 .game-input
 .game-input {
-    /* Kenney-styled text input */
-    border: 3px solid var(--color-ui-border-brown);
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.75rem;
-    font-family: var(--header-font);
+/_ Kenney-styled text input _/
+border: 3px solid var(--color-ui-border-brown);
+background: rgba(255, 255, 255, 0.95);
+padding: 0.75rem;
+font-family: var(--header-font);
 }
 Verification Plan
 Visual Testing
@@ -77,10 +77,10 @@ Test D-pad usability on mobile
 Verify text remains readable
 CSS Media Query
 @media (max-width: 768px) {
-    :root {
-        --border-slice-width: 6px;
-        --border-slice-width-thick: 10px;
-    }
+:root {
+--border-slice-width: 6px;
+--border-slice-width-thick: 10px;
+}
 }
 Timeline Estimate
 CharacterCreationPage: 30 minutes

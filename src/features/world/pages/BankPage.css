@@ -1,219 +1,221 @@
 .bank-page {
-    min-height: 100vh;
-    background: var(--bg-dark);
-    background-image:
-        radial-gradient(circle at top right, rgba(59, 130, 246, 0.1) 0%, transparent 60%),
-        radial-gradient(circle at bottom left, rgba(251, 191, 36, 0.05) 0%, transparent 60%);
-    padding: 2rem;
-    color: white;
+  min-height: 100vh;
+  background: var(--bg-dark);
+  background-image:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at bottom left, rgba(251, 191, 36, 0.05) 0%, transparent 60%);
+  padding: 2rem;
+  color: white;
 }
 
 .bank-header h1 {
-    font-family: var(--header-font);
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin: 0;
-    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    letter-spacing: 2px;
+  font-family: var(--header-font);
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin: 0;
+  text-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
 }
 
 .back-button {
-    width: 60px;
-    height: 60px;
-    background: var(--glass-bg);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: var(--shadow-md);
+  width: 60px;
+  height: 60px;
+  background: var(--glass-bg);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: var(--shadow-md);
 }
 
 .back-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
 .wallet-info {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: var(--glass-bg);
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-full);
-    font-weight: 800;
-    font-size: 1.25rem;
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--glass-bg);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 1.25rem;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .bank-message {
-    padding: 1.25rem;
-    border-radius: var(--radius-md);
-    margin-bottom: 2rem;
-    text-align: center;
-    font-weight: 800;
-    box-shadow: var(--shadow-md);
-    animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 800;
+  box-shadow: var(--shadow-md);
+  animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .bank-message.success {
-    background: var(--health-good);
+  background: var(--health-good);
 }
 
 .bank-message.error {
-    background: var(--health-critical);
+  background: var(--health-critical);
 }
 
 .bank-message.info {
-    background: var(--secondary-color);
+  background: var(--secondary-color);
 }
 
 .bank-balance-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 3rem;
-    margin-bottom: 2.5rem;
-    box-shadow: var(--shadow-lg), 0 0 40px rgba(0, 0, 0, 0.3);
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  margin-bottom: 2.5rem;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 40px rgba(0, 0, 0, 0.3);
 }
 
 .balance-header h2 {
-    font-family: var(--header-font);
-    font-size: 2rem;
-    color: var(--text-muted);
+  font-family: var(--header-font);
+  font-size: 2rem;
+  color: var(--text-muted);
 }
 
 .balance-amount .amount {
-    font-family: var(--header-font);
-    font-size: 5rem;
-    color: var(--primary-color);
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    letter-spacing: 2px;
+  font-family: var(--header-font);
+  font-size: 5rem;
+  color: var(--primary-color);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
 }
 
 .info-box {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: var(--radius-md);
-    padding: 2rem;
-    border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  border: 1px solid var(--glass-border);
 }
 
 .interest-projection {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    margin-bottom: 2.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .projection-value {
-    font-family: var(--header-font);
-    font-size: 2rem;
-    color: var(--primary-color);
+  font-family: var(--header-font);
+  font-size: 2rem;
+  color: var(--primary-color);
 }
 
 .transaction-section {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    margin-bottom: 2.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .quick-actions button {
-    background: var(--bg-surface-alt);
-    border: 1px solid var(--border-dim);
-    color: white;
-    padding: 1rem;
-    border-radius: var(--radius-md);
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-dim);
+  color: white;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .quick-actions button:hover {
-    transform: translateY(-3px);
-    background: var(--bg-surface);
-    border-color: white;
+  transform: translateY(-3px);
+  background: var(--bg-surface);
+  border-color: white;
 }
 
 .transaction-form input {
-    flex: 1;
-    padding: 1.25rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-dim);
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    font-size: 1.25rem;
-    font-weight: 700;
+  flex: 1;
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-dim);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
 .transaction-form button {
-    font-family: var(--header-font);
-    font-size: 1.25rem;
-    padding: 0 2.5rem;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
+  font-family: var(--header-font);
+  font-size: 1.25rem;
+  padding: 0 2.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
 }
 
 .deposit-button {
-    background: var(--health-good);
-    box-shadow: 0 6px 0 #15803d;
+  background: var(--health-good);
+  box-shadow: 0 6px 0 #15803d;
 }
 
 .deposit-button:hover:not(:disabled) {
-    transform: translateY(-3px);
-    background: #15803d;
+  transform: translateY(-3px);
+  background: #15803d;
 }
 
 .deposit-button:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #15803d;
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #15803d;
 }
 
 .withdraw-button {
-    background: var(--health-warning);
-    box-shadow: 0 6px 0 #b45309;
+  background: var(--health-warning);
+  box-shadow: 0 6px 0 #b45309;
 }
 
 .withdraw-button:hover:not(:disabled) {
-    transform: translateY(-3px);
-    background: #b45309;
+  transform: translateY(-3px);
+  background: #b45309;
 }
 
 .withdraw-button:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #b45309;
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #b45309;
 }
 
 .tips-section {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
 }
 
 .tip-card {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  border: 1px solid var(--glass-border);
 }
 
 @media (max-width: 768px) {
-    .bank-header h1 {
-        font-size: 2rem;
-    }
+  .bank-header h1 {
+    font-size: 2rem;
+  }
 
-    .balance-amount .amount {
-        font-size: 3rem;
-    }
+  .balance-amount .amount {
+    font-size: 3rem;
+  }
 }

@@ -1,189 +1,239 @@
 .world-selection-page {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at center, #4facfe 0%, #00f2fe 100%);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: radial-gradient(circle at center, #4facfe 0%, #00f2fe 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .selection-header {
-    margin-top: 2rem;
-    text-align: center;
-    z-index: 10;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin-top: 2rem;
+  text-align: center;
+  z-index: 10;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .selection-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    color: #ffcb05; /* Pokemon Yellow */
-    -webkit-text-stroke: 2px #3b4cca; /* Pokemon Blue */
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #ffcb05; /* Pokemon Yellow */
+  -webkit-text-stroke: 2px #3b4cca; /* Pokemon Blue */
 }
 
 .spinning-globe {
-    animation: spin 10s linear infinite;
+  animation: spin 10s linear infinite;
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .world-map-container {
-    flex: 1;
-    width: 90%;
-    max-width: 1200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    perspective: 1000px;
+  flex: 1;
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  perspective: 1000px;
 }
 
 .interactive-map {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4));
-    transition: transform 0.5s ease;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+  transition: transform 0.5s ease;
 }
 
 .continent-path {
-    fill: #4ade80;
-    stroke: #166534;
-    stroke-width: 2;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    transform-origin: center;
+  fill: #4ade80;
+  stroke: #166534;
+  stroke-width: 2;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  transform-origin: center;
 }
 
 .continent-path:hover {
-    fill: #facc15; /* Yellow highlight */
-    filter: drop-shadow(0 0 10px gold);
-    transform: scale(1.02);
+  fill: #facc15; /* Yellow highlight */
+  filter: drop-shadow(0 0 10px gold);
+  transform: scale(1.02);
 }
 
 .continent-path.selected {
-    fill: #f87171; /* Red selected */
-    stroke: #991b1b;
-    transform: scale(1.05);
+  fill: #f87171; /* Red selected */
+  stroke: #991b1b;
+  transform: scale(1.05);
 }
 
 /* Specific continent colors */
-.continent-na { fill: #86efac; }
-.continent-sa { fill: #4ade80; }
-.continent-eu { fill: #c084fc; }
-.continent-af { fill: #fcd34d; }
-.continent-as { fill: #f87171; }
-.continent-oc { fill: #60a5fa; }
+.continent-na {
+  fill: #86efac;
+}
+.continent-sa {
+  fill: #4ade80;
+}
+.continent-eu {
+  fill: #c084fc;
+}
+.continent-af {
+  fill: #fcd34d;
+}
+.continent-as {
+  fill: #f87171;
+}
+.continent-oc {
+  fill: #60a5fa;
+}
 
 .globe-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 80%);
-    pointer-events: none;
-    box-shadow: inset -20px -20px 50px rgba(0,0,0,0.3);
-    z-index: 5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(0, 0, 0, 0.1) 80%
+  );
+  pointer-events: none;
+  box-shadow: inset -20px -20px 50px rgba(0, 0, 0, 0.3);
+  z-index: 5;
 }
 
 .confirmation-modal {
-    position: absolute;
-    bottom: 2rem;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    text-align: center;
-    color: #333;
-    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 20;
-    border: 4px solid #3b4cca;
-    max-width: 400px;
-    width: 90%;
+  position: absolute;
+  bottom: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #333;
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 20;
+  border: 4px solid #3b4cca;
+  max-width: 400px;
+  width: 90%;
 }
 
 @keyframes slideUp {
-    from { transform: translateY(100px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .confirmation-modal h2 {
-    color: #3b4cca;
-    margin-bottom: 0.5rem;
+  color: #3b4cca;
+  margin-bottom: 0.5rem;
 }
 
 .btn-group {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .btn-travel {
-    background: #ffcb05;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
-    font-weight: bold;
-    color: #3b4cca;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 0 #c7a008;
+  background: #ffcb05;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  color: #3b4cca;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 0 #c7a008;
 }
 
 .btn-travel:active {
-    transform: translateY(4px);
-    box-shadow: none;
+  transform: translateY(4px);
+  box-shadow: none;
 }
 
 .btn-cancel {
-    background: #e5e7eb;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 50px;
-    font-weight: bold;
-    color: #666;
-    cursor: pointer;
-    transition: transform 0.2s;
+  background: #e5e7eb;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
 .sound-controls {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(255,255,255,0.2);
-    padding: 0.5rem;
-    border-radius: 50%;
-    cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 /* Pokemon Decorations */
 .cloud {
-    position: absolute;
-    background: rgba(255,255,255,0.6);
-    border-radius: 50px;
-    pointer-events: none;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50px;
+  pointer-events: none;
 }
-.cloud-1 { width: 100px; height: 40px; top: 20%; left: 10%; animation: float 20s infinite linear; }
-.cloud-2 { width: 140px; height: 50px; top: 15%; right: 15%; animation: float 25s infinite linear reverse; }
-.cloud-3 { width: 80px; height: 30px; bottom: 30%; left: 20%; animation: float 18s infinite linear; }
+.cloud-1 {
+  width: 100px;
+  height: 40px;
+  top: 20%;
+  left: 10%;
+  animation: float 20s infinite linear;
+}
+.cloud-2 {
+  width: 140px;
+  height: 50px;
+  top: 15%;
+  right: 15%;
+  animation: float 25s infinite linear reverse;
+}
+.cloud-3 {
+  width: 80px;
+  height: 30px;
+  bottom: 30%;
+  left: 20%;
+  animation: float 18s infinite linear;
+}
 
 @keyframes float {
-    0% { transform: translateX(-20px); }
-    50% { transform: translateX(20px); }
-    100% { transform: translateX(-20px); }
+  0% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(-20px);
+  }
 }

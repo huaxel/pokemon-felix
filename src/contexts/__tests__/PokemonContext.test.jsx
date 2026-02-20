@@ -11,12 +11,12 @@ vi.mock('../../hooks/usePokemonQueries', () => ({
     fetchNextPage: vi.fn(),
     hasNextPage: false,
     isFetchingNextPage: false,
-    isLoading: false
+    isLoading: false,
   }),
   useAllPokemonNamesQuery: () => ({
     data: ['bulbasaur', 'ivysaur'],
-    isLoading: false
-  })
+    isLoading: false,
+  }),
 }));
 
 vi.mock('../../hooks/usePokemonSearch', () => ({
@@ -25,45 +25,51 @@ vi.mock('../../hooks/usePokemonSearch', () => ({
     searchTerm: '',
     handleSearch: vi.fn(),
     clearSearch: vi.fn(),
-    loading: false
-  })
+    loading: false,
+  }),
 }));
 
 vi.mock('../../lib/services/collectionService', () => ({
   getCollection: vi.fn(async () => []),
   addToCollection: vi.fn(async () => ({})),
-  removeFromCollection: vi.fn(async () => ({}))
+  removeFromCollection: vi.fn(async () => ({})),
 }));
 
 vi.mock('../../hooks/useQuests', () => ({
   useQuests: () => ({
     quests: [],
     updateQuestProgress: vi.fn(),
-    completeQuest: vi.fn()
-  })
+    completeQuest: vi.fn(),
+  }),
 }));
 
 vi.mock('../../hooks/useDailyRewards', () => ({
   useDailyRewards: () => ({
     canClaim: false,
-    claimReward: vi.fn()
-  })
+    claimReward: vi.fn(),
+  }),
 }));
 
 const localStorageMock = (() => {
   let store = {};
   return {
-    getItem: (key) => store[key] || null,
-    setItem: (key, value) => { store[key] = value.toString(); },
-    removeItem: (key) => { delete store[key]; },
-    clear: () => { store = {}; }
+    getItem: key => store[key] || null,
+    setItem: (key, value) => {
+      store[key] = value.toString();
+    },
+    removeItem: key => {
+      delete store[key];
+    },
+    clear: () => {
+      store = {};
+    },
   };
 })();
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
 const TestConsumer = () => {
   const context = usePokemonContext();
-  
+
   return (
     <React.Fragment>
       <div>
@@ -89,9 +95,7 @@ const createWrapper = () => {
   function PokemonProviderWrapper({ children }) {
     return (
       <QueryClientProvider client={queryClient}>
-        <PokemonProvider>
-          {children}
-        </PokemonProvider>
+        <PokemonProvider>{children}</PokemonProvider>
       </QueryClientProvider>
     );
   }

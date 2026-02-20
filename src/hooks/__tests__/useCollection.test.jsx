@@ -6,7 +6,7 @@ import { useCollection } from '../useCollection';
 vi.mock('../../lib/services/collectionService', () => ({
   getCollection: vi.fn(async () => []),
   addToCollection: vi.fn(async () => ({})),
-  removeFromCollection: vi.fn(async () => ({}))
+  removeFromCollection: vi.fn(async () => ({})),
 }));
 
 function TestComponent() {

@@ -17,17 +17,17 @@ This document outlines the roles, responsibilities, and operational workflow of 
 
 ## 1. The Team
 
-| Role | Alias | Focus | File |
-|------|-------|-------|------|
-| **Pokemon Expert** | Oracle | Pokemon mechanics, content, balance | [→](./pokemon_expert.md) |
-| **Educational Specialist** | Teacher | Age-appropriate learning design | [→](./educational_specialist.md) |
-| **Game Designer** | Vision | Fun, engagement, roadmap | [→](./game_designer.md) |
-| **Systems Architect** | Blueprint | React architecture, state management | [→](./systems_architect.md) |
-| **Frontend Specialist** | Face | Child-friendly UI, components | [→](./frontend_specialist.md) |
-| **Playtester** | Gamer | Fun factor, balance (age 7) | [→](./playtester.md) |
-| **QA Engineer** | Guardian | Tests, bug hunting | [→](./qa_engineer.md) |
-| **Trimmer** | Minimalist | Scope trimming (YAGNI/KISS) | [→](./trimmer.md) |
-| **AI Context Maintainer** | Lighthouse | AI context sync, session continuity | [→](./ai_context_maintainer.md) |
+| Role                       | Alias      | Focus                                | File                             |
+| -------------------------- | ---------- | ------------------------------------ | -------------------------------- |
+| **Pokemon Expert**         | Oracle     | Pokemon mechanics, content, balance  | [→](./pokemon_expert.md)         |
+| **Educational Specialist** | Teacher    | Age-appropriate learning design      | [→](./educational_specialist.md) |
+| **Game Designer**          | Vision     | Fun, engagement, roadmap             | [→](./game_designer.md)          |
+| **Systems Architect**      | Blueprint  | React architecture, state management | [→](./systems_architect.md)      |
+| **Frontend Specialist**    | Face       | Child-friendly UI, components        | [→](./frontend_specialist.md)    |
+| **Playtester**             | Gamer      | Fun factor, balance (age 7)          | [→](./playtester.md)             |
+| **QA Engineer**            | Guardian   | Tests, bug hunting                   | [→](./qa_engineer.md)            |
+| **Trimmer**                | Minimalist | Scope trimming (YAGNI/KISS)          | [→](./trimmer.md)                |
+| **AI Context Maintainer**  | Lighthouse | AI context sync, session continuity  | [→](./ai_context_maintainer.md)  |
 
 ---
 
@@ -35,18 +35,18 @@ This document outlines the roles, responsibilities, and operational workflow of 
 
 Explicit conditions for transitioning between roles:
 
-| From | To | Trigger |
-|------|----|------------|
-| AI Context Maintainer | Game Designer | New session started, context loaded |
-| Game Designer | Pokemon Expert | Feature approved, needs Pokemon content |
-| Game Designer | Educational Specialist | Feature approved, needs learning design |
-| Pokemon Expert | Systems Architect | Pokemon mechanics defined |
-| Educational Specialist | Systems Architect | Learning objectives defined |
-| Systems Architect | Frontend Specialist | Architecture designed |
-| Frontend Specialist | QA Engineer | UI implementation complete |
-| QA Engineer | Playtester | Tests passing |
-| Playtester | Game Designer | Playtest feedback written |
-| Game Designer | AI Context Maintainer | Sign-off complete, update context |
+| From                   | To                     | Trigger                                 |
+| ---------------------- | ---------------------- | --------------------------------------- |
+| AI Context Maintainer  | Game Designer          | New session started, context loaded     |
+| Game Designer          | Pokemon Expert         | Feature approved, needs Pokemon content |
+| Game Designer          | Educational Specialist | Feature approved, needs learning design |
+| Pokemon Expert         | Systems Architect      | Pokemon mechanics defined               |
+| Educational Specialist | Systems Architect      | Learning objectives defined             |
+| Systems Architect      | Frontend Specialist    | Architecture designed                   |
+| Frontend Specialist    | QA Engineer            | UI implementation complete              |
+| QA Engineer            | Playtester             | Tests passing                           |
+| Playtester             | Game Designer          | Playtest feedback written               |
+| Game Designer          | AI Context Maintainer  | Sign-off complete, update context       |
 
 ---
 
@@ -54,17 +54,17 @@ Explicit conditions for transitioning between roles:
 
 When stuck, escalate to the right role:
 
-| If stuck on... | Escalate to... |
-|----------------|----------------|
-| Pokemon accuracy/balance | Pokemon Expert |
-| Educational appropriateness | Educational Specialist |
-| Is this fun for a 7-year-old? | Playtester |
-| React architecture | Systems Architect |
-| UI/UX issues | Frontend Specialist |
-| Test failures | QA Engineer |
-| Scope / Priority | Game Designer |
-| Feature creep | Trimmer |
-| AI context / Session sync | AI Context Maintainer |
+| If stuck on...                | Escalate to...         |
+| ----------------------------- | ---------------------- |
+| Pokemon accuracy/balance      | Pokemon Expert         |
+| Educational appropriateness   | Educational Specialist |
+| Is this fun for a 7-year-old? | Playtester             |
+| React architecture            | Systems Architect      |
+| UI/UX issues                  | Frontend Specialist    |
+| Test failures                 | QA Engineer            |
+| Scope / Priority              | Game Designer          |
+| Feature creep                 | Trimmer                |
+| AI context / Session sync     | AI Context Maintainer  |
 
 ---
 
@@ -91,13 +91,13 @@ Before writing code, align on the objective.
 #### Board Meeting Checklist
 
 ```markdown
-- [ ] Reviewed `roadmap.md` - Current phase: ___
-- [ ] Defined Goal: ___________________________
-- [ ] User Value (for Felix): _________________
-- [ ] Educational Value: _____________________
-- [ ] Fun Factor Estimate: ___ (1-10)
-- [ ] Complexity Estimate: ___ (1-5)
-- [ ] Roles Required: ________________________
+- [ ] Reviewed `roadmap.md` - Current phase: \_\_\_
+- [ ] Defined Goal: ************\_\_\_************
+- [ ] User Value (for Felix): ********\_********
+- [ ] Educational Value: **********\_**********
+- [ ] Fun Factor Estimate: \_\_\_ (1-10)
+- [ ] Complexity Estimate: \_\_\_ (1-5)
+- [ ] Roles Required: **********\_\_\_\_**********
 ```
 
 ### Phase 2: Planning
@@ -205,6 +205,7 @@ Structured output for agent communications:
 ### Educational Focus
 
 Every feature should teach something valuable:
+
 - **Math:** Calculations, counting, patterns
 - **Reading:** Quest text, Pokemon descriptions
 - **Logic:** Puzzles, strategy, problem-solving

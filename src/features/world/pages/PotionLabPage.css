@@ -1,163 +1,171 @@
 .potion-lab-page {
-    min-height: 100vh;
-    background: var(--bg-dark);
-    background-image:
-        radial-gradient(circle at top right, rgba(139, 92, 246, 0.1) 0%, transparent 60%),
-        radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.05) 0%, transparent 60%);
-    padding: 2rem;
-    color: white;
+  min-height: 100vh;
+  background: var(--bg-dark);
+  background-image:
+    radial-gradient(circle at top right, rgba(139, 92, 246, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.05) 0%, transparent 60%);
+  padding: 2rem;
+  color: white;
 }
 
 .lab-message {
-    padding: 1.25rem;
-    border-radius: var(--radius-md);
-    margin-bottom: 2rem;
-    text-align: center;
-    font-weight: 700;
-    box-shadow: var(--shadow-md);
-    animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .lab-message.success {
-    background: var(--health-good);
+  background: var(--health-good);
 }
 
 .lab-message.error {
-    background: var(--health-critical);
+  background: var(--health-critical);
 }
 
 .lab-message.warning {
-    background: var(--health-warning);
+  background: var(--health-warning);
 }
 
 .lab-intro {
-    background: var(--bg-surface);
-    padding: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-bottom: 2.5rem;
-    border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  border-radius: var(--radius-sm);
 
-    /* Kenney Fantasy Border */
-    border: 8px solid transparent;
-    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 8 round;
-    image-rendering: pixelated;
-    box-shadow: var(--shadow-md);
+  /* Kenney Fantasy Border */
+  border: 8px solid transparent;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+    8 round;
+  image-rendering: pixelated;
+  box-shadow: var(--shadow-md);
 }
 
 .lab-dialog p {
-    font-size: 1.25rem;
-    color: white;
-    margin: 0;
+  font-size: 1.25rem;
+  color: white;
+  margin: 0;
 }
 
 .stat-item {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .stat-item span {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--primary-color);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--primary-color);
 }
 
 .difficulty-btn {
-    background: var(--bg-surface-alt);
-    border: 1px solid var(--border-dim);
-    border-radius: var(--radius-md);
-    color: white;
-    padding: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow-sm);
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  color: white;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
 }
 
 .difficulty-btn:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary-color);
-    box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.2);
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(59, 130, 246, 0.2);
 }
 
 .difficulty-btn.active {
-    background: var(--primary-color);
-    border-color: white;
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+  background: var(--primary-color);
+  border-color: white;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
 }
 
 .brewing-station {
-    background: var(--bg-surface);
-    padding: 3rem;
-    margin-bottom: 3rem;
-    box-shadow: var(--shadow-lg);
-    border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  padding: 3rem;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-sm);
 
-    /* Kenney Fantasy Border */
-    border: 12px solid transparent;
-    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 12 round;
-    image-rendering: pixelated;
+  /* Kenney Fantasy Border */
+  border: 12px solid transparent;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png')
+    12 round;
+  image-rendering: pixelated;
 }
 
 .target-value {
-    font-family: var(--header-font);
-    font-size: 5rem;
-    color: var(--primary-color);
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    letter-spacing: 2px;
+  font-family: var(--header-font);
+  font-size: 5rem;
+  color: var(--primary-color);
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
 }
 
 .flask-icon {
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
 }
 
 .ingredients-list {
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .ingredient-card {
-    background: var(--bg-surface-alt);
-    border: 1px solid var(--border-dim);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .ingredient-card:hover:not(:disabled) {
-    transform: translateY(-8px) scale(1.05);
-    border-color: white;
-    box-shadow: var(--shadow-lg), 0 0 20px rgba(255, 255, 255, 0.2);
+  transform: translateY(-8px) scale(1.05);
+  border-color: white;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .brew-button {
-    background: var(--health-good);
-    font-family: var(--header-font);
-    font-size: 1.75rem;
-    border-radius: var(--radius-md);
-    box-shadow: 0 8px 0 #15803d, var(--shadow-lg);
+  background: var(--health-good);
+  font-family: var(--header-font);
+  font-size: 1.75rem;
+  border-radius: var(--radius-md);
+  box-shadow:
+    0 8px 0 #15803d,
+    var(--shadow-lg);
 }
 
 .brew-button:hover:not(:disabled) {
-    transform: translateY(-3px) scale(1.02);
-    background: #15803d;
+  transform: translateY(-3px) scale(1.02);
+  background: #15803d;
 }
 
 .brew-button:active {
-    transform: translateY(6px);
-    box-shadow: 0 2px 0 #15803d;
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 #15803d;
 }
 
 .new-challenge-button {
-    background: var(--bg-surface-alt);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-dim);
+  background: var(--bg-surface-alt);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-dim);
 }

@@ -1,81 +1,82 @@
 .pokemon-center-page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: white;
 }
 
 .center-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding-bottom: 4rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-bottom: 4rem;
 }
 
 .healing-machine-container {
-    position: relative;
-    margin-bottom: 2rem;
-    /* Scale handled by image size */
+  position: relative;
+  margin-bottom: 2rem;
+  /* Scale handled by image size */
 }
 
 .healing-machine {
-    width: 256px; /* Pixel art scale */
-    transition: filter 0.3s;
+  width: 256px; /* Pixel art scale */
+  transition: filter 0.3s;
 }
 
 .healing-machine.active {
-    filter: brightness(1.2);
+  filter: brightness(1.2);
 }
 
 .dialog-box {
-    background: #e2e8f0;
-    padding: 2rem;
-    width: 90%;
-    max-width: 700px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  background: #e2e8f0;
+  padding: 2rem;
+  width: 90%;
+  max-width: 700px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
-    /* Kenney Fantasy Border */
-    border: 12px solid transparent;
-    border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 12 round;
-    image-rendering: pixelated;
-    
-    /* Ensure text is readable on light background if using panel-border-015 usually implies a light panel? */
-    /* Actually panel-border-015 is just the border. The background is #e2e8f0 set above. */
-    /* So text should be dark. */
+  /* Kenney Fantasy Border */
+  border: 12px solid transparent;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png')
+    12 round;
+  image-rendering: pixelated;
+
+  /* Ensure text is readable on light background if using panel-border-015 usually implies a light panel? */
+  /* Actually panel-border-015 is just the border. The background is #e2e8f0 set above. */
+  /* So text should be dark. */
 }
 
 .dialog-box p {
-    color: #1e293b;
-    margin-bottom: 2rem;
-    font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  font-weight: 700;
 }
 
 .nurse-counter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .heal-btn {
-    /* Styles handled by btn-kenney class, but we might want overrides */
-    /* Remove old styles */
-    box-shadow: none; /* Reset custom shadow if conflicting */
+  /* Styles handled by btn-kenney class, but we might want overrides */
+  /* Remove old styles */
+  box-shadow: none; /* Reset custom shadow if conflicting */
 }
 
 /* Pokeball lights animation - keeping simplified version */
 .pokeball-light {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background-color: #333;
-    border-radius: 50%;
-    border: 2px solid #000;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #333;
+  border-radius: 50%;
+  border: 2px solid #000;
 }
 
 /* Positioning lights on the machine - this depends on the image */
@@ -83,30 +84,76 @@
 /* We need to position them absolutely relative to container */
 
 .healing-machine-container .pokeballs-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 /* Example positioning - might need adjustment based on actual image */
-.pokeball-light:nth-child(1) { top: 40%; left: 30%; }
-.pokeball-light:nth-child(2) { top: 35%; left: 37%; }
-.pokeball-light:nth-child(3) { top: 32%; left: 44%; }
-.pokeball-light:nth-child(4) { top: 32%; left: 51%; }
-.pokeball-light:nth-child(5) { top: 35%; left: 58%; }
-.pokeball-light:nth-child(6) { top: 40%; left: 65%; }
+.pokeball-light:nth-child(1) {
+  top: 40%;
+  left: 30%;
+}
+.pokeball-light:nth-child(2) {
+  top: 35%;
+  left: 37%;
+}
+.pokeball-light:nth-child(3) {
+  top: 32%;
+  left: 44%;
+}
+.pokeball-light:nth-child(4) {
+  top: 32%;
+  left: 51%;
+}
+.pokeball-light:nth-child(5) {
+  top: 35%;
+  left: 58%;
+}
+.pokeball-light:nth-child(6) {
+  top: 40%;
+  left: 65%;
+}
 
-.animate-1 { animation: lightUp 0.5s ease-in-out 0s infinite alternate; background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
-.animate-2 { animation: lightUp 0.5s ease-in-out 0.2s infinite alternate; background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
-.animate-3 { animation: lightUp 0.5s ease-in-out 0.4s infinite alternate; background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
-.animate-4 { animation: lightUp 0.5s ease-in-out 0.6s infinite alternate; background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
-.animate-5 { animation: lightUp 0.5s ease-in-out 0.8s infinite alternate; background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
-.animate-6 { animation: lightUp 0.5s ease-in-out 1.0s infinite alternate; background-color: #ef4444; box-shadow: 0 0 10px #ef4444; }
+.animate-1 {
+  animation: lightUp 0.5s ease-in-out 0s infinite alternate;
+  background-color: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+.animate-2 {
+  animation: lightUp 0.5s ease-in-out 0.2s infinite alternate;
+  background-color: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+.animate-3 {
+  animation: lightUp 0.5s ease-in-out 0.4s infinite alternate;
+  background-color: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+.animate-4 {
+  animation: lightUp 0.5s ease-in-out 0.6s infinite alternate;
+  background-color: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+.animate-5 {
+  animation: lightUp 0.5s ease-in-out 0.8s infinite alternate;
+  background-color: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+.animate-6 {
+  animation: lightUp 0.5s ease-in-out 1s infinite alternate;
+  background-color: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
 
 @keyframes lightUp {
-    from { opacity: 0.5; }
-    to { opacity: 1; }
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
 }

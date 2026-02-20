@@ -1,148 +1,156 @@
 .reward-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--overlay-bg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    backdrop-filter: blur(15px);
-    animation: fadeIn 0.3s ease-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(15px);
+  animation: fadeIn 0.3s ease-out;
 }
 
 .reward-modal-content {
-    background: var(--bg-surface);
-    padding: 3rem;
-    border-radius: var(--radius-lg);
-    max-width: 550px;
-    width: 90%;
-    text-align: center;
-    box-shadow: var(--shadow-lg), 0 0 100px rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--glass-border);
-    animation: reward-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
+  background: var(--bg-surface);
+  padding: 3rem;
+  border-radius: var(--radius-lg);
+  max-width: 550px;
+  width: 90%;
+  text-align: center;
+  box-shadow:
+    var(--shadow-lg),
+    0 0 100px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
+  animation: reward-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
 }
 
 /* Decoration glow */
 .reward-modal-content::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 @keyframes reward-pop {
-    0% {
-        transform: scale(0.85);
-        opacity: 0;
-    }
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
 
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .reward-modal-content h2 {
-    font-family: var(--header-font);
-    margin-top: 0;
-    color: var(--primary-color);
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    position: relative;
-    z-index: 1;
+  font-family: var(--header-font);
+  margin-top: 0;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .reward-pokemon-preview {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: var(--radius-md);
-    padding: 2rem;
-    margin-bottom: 2.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    position: relative;
-    z-index: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
 }
 
 .reward-pokemon-preview img {
-    width: 160px;
-    height: 160px;
-    object-fit: contain;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
 }
 
 .reward-pokemon-preview p {
-    text-transform: capitalize;
-    font-family: var(--header-font);
-    font-size: 1.5rem;
-    color: white;
-    margin-top: 1rem;
+  text-transform: capitalize;
+  font-family: var(--header-font);
+  font-size: 1.5rem;
+  color: white;
+  margin-top: 1rem;
 }
 
 .reward-options {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    position: relative;
-    z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 1;
 }
 
 .reward-btn {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.25rem 2rem;
-    border: 1px solid var(--border-dim);
-    background: var(--bg-surface-alt);
-    border-radius: var(--radius-md);
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 2rem;
+  border: 1px solid var(--border-dim);
+  background: var(--bg-surface-alt);
+  border-radius: var(--radius-md);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
 }
 
 .reward-btn:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary-color);
-    box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.2);
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(59, 130, 246, 0.2);
 }
 
 .reward-btn .icon {
-    font-size: 3rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  font-size: 3rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .reward-btn .btn-text {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .reward-btn .btn-text strong {
-    font-size: 1.2rem;
-    color: white;
+  font-size: 1.2rem;
+  color: white;
 }
 
 .reward-btn .btn-text span {
-    font-size: 0.95rem;
-    color: var(--text-muted);
+  font-size: 0.95rem;
+  color: var(--text-muted);
 }
 
 .reward-btn.pokemon:hover {
-    border-color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
-    box-shadow: var(--shadow-md), 0 0 20px rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(239, 68, 68, 0.2);
 }
 
 .reward-btn.money:hover {
-    border-color: #f59e0b;
-    background: rgba(245, 158, 11, 0.1);
-    box-shadow: var(--shadow-md), 0 0 20px rgba(245, 158, 11, 0.2);
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+  box-shadow:
+    var(--shadow-md),
+    0 0 20px rgba(245, 158, 11, 0.2);
 }

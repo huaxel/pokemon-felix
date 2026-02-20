@@ -1,129 +1,135 @@
 .member-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(2px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    animation: fadeIn 0.2s ease-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .member-modal-content {
-    /* Styles handled by game-panel-dark class in JSX */
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-    color: white;
+  /* Styles handled by game-panel-dark class in JSX */
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  color: white;
 }
 
 .close-btn {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    z-index: 10;
-    /* Handled by btn-kenney danger */
-    padding: 0.5rem !important;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 10;
+  /* Handled by btn-kenney danger */
+  padding: 0.5rem !important;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .member-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-family: "Press Start 2P", cursive;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .member-header h2 {
-    font-size: 1.2rem;
-    margin: 0;
-    text-transform: capitalize;
-    text-shadow: 2px 2px 0 #000;
+  font-size: 1.2rem;
+  margin: 0;
+  text-transform: capitalize;
+  text-shadow: 2px 2px 0 #000;
 }
 
 .id-badge {
-    background: #000;
-    color: #fbbf24;
-    padding: 0.2rem 0.5rem;
-    font-size: 0.6rem;
-    margin-top: 0.5rem;
-    display: inline-block;
-    border: 2px solid #fbbf24;
+  background: #000;
+  color: #fbbf24;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.6rem;
+  margin-top: 0.5rem;
+  display: inline-block;
+  border: 2px solid #fbbf24;
 }
 
 .member-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .member-image {
-    background: #4a3b32; /* Dark frame background */
-    border: 4px solid #2d1810;
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    image-rendering: pixelated;
+  background: #4a3b32; /* Dark frame background */
+  border: 4px solid #2d1810;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  image-rendering: pixelated;
 }
 
 .member-image img {
-    width: 128px;
-    height: 128px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5));
-    image-rendering: pixelated;
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5));
+  image-rendering: pixelated;
 }
 
 .bounce-in {
-    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes bounceIn {
-    0% { transform: scale(0); }
-    80% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .member-stats-panel {
-    width: 100%;
-    /* Handled by game-panel inside */
+  width: 100%;
+  /* Handled by game-panel inside */
 }
 
 .stat-row {
-    margin-bottom: 1rem;
-    font-family: "Press Start 2P", cursive;
-    font-size: 0.7rem;
+  margin-bottom: 1rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
 }
 
 .stat-row label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #cbd5e1;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #cbd5e1;
 }
 
 .action-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
 }
 
 .cost {
-    font-size: 0.6rem;
-    opacity: 0.8;
-    margin-top: 2px;
+  font-size: 0.6rem;
+  opacity: 0.8;
+  margin-top: 2px;
 }
 
 .berry-section {
-    width: 100%;
-    font-family: "Press Start 2P", cursive;
+  width: 100%;
+  font-family: 'Press Start 2P', cursive;
 }

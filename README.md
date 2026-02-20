@@ -20,76 +20,24 @@ A modern Pokemon web application built with React + Vite, featuring a comprehens
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd pokemon-felix
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. (Optional) Create a `.env` file based on `.env.example`:
-```bash
+
+````bash
 # Pokemon Felix
 
 Pokemon Felix is a modern React + Vite web app that provides a Pokedex, collection system, battle arena, and tournament mode. This repository contains the frontend and a small mock backend (json-server) used for local development.
-
-Quick links
-
-- Project docs: `docs/README.md`
-- Quick start: `docs/quick-start.md`
-- Development guide: `docs/development.md`
-- Contributing guide: `CONTRIBUTING.md`
-
-Getting started (short)
-
-1. Install dependencies:
-
-```bash
-npm install
-```
-
-2. Start local development (frontend + mock backend):
-
-```bash
-npm run dev
-```
-
-This will start the Vite frontend (default: http://localhost:5173) and `json-server` backend (http://localhost:3001) used for collection persistence.
-
-Other useful scripts (see `package.json`):
-
-- `npm run build` — build production assets
-- `npm run preview` — preview a production build locally
-- `npm run test` — run unit tests (`vitest`)
-- `npm run lint` — run ESLint
-- `npm run format` — run Prettier
-
-Where to go next
-
-- For a quick development setup and common commands open `docs/quick-start.md`.
-- For contribution guidelines and PR process open `CONTRIBUTING.md`.
-
-Project structure (high-level)
-
-```
-pokemon-felix/
-├── src/           # React source (components, features, hooks, contexts)
-├── docs/          # Project documentation and guides
-├── db.json        # Mock json-server database
-├── package.json   # scripts, deps, dev-deps
-└── README.md      # this file
-```
-
-If you'd like, I can expand the docs with architecture diagrams, code examples, or API references — tell me which area to prioritize.
-- **`useCollection`**: Handles owned Pokemon collection
-- **`usePokemonSearch`**: Fuzzy search with Fuse.js
-
-### Context API
-
-The app uses `PokemonContext` to provide global state, avoiding prop drilling and centralizing data management.
 
 ### API Integration
 
@@ -123,7 +71,86 @@ The app uses `PokemonContext` to provide global state, avoiding prop drilling an
 - Automatic bracket progression
 - Champion celebration screen
 
+### RPG Systems (Phases 2-7 Completed)
+- Tile-based 10x10 world map navigation with quests
+- Pokemon care, banking, and shopping features
+- Educational modules (Python terminal, Math Potion Lab, Pokemon Academy Quiz)
+- Dungeon & Exploring modes (cave puzzles, surfing, hiking)
+
 ### Accessibility
+- Keyboard navigation (Tab, Enter, Space)
+- ARIA labels and roles
+- Focus indicators
+- Screen reader support
+
+## Environment Variables
+
+Create a `.env` file to customize API endpoints:
+
+```env
+VITE_POKEMON_API_URL=https://pokeapi.co/api/v2
+VITE_DB_URL=http://localhost:3001/collection
+````
+
+## Quick Start & Developer Guides
+
+- **Quick Start Guide**: [`docs/quick-start.md`](docs/quick-start.md) for local setup instructions.
+- **Development Workflow**: [`docs/development.md`](docs/development.md) for code structure, UI conventions, testing, etc.
+- **Architecture & System Logs**: [`docs/README.md`](docs/README.md) for deeper technical overviews.
+- **Contributing Guidelines**: [`CONTRIBUTING.md`](CONTRIBUTING.md) to learn how to make Pull Requests.
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+
+If you'd like, I can expand the docs with architecture diagrams, code examples, or API references — tell me which area to prioritize.
+
+- **`useCollection`**: Handles owned Pokemon collection
+- **`usePokemonSearch`**: Fuzzy search with Fuse.js
+
+### Context API
+
+The app uses `PokemonContext` to provide global state, avoiding prop drilling and centralizing data management.
+
+### API Integration
+
+- **PokeAPI**: https://pokeapi.co - Pokemon data source
+- **json-server**: Local backend for collection persistence
+
+## Technologies
+
+- **React 18** - UI framework
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **Fuse.js** - Fuzzy search
+- **json-server** - Mock REST API
+- **Lucide React** - Icon library
+
+## Features in Detail
+
+### Pokemon Search
+
+- Autocomplete with 10 suggestions
+- Fuzzy matching for misspellings
+- Debounced input for performance
+
+### Battle System
+
+- Stat-based damage calculation
+- Turn-by-turn combat with animations
+- Max turn limit (100) prevents infinite battles
+- Health bar visualization with color coding
+
+### Tournament Mode
+
+- 8-player single-elimination bracket
+- Automatic bracket progression
+- Champion celebration screen
+
+### Accessibility
+
 - Keyboard navigation (Tab, Enter, Space)
 - ARIA labels and roles
 - Focus indicators

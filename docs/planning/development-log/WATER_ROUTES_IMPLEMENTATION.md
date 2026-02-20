@@ -16,18 +16,21 @@ Water Routes introduces a surfing mechanic that allows players to explore a 10x1
 ## Features
 
 ### 1. Learn Surf System
+
 - **Tutorial Screen**: Introduces surfing with educational tips
 - **Ability Persistence**: Uses localStorage to remember if player has learned surf
 - **Beautiful Water Animation**: Animated wave effects on tutorial screen
 
 ### 2. Surfing Navigation
+
 - **10x10 Water Grid**: Fully explorable water area
 - **D-Pad Controls**: Intuitive directional movement
 - **Position Tracking**: Real-time display of coordinates (X, Y)
 - **Explored Tiles**: Visual feedback for visited areas
 
 ### 3. Pokemon Encounters
-- **15 Water Species**: 
+
+- **15 Water Species**:
   - Common: Magikarp, Goldeen, Psyduck, Poliwag, Tentacool
   - Uncommon: Horsea, Krabby, Staryu, Shellder, Slowpoke
   - Rare: Seadra, Seaking, Gyarados, Lapras, Vaporeon
@@ -36,11 +39,13 @@ Water Routes introduces a surfing mechanic that allows players to explore a 10x1
 - **Variable Catch Rates**: 60% for normal, 20% for shiny Pokemon
 
 ### 4. Treasure System
+
 - **15% Treasure Chance**: Per movement
 - **Random Rewards**: 50-250 coins
 - **Educational Probability**: Teaches chance and randomness
 
 ### 5. Visual Polish
+
 - **Ocean Gradient Background**: Beautiful blue gradient (#0ea5e9 → #0c4a6e)
 - **Water Tile Effects**: Semi-transparent with borders
 - **Player Highlight**: Golden glow on player tile
@@ -52,6 +57,7 @@ Water Routes introduces a surfing mechanic that allows players to explore a 10x1
 ## Educational Value
 
 ### Concepts Taught
+
 1. **Persistence**: Exploration takes time and effort
 2. **Probability**: Understanding encounter and treasure rates
 3. **Coordinates**: Learning X, Y positioning
@@ -63,6 +69,7 @@ Water Routes introduces a surfing mechanic that allows players to explore a 10x1
 ## Technical Implementation
 
 ### Files Created
+
 1. **WaterRoutePage.jsx** (350 lines)
    - React component with useState hooks
    - Game state management (position, encounters, treasures)
@@ -77,8 +84,9 @@ Water Routes introduces a surfing mechanic that allows players to explore a 10x1
    - Responsive breakpoints
 
 ### Integration Points
+
 1. **App.jsx**: Added `/water-route` route
-2. **WorldPage.jsx**: 
+2. **WorldPage.jsx**:
    - Added `WATER_ROUTE: 23` tile type
    - Added handler in `handleTileEvent()`
    - Added tile rendering in `getTileContent()`
@@ -89,23 +97,23 @@ Water Routes introduces a surfing mechanic that allows players to explore a 10x1
 
 ## Water Pokemon Pool
 
-| Pokemon | Type | Rarity |
-|---------|------|--------|
-| Magikarp | Common | ⭐ |
-| Goldeen | Common | ⭐ |
-| Psyduck | Common | ⭐ |
-| Poliwag | Common | ⭐ |
-| Tentacool | Common | ⭐ |
-| Horsea | Uncommon | ⭐⭐ |
-| Krabby | Uncommon | ⭐⭐ |
-| Staryu | Uncommon | ⭐⭐ |
-| Shellder | Uncommon | ⭐⭐ |
-| Slowpoke | Uncommon | ⭐⭐ |
-| Seadra | Rare | ⭐⭐⭐ |
-| Seaking | Rare | ⭐⭐⭐ |
-| Gyarados | Rare | ⭐⭐⭐ |
-| Lapras | Rare | ⭐⭐⭐ |
-| Vaporeon | Rare | ⭐⭐⭐ |
+| Pokemon   | Type     | Rarity |
+| --------- | -------- | ------ |
+| Magikarp  | Common   | ⭐     |
+| Goldeen   | Common   | ⭐     |
+| Psyduck   | Common   | ⭐     |
+| Poliwag   | Common   | ⭐     |
+| Tentacool | Common   | ⭐     |
+| Horsea    | Uncommon | ⭐⭐   |
+| Krabby    | Uncommon | ⭐⭐   |
+| Staryu    | Uncommon | ⭐⭐   |
+| Shellder  | Uncommon | ⭐⭐   |
+| Slowpoke  | Uncommon | ⭐⭐   |
+| Seadra    | Rare     | ⭐⭐⭐ |
+| Seaking   | Rare     | ⭐⭐⭐ |
+| Gyarados  | Rare     | ⭐⭐⭐ |
+| Lapras    | Rare     | ⭐⭐⭐ |
+| Vaporeon  | Rare     | ⭐⭐⭐ |
 
 ---
 
@@ -140,6 +148,7 @@ Water Routes introduces a surfing mechanic that allows players to explore a 10x1
 ## Future Enhancements
 
 Possible additions for Phase 7+:
+
 - [ ] Multiple water routes (Route 1, 2, 3, etc.)
 - [ ] Fishing mechanic (different Pokemon from surfing)
 - [ ] Water currents (tiles that push player in direction)

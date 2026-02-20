@@ -1,12 +1,15 @@
 # CardBattle Refactoring - Battle System Fix
 
 ## Overview
+
 Refactored `CardBattle.jsx` to use the `battleReducer` for centralized state management, eliminating race conditions and state desync issues.
 
 ## Critical Issues Fixed
 
 ### 1. **State Management Complexity** ✅
+
 **Before:** 17+ separate `useState` calls creating fragile interdependencies
+
 ```javascript
 const [f1HP, setF1HP] = useState(...);
 const [f1MaxHP, setF1MaxHP] = useState(...);
@@ -17,20 +20,22 @@ const [battleLog, setBattleLog] = useState([]);
 ```
 
 **After:** Single `useReducer` with `battleReducer`
+
 ```javascript
-const [battleState, dispatch] = useReducer(
-    battleReducer,
-    { fighter1, fighter2 },
-    (init) => createInitialBattleState(init.fighter1, init.fighter2, outfitId)
+const [battleState, dispatch] = useReducer(battleReducer, { fighter1, fighter2 }, init =>
+  createInitialBattleState(init.fighter1, init.fighter2, outfitId)
 );
 ```
 
 ### 2. **HP Synchronization Issues** ✅
+
 **Before:** `maxHP` could desync from actual Pokemon stats
+
 - No validation preventing HP > maxHP
 - No validation preventing HP < 0
 
 **After:** All HP updates validated by `battleReducer`
+
 ```javascript
 // In battleReducer
 case BATTLE_ACTIONS.UPDATE_FIGHTER_HP:
@@ -47,18 +52,21 @@ case BATTLE_ACTIONS.UPDATE_FIGHTER_HP:
 ```
 
 ### 3. **Energy Regeneration Bugs** ✅
+
 **Before:** No consistent energy capping rules
+
 - Energy could exceed 5
 - Energy logic scattered across multiple setters
 - Inconsistent +2 regeneration per turn
 
 **After:** Centralized energy management
+
 ```javascript
 case BATTLE_ACTIONS.ADD_ENERGY:
-    const newEnergy = action.fighter === 'player' 
+    const newEnergy = action.fighter === 'player'
         ? state.fighters.player.energy + action.amount
         : state.fighters.opponent.energy + action.amount;
-    
+
     return {
         ...state,
         fighters: {
@@ -72,12 +80,15 @@ case BATTLE_ACTIONS.ADD_ENERGY:
 ```
 
 ### 4. **Race Conditions in Turn Execution** ✅
+
 **Before:** Multiple async `setTurn()` calls could execute out of order
+
 - `executeTurn()` had nested setTimeout + setState pattern
 - AI opponent logic had stale closures (capture `f1HP`, `f2HP` at render time)
 - Damage could apply before animation finished
 
 **After:** Single dispatch queue guarantees ordered execution
+
 ```javascript
 // Player turn
 dispatch({ type: BATTLE_ACTIONS.UPDATE_FIGHTER_HP, ... });
@@ -87,12 +98,15 @@ dispatch({ type: BATTLE_ACTIONS.SET_TURN, turn: 'opponent' });
 ```
 
 ### 5. **AI Opponent Timing** ✅
+
 **Before:** AI logic used stale `f1HP`, `f2HP` from closure
+
 - Energy checks used old values
 - Damage calculations used wrong state
 - Could attempt moves with insufficient energy
 
 **After:** AI logic uses current `battleState` values
+
 ```javascript
 useEffect(() => {
     if (turn === 'opponent' && !winner && f2Moves.length > 0) {
@@ -104,12 +118,15 @@ useEffect(() => {
 ```
 
 ### 6. **Card System Fragility** ✅
-**Before:** 
+
+**Before:**
+
 - `selectedIndices` could reference missing cards
 - Card IDs used `Math.random()` causing duplicate references
 - No validation for hand size consistency
 
 **After:**
+
 - Card IDs include unique identifier (`${m.id}_${Math.random()}`)
 - Hand management via direct card objects
 - Validation enforced by reducer
@@ -117,6 +134,7 @@ useEffect(() => {
 ## Architecture Changes
 
 ### State Structure (Before)
+
 ```
 UI Component State:
 ├── battleLog []
@@ -137,6 +155,7 @@ UI Component State:
 ```
 
 ### State Structure (After)
+
 ```
 Reducer State (battleState):
 ├── fighters
@@ -179,6 +198,7 @@ dispatch({ type: BATTLE_ACTIONS.TOGGLE_ITEMS_PANEL })
 ## Testing Results
 
 ### Unit Tests
+
 - ✅ All 24 battleReducer tests passing
   - `createInitialBattleState()` - 4 tests
   - `UPDATE_FIGHTER_HP` - 3 tests with boundary validation
@@ -190,6 +210,7 @@ dispatch({ type: BATTLE_ACTIONS.TOGGLE_ITEMS_PANEL })
   - `RESET_BATTLE` - 1 test
 
 ### Build Verification
+
 - ✅ `npm run build` succeeds
 - 373.60 kB main bundle (gzip: 121.51 kB)
 - 1.30s build time
@@ -198,12 +219,14 @@ dispatch({ type: BATTLE_ACTIONS.TOGGLE_ITEMS_PANEL })
 ## Performance Impact
 
 ### Positive
+
 - **Reduced re-renders**: Single dispatch vs 17 setState calls
 - **Easier debugging**: Redux DevTools compatible
 - **Predictable flow**: Actions execute in order, no race conditions
 - **Memory efficient**: Centralized state reduces closure captures
 
 ### Metrics (Production Build)
+
 - Bundle size: 373.60 kB (same as before)
 - Gzip size: 121.51 kB (same as before)
 - Build time: 1.30s (same as before)
@@ -211,12 +234,14 @@ dispatch({ type: BATTLE_ACTIONS.TOGGLE_ITEMS_PANEL })
 ## Remaining Improvements (Future)
 
 ### Phase 2 (Medium Priority)
+
 - [ ] Add effect-based action system for automatic energy regeneration
 - [ ] Implement card draw algorithm with proper deck shuffling
 - [ ] Add type effectiveness display in card selection
 - [ ] Add battle statistics tracking
 
 ### Phase 3 (Major Refactor)
+
 - [ ] Custom `useBattle()` hook wrapping useReducer
 - [ ] Battle animations as action side-effects
 - [ ] Sound effects integration
@@ -249,6 +274,7 @@ npm test -- --run
 ## Key Insight
 
 The battleReducer was already created and thoroughly tested (24 tests passing). The fix was simply integrating it into CardBattle properly. This demonstrates the value of:
+
 1. Writing reducer logic separately from components
 2. Writing comprehensive tests first
 3. Centralizing complex state management

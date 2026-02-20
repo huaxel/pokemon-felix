@@ -16,5 +16,5 @@ export const typeTranslations = {
   dragon: 'Draak',
   steel: 'Staal',
   dark: 'Duister',
-  fairy: 'Fee'
+  fairy: 'Fee',
 };

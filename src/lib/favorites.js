@@ -19,7 +19,7 @@ export const loadFavorites = () => {
 /**
  * Save favorites to localStorage
  */
-export const saveFavorites = (favorites) => {
+export const saveFavorites = favorites => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
   } catch (error) {
@@ -30,16 +30,16 @@ export const saveFavorites = (favorites) => {
 /**
  * Export favorites to a JSON file (downloads to user's computer)
  */
-export const exportFavoritesToJson = (favorites) => {
+export const exportFavoritesToJson = favorites => {
   const data = {
     exportDate: new Date().toISOString(),
     version: '1.0',
-    favorites: favorites
+    favorites: favorites,
   };
-  
+
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  
+
   const link = document.createElement('a');
   link.href = url;
   link.download = `pokemon-favorites-${new Date().toISOString().split('T')[0]}.json`;
@@ -58,26 +58,26 @@ export const importFavoritesFromJson = () => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.json';
-    
-    input.onchange = (event) => {
+
+    input.onchange = event => {
       const file = event.target.files[0];
       if (!file) {
         reject(new Error('No file selected'));
         return;
       }
-      
+
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = e => {
         try {
           const data = JSON.parse(e.target.result);
           // Support both old format (just array) and new format (object with favorites)
           const favorites = Array.isArray(data) ? data : data.favorites;
-          
+
           if (!Array.isArray(favorites)) {
             reject(new Error('Invalid favorites format'));
             return;
           }
-          
+
           // Validate that all items are numbers (pokemon IDs)
           const validFavorites = favorites.filter(id => typeof id === 'number');
           resolve(validFavorites);
@@ -88,7 +88,7 @@ export const importFavoritesFromJson = () => {
       reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsText(file);
     };
-    
+
     input.click();
   });
 };

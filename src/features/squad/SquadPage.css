@@ -1,74 +1,74 @@
 .squad-page {
-    min-height: 100vh;
-    position: relative;
-    color: white;
+  min-height: 100vh;
+  position: relative;
+  color: white;
 }
 
 .squad-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(3px);
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(3px);
+  z-index: 1;
 }
 
 .squad-content {
-    position: relative;
-    z-index: 2;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 /* Grids */
 .squad-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
 }
 
 .bench-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
 }
 
 .squad-slot {
-    aspect-ratio: 2/3;
-    background: rgba(0, 0, 0, 0.2);
-    border: 4px solid #4a3b32;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    image-rendering: pixelated;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  aspect-ratio: 2/3;
+  background: rgba(0, 0, 0, 0.2);
+  border: 4px solid #4a3b32;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .squad-slot.filled {
-    border: none;
-    background: transparent;
-    box-shadow: none;
+  border: none;
+  background: transparent;
+  box-shadow: none;
 }
 
 .squad-member {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .squad-member .pokemon-card {
-    height: 100%;
+  height: 100%;
 }
 
 .squad-hp-container {
-    position: absolute;
-    bottom: 35px;
-    left: 10px;
-    right: 10px;
-    /* Styles handled by stat-bar-pixel */
+  position: absolute;
+  bottom: 35px;
+  left: 10px;
+  right: 10px;
+  /* Styles handled by stat-bar-pixel */
 }

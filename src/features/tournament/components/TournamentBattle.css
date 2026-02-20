@@ -1,506 +1,509 @@
 .tournament-battle {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 900px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .fighters-stage {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 4rem;
-    margin-bottom: 2rem;
-    min-height: 400px;
-    padding-top: 2rem;
-    perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4rem;
+  margin-bottom: 2rem;
+  min-height: 400px;
+  padding-top: 2rem;
+  perspective: 1000px;
 }
 
 .fighter-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    width: 280px;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 280px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .fighter-slot {
-    transform-style: preserve-3d;
-    transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
 }
 
 .fighter-container.winner .fighter-slot {
-    transform: scale(1.1) translateY(-20px);
-    filter: drop-shadow(0 0 30px rgba(234, 179, 8, 0.6));
+  transform: scale(1.1) translateY(-20px);
+  filter: drop-shadow(0 0 30px rgba(234, 179, 8, 0.6));
 }
 
 .health-bar-container {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0.8rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 2px solid white;
-    position: relative;
-    z-index: 10;
-    backdrop-filter: blur(5px);
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.8rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid white;
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(5px);
 }
 
 .health-bar-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    color: #1e293b;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: #1e293b;
 }
 
 .health-bar-bg {
-    width: 100%;
-    height: 12px;
-    background: #e2e8f0;
-    border-radius: 6px;
-    overflow: hidden;
+  width: 100%;
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .health-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
-    border-radius: 6px;
-    box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
-    position: relative;
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+  transition:
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s ease;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+  position: relative;
 }
 
 .health-bar-fill::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 6px 6px 0 0;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 6px 6px 0 0;
 }
 
 /* Energy Bar */
 .energy-bar {
-    display: flex;
-    gap: 0.3rem;
-    margin-top: 0.8rem;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 0.4rem;
-    border-radius: 1rem;
+  display: flex;
+  gap: 0.3rem;
+  margin-top: 0.8rem;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.4rem;
+  border-radius: 1rem;
 }
 
 .energy-pip {
-    font-size: 1.2rem;
-    opacity: 0.3;
-    filter: grayscale(1);
-    transition: all 0.3s;
+  font-size: 1.2rem;
+  opacity: 0.3;
+  filter: grayscale(1);
+  transition: all 0.3s;
 }
 
 .energy-pip.filled {
-    opacity: 1;
-    filter: grayscale(0);
-    text-shadow: 0 0 10px #fbbf24;
-    transform: scale(1.1);
+  opacity: 1;
+  filter: grayscale(0);
+  text-shadow: 0 0 10px #fbbf24;
+  transform: scale(1.1);
 }
 
 .vs-badge {
-    font-size: 5rem;
-    font-weight: 900;
-    background: linear-gradient(45deg, #ef4444, #f97316);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    align-self: center;
-    margin-bottom: 4rem;
-    filter: drop-shadow(0 4px 10px rgba(249, 115, 22, 0.3));
+  font-size: 5rem;
+  font-weight: 900;
+  background: linear-gradient(45deg, #ef4444, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  align-self: center;
+  margin-bottom: 4rem;
+  filter: drop-shadow(0 4px 10px rgba(249, 115, 22, 0.3));
 }
 
 /* Battle Controls */
 .battle-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 /* Move Grid */
 .moves-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 700px;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 2.5rem;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 700px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2.5rem;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
 .moves-grid.active-turn {
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.1), 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 215, 0, 0.3);
+  box-shadow:
+    0 0 40px rgba(255, 215, 0, 0.1),
+    0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.3);
 }
 
 .move-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.2rem;
-    border: none;
-    border-radius: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    color: white;
-    position: relative;
-    overflow: hidden;
-    height: 130px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-size: 200% 200%;
-    animation: gradient-shift 5s ease infinite;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  border: none;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  height: 130px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes gradient-shift {
-    0% {
-        background-position: 0% 50%;
-    }
+  0% {
+    background-position: 0% 50%;
+  }
 
-    50% {
-        background-position: 100% 50%;
-    }
+  50% {
+    background-position: 100% 50%;
+  }
 
-    100% {
-        background-position: 0% 50%;
-    }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .moves-grid.active-turn .move-btn {
-    animation: pulse-glow 3s infinite;
+  animation: pulse-glow 3s infinite;
 }
 
 @keyframes pulse-glow {
-    0% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
-    }
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+  }
 
-    70% {
-        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-    }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
 
-    100% {
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
 }
 
 .move-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    filter: grayscale(0.8);
-    transform: scale(0.98);
-    box-shadow: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+  transform: scale(0.98);
+  box-shadow: none;
 }
 
 .move-btn:not(:disabled):hover {
-    transform: translateY(-6px) scale(1.03);
-    filter: brightness(1.1);
-    z-index: 10;
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-6px) scale(1.03);
+  filter: brightness(1.1);
+  z-index: 10;
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .move-btn:not(:disabled):active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 .move-name {
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 1.4rem;
-    text-transform: capitalize;
-    margin-bottom: 0.5rem;
-    line-height: 1.1;
-    text-align: center;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .move-stats {
-    display: flex;
-    gap: 0.8rem;
-    margin-bottom: 0.6rem;
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 0.6rem;
 }
 
 .move-stat {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 0.3rem 0.8rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
 }
 
 .move-stat.cost {
-    color: #fbbf24;
+  color: #fbbf24;
 }
 
 .move-type-badge {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    opacity: 0.9;
-    letter-spacing: 1.5px;
-    font-weight: 800;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 3px 10px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  opacity: 0.9;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Reload Button */
 .reload-btn {
-    grid-column: span 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1.2rem;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    border: none;
-    border-radius: 1.5rem;
-    cursor: pointer;
-    color: white;
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 1.6rem;
-    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-    transition: all 0.2s;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.2rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  color: white;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 1.6rem;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  transition: all 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .reload-btn:hover {
-    transform: translateY(-3px);
-    filter: brightness(1.1);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
 }
 
 .reload-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 5px rgba(16, 185, 129, 0.3);
+  transform: translateY(2px);
+  box-shadow: 0 2px 5px rgba(16, 185, 129, 0.3);
 }
 
 .reload-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    filter: grayscale(1);
-    transform: none;
-    box-shadow: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+  transform: none;
+  box-shadow: none;
 }
 
 .your-turn-banner {
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 3.5rem;
-    background: linear-gradient(to bottom, #fbbf24, #d97706);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.1));
-    margin-bottom: 2rem;
-    animation: float 2s ease-in-out infinite;
-    text-align: center;
-    width: 100%;
-    letter-spacing: 2px;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 3.5rem;
+  background: linear-gradient(to bottom, #fbbf24, #d97706);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.1));
+  margin-bottom: 2rem;
+  animation: float 2s ease-in-out infinite;
+  text-align: center;
+  width: 100%;
+  letter-spacing: 2px;
 }
 
 @keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
 
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .turn-indicator {
-    margin-top: 1.5rem;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    color: #94a3b8;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    opacity: 0.8;
+  margin-top: 1.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.8;
 }
 
 /* Battle Log */
 .battle-log {
-    margin-top: 2rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 1rem;
-    max-width: 600px;
-    width: 100%;
-    align-self: center;
-    backdrop-filter: blur(5px);
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  max-width: 600px;
+  width: 100%;
+  align-self: center;
+  backdrop-filter: blur(5px);
 }
 
 .battle-log h3 {
-    font-family: 'Outfit', sans-serif;
-    color: #cbd5e1;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-family: 'Outfit', sans-serif;
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .battle-log ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .battle-log li {
-    font-family: 'Outfit', sans-serif;
-    color: #e2e8f0;
-    padding: 0.3rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: 'Outfit', sans-serif;
+  color: #e2e8f0;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .battle-log li:last-child {
-    color: #fbbf24;
-    font-weight: bold;
-    border-bottom: none;
-    font-size: 1.1rem;
+  color: #fbbf24;
+  font-weight: bold;
+  border-bottom: none;
+  font-size: 1.1rem;
 }
 
 /* Effectiveness Popups */
 .effectiveness-popup {
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 1.2rem;
-    color: white;
-    white-space: nowrap;
-    z-index: 20;
-    animation: popup-float 1.5s ease-out forwards;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 1.2rem;
+  color: white;
+  white-space: nowrap;
+  z-index: 20;
+  animation: popup-float 1.5s ease-out forwards;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .effectiveness-popup.super-effective {
-    background: linear-gradient(135deg, #ef4444, #b91c1c);
-    border: 2px solid #fca5a5;
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  border: 2px solid #fca5a5;
 }
 
 .effectiveness-popup.not-very-effective {
-    background: linear-gradient(135deg, #64748b, #475569);
-    border: 2px solid #94a3b8;
+  background: linear-gradient(135deg, #64748b, #475569);
+  border: 2px solid #94a3b8;
 }
 
 @keyframes popup-float {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, 10px) scale(0.8);
-    }
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.8);
+  }
 
-    20% {
-        opacity: 1;
-        transform: translate(-50%, -10px) scale(1.1);
-    }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -10px) scale(1.1);
+  }
 
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -30px) scale(1);
-    }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -30px) scale(1);
+  }
 }
 
 /* Move Types Colors with Modern Gradients */
 .move-btn.type-normal {
-    background: linear-gradient(135deg, #a8a878 0%, #6d6d4e 100%);
+  background: linear-gradient(135deg, #a8a878 0%, #6d6d4e 100%);
 }
 
 .move-btn.type-fire {
-    background: linear-gradient(135deg, #f08030 0%, #c03028 100%);
+  background: linear-gradient(135deg, #f08030 0%, #c03028 100%);
 }
 
 .move-btn.type-water {
-    background: linear-gradient(135deg, #6890f0 0%, #445e9c 100%);
+  background: linear-gradient(135deg, #6890f0 0%, #445e9c 100%);
 }
 
 .move-btn.type-electric {
-    background: linear-gradient(135deg, #f8d030 0%, #b8a038 100%);
-    color: #1a1a1a;
+  background: linear-gradient(135deg, #f8d030 0%, #b8a038 100%);
+  color: #1a1a1a;
 }
 
 .move-btn.type-grass {
-    background: linear-gradient(135deg, #78c850 0%, #4e8234 100%);
+  background: linear-gradient(135deg, #78c850 0%, #4e8234 100%);
 }
 
 .move-btn.type-ice {
-    background: linear-gradient(135deg, #98d8d8 0%, #698e8e 100%);
-    color: #1a1a1a;
+  background: linear-gradient(135deg, #98d8d8 0%, #698e8e 100%);
+  color: #1a1a1a;
 }
 
 .move-btn.type-fighting {
-    background: linear-gradient(135deg, #c03028 0%, #7d1f1a 100%);
+  background: linear-gradient(135deg, #c03028 0%, #7d1f1a 100%);
 }
 
 .move-btn.type-poison {
-    background: linear-gradient(135deg, #a040a0 0%, #682a68 100%);
+  background: linear-gradient(135deg, #a040a0 0%, #682a68 100%);
 }
 
 .move-btn.type-ground {
-    background: linear-gradient(135deg, #e0c068 0%, #927d44 100%);
+  background: linear-gradient(135deg, #e0c068 0%, #927d44 100%);
 }
 
 .move-btn.type-flying {
-    background: linear-gradient(135deg, #a890f0 0%, #6d5e9c 100%);
+  background: linear-gradient(135deg, #a890f0 0%, #6d5e9c 100%);
 }
 
 .move-btn.type-psychic {
-    background: linear-gradient(135deg, #f85888 0%, #a13959 100%);
+  background: linear-gradient(135deg, #f85888 0%, #a13959 100%);
 }
 
 .move-btn.type-bug {
-    background: linear-gradient(135deg, #a8b820 0%, #6d7815 100%);
+  background: linear-gradient(135deg, #a8b820 0%, #6d7815 100%);
 }
 
 .move-btn.type-rock {
-    background: linear-gradient(135deg, #b8a038 0%, #786824 100%);
+  background: linear-gradient(135deg, #b8a038 0%, #786824 100%);
 }
 
 .move-btn.type-ghost {
-    background: linear-gradient(135deg, #705898 0%, #493963 100%);
+  background: linear-gradient(135deg, #705898 0%, #493963 100%);
 }
 
 .move-btn.type-dragon {
-    background: linear-gradient(135deg, #7038f8 0%, #4924a1 100%);
+  background: linear-gradient(135deg, #7038f8 0%, #4924a1 100%);
 }
 
 .move-btn.type-steel {
-    background: linear-gradient(135deg, #b8b8d0 0%, #787887 100%);
-    color: #1a1a1a;
+  background: linear-gradient(135deg, #b8b8d0 0%, #787887 100%);
+  color: #1a1a1a;
 }
 
 .move-btn.type-fairy {
-    background: linear-gradient(135deg, #ee99ac 0%, #9b6470 100%);
+  background: linear-gradient(135deg, #ee99ac 0%, #9b6470 100%);
 }

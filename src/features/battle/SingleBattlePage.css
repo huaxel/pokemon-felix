@@ -1,19 +1,19 @@
 .single-battle-page {
-    min-height: 100vh;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+  min-height: 100vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .battle-header-simple {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 100;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
 }
 
 /* Result styles handled by inline styles and Kenney classes */
 .result-card {
-    /* Additional layout if needed */
+  /* Additional layout if needed */
 }

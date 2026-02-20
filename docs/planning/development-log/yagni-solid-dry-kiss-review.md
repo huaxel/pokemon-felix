@@ -1,16 +1,19 @@
 # YAGNI, SOLID, DRY, KISS Code Review
+
 **Date:** January 1, 2026  
 **Reviewer:** Code Quality Analysis
 
 ## Executive Summary
 
 This review examines the Pokemon Felix codebase against four fundamental software engineering principles:
+
 - **YAGNI** (You Aren't Gonna Need It)
 - **SOLID** (Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion)
 - **DRY** (Don't Repeat Yourself)
 - **KISS** (Keep It Simple, Stupid)
 
 ### Overall Assessment
+
 **Score: 6/10**
 
 The codebase shows good intentions with separation of concerns and custom hooks, but suffers from **significant violations** in context management, data duplication, and over-engineering.
@@ -36,33 +39,39 @@ The codebase shows good intentions with separation of concerns and custom hooks,
 ```
 
 **Issues:**
+
 - **Single Responsibility Principle (SRP):** This component manages UI state, collection, battle, care, town, inventory, quests, coins, search, AND Pokemon data
 - **Don't Repeat Yourself (DRY):** The same data is provided through BOTH PokemonContext AND specialized contexts
 - **KISS:** Overly complex nested providers make the component tree hard to understand
 - **YAGNI:** Multiple context layers created "just in case" but add no real benefit
 
-**Impact:** 
+**Impact:**
+
 - Any component can access everything via `usePokemonContext()`, making the specialized contexts redundant
 - Context changes cause unnecessary re-renders across the entire app
 - Difficult to test or refactor individual features
 
 **Recommendation:**
+
 ```jsx
 // Option 1: Single flat context with proper memoization
 export function PokemonProvider({ children }) {
-    const pokemonData = usePokemonData();
-    const collection = useCollection();
-    const battle = useSquad();
-    const ui = useUI();
-    
-    const value = useMemo(() => ({
-        pokemon: pokemonData,
-        collection,
-        battle,
-        ui
-    }), [pokemonData, collection, battle, ui]);
-    
-    return <PokemonContext.Provider value={value}>{children}</PokemonContext.Provider>;
+  const pokemonData = usePokemonData();
+  const collection = useCollection();
+  const battle = useSquad();
+  const ui = useUI();
+
+  const value = useMemo(
+    () => ({
+      pokemon: pokemonData,
+      collection,
+      battle,
+      ui,
+    }),
+    [pokemonData, collection, battle, ui]
+  );
+
+  return <PokemonContext.Provider value={value}>{children}</PokemonContext.Provider>;
 }
 
 // Option 2: Separate providers at appropriate boundaries
@@ -100,24 +109,26 @@ localStorage.getItem('felix_owned_outfits');
 ```
 
 **Issues:**
+
 - **DRY:** Storage keys are hardcoded in multiple places
-- **KISS:** No consistent naming convention (felix_ vs pokemon_ vs no prefix)
+- **KISS:** No consistent naming convention (felix* vs pokemon* vs no prefix)
 - Typo risk and impossible to refactor
 
 **Recommendation:**
+
 ```javascript
 // lib/constants.js - Centralize ALL storage keys
 export const STORAGE_KEYS = {
-    COLLECTION: 'felix-pokemon-collection',
-    CARE: 'felix-pokemon-care',
-    TOWN: 'felix-town-layout',
-    SQUAD: 'felix-squad',
-    COINS: 'felix-coins',
-    INVENTORY: 'felix-inventory',
-    QUESTS: 'felix-quests',
-    CURRENT_OUTFIT: 'felix-current-outfit',
-    OWNED_OUTFITS: 'felix-owned-outfits',
-    COMPLETED_QUIZZES: 'felix-completed-quizzes',
+  COLLECTION: 'felix-pokemon-collection',
+  CARE: 'felix-pokemon-care',
+  TOWN: 'felix-town-layout',
+  SQUAD: 'felix-squad',
+  COINS: 'felix-coins',
+  INVENTORY: 'felix-inventory',
+  QUESTS: 'felix-quests',
+  CURRENT_OUTFIT: 'felix-current-outfit',
+  OWNED_OUTFITS: 'felix-owned-outfits',
+  COMPLETED_QUIZZES: 'felix-completed-quizzes',
 };
 
 // Use consistently everywhere
@@ -131,6 +142,7 @@ const saved = localStorage.getItem(STORAGE_KEYS.SQUAD);
 **File:** [src/lib/services/collectionService.js](src/lib/services/collectionService.js)
 
 **Problem:**
+
 ```javascript
 async function retry(fn, times = RETRIES) {
   let lastError;
@@ -150,12 +162,14 @@ export async function getCollection() {
 ```
 
 **Issues:**
+
 - **YAGNI:** Retry logic added without clear requirement
 - **KISS:** Adds complexity for operations that use localStorage (which doesn't fail intermittently)
 - No delay between retries (makes it ineffective for actual network issues)
 - Similar retry pattern NOT used in other API calls (inconsistent)
 
 **Recommendation:**
+
 ```javascript
 // If not needed: REMOVE IT
 export async function getCollection() {
@@ -182,6 +196,7 @@ async function retryWithBackoff(fn, maxRetries = 3) {
 **File:** [src/features/battle/CardBattle.jsx](src/features/battle/CardBattle.jsx)
 
 **Problem:**
+
 ```jsx
 // 27 separate useState calls in a single component!
 const [battleLog, setBattleLog] = useState([]);
@@ -208,36 +223,38 @@ const [outfitId, setOutfitId] = useState('default');
 ```
 
 **Issues:**
+
 - **KISS:** Component is impossibly complex
 - **SRP:** Manages battle logic, UI animations, inventory, care system, and outfit effects
 - Related state not grouped together
 - Difficult to test or debug
 
 **Recommendation:**
+
 ```javascript
 // Use useReducer for related state
 const [battleState, dispatch] = useReducer(battleReducer, {
-    fighters: {
-        player: { hp: calculateMaxHP(fighter1), maxHP: calculateMaxHP(fighter1), energy: 3 },
-        opponent: { hp: calculateMaxHP(fighter2), maxHP: calculateMaxHP(fighter2), energy: 3 }
-    },
-    turn: 'player',
-    winner: null,
-    battleLog: []
+  fighters: {
+    player: { hp: calculateMaxHP(fighter1), maxHP: calculateMaxHP(fighter1), energy: 3 },
+    opponent: { hp: calculateMaxHP(fighter2), maxHP: calculateMaxHP(fighter2), energy: 3 },
+  },
+  turn: 'player',
+  winner: null,
+  battleLog: [],
 });
 
 const [ui, setUI] = useState({
-    attackingFighter: null,
-    damagedFighter: null,
-    effectivenessMsg: null,
-    comboMsg: null,
-    showItems: false
+  attackingFighter: null,
+  damagedFighter: null,
+  effectivenessMsg: null,
+  comboMsg: null,
+  showItems: false,
 });
 
 const [cards, setCards] = useState({
-    hand: [],
-    deck: [],
-    selectedIndices: []
+  hand: [],
+  deck: [],
+  selectedIndices: [],
 });
 ```
 
@@ -250,42 +267,44 @@ const [cards, setCards] = useState({
 **Files:** [src/hooks/usePokemonContext.js](src/hooks/usePokemonContext.js), useCareContext.js, useTownContext.js
 
 **Problem:** Nearly identical code in multiple files:
+
 ```javascript
 // usePokemonContext.js
 export function usePokemonContext() {
-    const context = useContext(PokemonContext);
-    if (!context) {
-        throw new Error('usePokemonContext must be used within PokemonProvider');
-    }
-    return context;
+  const context = useContext(PokemonContext);
+  if (!context) {
+    throw new Error('usePokemonContext must be used within PokemonProvider');
+  }
+  return context;
 }
 
 // useCareContext.js - EXACT same pattern
 export function useCareContext() {
-    const ctx = useContext(CareContext);
-    if (!ctx) throw new Error('useCareContext must be used within PokemonProvider');
-    return ctx;
+  const ctx = useContext(CareContext);
+  if (!ctx) throw new Error('useCareContext must be used within PokemonProvider');
+  return ctx;
 }
 
 // useTownContext.js - EXACT same pattern
 export function useTownContext() {
-    const ctx = useContext(TownContext);
-    if (!ctx) throw new Error('useTownContext must be used within PokemonProvider');
-    return ctx;
+  const ctx = useContext(TownContext);
+  if (!ctx) throw new Error('useTownContext must be used within PokemonProvider');
+  return ctx;
 }
 ```
 
 **Recommendation:**
+
 ```javascript
 // lib/createContextHook.js
 export function createContextHook(Context, name) {
-    return function useContextHook() {
-        const context = useContext(Context);
-        if (!context) {
-            throw new Error(`${name} must be used within its Provider`);
-        }
-        return context;
-    };
+  return function useContextHook() {
+    const context = useContext(Context);
+    if (!context) {
+      throw new Error(`${name} must be used within its Provider`);
+    }
+    return context;
+  };
 }
 
 // contexts/PokemonContext.js
@@ -300,24 +319,27 @@ export const useCareContext = createContextHook(CareContext, 'useCareContext');
 **File:** [src/lib/battle-logic.js](src/lib/battle-logic.js)
 
 **Problem:**
+
 ```javascript
 // Full Pokemon type chart with 18 types × ~10 interactions = 180+ relationships
 const TYPE_CHART = {
-    normal: { rock: 0.5, ghost: 0, steel: 0.5 },
-    fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, dragon: 0.5, steel: 2 },
-    water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2, dragon: 0.5 },
-    // ... 15 more types
+  normal: { rock: 0.5, ghost: 0, steel: 0.5 },
+  fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, dragon: 0.5, steel: 2 },
+  water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2, dragon: 0.5 },
+  // ... 15 more types
 };
 ```
 
 Plus `getTypeColor()` function with 18+ cases for colors.
 
 **Questions:**
+
 - Are all 18 types actually used in the game?
 - Does the simplified TCG-style battle system (1-5 damage) benefit from this complexity?
 - Could a simpler system (3-5 key types with basic interactions) suffice?
 
 **Recommendation:**
+
 - Keep ONLY types that are actively used
 - Consider simplified effectiveness: `{ strong: 2, weak: 0.5, immune: 0, normal: 1 }`
 - Move TYPE_CHART to a separate data file if keeping all types
@@ -329,6 +351,7 @@ Plus `getTypeColor()` function with 18+ cases for colors.
 **Files:** Multiple components
 
 **Problem:** Expensive computations and callbacks recreated on every render:
+
 ```jsx
 // PokemonProvider.jsx - 60+ property object recreated on EVERY render
 const value = {
@@ -340,18 +363,25 @@ export const PokemonCard = React.memo(function PokemonCard({ ... }) {
 ```
 
 **Recommendation:**
+
 ```javascript
 // Memoize expensive values
-const value = useMemo(() => ({
+const value = useMemo(
+  () => ({
     pokemon: pokemonData,
     collection,
     // ... group related data
-}), [pokemonData, collection]);
+  }),
+  [pokemonData, collection]
+);
 
 // Memoize callbacks
-const handleToggleOwned = useCallback((id) => {
+const handleToggleOwned = useCallback(
+  id => {
     toggleOwnedWithQuest(id);
-}, [toggleOwnedWithQuest]);
+  },
+  [toggleOwnedWithQuest]
+);
 ```
 
 ---
@@ -359,6 +389,7 @@ const handleToggleOwned = useCallback((id) => {
 ### 8. **Inconsistent Error Handling (SOLID)**
 
 **Problem:** Error handling varies wildly:
+
 ```javascript
 // useCollection.js - Catches and logs, reverts state
 try {
@@ -377,29 +408,30 @@ try {
 
 // GachaPage.jsx - Sets error state for UI
 try {
-    // ... 
+    // ...
 } catch (err) {
     setError('No tienes suficientes monedas');
 }
 ```
 
 **Recommendation:** Create consistent error handling utility:
+
 ```javascript
 // lib/errorHandler.js
 export function handleAsyncError(error, context, options = {}) {
-    console.error(`[${context}]`, error);
-    
-    if (options.showToast) {
-        toast.error(options.message || 'Something went wrong');
-    }
-    
-    if (options.revert) {
-        options.revert();
-    }
-    
-    if (options.onError) {
-        options.onError(error);
-    }
+  console.error(`[${context}]`, error);
+
+  if (options.showToast) {
+    toast.error(options.message || 'Something went wrong');
+  }
+
+  if (options.revert) {
+    options.revert();
+  }
+
+  if (options.onError) {
+    options.onError(error);
+  }
 }
 ```
 
@@ -412,6 +444,7 @@ export function handleAsyncError(error, context, options = {}) {
 **Files:** Multiple
 
 **Problem:**
+
 ```javascript
 // CardBattle.jsx
 if (squadIds.length < 4) // Why 4?
@@ -423,13 +456,14 @@ const newPokemon = await getPokemonList(50, offsetRef.current); // Why 50?
 ```
 
 **Recommendation:**
+
 ```javascript
 // constants.js
 export const BATTLE_CONFIG = {
-    MAX_SQUAD_SIZE: 4,
-    INITIAL_ENERGY: 3,
-    MAX_ENERGY: 5,
-    PAGINATION_SIZE: 50
+  MAX_SQUAD_SIZE: 4,
+  INITIAL_ENERGY: 3,
+  MAX_ENERGY: 5,
+  PAGINATION_SIZE: 50,
 };
 ```
 
@@ -446,6 +480,7 @@ export const BATTLE_CONFIG = {
 Comment indicates previous YAGNI violation (importing unused asset). Good that it was removed.
 
 **Recommendation:** Regular dead code removal with tools like:
+
 - ESLint unused-imports plugin
 - Depcheck for unused dependencies
 
@@ -454,22 +489,28 @@ Comment indicates previous YAGNI violation (importing unused asset). Good that i
 ## 📊 Principle-by-Principle Scorecard
 
 ### YAGNI (You Aren't Gonna Need It): 5/10
+
 **Issues:**
+
 - ❌ Multiple redundant context providers
 - ❌ Retry logic without clear need
 - ❌ Full Pokemon type system for simple TCG battles
 - ✅ Generally avoids premature abstraction
 
 ### SOLID Principles: 4/10
+
 **Issues:**
+
 - ❌ **SRP:** PokemonProvider does everything
 - ❌ **SRP:** CardBattle manages too many concerns
 - ❌ **ISP:** Consumers get massive context with 60+ properties when they need 2-3
-- ⚠️  **DIP:** Some dependency on concrete implementations (localStorage)
+- ⚠️ **DIP:** Some dependency on concrete implementations (localStorage)
 - ✅ **OCP:** Hook-based architecture allows extension
 
 ### DRY (Don't Repeat Yourself): 6/10
+
 **Issues:**
+
 - ❌ Storage keys hardcoded in multiple places
 - ❌ Context data duplicated across 6 providers
 - ❌ Identical context hook wrappers
@@ -477,7 +518,9 @@ Comment indicates previous YAGNI violation (importing unused asset). Good that i
 - ✅ Centralized battle logic
 
 ### KISS (Keep It Simple): 5/10
+
 **Issues:**
+
 - ❌ 6 nested context providers for simple data
 - ❌ 27+ useState calls in single component
 - ❌ Overly complex battle state management
@@ -489,6 +532,7 @@ Comment indicates previous YAGNI violation (importing unused asset). Good that i
 ## 🎯 Action Plan (Priority Order)
 
 ### High Priority (Do First)
+
 1. **Flatten Context Architecture**
    - Remove redundant nested providers
    - Create single memoized context OR separate at feature boundaries
@@ -505,6 +549,7 @@ Comment indicates previous YAGNI violation (importing unused asset). Good that i
    - Estimate: 6-8 hours
 
 ### Medium Priority
+
 4. **Remove/Fix Retry Logic**
    - Either remove or implement properly with backoff
    - Estimate: 30 minutes
@@ -520,6 +565,7 @@ Comment indicates previous YAGNI violation (importing unused asset). Good that i
    - Estimate: 2-3 hours
 
 ### Low Priority (Technical Debt)
+
 7. **Review Type System Complexity**
    - Assess if simplified type chart suffices
    - Estimate: 1-2 hours
@@ -537,6 +583,7 @@ Comment indicates previous YAGNI violation (importing unused asset). Good that i
 ## 📝 Architectural Recommendations
 
 ### Current Architecture Issues
+
 ```
 App (Root)
   └─ PokemonProvider (EVERYTHING)
@@ -548,6 +595,7 @@ App (Root)
 ```
 
 ### Recommended Architecture Option 1: Single Context
+
 ```
 App (Root)
   └─ PokemonProvider (Memoized, properly structured)
@@ -556,6 +604,7 @@ App (Root)
 ```
 
 ### Recommended Architecture Option 2: Feature Boundaries
+
 ```
 App (Root)
   ├─ PokemonDataProvider (rarely changes - pokemon list)
@@ -607,6 +656,7 @@ Despite the issues, the codebase has several strengths:
 The Pokemon Felix codebase suffers primarily from **over-engineering** and **premature optimization**. The context provider architecture creates complexity without clear benefits, and several features were implemented "just in case" without proven requirements.
 
 **Key Takeaways:**
+
 - Simplify the context/provider architecture immediately
 - Apply DRY principles to storage keys and hooks
 - Break down complex components into manageable pieces

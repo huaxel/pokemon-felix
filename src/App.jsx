@@ -18,7 +18,7 @@ function App() {
     setOwnedIds,
     toggleOwned,
     isConsoleOpen,
-    toggleConsole
+    toggleConsole,
   } = usePokemonContext();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -32,12 +32,12 @@ function App() {
     '/cave-dungeon',
     '/secret-cave',
     '/water-route',
-    '/porygon-lab'
+    '/porygon-lab',
   ];
 
   // Keyboard shortcut for Python Terminal (Ctrl+`)
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = e => {
       if (e.ctrlKey && e.key === '`') {
         e.preventDefault();
         toggleConsole();
@@ -45,7 +45,7 @@ function App() {
     };
 
     // Prevent default touch behavior to stop scrolling/rubber-banding
-    const preventDefaultTouch = (e) => {
+    const preventDefaultTouch = e => {
       // Allow touch on specific scrollable elements if marked with data-scrollable
       if (e.target.closest('[data-scrollable="true"]')) {
         return;
@@ -55,7 +55,7 @@ function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     document.addEventListener('touchmove', preventDefaultTouch, { passive: false });
-    
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.removeEventListener('touchmove', preventDefaultTouch);
@@ -88,10 +88,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Navbar
-        onExport={handleExportFavorites}
-        onImport={handleImportFavorites}
-      />
+      <Navbar onExport={handleExportFavorites} onImport={handleImportFavorites} />
 
       <AppRoutes
         ownedIds={ownedIds}
@@ -102,9 +99,7 @@ function App() {
         setSelectedPokemon={setSelectedPokemon}
       />
 
-      {isConsoleOpen && (
-        <GameConsole onClose={() => toggleConsole(false)} />
-      )}
+      {isConsoleOpen && <GameConsole onClose={() => toggleConsole(false)} />}
       <ToastContainer />
     </div>
   );
