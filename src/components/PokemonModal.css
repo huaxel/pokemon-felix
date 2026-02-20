@@ -31,7 +31,7 @@
   /* Kenney Fantasy Border - using token */
   border: var(--border-slice-width) solid transparent;
   border-style: solid;
-  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
+  border-image: url('/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
   image-rendering: pixelated;
 
   animation: slideUp 0.3s ease-out;
@@ -95,7 +95,7 @@
   padding: 0.25rem;
   border-radius: 0;
   border: 4px solid transparent;
-  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-029.png') 4 round;
+  border-image: url('/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-029.png') 4 round;
   image-rendering: pixelated;
 }
 

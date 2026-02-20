@@ -4,14 +4,16 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  position: fixed; /* Ensure it stays fixed */
+  position: fixed;
+  /* Ensure it stays fixed */
   top: 0;
   left: 0;
 }
 
 .main-content {
   flex: 1;
-  overflow: hidden; /* Default to hidden, overridden by scrollable-page */
+  overflow: hidden;
+  /* Default to hidden, overridden by scrollable-page */
   position: relative;
   width: 100%;
 }
@@ -89,8 +91,7 @@
   font-weight: bold;
   color: var(--color-ui-text-dark);
   border: 4px solid transparent;
-  border-image: url('./assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-029.png') 4
-    round;
+  border-image: url('/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-029.png') 4 round;
   image-rendering: pixelated;
 }
 
