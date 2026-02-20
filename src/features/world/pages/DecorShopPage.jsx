@@ -1,5 +1,5 @@
 import { ShoppingCart } from 'lucide-react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { grassTile, shopUrbanTile } from '../worldAssets';
@@ -28,7 +28,7 @@ const DECOR_ITEMS = [
 ];
 
 export function DecorShopPage() {
-  const { coins, spendCoins } = usePokemonContext();
+  const { coins, spendCoins } = useEconomy();
   const { showSuccess, showError } = useToast();
 
   const handleBuy = item => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Heart, Utensils, X } from 'lucide-react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy } from '../../../contexts/DomainContexts';
 import bagIcon from '../../../assets/items/bag_icon.png';
 import './MemberDetailModal.css';
 
@@ -122,8 +122,7 @@ function BerrySection({ inventory, onUseBerry }) {
 }
 
 export function MemberDetailModal({ pokemon, onClose }) {
-  const { careStats, updateCareStats, coins, spendCoins, inventory, removeItem } =
-    usePokemonContext();
+  const { coins, spendCoins, inventory, removeItem } = useEconomy();
   const stats = careStats?.[pokemon.id] || DEFAULT_CARE_STATS;
   const xpStats = pokemon.xpStats || DEFAULT_XP_STATS; // Fallback
   const [message, setMessage] = useState(null);

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useDomainCollection, useData } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { getPokemonDetails } from '../../../lib/api';
 import { BattleArena } from '../../battle/components/BattleArena';
@@ -251,7 +251,9 @@ function EncounterModal({
 export function CaveDungeonPage() {
   const { showSuccess, showError, showInfo, showWarning } = useToast();
   const navigate = useNavigate();
-  const { addCoins, toggleOwned, addItem, squadIds, pokemonList } = usePokemonContext();
+  const { addCoins, addItem } = useEconomy();
+  const { toggleOwned, squadIds } = useDomainCollection();
+  const { pokemonList } = useData();
   const [floor, setFloor] = useState(1);
   const [puzzleState, setPuzzleState] = useState({ completed: false, progress: 0 });
   const [encounter, setEncounter] = useState(null);

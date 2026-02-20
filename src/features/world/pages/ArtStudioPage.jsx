@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Camera } from 'lucide-react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useData, useDomainCollection } from '../../../contexts/DomainContexts';
 import { usePlayer } from '../../../hooks/usePlayer';
 import { grassTile } from '../worldAssets';
 import './ArtStudioPage.css';
 
 export function ArtStudioPage() {
   const navigate = useNavigate();
-  const { pokemonList, squadIds } = usePokemonContext();
+  const { pokemonList } = useData();
+  const { squadIds } = useDomainCollection();
   const { playerName } = usePlayer();
 
   // Get squad members

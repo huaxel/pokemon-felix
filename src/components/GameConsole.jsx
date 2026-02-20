@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { usePokemonContext } from '../hooks/usePokemonContext';
+import { useEconomy, useCare, useDomainCollection, useData } from '../contexts/DomainContexts';
 import { Terminal, X } from 'lucide-react';
 import './GameConsole.css';
 
 export function GameConsole({ onClose }) {
-  const { addCoins, healAll, ownedIds, toggleOwned, pokemonList } = usePokemonContext();
+  const { addCoins } = useEconomy();
+  const { healAll } = useCare();
+  const { ownedIds, toggleOwned } = useDomainCollection();
+  const { pokemonList } = useData();
   const [input, setInput] = useState('');
   const [logs, setLogs] = useState([
     '🐍 Python Terminal v3.11.0',

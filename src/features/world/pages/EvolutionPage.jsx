@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useDomainCollection, useData, useEconomy } from '../../../contexts/DomainContexts';
+import { useGlobalActions } from '../../../hooks/useGlobalActions';
 import evoImage from '../../../assets/buildings/evo_lab.png';
 import bagIcon from '../../../assets/items/bag_icon.png';
 import './EvolutionPage.css';
@@ -82,7 +83,10 @@ import { useToast } from '../../../hooks/useToast';
 // ... (imports)
 
 export function EvolutionPage() {
-  const { ownedIds, pokemonList, evolvePokemon, coins } = usePokemonContext();
+  const { ownedIds } = useDomainCollection();
+  const { pokemonList } = useData();
+  const { evolvePokemon } = useGlobalActions();
+  const { coins } = useEconomy();
   const { addToast } = useToast();
   const [isEvolving, setIsEvolving] = useState(false);
   const [evolutionResult, setEvolutionResult] = useState(null);

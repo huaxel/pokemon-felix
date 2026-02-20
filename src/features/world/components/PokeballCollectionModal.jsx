@@ -1,11 +1,12 @@
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useData, useDomainCollection } from '../../../contexts/DomainContexts';
 import { useCareContext } from '../../../hooks/useCareContext';
 import { PokemonCard } from '../../../components/PokemonCard';
 import { X } from 'lucide-react';
 import './PokeballCollectionModal.css';
 
 export function PokeballCollectionModal({ isOpen, onClose }) {
-  const { pokemonList, ownedIds } = usePokemonContext();
+  const { pokemonList } = useData();
+  const { ownedIds } = useDomainCollection();
   const { careStats } = useCareContext();
 
   if (!isOpen) return null;

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { Trophy, RotateCcw, Sparkles } from 'lucide-react';
 import { WorldPageHeader } from '../components/WorldPageHeader';
@@ -9,7 +9,7 @@ import { INGREDIENTS, DIFFICULTIES } from '../potionConfig';
 import './PotionLabPage.css';
 
 export function PotionLabPage() {
-  const { addCoins } = usePokemonContext();
+  const { addCoins } = useEconomy();
   const [difficulty, setDifficulty] = useState('EASY');
   const [targetValue, setTargetValue] = useState(0);
   const [selectedIngredients, setSelectedIngredients] = useState([]);

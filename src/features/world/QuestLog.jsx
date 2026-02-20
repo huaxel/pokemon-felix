@@ -1,10 +1,10 @@
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useProgress } from '../../contexts/DomainContexts';
 import { Trophy, CheckCircle } from 'lucide-react';
 import bagIcon from '../../assets/items/bag_icon.png';
 import './QuestLog.css';
 
 export function QuestLog({ onClose }) {
-  const { quests, completeQuest } = usePokemonContext();
+  const { quests, completeQuest } = useProgress();
 
   // Sort: Active first, then completed
   const sortedQuests = [...quests].sort((a, b) => {

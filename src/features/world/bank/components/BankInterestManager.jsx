@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { usePokemonContext } from '../../../../hooks/usePokemonContext';
+import { useEconomy, useUI } from '../../../../contexts/DomainContexts';
 
 export function BankInterestManager() {
-  const { calculateDailyInterest, showSuccess } = usePokemonContext();
+  const { calculateDailyInterest } = useEconomy();
+  const { showSuccess } = useUI();
 
   useEffect(() => {
     const interest = calculateDailyInterest();

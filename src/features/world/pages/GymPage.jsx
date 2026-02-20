@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useDomainCollection, useEconomy } from '../../../contexts/DomainContexts';
 import { BattleArena } from '../../battle/components/BattleArena';
 import { getPokemonDetails } from '../../../lib/api';
 import { WorldPageHeader } from '../components/WorldPageHeader';
@@ -10,7 +10,8 @@ import { grassTile, bagIcon } from '../worldAssets';
 import './GymPage.css';
 
 export function GymPage() {
-  const { squadIds, addCoins } = usePokemonContext();
+  const { squadIds } = useDomainCollection();
+  const { addCoins } = useEconomy();
   const [selectedGym, setSelectedGym] = useState(null);
   const [battleState, setBattleState] = useState('select');
   const [currentStage, setCurrentStage] = useState(0);

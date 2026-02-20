@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useDomainCollection, useData, useEconomy } from '../../contexts/DomainContexts';
 import { useCareContext } from '../../hooks/useCareContext';
 import { useToast } from '../../hooks/useToast';
 import { PokemonCard } from '../../components/PokemonCard';
@@ -8,7 +8,9 @@ import './CarePage.css';
 import bagIcon from '../../assets/items/bag_icon.png';
 
 export function CarePage() {
-  const { squadIds, pokemonList, coins, spendCoins } = usePokemonContext();
+  const { squadIds } = useDomainCollection();
+  const { pokemonList } = useData();
+  const { coins, spendCoins } = useEconomy();
   const { careStats, healAll, feedPokemon } = useCareContext();
   const [isHealing, setIsHealing] = useState(false);
 

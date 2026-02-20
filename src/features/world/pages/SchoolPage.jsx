@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useProgress } from '../../../contexts/DomainContexts';
 import { STORAGE_KEYS } from '../../../lib/constants';
 import { GraduationCap, BookOpen, Brain } from 'lucide-react';
 import bagIcon from '../../../assets/items/bag_icon.png';
@@ -176,7 +176,8 @@ const QUIZZES = [
 ];
 
 export function SchoolPage() {
-  const { addCoins, coins, updateQuestProgress } = usePokemonContext();
+  const { addCoins, coins } = useEconomy();
+  const { updateQuestProgress } = useProgress();
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);

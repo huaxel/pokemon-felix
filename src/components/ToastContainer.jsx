@@ -1,8 +1,8 @@
-import { usePokemonContext } from '../hooks/usePokemonContext';
+import { useUI } from '../contexts/DomainContexts';
 import './ToastContainer.css';
 
 export function ToastContainer() {
-  const { toasts, removeToast } = usePokemonContext();
+  const { toasts, removeToast } = useUI();
 
   if (toasts.length === 0) return null;
 

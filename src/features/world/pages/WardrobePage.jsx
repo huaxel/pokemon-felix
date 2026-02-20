@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { usePlayer } from '../../../hooks/usePlayer';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { grassTile, shopUrbanTile, bagIcon } from '../worldAssets';
@@ -49,7 +49,7 @@ const OUTFITS = [
 export function WardrobePage() {
   const { showSuccess, showError } = useToast();
   const { playerColor, setPlayerColor } = usePlayer();
-  const { coins, spendCoins } = usePokemonContext();
+  const { coins, spendCoins } = useEconomy();
   const [ownedOutfits, setOwnedOutfits] = useState(['default']); // Simple local state for now
 
   const handleBuy = outfit => {

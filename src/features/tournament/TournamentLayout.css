@@ -6,7 +6,7 @@
   min-height: 90vh;
   background:
     linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95)),
-    url('../../assets/battle_bg.png');
+    url('../../assets/buildings/battle_bg.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -213,6 +213,7 @@
 }
 
 @keyframes bounce {
+
   0%,
   100% {
     transform: translateY(0);

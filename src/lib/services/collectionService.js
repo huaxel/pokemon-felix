@@ -1,34 +1,40 @@
-import * as api from '../api';
-import { handleAsyncError } from '../errorHandler';
+import { COLLECTION_STORAGE_KEY } from '../constants';
+
+const STORAGE_KEY = COLLECTION_STORAGE_KEY;
+
+/**
+ * collectionService
+ * Handles persistence for the player's Pokemon collection.
+ */
 
 export async function getCollection() {
   try {
-    return await api.getCollection();
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
   } catch (error) {
-    handleAsyncError(error, 'getCollection');
-    throw error;
+    console.error('Error fetching collection:', error);
+    return [];
   }
 }
 
 export async function addToCollection(id) {
-  // Basic validation
-  if (typeof id !== 'number') throw new TypeError('id must be a number');
-
   try {
-    return await api.addToCollection(id);
+    const current = await getCollection();
+    if (!current.includes(id)) {
+      const updated = [...current, id];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    }
   } catch (error) {
-    handleAsyncError(error, 'addToCollection', { message: `Failed to add Pokemon ${id}` });
-    throw error;
+    console.error('Error adding to collection:', error);
   }
 }
 
 export async function removeFromCollection(id) {
-  if (typeof id !== 'number') throw new TypeError('id must be a number');
-
   try {
-    return await api.removeFromCollection(id);
+    const current = await getCollection();
+    const updated = current.filter(itemId => itemId !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   } catch (error) {
-    handleAsyncError(error, 'removeFromCollection', { message: `Failed to remove Pokemon ${id}` });
-    throw error;
+    console.error('Error removing from collection:', error);
   }
 }

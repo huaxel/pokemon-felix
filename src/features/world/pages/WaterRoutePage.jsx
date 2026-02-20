@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useDomainCollection } from '../../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { WaterIntroView } from '../components/WaterIntroView';
@@ -25,7 +25,8 @@ const WATER_POKEMON = [
 
 export function WaterRoutePage() {
   const navigate = useNavigate();
-  const { inventory, addCoins, toggleOwned } = usePokemonContext();
+  const { inventory, addCoins } = useEconomy();
+  const { toggleOwned } = useDomainCollection();
   const [canSurf, setCanSurf] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [encounter, setEncounter] = useState(null);

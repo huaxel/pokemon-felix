@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useData } from '../../../contexts/DomainContexts';
 import { TreasureTutorial } from '../components/TreasureTutorial';
 import { TreasureHuntingView } from '../components/TreasureHuntingView';
 import { TreasureSuccessView } from '../components/TreasureSuccessView';
@@ -78,7 +78,8 @@ const TREASURE_HUNTS = [
 
 export function TreasureHuntPage() {
   const navigate = useNavigate();
-  const { addCoins, getPokemonDetails } = usePokemonContext();
+  const { addCoins } = useEconomy();
+  const { getPokemonDetails } = useData();
   const [stage, setStage] = useState('tutorial');
   const [currentHunt, setCurrentHunt] = useState(null);
   const [huntsCompleted, setHuntsCompleted] = useState(0);

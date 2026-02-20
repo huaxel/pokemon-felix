@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useCare } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { grassTile } from '../worldAssets';
 import bagImage from '../../../assets/items/bag_icon.png';
@@ -14,7 +14,8 @@ import razzImage from '../../../assets/items/razz_berry.png';
 import './BagPage.css';
 
 export function BagPage() {
-  const { inventory, removeItem, coins, healAll } = usePokemonContext();
+  const { inventory, removeItem, coins } = useEconomy();
+  const { healAll } = useCare();
 
   const ITEM_DETAILS = {
     pokeball: {

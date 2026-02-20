@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useDomainCollection } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { getPokemonDetails } from '../../../lib/api';
@@ -19,7 +19,8 @@ const GEOGRAPHY_FACTS = [
 ];
 
 export function DesertPage() {
-    const { addCoins, toggleOwned } = usePokemonContext();
+    const { addCoins } = useEconomy();
+  const { toggleOwned } = useDomainCollection();
     const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
     const [encounter, setEncounter] = useState(null);
     const [sandstorm, setSandstorm] = useState(false);

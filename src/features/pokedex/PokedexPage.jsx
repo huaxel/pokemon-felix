@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useData, useDomainCollection } from '../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../lib/api';
 import { SearchBar } from '../../components/SearchBar';
 import { PokemonCard } from '../../components/PokemonCard';
@@ -10,17 +10,8 @@ import { grassTile } from '../world/worldAssets';
 import './PokedexPage.css';
 
 export function PokedexPage() {
-  const {
-    pokemonList,
-    loading,
-    loadPokemon,
-    ownedIds,
-    toggleOwned,
-    allPokemonNames,
-    searchResults,
-    handleSearch,
-    clearSearch,
-  } = usePokemonContext();
+  const { pokemonList, loading, loadPokemon, allPokemonNames, searchResults, handleSearch, clearSearch } = useData();
+  const { ownedIds, toggleOwned } = useDomainCollection();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 

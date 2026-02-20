@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Map, Library, Upload, Download } from 'lucide-react';
-import { usePokemonContext } from '../hooks/usePokemonContext';
+import { useEconomy } from '../contexts/DomainContexts';
 import { usePlayer } from '../hooks/usePlayer';
 import bagIcon from '../assets/items/bag_icon.png';
 import './Navbar.css';
@@ -18,7 +18,7 @@ const AVATARS = [
 
 export function Navbar({ onExport, onImport }) {
   const location = useLocation();
-  const { coins } = usePokemonContext();
+  const { coins } = useEconomy();
   const { playerName, avatarId } = usePlayer();
   const playerAvatar = AVATARS.find(a => a.id === avatarId) || AVATARS[0];
 

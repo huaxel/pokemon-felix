@@ -4,7 +4,7 @@
 .game-panel {
   background: var(--color-ui-bg-beige);
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
   padding: 1.5rem;
@@ -16,14 +16,14 @@
 
 .game-panel.thick-border {
   border-width: var(--border-slice-width-thick);
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png')
+  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png')
     var(--border-slice-width-thick) round;
 }
 
 .game-panel-dark {
   background: #2d1810;
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png')
+  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
   padding: 1.5rem;
@@ -34,7 +34,7 @@
 .dialogue-box {
   background: var(--color-ui-bg-beige);
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-000.png')
+  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-000.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
   padding: 1.5rem 2rem;
@@ -125,7 +125,7 @@
 .dialogue-box-sharp {
   background: var(--color-ui-bg-beige);
   border: 8px solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png')
+  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png')
     8 round;
   image-rendering: pixelated;
   padding: 1rem;
@@ -139,7 +139,7 @@
   gap: 1rem;
   background: var(--color-ui-bg-beige);
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/pokemon-felix/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-005.png')
+  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-005.png')
     var(--border-slice-width) round;
   image-rendering: pixelated;
   padding: 1rem 1.5rem;

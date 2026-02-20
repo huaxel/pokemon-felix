@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useDomainCollection, useData, useEconomy } from '../../../contexts/DomainContexts';
 import { BattleArena } from '../../battle/components/BattleArena';
 import { getPokemonDetails } from '../../../lib/api';
 import { CaveLockedView } from '../components/CaveLockedView';
@@ -12,7 +12,9 @@ import './SecretCavePage.css';
 
 export function SecretCavePage() {
   const navigate = useNavigate();
-  const { ownedIds, toggleOwned, squadIds, pokemonList, addCoins } = usePokemonContext();
+  const { ownedIds, toggleOwned, squadIds } = useDomainCollection();
+  const { pokemonList } = useData();
+  const { addCoins } = useEconomy();
   const [discovered, setDiscovered] = useState(false);
   const [depth, setDepth] = useState(0);
   const [encounter, setEncounter] = useState(null);

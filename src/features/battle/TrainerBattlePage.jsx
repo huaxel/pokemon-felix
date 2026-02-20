@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useDomainCollection, useEconomy, useExperience } from '../../contexts/DomainContexts';
 import { BattleArena } from './components/BattleArena';
 import { getPokemonDetails } from '../../lib/api';
 import { TRAINERS } from '../../lib/trainers';
@@ -10,7 +10,9 @@ import './SingleBattlePage.css';
 export function TrainerBattlePage({ allPokemon }) {
     const { trainerId } = useParams();
     const navigate = useNavigate();
-    const { squadIds, addCoins, gainExperience } = usePokemonContext();
+    const { squadIds } = useDomainCollection();
+  const { addCoins } = useEconomy();
+  const { gainExperience } = useExperience();
     const { addToast } = useToast();
 
     const [trainer, setTrainer] = useState(null);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useData, useDomainCollection, useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { Download, Upload } from 'lucide-react';
 import { WorldPageHeader } from '../components/WorldPageHeader';
@@ -55,8 +55,9 @@ const STONES = [
 ];
 
 export function EvolutionHallPage() {
-  const { pokemonList, ownedIds, addCoins, coins, addItem, inventory, removeItem } =
-    usePokemonContext();
+  const { pokemonList } = useData();
+  const { ownedIds } = useDomainCollection();
+  const { addCoins, coins, addItem, inventory, removeItem } = useEconomy();
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [, setEvolving] = useState(false);
   const { showSuccess, showError } = useToast();

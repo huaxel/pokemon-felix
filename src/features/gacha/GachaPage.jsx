@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useEconomy, useDomainCollection, useData } from '../../contexts/DomainContexts';
 import gachaImage from '../../assets/buildings/gacha_machine.png';
 import pokeballImage from '../../assets/items/pokeball.png';
 import greatballImage from '../../assets/items/greatball.png';
@@ -58,8 +58,9 @@ const GACHA_TIERS = {
 };
 
 export function GachaPage() {
-  const { coins, spendCoins, setOwnedIds, pokemonList, addToSquad, squadIds, addItem } =
-    usePokemonContext();
+  const { coins, spendCoins, addItem } = useEconomy();
+  const { setOwnedIds, addToSquad, squadIds } = useDomainCollection();
+  const { pokemonList } = useData();
   const [isAnimating, setIsAnimating] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);

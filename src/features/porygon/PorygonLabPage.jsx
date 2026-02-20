@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useEconomy } from '../../contexts/DomainContexts';
 import { PorygonHeader } from './components/PorygonHeader';
 import { PorygonBoard } from './components/PorygonBoard';
 import { PorygonControls } from './components/PorygonControls';
@@ -51,7 +51,7 @@ const LEVELS = [
 ];
 
 export function PorygonLabPage() {
-  const { addCoins, coins } = usePokemonContext();
+  const { addCoins, coins } = useEconomy();
   const [currentLevelId, setCurrentLevelId] = useState(1);
   const [program, setProgram] = useState([]);
   const [porygonState, setPorygonState] = useState(null);

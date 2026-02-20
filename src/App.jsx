@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { usePokemonContext } from './hooks/usePokemonContext';
+import { useData, useDomainCollection, useUI } from './contexts/DomainContexts';
 import { addToCollection, removeFromCollection } from './lib/api';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
@@ -11,15 +11,9 @@ import { AppRoutes } from './AppRoutes';
 import './App.css';
 
 function App() {
-  const {
-    pokemonList,
-    loadPokemon,
-    ownedIds,
-    setOwnedIds,
-    toggleOwned,
-    isConsoleOpen,
-    toggleConsole,
-  } = usePokemonContext();
+  const { pokemonList, loadPokemon } = useData();
+  const { ownedIds, setOwnedIds, toggleOwned } = useDomainCollection();
+  const { isConsoleOpen, toggleConsole } = useUI();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 

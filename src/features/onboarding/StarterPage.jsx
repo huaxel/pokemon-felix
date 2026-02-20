@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useDomainCollection, useEconomy, useData } from '../../contexts/DomainContexts';
 import { usePlayer } from '../../hooks/usePlayer';
 import { addToCollection } from '../../lib/api';
 import { grassTile } from '../world/worldAssets';
@@ -37,7 +37,9 @@ const STARTERS = [
 ];
 
 export function StarterPage() {
-  const { setOwnedIds, addToSquad, addCoins, pokemonList, ownedIds } = usePokemonContext();
+  const { setOwnedIds, addToSquad, ownedIds } = useDomainCollection();
+  const { addCoins } = useEconomy();
+  const { pokemonList } = useData();
   const { hasProfile } = usePlayer();
   const navigate = useNavigate();
   const [selectedStarter, setSelectedStarter] = useState(null);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy } from '../../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../../lib/api';
 import { MountainEntryView } from '../components/MountainEntryView';
 import { MountainHikeView } from '../components/MountainHikeView';
@@ -9,7 +9,7 @@ import { grassTile } from '../worldAssets';
 import './MountainPage.css';
 
 export function MountainPage() {
-  const { inventory, addItem, addCoins } = usePokemonContext();
+  const { inventory, addItem, addCoins } = useEconomy();
   const [stage, setStage] = useState('entry');
   const [altitude, setAltitude] = useState(0);
   const [tiredness, setTiredness] = useState(0);

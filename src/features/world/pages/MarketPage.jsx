@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useDomainCollection, useData, useEconomy } from '../../../contexts/DomainContexts';
+import { useGlobalActions } from '../../../hooks/useGlobalActions';
 import { useToast } from '../../../hooks/useToast';
 import { useOutfitEffects } from '../../../hooks/useOutfitEffects';
 import { WorldPageHeader } from '../components/WorldPageHeader';
@@ -235,8 +236,10 @@ function SellSection({ sellablePokemon, onSell }) {
 
 export function MarketPage() {
   const { showSuccess, showError } = useToast();
-  const { ownedIds, pokemonList, sellPokemon, coins, spendCoins, addItem, squadIds, addCoins } =
-    usePokemonContext();
+  const { ownedIds, squadIds } = useDomainCollection();
+  const { pokemonList } = useData();
+  const { sellPokemon } = useGlobalActions();
+  const { coins, spendCoins, addItem, addCoins } = useEconomy();
   const [tab, setTab] = useState('buy');
   const [category, setCategory] = useState('pokeballs');
   const [showTip, setShowTip] = useState(true);

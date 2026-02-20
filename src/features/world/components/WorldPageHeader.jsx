@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy } from '../../../contexts/DomainContexts';
 import bagIcon from '../../../assets/items/bag_icon.png';
 import './WorldPageHeader.css';
 
 export function WorldPageHeader({ title, backPath = '/world', icon, onBack }) {
-  const { coins } = usePokemonContext();
+  const { coins } = useEconomy();
 
   return (
     <header className="world-page-header">

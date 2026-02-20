@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useEconomy, useCare, useProgress } from '../../contexts/DomainContexts';
 import { useTownContext } from '../../hooks/useTownContext';
 import { useOutfitEffects } from '../../hooks/useOutfitEffects';
 import { useGPS } from '../../hooks/useGPS';
@@ -88,7 +88,9 @@ function getInitialPlayerPos() {
 export function WorldPage() {
   const navigate = useNavigate();
   const { message, navigateWithMessage, clearMessage, showMessage } = useWorldNavigation();
-  const { addCoins, addItem, healAll, quests } = usePokemonContext();
+  const { addCoins, addItem } = useEconomy();
+  const { healAll } = useCare();
+  const { quests } = useProgress();
   const { townObjects, addObject, removeObject } = useTownContext();
   const { playerName } = usePlayer();
   const { getEncounterMultiplier, activeEffect } = useOutfitEffects();

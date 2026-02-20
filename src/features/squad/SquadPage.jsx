@@ -8,7 +8,7 @@ import {
   MouseSensor,
   TouchSensor,
 } from '@dnd-kit/core';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useDomainCollection } from '../../contexts/DomainContexts';
 import { PokemonCard } from '../../components/PokemonCard';
 import { MemberDetailModal } from './components/MemberDetailModal';
 import { SquadGrid } from './components/SquadGrid';
@@ -20,7 +20,7 @@ import squadBg from '../../assets/buildings/squad_bg.png';
 import './SquadPage.css';
 
 export function SquadPage() {
-  const { addToSquad, removeFromSquad, careStats } = usePokemonContext();
+  const { addToSquad, removeFromSquad } = useDomainCollection();
   const { squadPokemon, benchPokemon, loading } = useSquadData();
   const [selectedMember, setSelectedMember] = useState(null);
   const [activeId, setActiveId] = useState(null); // For DragOverlay

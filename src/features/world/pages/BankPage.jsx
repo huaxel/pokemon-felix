@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useUI } from '../../../contexts/DomainContexts';
 import { PiggyBank, TrendingUp, Calendar } from 'lucide-react';
 import { BankTransactionSection } from '../components/BankTransactionSection';
 import { WorldPageHeader } from '../components/WorldPageHeader';
@@ -9,15 +9,8 @@ import './BankPage.css';
 const MIN_DEPOSIT = 10;
 
 export function BankPage() {
-  const {
-    coins, // Keep coins for quick actions calculation
-    bankBalance,
-    deposit,
-    withdraw,
-    interestRate,
-    showSuccess,
-    showError,
-  } = usePokemonContext();
+  const { coins, deposit, withdraw, interestRate } = useEconomy();
+  const { showSuccess, showError } = useUI();
 
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');

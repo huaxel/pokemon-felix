@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useDomainCollection, useEconomy, useExperience } from '../../contexts/DomainContexts';
 import { BattleArena } from './components/BattleArena';
 import { BattleRewardModal } from '../world/components/BattleRewardModal';
 import { getPokemonDetails } from '../../lib/api';
@@ -9,7 +9,9 @@ import './SingleBattlePage.css';
 import { useToast } from '../../hooks/useToast'; // Correct import
 
 export function SingleBattlePage({ allPokemon }) {
-  const { squadIds, addCoins, toggleOwned, gainExperience } = usePokemonContext();
+  const { squadIds, toggleOwned } = useDomainCollection();
+  const { addCoins } = useEconomy();
+  const { gainExperience } = useExperience();
   const { addToast } = useToast();
   const location = useLocation();
   const isWild = location.state?.isWild || false;

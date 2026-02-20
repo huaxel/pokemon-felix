@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useEconomy, useCare } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { Star } from 'lucide-react';
 import { WorldPageHeader } from '../components/WorldPageHeader';
@@ -58,7 +58,8 @@ const WISHES = [
 ];
 
 export function FountainPage() {
-  const { coins, addCoins, spendCoins, addItem, healAll } = usePokemonContext();
+  const { coins, addCoins, spendCoins, addItem } = useEconomy();
+  const { healAll } = useCare();
   const [fountainAnimation, setFountainAnimation] = useState(false);
   const [isWishing, setIsWishing] = useState(false);
   const [totalWishes, setTotalWishes] = useState(0);

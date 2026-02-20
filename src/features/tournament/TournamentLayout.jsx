@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useEconomy, useDomainCollection } from '../../contexts/DomainContexts';
 import { Bracket } from './components/Bracket';
 import { BattleArena } from '../battle/components/BattleArena';
 import { TournamentSetupView } from './components/TournamentSetupView';
@@ -7,7 +7,8 @@ import { TournamentChampionView } from './components/TournamentChampionView';
 import './TournamentLayout.css';
 
 export function TournamentLayout({ allPokemon }) {
-  const { addCoins, squadIds } = usePokemonContext();
+  const { addCoins } = useEconomy();
+  const { squadIds } = useDomainCollection();
   const [participants, setParticipants] = useState([]);
   const [rounds, setRounds] = useState([]);
   const [currentMatch, setCurrentMatch] = useState(null);

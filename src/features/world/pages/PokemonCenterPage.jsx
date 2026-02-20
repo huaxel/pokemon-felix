@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useCare } from '../../../contexts/DomainContexts';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { grassTile, nurseTile } from '../worldAssets';
 import healingMachineImage from '../../../assets/buildings/healing_machine.png';
@@ -9,7 +9,7 @@ import './PokemonCenterPage.css';
 
 export function PokemonCenterPage() {
   const navigate = useNavigate();
-  const { healAll } = usePokemonContext();
+  const { healAll } = useCare();
   const [healingState, setHealingState] = useState('idle'); // idle, healing, finished
   const [message, setMessage] = useState('Welkom in het Pokémon Center! Wil je je team genezen?');
 

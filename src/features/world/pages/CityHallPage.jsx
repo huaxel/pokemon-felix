@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useDomainCollection, useEconomy, useProgress } from '../../../contexts/DomainContexts';
 import { usePlayer } from '../../../hooks/usePlayer';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { grassTile, mayorTile } from '../worldAssets';
@@ -8,7 +8,9 @@ import './CityHallPage.css';
 
 export function CityHallPage() {
   const navigate = useNavigate();
-  const { ownedIds, coins, dailyReward } = usePokemonContext();
+  const { ownedIds } = useDomainCollection();
+  const { coins } = useEconomy();
+  const { dailyReward } = useProgress();
   const { playerName } = usePlayer();
   const { canClaim, handleClaimDailyReward } = dailyReward;
 

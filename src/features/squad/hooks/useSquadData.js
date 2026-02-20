@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { usePokemonContext } from '../../../hooks/usePokemonContext';
+import { useDomainCollection } from '../../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../../lib/api';
 
 /**
  * Hook to manage squad and bench data fetching
  */
 export function useSquadData() {
-  const { ownedIds, squadIds } = usePokemonContext();
+  const { ownedIds, squadIds } = useDomainCollection();
   const [benchPokemon, setBenchPokemon] = useState([]);
   const [squadPokemon, setSquadPokemon] = useState([]);
   const [loading, setLoading] = useState(true);
