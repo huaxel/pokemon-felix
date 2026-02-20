@@ -1,4 +1,4 @@
-import { Trophy, MapPin, Navigation, Compass } from 'lucide-react';
+import { Trophy, MapPin, Navigation, Compass, User } from 'lucide-react';
 import { SEASONS } from '../worldConstants';
 import bagImage from '../../../assets/items/bag_icon.png';
 
@@ -52,9 +52,7 @@ export function WorldHUD({
         {autoTime ? '🕐 Auto' : '⏸️ Handmatig'}
       </button>
 
-      <button className="pokedex-hud-btn" onClick={() => navigate('/pokedex')}>
-        Pokédex
-      </button>
+
       <button className="bag-hud-btn" onClick={() => navigate('/bag')}>
         <img src={bagImage} alt="Tas" />
       </button>

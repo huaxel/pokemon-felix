@@ -94,13 +94,22 @@ export function PokemonCenterPage() {
               </button>
             )}
             {healingState === 'done' && (
-              <button
-                className="btn-kenney primary heal-btn"
-                onClick={() => navigate('/world')}
-                style={{ fontSize: '0.8rem', padding: '1rem 2rem' }}
-              >
-                Bedankt! (Verlaten)
-              </button>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button
+                  className="btn-kenney primary heal-btn"
+                  onClick={() => navigate('/world')}
+                  style={{ fontSize: '0.8rem', padding: '1rem' }}
+                >
+                  Bedankt!
+                </button>
+                <button
+                  className="btn-kenney success heal-btn"
+                  onClick={() => navigate('/trainer-selection')}
+                  style={{ fontSize: '0.8rem', padding: '1rem' }}
+                >
+                  Zoek Trainers
+                </button>
+              </div>
             )}
           </div>
         </div>

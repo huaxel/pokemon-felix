@@ -247,13 +247,7 @@ export function WorldPage() {
       className={`world-page ${world.isNight ? 'night-mode' : ''} weather-${world.weather}`}
       style={{ backgroundColor: seasonStyle.bg }}
     >
-      <button
-        className="btn-kenney exit-world-btn"
-        onClick={() => navigate('/world-select')}
-        style={{ position: 'absolute', top: '60px', left: '20px', zIndex: 100 }}
-      >
-        🌍 Wereld
-      </button>
+
       <WorldWeather weather={world.weather} isNight={world.isNight} />
       <WorldHUD
         seasonIndex={world.seasonIndex}
