@@ -129,30 +129,15 @@
   margin-bottom: 2.5rem;
 }
 
-.quick-actions button {
-  background: var(--bg-surface-alt);
-  border: 1px solid var(--border-dim);
-  color: white;
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-.quick-actions button:hover {
-  transform: translateY(-3px);
-  background: var(--bg-surface);
-  border-color: white;
-}
 
 .transaction-form input {
   flex: 1;
   padding: 1.25rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-dim);
-  background: rgba(0, 0, 0, 0.3);
-  color: white;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e293b;
   font-size: 1.25rem;
   font-weight: 700;
 }

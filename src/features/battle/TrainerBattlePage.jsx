@@ -5,6 +5,7 @@ import { BattleArena } from './components/BattleArena';
 import { getPokemonDetails } from '../../lib/api';
 import { TRAINERS } from '../../lib/trainers';
 import { useToast } from '../../hooks/useToast';
+import { grassTile } from '../world/worldAssets';
 import './SingleBattlePage.css';
 
 export function TrainerBattlePage({ allPokemon }) {
@@ -78,7 +79,7 @@ export function TrainerBattlePage({ allPokemon }) {
                 className="single-battle-page loading"
                 style={{
                     backgroundColor: '#2d1810',
-                    backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                    backgroundImage: 'url(${grassTile})',
                     backgroundSize: '64px',
                     backgroundRepeat: 'repeat',
                     imageRendering: 'pixelated',
@@ -101,7 +102,7 @@ export function TrainerBattlePage({ allPokemon }) {
                 className="single-battle-page result victory"
                 style={{
                     backgroundColor: '#2d1810',
-                    backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                    backgroundImage: 'url(${grassTile})',
                     backgroundSize: '64px',
                     backgroundRepeat: 'repeat',
                     imageRendering: 'pixelated',
@@ -177,7 +178,7 @@ export function TrainerBattlePage({ allPokemon }) {
                 className="single-battle-page result defeat"
                 style={{
                     backgroundColor: '#2d1810',
-                    backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                    backgroundImage: 'url(${grassTile})',
                     backgroundSize: '64px',
                     backgroundRepeat: 'repeat',
                     imageRendering: 'pixelated',
@@ -240,7 +241,7 @@ export function TrainerBattlePage({ allPokemon }) {
             className="single-battle-page"
             style={{
                 backgroundColor: '#2d1810',
-                backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
+                backgroundImage: 'url(${grassTile})',
                 backgroundSize: '64px',
                 backgroundRepeat: 'repeat',
                 imageRendering: 'pixelated',

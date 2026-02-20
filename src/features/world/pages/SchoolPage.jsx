@@ -248,10 +248,10 @@ export function SchoolPage() {
         <Link to="/adventure" className="btn-adventure back-btn">
           Terug naar Wereld
         </Link>
-        <h1 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000' }}>
+        <h1 style={{ fontFamily: 'var(--header-font)', textShadow: '2px 2px 0 #000' }}>
           <GraduationCap /> Pokémon School
         </h1>
-        <div className="coin-display" style={{ fontFamily: '"Press Start 2P", cursive' }}>
+        <div className="coin-display" style={{ fontFamily: 'var(--header-font)' }}>
           <img
             src={bagIcon}
             alt="coins"
@@ -282,7 +282,7 @@ export function SchoolPage() {
               <BookOpen size={48} className="intro-icon" color="#fbbf24" />
               <h2
                 style={{
-                  fontFamily: '"Press Start 2P", cursive',
+                  fontFamily: 'var(--header-font)',
                   color: '#fbbf24',
                   fontSize: '1.2rem',
                   marginBottom: '0.5rem',
@@ -308,7 +308,7 @@ export function SchoolPage() {
           <div className="advanced-section">
             <h3
               style={{
-                fontFamily: '"Press Start 2P", cursive',
+                fontFamily: 'var(--header-font)',
                 color: '#fff',
                 textShadow: '2px 2px 0 #000',
               }}
@@ -325,7 +325,7 @@ export function SchoolPage() {
                   <Brain color="#ec4899" />
                 </div>
                 <div className="quiz-info">
-                  <h3 style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '0.9rem' }}>
+                  <h3 style={{ fontFamily: 'var(--header-font)', fontSize: '0.9rem' }}>
                     Porygon Laboratorium
                   </h3>
                   <p>Leer algoritmen door Porygon te programmeren.</p>

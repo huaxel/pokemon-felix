@@ -18,7 +18,7 @@ export function BankTransactionSection({
     >
       <h3
         style={{
-          fontFamily: '"Press Start 2P", cursive',
+          fontFamily: 'var(--header-font)',
           fontSize: '0.9rem',
           marginBottom: '0.5rem',
         }}

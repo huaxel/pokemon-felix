@@ -16,7 +16,7 @@ export function SchoolQuizCard({ quiz, isCompleted, onStart }) {
         </h3>
         <p>{quiz.description}</p>
       </div>
-      <button className="start-quiz-btn">{isCompleted ? 'Repasar' : 'Comenzar'}</button>
+      <button className="start-quiz-btn">{isCompleted ? 'Opnieuw' : 'Start'}</button>
     </div>
   );
 }

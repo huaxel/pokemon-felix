@@ -3,6 +3,7 @@
   background: var(--bg-dark);
   background-image: radial-gradient(circle at top, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
   padding-bottom: 50px;
+  padding-top: 100px;
   color: white;
 }
 
@@ -46,8 +47,7 @@
 
   /* Kenney Fantasy Border */
   border: 8px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
-    8 round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 8 round;
   image-rendering: pixelated;
   box-shadow: var(--shadow-md);
 }
@@ -78,8 +78,7 @@
 
   /* Kenney Fantasy Border */
   border: 8px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png')
-    8 round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 8 round;
   image-rendering: pixelated;
 }
 
@@ -102,6 +101,11 @@
   margin-bottom: 1.5rem;
   border: 2px solid var(--border-dim);
   box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.quiz-icon svg {
+  width: 40px;
+  height: 40px;
 }
 
 .quiz-info h3 {
@@ -141,8 +145,7 @@
 
   /* Kenney Fantasy Border */
   border: 16px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
-    16 round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 16 round;
   image-rendering: pixelated;
 }
 

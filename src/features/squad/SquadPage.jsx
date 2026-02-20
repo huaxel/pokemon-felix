@@ -9,6 +9,7 @@ import {
   TouchSensor,
 } from '@dnd-kit/core';
 import { useDomainCollection } from '../../contexts/DomainContexts';
+import { useCareContext } from '../../hooks/useCareContext';
 import { PokemonCard } from '../../components/PokemonCard';
 import { MemberDetailModal } from './components/MemberDetailModal';
 import { SquadGrid } from './components/SquadGrid';
@@ -22,6 +23,7 @@ import './SquadPage.css';
 export function SquadPage() {
   const { addToSquad, removeFromSquad } = useDomainCollection();
   const { squadPokemon, benchPokemon, loading } = useSquadData();
+  const { careStats } = useCareContext();
   const [selectedMember, setSelectedMember] = useState(null);
   const [activeId, setActiveId] = useState(null); // For DragOverlay
 

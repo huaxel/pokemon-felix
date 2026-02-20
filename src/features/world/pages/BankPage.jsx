@@ -46,6 +46,7 @@ export function BankPage() {
         backgroundRepeat: 'repeat',
         imageRendering: 'pixelated',
         minHeight: '100vh',
+        paddingTop: '100px',
       }}
     >
       <WorldPageHeader title="Pokémon Bank" icon={<PiggyBank size={24} />} />
@@ -68,14 +69,15 @@ export function BankPage() {
             className="balance-header"
             style={{
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center',
+              gap: '1rem',
               marginBottom: '1rem',
             }}
           >
             <h2
               style={{
-                fontFamily: '"Press Start 2P", cursive',
+                fontFamily: 'var(--header-font)',
                 fontSize: '1rem',
                 color: '#fbbf24',
               }}
@@ -99,7 +101,7 @@ export function BankPage() {
               gap: '1rem',
               fontSize: '2rem',
               color: '#fff',
-              fontFamily: '"Press Start 2P", cursive',
+              fontFamily: 'var(--header-font)',
             }}
           >
             <PiggyBank size={48} />
@@ -137,7 +139,7 @@ export function BankPage() {
           >
             <h3
               style={{
-                fontFamily: '"Press Start 2P", cursive',
+                fontFamily: 'var(--header-font)',
                 fontSize: '0.9rem',
                 marginBottom: '1rem',
                 display: 'flex',
@@ -167,7 +169,7 @@ export function BankPage() {
                   <span style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>Morgen</span>
                   <span
                     style={{
-                      fontFamily: '"Press Start 2P", cursive',
+                      fontFamily: 'var(--header-font)',
                       fontSize: '0.8rem',
                       color: '#16a34a',
                     }}
@@ -231,7 +233,7 @@ export function BankPage() {
         <div className="tips-section game-panel" style={{ padding: '1.5rem' }}>
           <h3
             style={{
-              fontFamily: '"Press Start 2P", cursive',
+              fontFamily: 'var(--header-font)',
               fontSize: '0.9rem',
               marginBottom: '1rem',
             }}
