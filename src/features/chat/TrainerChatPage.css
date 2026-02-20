@@ -5,7 +5,7 @@
     height: 100dvh;
     /* For mobile browsers */
     background-color: #2d1810;
-    background-image: url('/src/assets/kenney_tiny-town/Tiles/tile_0000.png');
+    background-image: url('../../assets/kenney_tiny-town/Tiles/tile_0000.png');
     background-size: 64px;
     background-repeat: repeat;
     image-rendering: pixelated;

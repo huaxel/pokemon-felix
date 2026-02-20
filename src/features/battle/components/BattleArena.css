@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   background-color: #2d1810;
-  background-image: url('/src/assets/kenney_tiny-town/Tiles/tile_0000.png');
+  background-image: url('../../../assets/kenney_tiny-town/Tiles/tile_0000.png');
   background-size: 64px;
   background-repeat: repeat;
   image-rendering: pixelated;
@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') var(--border-slice-width) round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') var(--border-slice-width) round;
   position: relative;
   overflow: hidden;
 }
@@ -37,7 +37,7 @@
 
   /* Kenney Fantasy Border */
   border: var(--border-slice-width) solid transparent;
-  border-image: url('/src/assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') var(--border-slice-width) round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') var(--border-slice-width) round;
   image-rendering: pixelated;
 
   box-shadow: var(--shadow-md);

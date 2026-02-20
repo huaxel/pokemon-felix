@@ -63,10 +63,10 @@
 }
 
 .ball-option {
-  background: #e8d4a2; /* UI Beige */
+  background: #e8d4a2;
+  /* UI Beige */
   border: 4px solid transparent;
-  border-image: url('/src/assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-000.png') 12
-    round;
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-000.png') 12 round;
   padding: 1rem;
   cursor: pointer;
   transition: all 0.2s;
@@ -89,8 +89,8 @@
 .ball-option.selected {
   opacity: 1;
   filter: grayscale(0);
-  border-image: url('/src/assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-001.png') 12
-    round; /* Highlighted border */
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-001.png') 12 round;
+  /* Highlighted border */
   background: #fff;
   transform: scale(1.05);
 }
@@ -162,6 +162,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -171,9 +172,11 @@
   0% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
+
   100% {
     transform: translateY(0px);
   }
@@ -201,9 +204,11 @@
   0% {
     filter: drop-shadow(0 0 5px gold) brightness(1);
   }
+
   50% {
     filter: drop-shadow(0 0 15px gold) brightness(1.2);
   }
+
   100% {
     filter: drop-shadow(0 0 5px gold) brightness(1);
   }
@@ -252,6 +257,7 @@
     transform: translate(-50%, 100%);
     opacity: 0;
   }
+
   to {
     transform: translate(-50%, 0);
     opacity: 1;
@@ -263,6 +269,7 @@
     transform: scale(0.8);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;

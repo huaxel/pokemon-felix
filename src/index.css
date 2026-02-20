@@ -107,7 +107,7 @@ body {
   line-height: 1.5;
   /* Improved for RPG dialogue legibility */
   /* Custom Kenney Gauntlet Cursor */
-  cursor: url('/src/assets/icons/custom_cursor.png'), auto;
+  cursor: url('./assets/icons/custom_cursor.png'), auto;
 
   /* Pixel-font rendering optimization */
   -webkit-font-smoothing: none;
@@ -135,7 +135,7 @@ a,
 input[type='button'],
 input[type='submit'],
 .clickable {
-  cursor: url('/src/assets/icons/custom_cursor.png'), pointer !important;
+  cursor: url('./assets/icons/custom_cursor.png'), pointer !important;
 }
 
 /* Premium Adventure Button Base Class */
