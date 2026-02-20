@@ -46,7 +46,7 @@ export function DecorShopPage() {
       className="decor-shop-page"
       style={{
         backgroundColor: '#2d1810',
-        backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+        backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
         backgroundSize: '64px',
         backgroundRepeat: 'repeat',
         imageRendering: 'pixelated',

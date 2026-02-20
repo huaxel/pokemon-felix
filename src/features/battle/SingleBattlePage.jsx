@@ -106,7 +106,7 @@ export function SingleBattlePage({ allPokemon }) {
         className="single-battle-page loading"
         style={{
           backgroundColor: '#2d1810',
-          backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+          backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
           backgroundSize: '64px',
           backgroundRepeat: 'repeat',
           imageRendering: 'pixelated',
@@ -129,7 +129,7 @@ export function SingleBattlePage({ allPokemon }) {
         className="single-battle-page result victory"
         style={{
           backgroundColor: '#2d1810',
-          backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+          backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
           backgroundSize: '64px',
           backgroundRepeat: 'repeat',
           imageRendering: 'pixelated',
@@ -204,7 +204,7 @@ export function SingleBattlePage({ allPokemon }) {
         className="single-battle-page result defeat"
         style={{
           backgroundColor: '#2d1810',
-          backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+          backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
           backgroundSize: '64px',
           backgroundRepeat: 'repeat',
           imageRendering: 'pixelated',
@@ -266,7 +266,7 @@ export function SingleBattlePage({ allPokemon }) {
       className="single-battle-page"
       style={{
         backgroundColor: '#2d1810',
-        backgroundImage: 'url(/src/assets/kenney_tiny-town/Tiles/tile_0000.png)',
+        backgroundImage: 'url(../../assets/kenney_tiny-town/Tiles/tile_0000.png)',
         backgroundSize: '64px',
         backgroundRepeat: 'repeat',
         imageRendering: 'pixelated',
