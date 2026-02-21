@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { TRAINERS } from '../../lib/trainers';
-import { randomService } from '../../lib/RandomService';
+import { getTrainer, getRelationship, updateRelationship, getMessages, saveMessage } from '../../lib/api';
+import { fetchChatResponse } from '../../lib/services/llmService';
+import { buildSystemPrompt } from '../../lib/services/promptBuilder';
+import { RelationshipBar } from '../../components/RelationshipBar';
 import './TrainerChatPage.css';
 
 export function TrainerChatPage() {
@@ -9,22 +11,33 @@ export function TrainerChatPage() {
     const navigate = useNavigate();
 
     const [trainer, setTrainer] = useState(null);
+    const [relationship, setRelationship] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [input, setInput] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
 
-    useEffect(() => {
-        const selectedTrainer = TRAINERS.find(t => t.id === trainerId);
-        if (!selectedTrainer) {
-            navigate('/trainer-selection');
-            return;
-        }
-        setTrainer(selectedTrainer);
+    const playerId = 'felix'; // Hardcoded for now
 
-        // Initial greeting
-        setMessages([
-            { id: 1, sender: 'trainer', text: selectedTrainer.greeting, timestamp: new Date() }
-        ]);
+    useEffect(() => {
+        const loadData = async () => {
+            const [t, rel, msgs] = await Promise.all([
+                getTrainer(trainerId),
+                getRelationship(playerId, trainerId),
+                getMessages(playerId, trainerId)
+            ]);
+
+            if (!t) {
+                navigate('/trainer-selection');
+                return;
+            }
+
+            setTrainer(t);
+            setRelationship(rel);
+            setMessages(msgs);
+        };
+
+        loadData();
     }, [trainerId, navigate]);
 
     const scrollToBottom = () => {
@@ -35,44 +48,54 @@ export function TrainerChatPage() {
         scrollToBottom();
     }, [messages, isTyping]);
 
-    const handleSendMessage = (text, category = null) => {
-        if (!trainer || isTyping) return;
+    const handleSendMessage = async (text) => {
+        if (!text.trim() || !trainer || isTyping) return;
 
-        // Add user message
-        const newUserMsg = { id: Date.now(), sender: 'user', text, timestamp: new Date() };
+        const userMessage = text.trim();
+        setInput('');
+
+        // Save user message
+        const newUserMsg = await saveMessage(playerId, trainerId, 'user', userMessage);
         setMessages(prev => [...prev, newUserMsg]);
         setIsTyping(true);
 
-        // Simulate thinking delay
-        setTimeout(() => {
-            let responseOptions = [];
+        try {
+            const systemPrompt = buildSystemPrompt({ trainer, relationship });
+            const completion = await fetchChatResponse(
+                systemPrompt,
+                userMessage,
+                messages.map(m => ({ role: m.role, content: m.content }))
+            );
 
-            if (category && trainer.dialogue[category]) {
-                responseOptions = trainer.dialogue[category];
-            } else {
-                // Flatten all dialogues if no category or random fallback
-                responseOptions = Object.values(trainer.dialogue).flat();
+            // Save assistant message
+            const assistantMsg = await saveMessage(playerId, trainerId, 'assistant', completion.message);
+            setMessages(prev => [...prev, assistantMsg]);
+
+            // Update relationship
+            if (completion.relationship_delta) {
+                const updatedRel = await updateRelationship(playerId, trainerId, completion.relationship_delta);
+                setRelationship(updatedRel);
             }
 
-            const randomResponse = randomService.pick(responseOptions);
-
-            const newTrainerMsg = { id: Date.now() + 1, sender: 'trainer', text: randomResponse, timestamp: new Date() };
-            setMessages(prev => [...prev, newTrainerMsg]);
+            // Handle Battle Action
+            if (completion.action === 'START_BATTLE') {
+                setTimeout(() => {
+                    navigate(`/trainer-battle/${trainer.id}`);
+                }, 1500);
+            }
+        } catch (error) {
+            console.error('LLM Error:', error);
+        } finally {
             setIsTyping(false);
-        }, 1000 + Math.random() * 500);
-    };
-
-    const handleBattleClick = () => {
-        navigate(`/trainer-battle/${trainer.id}`);
+        }
     };
 
     if (!trainer) return <div className="loading-screen">Laden...</div>;
 
     const SUGGESTED_REPLIES = [
-        { text: "Vertel eens over je Pokémon", category: "pokemon" },
-        { text: "Heb je wat tips voor mij?", category: "tips" },
-        { text: "Zijn er nog nieuwtjes?", category: "gossip" },
-        { text: "Klaar voor een gevecht?", category: "battle", action: handleBattleClick }
+        { text: "Laten we vechten!", action: () => handleSendMessage("Ik daag je uit voor een gevecht!") },
+        { text: "Hoe gaat het?", action: () => handleSendMessage("Hoe gaat het vandaag?") },
+        { text: "Vertel over je team", action: () => handleSendMessage("Vertel eens over je Pokémon team.") }
     ];
 
     return (
@@ -82,34 +105,40 @@ export function TrainerChatPage() {
                     ⬅️
                 </button>
                 <div className="trainer-profile">
-                    <img src={trainer.avatar} alt={trainer.name} className="header-avatar" />
+                    <img src={trainer.avatar_url} alt={trainer.name} className="header-avatar" />
                     <div className="header-info">
                         <h2>{trainer.name}</h2>
-                        <span className={`status-badge ${trainer.type}`}>
-                            {trainer.type === 'friend' ? 'Vriend' : 'Rivaal'}
-                        </span>
+                        {relationship && <RelationshipBar relationship={relationship} />}
                     </div>
                 </div>
-                <button className="battle-button btn-kenney primary" onClick={handleBattleClick}>
+                <button className="battle-button btn-kenney primary" onClick={() => navigate(`/trainer-battle/${trainer.id}`)}>
                     ⚔️
                 </button>
             </div>
 
-            <div className="chat-messages game-panel" data-scrollable="true">
-                {messages.map((msg) => (
-                    <div key={msg.id} className={`message-wrapper ${msg.sender}`}>
-                        {msg.sender === 'trainer' && (
-                            <img src={trainer.avatar} alt="Trainer" className="message-avatar" />
+            <div className="chat-messages game-panel">
+                {messages.length === 0 && (
+                    <div className="message-wrapper trainer">
+                        <img src={trainer.avatar_url} alt="Trainer" className="message-avatar" />
+                        <div className="message-bubble trainer">
+                            {trainer.greeting || "Hallo Felix!"}
+                        </div>
+                    </div>
+                )}
+                {messages.map((msg, i) => (
+                    <div key={i} className={`message-wrapper ${msg.role === 'assistant' ? 'trainer' : 'user'}`}>
+                        {msg.role === 'assistant' && (
+                            <img src={trainer.avatar_url} alt="Trainer" className="message-avatar" />
                         )}
-                        <div className={`message-bubble ${msg.sender}`}>
-                            {msg.text}
+                        <div className={`message-bubble ${msg.role === 'assistant' ? 'trainer' : 'user'}`}>
+                            {msg.content}
                         </div>
                     </div>
                 ))}
 
                 {isTyping && (
                     <div className="message-wrapper trainer">
-                        <img src={trainer.avatar} alt="Trainer" className="message-avatar" />
+                        <img src={trainer.avatar_url} alt="Trainer" className="message-avatar" />
                         <div className="message-bubble typing-indicator">
                             <span>.</span><span>.</span><span>.</span>
                         </div>
@@ -119,20 +148,44 @@ export function TrainerChatPage() {
             </div>
 
             <div className="chat-input-area game-panel-dark">
-                <div className="suggested-replies">
+                <div className="suggested-replies" style={{ marginBottom: '1rem' }}>
                     {SUGGESTED_REPLIES.map((reply, i) => (
                         <button
                             key={i}
                             className="reply-chip"
-                            onClick={() => reply.action ? reply.action() : handleSendMessage(reply.text, reply.category)}
+                            onClick={reply.action}
                             disabled={isTyping}
                         >
                             {reply.text}
                         </button>
                     ))}
                 </div>
+                <div className="actual-input-wrapper" style={{ display: 'flex', gap: '8px' }}>
+                    <input
+                        type="text"
+                        className="chat-input-field"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(input)}
+                        placeholder="Typ een bericht..."
+                        disabled={isTyping}
+                        style={{
+                            flex: 1,
+                            padding: '0.75rem',
+                            border: '3px solid #8b5a3c',
+                            background: 'white',
+                            fontFamily: 'inherit'
+                        }}
+                    />
+                    <button
+                        className="btn-kenney primary"
+                        onClick={() => handleSendMessage(input)}
+                        disabled={isTyping || !input.trim()}
+                    >
+                        SEND
+                    </button>
+                </div>
             </div>
         </div>
     );
 }
-

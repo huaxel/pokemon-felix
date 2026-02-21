@@ -1290,5 +1290,82 @@
     {
       "id": 238
     }
-  ]
+  ],
+  "trainers": [
+    {
+      "id": "rival-blue",
+      "name": "Blue (Rivaal)",
+      "type": "rival",
+      "personality": "Arrogant, competitive, calls player 'Gramps', brags about his Pokédex.",
+      "pokemon_team": [
+        "Blastoise",
+        "Arcanine",
+        "Alakazam"
+      ],
+      "avatar_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png"
+    },
+    {
+      "id": "friend-misty",
+      "name": "Misty (Vriendin)",
+      "type": "friend",
+      "personality": "Fiery, caring, water-pokemon-obsessed, direct, gets easily annoyed.",
+      "pokemon_team": [
+        "Starmie",
+        "Psyduck",
+        "Gyarados"
+      ],
+      "avatar_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/121.png"
+    },
+    {
+      "id": "friend-brock",
+      "name": "Brock (Vriend)",
+      "type": "friend",
+      "personality": "Wise, nurturing, reliable, gives advice, loves cooking and breeding.",
+      "pokemon_team": [
+        "Onix",
+        "Geodude",
+        "Vulpix"
+      ],
+      "avatar_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/95.png"
+    },
+    {
+      "id": "rival-silver",
+      "name": "Silver (Rivaal)",
+      "type": "rival",
+      "personality": "Aggressive, hates weakness, values brute force over friendship.",
+      "pokemon_team": [
+        "Feraligatr",
+        "Sneasel",
+        "Crobat"
+      ],
+      "avatar_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/160.png"
+    },
+    {
+      "id": "champion-cynthia",
+      "name": "Cynthia (Kampioen)",
+      "type": "rival",
+      "personality": "Fascinated by mythology, wise, calm, extremely powerful, values bond with Pokemon.",
+      "pokemon_team": [
+        "Garchomp",
+        "Lucario",
+        "Spiritomb"
+      ],
+      "avatar_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/445.png"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "felix-blue",
+      "player_id": "felix",
+      "trainer_id": "rival-blue",
+      "friendship_score": 30,
+      "rivalry_score": 70,
+      "relationship_type": "rival",
+      "battles_won": 0,
+      "battles_lost": 0,
+      "history_summary": "Felix and Blue have just started their journey. Blue thinks Felix is a amateur."
+    }
+  ],
+  "messages": [],
+  "memory_summaries": []
 }
