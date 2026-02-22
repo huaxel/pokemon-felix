@@ -48,7 +48,7 @@ export function TrainerSelectionPage() {
                             <h2 style={{ fontFamily: '"Press Start 2P", cursive', fontSize: '1rem', marginBottom: '0.5rem' }}>
                                 {trainer.name}
                             </h2>
-                            <p className="trainer-quote">"{trainer.quote}"</p>
+                            <p className="trainer-quote">&quot;{trainer.quote}&quot;</p>
 
                             <div className="mode-rewards" style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
                                 <span className="reward-label" style={{ fontWeight: 'bold' }}>Beloning:</span>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Heart, Utensils, X } from 'lucide-react';
+import { X, Heart, Utensils } from 'lucide-react';
 import { useEconomy } from '../../../contexts/DomainContexts';
+import { useCareContext } from '../../../hooks/useCareContext';
 import bagIcon from '../../../assets/items/bag_icon.png';
 import './MemberDetailModal.css';
 
@@ -42,8 +43,8 @@ function StatRow({ label, width, valueText, barClass, barStyle }) {
       <label>{label}</label>
       <div className="stat-bar-pixel">
         <div
-          className={`stat-bar-pixel-fill ${barClass}`}
-          style={{ width: `${width}%`, ...barStyle }}
+          className={`stat - bar - pixel - fill ${barClass} `}
+          style={{ width: `${width}% `, ...barStyle }}
         ></div>
         <span className="stat-value">{valueText}</span>
       </div>
@@ -92,7 +93,7 @@ function BerrySection({ inventory, onUseBerry }) {
           return (
             <button
               key={type.key}
-              className={`btn-kenney neutral`}
+              className={`btn - kenney neutral`}
               onClick={() => onUseBerry(type.key)}
               style={{ width: '100%' }}
             >
@@ -123,6 +124,7 @@ function BerrySection({ inventory, onUseBerry }) {
 
 export function MemberDetailModal({ pokemon, onClose }) {
   const { coins, spendCoins, inventory, removeItem } = useEconomy();
+  const { careStats, updateCareStats } = useCareContext();
   const stats = careStats?.[pokemon.id] || DEFAULT_CARE_STATS;
   const xpStats = pokemon.xpStats || DEFAULT_XP_STATS; // Fallback
   const [message, setMessage] = useState(null);
@@ -233,13 +235,13 @@ export function MemberDetailModal({ pokemon, onClose }) {
               barClass="info"
               barStyle={{ backgroundColor: '#3b82f6' }}
             />
-          </div>
+          </div >
 
           <ActionButtons onHeal={handleHeal} onFeed={handleFeed} />
 
           <BerrySection inventory={inventory} onUseBerry={handleUseBerry} />
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 }

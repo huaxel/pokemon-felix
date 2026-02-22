@@ -184,7 +184,7 @@ export function TrainerBattlePage({ allPokemon }) {
                             color: '#d1d5db'
                         }}
                     >
-                        "{trainer.loseQuote}"
+                        &quot;{trainer.loseQuote}&quot;
                     </p>
                     <div
                         className="reward-badge"
@@ -260,7 +260,7 @@ export function TrainerBattlePage({ allPokemon }) {
                             color: '#d1d5db'
                         }}
                     >
-                        "{trainer.winQuote}"
+                        &quot;{trainer.winQuote}&quot;
                     </p>
                 </div>
                 <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
