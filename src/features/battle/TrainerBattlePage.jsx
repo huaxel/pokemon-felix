@@ -6,6 +6,7 @@ import { getPokemonDetails } from '../../lib/api';
 import { TRAINERS } from '../../lib/trainers';
 import { useToast } from '../../hooks/useToast';
 import { grassTile } from '../world/worldAssets';
+import TrainerChat from '../chat/TrainerChat';
 import './SingleBattlePage.css';
 
 export function TrainerBattlePage({ allPokemon }) {
@@ -19,9 +20,9 @@ export function TrainerBattlePage({ allPokemon }) {
     const [trainer, setTrainer] = useState(null);
     const [opponentPokemon, setOpponentPokemon] = useState(null);
     const [playerPokemon, setPlayerPokemon] = useState(null);
-    const [battleState, setBattleState] = useState('loading'); // loading, battle, victory, defeat
+    const [battleState, setBattleState] = useState('loading'); // loading, chat, battle, victory, defeat
 
-    const startBattle = useCallback(async () => {
+    const prepareBattle = useCallback(async () => {
         const selectedTrainer = TRAINERS.find(t => t.id === trainerId);
         if (!selectedTrainer) {
             navigate('/trainer-selection');
@@ -47,20 +48,24 @@ export function TrainerBattlePage({ allPokemon }) {
 
             setPlayerPokemon(playerDetails);
             setOpponentPokemon(opponentDetails);
-            setBattleState('battle');
+            setBattleState('chat');
         } catch (error) {
-            console.error('Failed to start battle:', error);
+            console.error('Failed to prepare battle:', error);
             setPlayerPokemon(player);
             setOpponentPokemon(signaturePokemon);
-            setBattleState('battle');
+            setBattleState('chat');
         }
     }, [allPokemon, squadIds, trainerId, navigate]);
 
+    const startBattle = () => {
+        setBattleState('battle');
+    };
+
     useEffect(() => {
         if (allPokemon && allPokemon.length > 0 && squadIds.length > 0) {
-            startBattle();
+            prepareBattle();
         }
-    }, [allPokemon, squadIds, startBattle]);
+    }, [allPokemon, squadIds, prepareBattle]);
 
     const handleBattleEnd = winner => {
         if (winner.id === playerPokemon.id) {
@@ -92,6 +97,44 @@ export function TrainerBattlePage({ allPokemon }) {
                 }}
             >
                 Gevecht voorbereiden...
+            </div>
+        );
+    }
+
+    if (battleState === 'chat') {
+        return (
+            <div
+                className="single-battle-page"
+                style={{
+                    backgroundColor: '#2d1810',
+                    backgroundImage: `url(${grassTile})`,
+                    backgroundSize: '64px',
+                    backgroundRepeat: 'repeat',
+                    imageRendering: 'pixelated',
+                    minHeight: '100vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem'
+                }}
+            >
+                <div className="battle-header-simple" style={{ marginBottom: '1rem', width: '100%', maxWidth: '600px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h2 style={{ fontFamily: '"Press Start 2P", cursive', color: 'white', textShadow: '2px 2px 0 #000', fontSize: '1.2rem', margin: 0 }}>
+                        Ontmoeting met {trainer.name}
+                    </h2>
+                    <Link to="/trainer-selection" className="close-btn btn-kenney neutral">✕</Link>
+                </div>
+
+                <TrainerChat trainer={trainer} onStartBattle={startBattle} />
+
+                <button
+                    className="game-button game-button-danger"
+                    style={{ marginTop: '2rem' }}
+                    onClick={startBattle}
+                >
+                    Daag uit voor gevecht!
+                </button>
             </div>
         );
     }
@@ -157,7 +200,7 @@ export function TrainerBattlePage({ allPokemon }) {
                     </div>
                 </div>
                 <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
-                    <button className="replay-btn btn-kenney primary" onClick={startBattle}>
+                    <button className="replay-btn btn-kenney primary" onClick={prepareBattle}>
                         Revanche
                     </button>
                     <Link
@@ -221,7 +264,7 @@ export function TrainerBattlePage({ allPokemon }) {
                     </p>
                 </div>
                 <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
-                    <button className="replay-btn btn-kenney warning" onClick={startBattle}>
+                    <button className="replay-btn btn-kenney warning" onClick={prepareBattle}>
                         Probeer Opnieuw
                     </button>
                     <Link

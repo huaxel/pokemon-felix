@@ -1,4 +1,5 @@
 const BASE_URL = import.meta.env.VITE_POKEMON_API_URL || 'https://pokeapi.co/api/v2';
+const LLM_URL = import.meta.env.VITE_LLM_URL || 'http://localhost:3005';
 
 export async function getPokemonList(limit = 20, offset = 0) {
   const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`);
@@ -72,8 +73,6 @@ export async function getAllPokemonNames() {
   return data.results.map(p => p.name);
 }
 
-
-
 export async function getMoveDetails(url) {
   try {
     const response = await fetch(url);
@@ -91,6 +90,7 @@ export async function getMoveDetails(url) {
     return null;
   }
 }
+
 export async function getTrainer(id) {
   const response = await fetch(`${import.meta.env.VITE_DB_URL}/trainers/${id}`);
   if (!response.ok) return null;
@@ -144,5 +144,21 @@ export async function saveMessage(playerId, trainerId, role, content) {
       timestamp: new Date().toISOString()
     })
   });
+  return response.json();
+}
+
+export async function sendLLMMessage(trainerId, content) {
+  const response = await fetch(`${LLM_URL}/api/chat/${trainerId}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sender: 'player', content })
+  });
+  if (!response.ok) throw new Error('Failed to send message to LLM');
+  return response.json();
+}
+
+export async function getLLMChatHistory(trainerId) {
+  const response = await fetch(`${LLM_URL}/api/chat/${trainerId}`);
+  if (!response.ok) return [];
   return response.json();
 }
