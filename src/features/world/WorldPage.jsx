@@ -272,6 +272,20 @@ export function WorldPage() {
         getDirectionHint={getDirectionHint}
         showMessage={showMessage}
       />
+      <button
+        className="btn-kenney"
+        onClick={() => navigate('/safari')}
+        style={{
+          position: 'absolute',
+          top: '130px',
+          right: '20px',
+          backgroundColor: '#4ade80',
+          color: '#064e3b',
+          zIndex: 100
+        }}
+      >
+        🏕️ Safari 3D (Beta)
+      </button>
       {activeEffect.name !== 'Normal' && (
         <div
           className="active-effect-hud dialogue-box-sharp"

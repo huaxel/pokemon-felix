@@ -45,6 +45,7 @@ import { WorldSelectionPage } from './features/world/pages/WorldSelectionPage';
 import { TrainerSelectionPage } from './features/battle/TrainerSelectionPage';
 import { TrainerBattlePage } from './features/battle/TrainerBattlePage';
 import { TrainerChatPage } from './features/chat/TrainerChatPage';
+import { SafariZone3D } from './features/world/pages/SafariZone3D';
 
 export function AppRoutes({
 
@@ -102,6 +103,7 @@ export function AppRoutes({
         <Route path="/decor-shop" element={<DecorShopPage />} />
         <Route path="/center" element={<PokemonCenterPage />} />
         <Route path="/world-select" element={<WorldSelectionPage />} />
+        <Route path="/safari" element={<SafariZone3D />} />
       </Routes>
 
       {selectedPokemon && (

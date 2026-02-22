@@ -28,6 +28,7 @@ function App() {
     '/secret-cave',
     '/water-route',
     '/porygon-lab',
+    '/safari',
   ];
 
   // Keyboard shortcut for Python Terminal (Ctrl+`)
