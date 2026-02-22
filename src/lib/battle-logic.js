@@ -508,101 +508,110 @@ export const getMoves = pokemon => {
   return uniqueMoves.slice(0, 4);
 };
 
+const applyFatigueModifier = (damage, fatigue) => {
+  if (fatigue > 80) return { damage: Math.floor(damage * 0.5), msg: ' 💤 Uitgeput!' };
+  if (fatigue > 50) return { damage: Math.floor(damage * 0.8), msg: ' 🥱 Moe!' };
+  return { damage, msg: '' };
+};
+
+const applyStatusModifier = (damage, attackerStatus, moveCategory) => {
+  if (attackerStatus === 'burn' && moveCategory !== 'special') {
+    return { damage: Math.floor(damage * 0.5), msg: ' (Verbrand)' };
+  }
+  return { damage, msg: '' };
+};
+
+const applyCriticalModifier = (damage) => {
+  const isCrit = randomService.bool(0.06); // 6% chance
+  if (isCrit) {
+    return { damage: Math.floor(damage * 1.5), isCrit: true, msg: ' 🎯 KRITIEK!' };
+  }
+  return { damage, isCrit: false, msg: '' };
+};
+
+const applyRecoil = (damage, moveRecoil) => {
+  if (!moveRecoil) return { damage, recoilDamage: 0, msg: '' };
+  const recoilDamage = Math.floor(damage * moveRecoil);
+  return {
+    damage: damage - recoilDamage,
+    recoilDamage: recoilDamage,
+    msg: recoilDamage > 0 ? ` 💥 Split! -${recoilDamage} HP terugslag!` : ''
+  };
+};
+
+const determineAppliedStatus = (move) => {
+  if (move.status && randomService.bool(move.statusChance || 0.1)) {
+    const statusIcons = { burn: '🔥', paralysis: '⚡', freeze: '❄️', poison: '☠️', sleep: '💤', speed_down: '🐌' };
+    const statusNames = { burn: 'VERBRAND', paralysis: 'VERLAMD', freeze: 'BEVROREN', poison: 'VERGIFTIGD', sleep: 'SLAAP', speed_down: 'SNELHEID OMLAAG' };
+    return {
+      status: move.status,
+      msg: ` ${statusIcons[move.status] || '✨'} ${statusNames[move.status] || move.status.toUpperCase()}!`
+    };
+  }
+  return { status: null, msg: '' };
+};
+
 export const calculateSmartDamage = (
   attacker,
   defender,
   move,
   { lastMoveName, fatigue = 0, isWeakened = false, attackerStatus = null } = {}
 ) => {
-  // 0. Forced Weakness Damage
+  // 0. Forced Weakness Damage (Takes Precedence)
   if (isWeakened) {
-    return {
-      damage: 5,
-      recoilDamage: 0,
-      effectiveness: 1,
-      message: ' 😵 Verzwakt! (Max schade)',
-      isCrit: false,
-      appliedStatus: null,
-    };
+    return { damage: 5, recoilDamage: 0, effectiveness: 1, message: ' 😵 Verzwakt! (Max schade)', isCrit: false, appliedStatus: null };
   }
 
-  // 1. Calculate Base Damage using existing helper
+  // 1. Calculate Base Damage
   const baseResult = calculateDamage(attacker, defender, move);
-  let { damage } = baseResult;
-  const { effectiveness } = baseResult; // Changed to const
-  let message = '';
+  let currentDamage = baseResult.damage;
+  const effectiveness = baseResult.effectiveness;
+  let finalMessage = '';
 
-  // Status: Burn reduces attack by 50% (unless ability says otherwise, ignoring guts for now)
-  if (attackerStatus === 'burn' && move.category !== 'special') {
-    // Simplify: just reduce all damage for now
-    damage = Math.floor(damage * 0.5);
-    message += ' (Verbrand)';
-  }
+  // 2. Status Damage Reduction
+  const statusMod = applyStatusModifier(currentDamage, attackerStatus, move.category);
+  currentDamage = statusMod.damage;
+  finalMessage += statusMod.msg;
 
+  // 3. Specialist & Combo Bonuses
   const isSpecialist = attacker.types?.some(t => t.type.name === move.type);
-  if (isSpecialist) damage = Math.floor(damage * 1.5);
+  if (isSpecialist) currentDamage = Math.floor(currentDamage * 1.5);
+  
+  if (move.isCombo) currentDamage = Math.floor(currentDamage * 1.2);
 
-  const isCombo = move.isCombo;
-  if (isCombo) damage = Math.floor(damage * 1.2);
-
-  // 2. Anti-Spam Penalty
+  // 4. Anti-Spam Penalty
   if (lastMoveName && move.name === lastMoveName) {
-    damage = Math.floor(damage * 0.6); // 40% reduction
-    message = '⚠️ Herhalend!';
+    currentDamage = Math.floor(currentDamage * 0.6);
+    finalMessage = '⚠️ Herhalend!';
   }
 
-  // 3. Fatigue Penalty (Sprint 4)
-  if (fatigue > 50) {
-    damage = Math.floor(damage * 0.8); // 20% reduction
-    message += ' 🥱 Moe!';
-  } else if (fatigue > 80) {
-    damage = Math.floor(damage * 0.5); // 50% reduction
-    message += ' 💤 Uitgeput!';
-  }
+  // 5. Fatigue Penalty
+  const fatigueMod = applyFatigueModifier(currentDamage, fatigue);
+  currentDamage = fatigueMod.damage;
+  finalMessage += fatigueMod.msg;
 
-  // 4. Critical Hit
-  const isCrit = randomService.bool(0.06); // 6% chance
-  if (isCrit) {
-    damage = Math.floor(damage * 1.5);
-    message += ' 🎯 KRITIEK!';
-  }
+  // 6. Critical Hit
+  const critMod = applyCriticalModifier(currentDamage);
+  currentDamage = critMod.damage;
+  const isCrit = critMod.isCrit;
+  finalMessage += critMod.msg;
 
-  // 5. Recoil / Damage Split
-  let recoilDamage = 0;
-  if (move.recoil) {
-    recoilDamage = Math.floor(damage * move.recoil);
-    damage = damage - recoilDamage; // The "Split" effect
-    if (recoilDamage > 0) message += ` 💥 Split! -${recoilDamage} HP terugslag!`;
-  }
+  // 7. Recoil
+  const recoilMod = applyRecoil(currentDamage, move.recoil);
+  currentDamage = recoilMod.damage;
+  const recoilDamage = recoilMod.recoilDamage;
+  finalMessage += recoilMod.msg;
 
-  // 6. Status Effects
-  let appliedStatus = null;
-  if (move.status && randomService.bool(move.statusChance || 0.1)) {
-    appliedStatus = move.status;
-    const statusIcons = {
-      burn: '🔥',
-      paralysis: '⚡',
-      freeze: '❄️',
-      poison: '☠️',
-      sleep: '💤',
-      speed_down: '🐌',
-    };
-    const statusNames = {
-      burn: 'VERBRAND',
-      paralysis: 'VERLAMD',
-      freeze: 'BEVROREN',
-      poison: 'VERGIFTIGD',
-      sleep: 'SLAAP',
-      speed_down: 'SNELHEID OMLAAG',
-    };
-    message += ` ${statusIcons[move.status] || '✨'} ${statusNames[move.status] || move.status.toUpperCase()}!`;
-  }
+  // 8. Apply Move Status Effects
+  const effectMod = determineAppliedStatus(move);
+  const appliedStatus = effectMod.status;
+  finalMessage += effectMod.msg;
 
   return {
-    damage,
+    damage: currentDamage,
     recoilDamage,
     effectiveness,
-    message,
+    message: finalMessage,
     isCrit,
     appliedStatus,
   };

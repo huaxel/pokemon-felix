@@ -1,12 +1,12 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEconomy, useDomainCollection, useData } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
-import { getPokemonDetails } from '../../../lib/api';
-import { BattleArena } from '../../battle/components/BattleArena';
-import { BattleRewardModal } from '../components/BattleRewardModal';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { caveEntranceTile } from '../worldAssets';
+import { EncounterModal } from '../components/EncounterModal';
+import { useEncounter } from '../hooks/useEncounter';
+import { PuzzleView } from '../components/PuzzleView';
 import './CaveDungeonPage.css';
 
 const CAVE_POKEMON = [41, 42, 74, 75, 95, 35, 36];
@@ -26,239 +26,28 @@ const PUZZLES = {
   4: { type: 'ice', description: 'Glijd over het ijs naar de uitgang', slides: 4, target: 4 },
 };
 
-function PuzzleView({ puzzle, puzzleState, onAction, onNext, floor }) {
-  return (
-    <div
-      className="puzzle-container game-panel-dark"
-      style={{
-        border: '4px solid #4b5563',
-        backgroundColor: '#1f2937',
-        padding: '1rem',
-        color: '#fff',
-      }}
-    >
-      <h2
-        style={{
-          fontFamily: '"Press Start 2P", cursive',
-          fontSize: '1rem',
-          marginBottom: '1rem',
-          color: '#fbbf24',
-        }}
-      >
-        {puzzle.description}
-      </h2>
-
-      {puzzle.type === 'push' && (
-        <div className="push-puzzle">
-          <div className="puzzle-grid" style={{ marginBottom: '1rem' }}>
-            <div className="block" style={{ fontSize: '2rem' }}>
-              📦
-            </div>
-            <div className="target" style={{ fontSize: '2rem' }}>
-              ❌
-            </div>
-          </div>
-          <div
-            className="puzzle-progress"
-            style={{
-              fontFamily: '"Press Start 2P", cursive',
-              fontSize: '0.8rem',
-              marginBottom: '1rem',
-            }}
-          >
-            Zetten: {puzzleState.progress}/{puzzle.solution.length}
-          </div>
-          <button className="btn-kenney primary" onClick={onAction}>
-            Blok Duwen
-          </button>
-        </div>
-      )}
-
-      {puzzle.type === 'switch' && (
-        <div className="switch-puzzle">
-          <div
-            className="switches"
-            style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '1rem' }}
-          >
-            {Array.from({ length: puzzle.switches }).map((_, i) => (
-              <div
-                key={i}
-                className={`switch ${i < puzzleState.progress ? 'active' : ''}`}
-                style={{ fontSize: '2rem' }}
-              >
-                {i < puzzleState.progress ? '🟢' : '🔴'}
-              </div>
-            ))}
-          </div>
-          <button className="btn-kenney primary" onClick={onAction}>
-            Schakelaar Activeren
-          </button>
-        </div>
-      )}
-
-      {puzzle.type === 'dark' && (
-        <div className="dark-puzzle">
-          <div className="dark-room" style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-            🌑
-          </div>
-          <div
-            className="puzzle-progress"
-            style={{
-              fontFamily: '"Press Start 2P", cursive',
-              fontSize: '0.8rem',
-              marginBottom: '1rem',
-            }}
-          >
-            Stappen: {puzzleState.progress}/{puzzle.moves}
-          </div>
-          <button className="btn-kenney primary" onClick={onAction}>
-            Vooruit in het donker
-          </button>
-        </div>
-      )}
-
-      {puzzle.type === 'ice' && (
-        <div className="ice-puzzle">
-          <div className="ice-floor" style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-            🧊
-          </div>
-          <div
-            className="puzzle-progress"
-            style={{
-              fontFamily: '"Press Start 2P", cursive',
-              fontSize: '0.8rem',
-              marginBottom: '1rem',
-            }}
-          >
-            Glijbewegingen: {puzzleState.progress}/{puzzle.slides}
-          </div>
-          <button className="btn-kenney primary" onClick={onAction}>
-            Glijden
-          </button>
-        </div>
-      )}
-
-      {puzzleState.completed && (
-        <button
-          className="btn-kenney success"
-          onClick={onNext}
-          style={{ marginTop: '1.5rem', width: '100%' }}
-        >
-          {floor < 5 ? '⬇️ Volgende Verdieping' : '🏆 Kerker Voltooien'}
-        </button>
-      )}
-    </div>
-  );
-}
-
-function EncounterModal({
-  encounter,
-  showReward,
-  battleMode,
-  onRewardChoice,
-  onBattleEnd,
-  onCatch,
-  onFight,
-  onFlee,
-  floor,
-  pokemonList,
-  squadIds,
-}) {
-  return (
-    <div
-      className="encounter-modal"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.8)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 100,
-      }}
-    >
-      <div
-        className="encounter-content game-panel"
-        style={{
-          backgroundColor: '#fff',
-          padding: '2rem',
-          borderRadius: '1rem',
-          border: '4px solid #4b5563',
-          maxWidth: '90%',
-        }}
-      >
-        {showReward ? (
-          <BattleRewardModal pokemon={encounter} onChoice={onRewardChoice} />
-        ) : battleMode ? (
-          <BattleArena
-            initialFighter1={pokemonList.find(p => p.id === squadIds[0])}
-            initialFighter2={encounter}
-            onBattleEnd={onBattleEnd}
-          />
-        ) : (
-          <>
-            <h2
-              style={{
-                fontFamily: '"Press Start 2P", cursive',
-                fontSize: '1rem',
-                textAlign: 'center',
-                marginBottom: '1rem',
-              }}
-            >
-              {floor === 5 ? '👑 Eindbaas!' : 'Wilde Pokémon!'}
-            </h2>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-              <img
-                src={encounter.sprites.front_default}
-                alt={encounter.name}
-                style={{ imageRendering: 'pixelated', width: '128px', height: '128px' }}
-              />
-            </div>
-            <h3
-              style={{
-                fontFamily: '"Press Start 2P", cursive',
-                fontSize: '0.8rem',
-                textAlign: 'center',
-                marginBottom: '2rem',
-              }}
-            >
-              {encounter.name}
-            </h3>
-            <div
-              className="encounter-actions"
-              style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
-            >
-              <button className="btn-kenney success" onClick={onCatch}>
-                ⚾ Vangen
-              </button>
-              <button className="btn-kenney danger" onClick={onFight}>
-                ⚔️ Vechten
-              </button>
-              <button className="btn-kenney neutral" onClick={onFlee}>
-                🏃 Vluchten
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
 export function CaveDungeonPage() {
-  const { showSuccess, showError, showInfo, showWarning } = useToast();
+  const { showSuccess, showInfo, showWarning } = useToast();
   const navigate = useNavigate();
-  const { addCoins, addItem } = useEconomy();
-  const { toggleOwned, squadIds } = useDomainCollection();
+  const { addCoins } = useEconomy();
+  const { squadIds } = useDomainCollection();
   const { pokemonList } = useData();
+
   const [floor, setFloor] = useState(1);
   const [puzzleState, setPuzzleState] = useState({ completed: false, progress: 0 });
-  const [encounter, setEncounter] = useState(null);
-  const [battleMode, setBattleMode] = useState(false);
-  const [showReward, setShowReward] = useState(false);
+
+  const {
+    encounter,
+    battleMode,
+    showReward,
+    isBoss,
+    setBattleMode,
+    triggerEncounter,
+    clearEncounter,
+    handleCatch,
+    handleBattleEnd,
+    handleRewardChoice,
+  } = useEncounter({});
 
   const handlePuzzleAction = () => {
     const puzzle = PUZZLES[floor];
@@ -277,59 +66,8 @@ export function CaveDungeonPage() {
     const reward = Math.floor(Math.random() * 200) + 100;
     addCoins(reward);
     if (Math.random() > 0.5) {
-      triggerEncounter();
+      triggerEncounter(floor === 5 ? BOSS_POKEMON : CAVE_POKEMON, floor === 5);
     }
-  };
-
-  const triggerEncounter = async () => {
-    const pokemonPool = floor === 5 ? BOSS_POKEMON : CAVE_POKEMON;
-    const randomId = pokemonPool[Math.floor(Math.random() * pokemonPool.length)];
-    const details = await getPokemonDetails(randomId);
-    setEncounter(details);
-  };
-
-  const handleCatch = () => {
-    if (encounter) {
-      const success = Math.random() > 0.3;
-      if (success) {
-        toggleOwned(encounter.id);
-        showSuccess(`✅ Je hebt ${encounter.name} gevangen!`);
-        if (floor === 5) {
-          addCoins(500);
-          addItem('rare-candy', 3);
-        }
-        setEncounter(null);
-      } else {
-        showError(`❌ ${encounter.name} is ontsnapt...`);
-        setEncounter(null);
-      }
-    }
-  };
-
-  const handleBattleEnd = useCallback(
-    winner => {
-      if (winner && winner.name !== encounter?.name) {
-        setShowReward(true);
-      } else {
-        setBattleMode(false);
-        setEncounter(null);
-      }
-    },
-    [encounter]
-  );
-
-  const handleRewardChoice = choice => {
-    if (choice === 'pokemon') {
-      toggleOwned(encounter.id);
-      showSuccess(`✅ ${encounter.name} voegde zich bij je team!`);
-    } else {
-      addCoins(500);
-      showWarning(`✅ Je hebt 500 munten gewonnen!`);
-    }
-
-    setShowReward(false);
-    setBattleMode(false);
-    setEncounter(null);
   };
 
   const nextFloor = () => {
@@ -395,12 +133,12 @@ export function CaveDungeonPage() {
           encounter={encounter}
           showReward={showReward}
           battleMode={battleMode}
+          isBoss={isBoss}
           onRewardChoice={handleRewardChoice}
           onBattleEnd={handleBattleEnd}
           onCatch={handleCatch}
           onFight={() => setBattleMode(true)}
-          onFlee={() => setEncounter(null)}
-          floor={floor}
+          onFlee={clearEncounter}
           pokemonList={pokemonList}
           squadIds={squadIds}
         />

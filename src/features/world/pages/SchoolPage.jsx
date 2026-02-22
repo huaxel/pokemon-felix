@@ -235,27 +235,21 @@ export function SchoolPage() {
 
   return (
     <div
-      className="school-page"
-      style={{
-        backgroundColor: '#2d1810',
-        backgroundImage: `url(${grassTile})`,
-        backgroundSize: '64px',
-        backgroundRepeat: 'repeat',
-        imageRendering: 'pixelated',
-      }}
+      className="school-page school-environment-bg"
+      style={{ backgroundImage: `url(${grassTile})` }}
     >
       <header className="school-header">
         <Link to="/adventure" className="btn-adventure back-btn">
           Terug naar Wereld
         </Link>
-        <h1 style={{ fontFamily: 'var(--header-font)', textShadow: '2px 2px 0 #000' }}>
+        <h1 className="school-title">
           <GraduationCap /> Pokémon School
         </h1>
-        <div className="coin-display" style={{ fontFamily: 'var(--header-font)' }}>
+        <div className="coin-display school-coin-display">
           <img
             src={bagIcon}
             alt="coins"
-            style={{ imageRendering: 'pixelated', width: '24px', height: '24px' }}
+            className="school-coin-icon"
           />{' '}
           {coins}
         </div>
@@ -263,34 +257,18 @@ export function SchoolPage() {
 
       {view === 'menu' && (
         <div className="school-menu">
-          <div
-            className="school-intro-container"
-            style={{
-              backgroundColor: 'rgba(0,0,0,0.6)',
-              padding: '1rem',
-              borderRadius: '8px',
-              border: '4px solid #8b5cf6',
-            }}
-          >
+          <div className="school-intro-container school-intro-overlay">
             <img
               src={professorTile}
               alt="Professor"
-              className="school-npc"
-              style={{ imageRendering: 'pixelated', width: '96px', height: '96px' }}
+              className="school-npc school-npc-image"
             />
             <div className="school-intro">
               <BookOpen size={48} className="intro-icon" color="#fbbf24" />
-              <h2
-                style={{
-                  fontFamily: 'var(--header-font)',
-                  color: '#fbbf24',
-                  fontSize: '1.2rem',
-                  marginBottom: '0.5rem',
-                }}
-              >
+              <h2 className="school-greeting-text">
                 Hallo Felix! Welkom in de klas.
               </h2>
-              <p style={{ color: '#fff' }}>
+              <p className="school-greeting-subtext">
                 Leer over je Pokémon en los problemen op om munten te verdienen.
               </p>
             </div>
@@ -306,26 +284,19 @@ export function SchoolPage() {
             ))}
           </div>
           <div className="advanced-section">
-            <h3
-              style={{
-                fontFamily: 'var(--header-font)',
-                color: '#fff',
-                textShadow: '2px 2px 0 #000',
-              }}
-            >
+            <h3 className="school-advanced-title">
               🎓 Geavanceerde Lessen
             </h3>
             <div className="quiz-grid">
               <div
-                className="quiz-card porygon-card"
+                className="quiz-card porygon-card porygon-lab-card"
                 onClick={() => (window.location.href = '/porygon-lab')}
-                style={{ cursor: 'pointer', border: '4px solid #ec4899', backgroundColor: '#fff' }}
               >
                 <div className="quiz-icon">
                   <Brain color="#ec4899" />
                 </div>
                 <div className="quiz-info">
-                  <h3 style={{ fontFamily: 'var(--header-font)', fontSize: '0.9rem' }}>
+                  <h3 className="porygon-lab-title">
                     Porygon Laboratorium
                   </h3>
                   <p>Leer algoritmen door Porygon te programmeren.</p>

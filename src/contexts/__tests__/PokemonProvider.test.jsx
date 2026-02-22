@@ -2,7 +2,7 @@ import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { PokemonProvider } from '../PokemonProvider';
-import { usePokemonContext } from '../../hooks/usePokemonContext';
+import { useEconomy, useData, useDomainCollection } from '../DomainContexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 vi.mock('../../hooks/usePokemonQueries', () => ({
@@ -68,16 +68,18 @@ const localStorageMock = (() => {
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
 const TestConsumer = () => {
-  const context = usePokemonContext();
+  const { coins, addCoins } = useEconomy();
+  const { pokemonList } = useData();
+  const { ownedIds, toggleOwned } = useDomainCollection();
 
   return (
     <React.Fragment>
       <div>
-        <div data-testid="coins">{context.coins}</div>
-        <div data-testid="pokemon-list-length">{context.pokemonList?.length}</div>
-        <button onClick={() => context.addCoins(100)}>Add Coins</button>
-        <div data-testid="owned-count">{context.ownedIds?.length || 0}</div>
-        <button onClick={() => context.toggleOwned(1)}>Toggle Owned 1</button>
+        <div data-testid="coins">{coins}</div>
+        <div data-testid="pokemon-list-length">{pokemonList?.length}</div>
+        <button onClick={() => addCoins(100)}>Add Coins</button>
+        <div data-testid="owned-count">{ownedIds?.length || 0}</div>
+        <button onClick={() => toggleOwned(1)}>Toggle Owned 1</button>
       </div>
     </React.Fragment>
   );
@@ -102,7 +104,7 @@ const createWrapper = () => {
   return PokemonProviderWrapper;
 };
 
-describe('PokemonContext Integration', () => {
+describe('PokemonProvider Integration', () => {
   beforeEach(() => {
     window.localStorage.clear();
     vi.clearAllMocks();

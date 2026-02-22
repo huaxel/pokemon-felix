@@ -1,27 +1,36 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useDomainCollection, useData, useEconomy } from '../../../contexts/DomainContexts';
-import { BattleArena } from '../../battle/components/BattleArena';
+import { useDomainCollection, useData } from '../../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../../lib/api';
 import { CaveLockedView } from '../components/CaveLockedView';
 import { CaveExplorationView } from '../components/CaveExplorationView';
-import { CaveEncounterView } from '../components/CaveEncounterView';
-import { BattleRewardModal } from '../components/BattleRewardModal';
+import { EncounterModal } from '../components/EncounterModal';
+import { useEncounter } from '../hooks/useEncounter';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import './SecretCavePage.css';
 
 export function SecretCavePage() {
   const navigate = useNavigate();
-  const { ownedIds, toggleOwned, squadIds } = useDomainCollection();
+  const { ownedIds, squadIds } = useDomainCollection();
   const { pokemonList } = useData();
-  const { addCoins } = useEconomy();
+
   const [discovered, setDiscovered] = useState(false);
   const [depth, setDepth] = useState(0);
-  const [encounter, setEncounter] = useState(null);
-  const [catching, setCatching] = useState(false);
-  const [catchMessage, setCatchMessage] = useState('');
-  const [battleMode, setBattleMode] = useState(false);
-  const [showReward, setShowReward] = useState(false);
+
+  const {
+    encounter,
+    setEncounter,
+    battleMode,
+    showReward,
+    isBoss,
+    catching,
+    catchMessage,
+    setBattleMode,
+    clearEncounter,
+    handleCatch,
+    handleBattleEnd,
+    handleRewardChoice,
+  } = useEncounter({});
 
   const hasRareCandy = ownedIds.length >= 10; // Simple requirement for now
 
@@ -57,56 +66,6 @@ export function SecretCavePage() {
     }
   };
 
-  const handleCatch = () => {
-    setCatching(true);
-    setCatchMessage('You threw a PokeBall...');
-
-    setTimeout(() => {
-      const success = Math.random() > 0.4;
-      if (success) {
-        setCatchMessage(`Gotcha! ${encounter.name} was caught!`);
-        toggleOwned(encounter.id);
-        setTimeout(() => {
-          setEncounter(null);
-          setCatching(false);
-          setCatchMessage('');
-        }, 2000);
-      } else {
-        setCatchMessage(`${encounter.name} broke free!`);
-        setTimeout(() => {
-          setCatching(false);
-          setCatchMessage('');
-        }, 1500);
-      }
-    }, 1500);
-  };
-  const handleBattleEnd = useCallback(
-    winner => {
-      if (winner && winner.name !== encounter?.name) {
-        setShowReward(true);
-      } else {
-        setBattleMode(false);
-        setEncounter(null);
-      }
-    },
-    [encounter]
-  );
-
-  const handleRewardChoice = choice => {
-    if (choice === 'pokemon') {
-      toggleOwned(encounter.id);
-      setCatchMessage(`¡Gotcha! ${encounter.name} se unió a tu equipo.`);
-    } else {
-      if (addCoins) addCoins(500);
-      setCatchMessage(`¡Recibiste 500 monedas!`);
-    }
-
-    setShowReward(false);
-    setBattleMode(false);
-    setEncounter(null);
-    setTimeout(() => setCatchMessage(''), 3000);
-  };
-
   if (!hasRareCandy && !discovered) {
     return <CaveLockedView />;
   }
@@ -139,21 +98,21 @@ export function SecretCavePage() {
       />
 
       <main className="cave-main">
-        {showReward && <BattleRewardModal pokemon={encounter} onChoice={handleRewardChoice} />}
-        {battleMode ? (
-          <BattleArena
-            initialFighter1={pokemonList.find(p => p.id === squadIds[0])}
-            initialFighter2={encounter}
-            onBattleEnd={handleBattleEnd}
-          />
-        ) : encounter ? (
-          <CaveEncounterView
-            pokemon={encounter}
+        {encounter ? (
+          <EncounterModal
+            encounter={encounter}
+            showReward={showReward}
+            battleMode={battleMode}
+            isBoss={isBoss}
             catching={catching}
             catchMessage={catchMessage}
+            onRewardChoice={handleRewardChoice}
+            onBattleEnd={handleBattleEnd}
             onCatch={handleCatch}
-            onFlee={() => setEncounter(null)}
             onFight={() => setBattleMode(true)}
+            onFlee={clearEncounter}
+            pokemonList={pokemonList}
+            squadIds={squadIds}
           />
         ) : (
           <CaveExplorationView

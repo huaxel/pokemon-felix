@@ -397,3 +397,62 @@
   transform: translateY(4px);
   box-shadow: 0 2px 0 #b45309;
 }
+
+/* Extracted Inline Styles from GymPage.jsx */
+
+.gym-environment-bg {
+  background-color: #2d1810;
+  background-size: 64px;
+  background-repeat: repeat;
+  image-rendering: pixelated;
+  min-height: 100vh;
+}
+
+.gym-battle-title {
+  font-family: "Press Start 2P", cursive;
+  font-size: 1rem;
+}
+
+.gym-loading-text {
+  font-family: "Press Start 2P", cursive;
+}
+
+.centered-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gym-victory-title {
+  font-family: "Press Start 2P", cursive;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.gym-reward-text {
+  font-family: "Press Start 2P", cursive;
+  font-size: 1rem;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.gym-reward-icon {
+  width: 24px;
+  height: 24px;
+  image-rendering: pixelated;
+}
+
+.gym-victory-btn {
+  padding: 1rem 2rem;
+}
+
+.gym-content {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+

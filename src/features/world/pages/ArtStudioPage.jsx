@@ -51,20 +51,14 @@ export function ArtStudioPage() {
 
   return (
     <div
-      className="artstudio-page"
-      style={{
-        backgroundColor: '#2d1810',
-        backgroundImage: `url(${grassTile})`,
-        backgroundSize: '64px',
-        backgroundRepeat: 'repeat',
-        imageRendering: 'pixelated',
-      }}
+      className="artstudio-page studio-environment-bg"
+      style={{ backgroundImage: `url(${grassTile})` }}
     >
       <div className="studio-header">
         <button className="back-btn btn-kenney" onClick={() => navigate('/world')}>
           <ArrowLeft size={24} />
         </button>
-        <h1 style={{ fontFamily: '"Press Start 2P", cursive', textShadow: '2px 2px 0 #000' }}>
+        <h1 className="studio-title">
           Kunstatelier
         </h1>
         <div className="studio-controls">
@@ -81,34 +75,14 @@ export function ArtStudioPage() {
       </div>
 
       {savedMessage && (
-        <div
-          className="saved-message"
-          style={{
-            fontFamily: '"Press Start 2P", cursive',
-            backgroundColor: '#22c55e',
-            color: '#fff',
-            padding: '1rem',
-            borderRadius: '8px',
-            border: '4px solid #15803d',
-          }}
-        >
+        <div className="saved-message studio-saved-overlay">
           {savedMessage}
         </div>
       )}
 
       <div className="studio-content">
-        <div
-          className="sidebar game-panel-dark"
-          style={{ border: '4px solid #4b5563', backgroundColor: '#1f2937', padding: '1rem' }}
-        >
-          <h3
-            style={{
-              fontFamily: '"Press Start 2P", cursive',
-              fontSize: '0.8rem',
-              color: '#fff',
-              marginBottom: '1rem',
-            }}
-          >
+        <div className="sidebar game-panel-dark studio-sidebar-panel">
+          <h3 className="studio-sidebar-title">
             Modellen
           </h3>
           <div className="pokemon-grid">
@@ -117,25 +91,13 @@ export function ArtStudioPage() {
                 key={p.id}
                 className={`pokemon-thumb ${selectedId === p.id ? 'active' : ''}`}
                 onClick={() => setSelectedId(p.id)}
-                style={{
-                  border: selectedId === p.id ? '4px solid #fbbf24' : '2px solid #4b5563',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                }}
               >
-                <img src={p.image} alt={p.name} style={{ imageRendering: 'pixelated' }} />
+                <img src={p.image} alt={p.name} className="studio-pixelated-img" />
               </div>
             ))}
           </div>
 
-          <h3
-            style={{
-              fontFamily: '"Press Start 2P", cursive',
-              fontSize: '0.8rem',
-              color: '#fff',
-              margin: '1rem 0',
-            }}
-          >
+          <h3 className="studio-sidebar-title">
             Filters
           </h3>
           <div className="filter-grid">
@@ -144,21 +106,13 @@ export function ArtStudioPage() {
                 key={f.id}
                 className={`filter-btn btn-kenney ${selectedFilter === f.id ? 'primary' : 'secondary'}`}
                 onClick={() => setSelectedFilter(f.id)}
-                style={{ fontSize: '0.7rem' }}
               >
                 {f.name}
               </button>
             ))}
           </div>
 
-          <h3
-            style={{
-              fontFamily: '"Press Start 2P", cursive',
-              fontSize: '0.8rem',
-              color: '#fff',
-              margin: '1rem 0',
-            }}
-          >
+          <h3 className="studio-sidebar-title">
             Lijsten
           </h3>
           <div className="filter-grid">
@@ -167,7 +121,6 @@ export function ArtStudioPage() {
                 key={f.id}
                 className={`filter-btn btn-kenney ${selectedFrame === f.id ? 'primary' : 'secondary'}`}
                 onClick={() => setSelectedFrame(f.id)}
-                style={{ fontSize: '0.7rem' }}
               >
                 {f.name}
               </button>
@@ -176,14 +129,7 @@ export function ArtStudioPage() {
         </div>
 
         <div className="canvas-area">
-          <div
-            className={`art-canvas ${selectedFrame !== 'none' ? `frame-${selectedFrame}` : ''}`}
-            style={{
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-            }}
-          >
+          <div className={`art-canvas studio-canvas-box ${selectedFrame !== 'none' ? `frame-${selectedFrame}` : ''}`}>
             {selectedPokemon ? (
               <div
                 className="canvas-content"
@@ -192,27 +138,15 @@ export function ArtStudioPage() {
                 <img
                   src={selectedPokemon.image}
                   alt={selectedPokemon.name}
-                  className="art-subject"
-                  style={{ imageRendering: 'pixelated', width: '200px', height: '200px' }}
+                  className="art-subject studio-art-subject"
                 />
               </div>
             ) : (
-              <div
-                className="empty-state"
-                style={{ fontFamily: '"Press Start 2P", cursive', color: '#9ca3af' }}
-              >
+              <div className="empty-state studio-empty-state">
                 Selecteer een Pokémon
               </div>
             )}
-            <div
-              className="artist-signature"
-              style={{
-                fontFamily: '"Press Start 2P", cursive',
-                fontSize: '0.6rem',
-                color: '#6b7280',
-                marginTop: '1rem',
-              }}
-            >
+            <div className="artist-signature studio-artist-signature">
               Door {playerName || 'Artiest'}
             </div>
           </div>

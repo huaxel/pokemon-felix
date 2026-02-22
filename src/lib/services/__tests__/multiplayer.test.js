@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildSystemPrompt } from '../services/promptBuilder';
+import { buildSystemPrompt } from '../promptBuilder';
 
 describe('promptBuilder', () => {
   const mockTrainer = {

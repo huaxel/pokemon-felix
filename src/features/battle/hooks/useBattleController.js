@@ -65,53 +65,53 @@ export function useBattleController({ initialFighter1, initialFighter2, onBattle
     async (attacker, defender, move, isPlayer) => {
       const attackerStatus = isPlayer ? f1Status : f2Status;
 
-      // 0. Check Status Block (Before Cost)
-      if (attackerStatus === 'freeze') {
-        if (Math.random() < 0.2) {
-          addLog(`${attacker.name} is ontdooid!`, '#67e8f9');
-          if (isPlayer) setF1Status(null);
-          else setF2Status(null);
-        } else {
-          addLog(`${attacker.name} is bevroren!`, '#67e8f9');
-          if (isPlayer) {
-            setTurn('enemy');
-            setF2Energy(e => Math.min(5, e + 1));
-          } else {
-            setTurn('player');
-            setF1Energy(e => Math.min(5, e + 1));
+      // 0. Status Effect Strategies
+      const statusStrategies = {
+        freeze: {
+          execute: () => {
+             if (Math.random() < 0.2) {
+               addLog(`${attacker.name} is ontdooid!`, '#67e8f9');
+               if (isPlayer) setF1Status(null); else setF2Status(null);
+               return true; // Can attack
+             }
+             addLog(`${attacker.name} is bevroren!`, '#67e8f9');
+             return false; // Cannot attack
           }
-          return;
-        }
-      }
-      if (attackerStatus === 'sleep') {
-        if (Math.random() < 0.33) {
-          addLog(`${attacker.name} is wakker geworden!`, '#fbbf24');
-          if (isPlayer) setF1Status(null);
-          else setF2Status(null);
-        } else {
-          addLog(`${attacker.name} slaapt...`, '#9ca3af');
-          if (isPlayer) {
-            setTurn('enemy');
-            setF2Energy(e => Math.min(5, e + 1));
-          } else {
-            setTurn('player');
-            setF1Energy(e => Math.min(5, e + 1));
+        },
+        sleep: {
+          execute: () => {
+             if (Math.random() < 0.33) {
+               addLog(`${attacker.name} is wakker geworden!`, '#fbbf24');
+               if (isPlayer) setF1Status(null); else setF2Status(null);
+               return true;
+             }
+             addLog(`${attacker.name} slaapt...`, '#9ca3af');
+             return false;
           }
-          return;
-        }
-      }
-      if (attackerStatus === 'paralysis') {
-        if (Math.random() < 0.25) {
-          addLog(`${attacker.name} is verlamd!`, '#facc15');
-          if (isPlayer) {
-            setTurn('enemy');
-            setF2Energy(e => Math.min(5, e + 1));
-          } else {
-            setTurn('player');
-            setF1Energy(e => Math.min(5, e + 1));
+        },
+        paralysis: {
+          execute: () => {
+             if (Math.random() < 0.25) {
+               addLog(`${attacker.name} is verlamd!`, '#facc15');
+               return false;
+             }
+             return true;
           }
-          return;
         }
+      };
+
+      if (attackerStatus && statusStrategies[attackerStatus]) {
+         const canAttack = statusStrategies[attackerStatus].execute();
+         if (!canAttack) {
+            if (isPlayer) {
+              setTurn('enemy');
+              setF2Energy(e => Math.min(5, e + 1));
+            } else {
+              setTurn('player');
+              setF1Energy(e => Math.min(5, e + 1));
+            }
+            return;
+         }
       }
 
       // 1. Deduct Energy
