@@ -13,7 +13,7 @@ let currentSeed = Date.now() % LCG_M;
  * Set a specific seed for deterministic results
  * @param {number} seed
  */
-export function setSeed(seed) {
+function setSeed(seed) {
   currentSeed = seed % LCG_M;
 }
 
@@ -29,28 +29,28 @@ function next() {
  * Returns a float between 0 (inclusive) and 1 (exclusive)
  * Alias for readability matching Math.random() signature
  */
-export function float() {
+function float() {
   return next();
 }
 
 /**
  * Returns an integer between min and max (inclusive)
  */
-export function int(min, max) {
+function int(min, max) {
   return Math.floor(next() * (max - min + 1)) + min;
 }
 
 /**
  * Returns true with the given probability (0..1)
  */
-export function bool(probability = 0.5) {
+function bool(probability = 0.5) {
   return next() < probability;
 }
 
 /**
  * Pick a random item from an array
  */
-export function pick(array) {
+function pick(array) {
   if (!array || array.length === 0) return null;
   return array[int(0, array.length - 1)];
 }

@@ -26,20 +26,6 @@ export const POKEBALL_CONFIG = {
   REWARD_AMOUNT: 250,
 };
 
-// GPS System
-export const GPS_CONFIG = {
-  REWARD_AMOUNT: 500,
-};
-
-// Rewards
-export const REWARDS = {
-  TREASURE: 100,
-  POKEBALL: 250,
-  GPS_TREASURE: 500,
-  GRASS_COINS: 20,
-  QUEST_COMPLETION: 500,
-};
-
 // Tile Types
 export const TILE_TYPES = {
   GRASS: 0,
@@ -106,31 +92,6 @@ export const SEASON_STYLES = {
     bg: '#e2e8f0',
     tile: '#f8fafc',
   },
-};
-
-// Weather Types
-export const WEATHER_TYPES = {
-  SUNNY: 'sunny',
-  RAINY: 'rainy',
-  SNOWY: 'snowy',
-};
-
-// Encounter System
-export const ENCOUNTER_CONFIG = {
-  BASE_CHANCE: 0.3,
-  WILD_POKEMON_CHANCE: 0.6,
-  TEAM_ROCKET_CHANCE: 0.8, // 0.6-0.8 range
-};
-
-// NPC Positions
-export const NPC_POSITIONS = {
-  PROFESSOR_OAK: { x: 5, y: 5 },
-  FISHERMAN: { x: 5, y: 7 },
-};
-
-// Quest Requirements
-export const QUEST_REQUIREMENTS = {
-  TREE_PLANTING: 3,
 };
 
 // Outfit Colors

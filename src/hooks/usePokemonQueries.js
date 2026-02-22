@@ -1,5 +1,5 @@
 import { useQuery, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
-import { getPokemonList, getPokemonDetails, getAllPokemonNames } from '../lib/api';
+import { getPokemonList, getAllPokemonNames } from '../lib/api';
 
 /**
  * Hook to fetch paginated Pokemon list
@@ -16,19 +16,6 @@ export function usePokemonListQuery(limit = 20) {
     },
     placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 60, // 1 hour (Pokemon data changes rarely)
-  });
-}
-
-/**
- * Hook to fetch specific Pokemon details
- */
-export function usePokemonDetailsQuery(nameOrId) {
-  const isEnabled = !!nameOrId;
-  return useQuery({
-    queryKey: ['pokemon', nameOrId],
-    queryFn: () => getPokemonDetails(nameOrId),
-    enabled: isEnabled,
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
   });
 }
 

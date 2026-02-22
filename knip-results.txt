@@ -1,0 +1,50 @@
+Unused files (23)
+backend/db/database.js                                         
+backend/db/seed.js                                             
+backend/server.js                                              
+backend/services/llmService.js                                 
+scripts/refactor-god-object.cjs                                
+src/assets/kenney_1-bit-pack/Tilemap/tileset_colored.tsx       
+src/assets/kenney_pico-8-city/Tiled/sample-sheet.tsx           
+src/assets/kenney_pixel-platformer/Tiled/tileset-characters.tsx
+src/assets/kenney_pixel-platformer/Tiled/tileset-tiles.tsx     
+src/assets/kenney_tiny-battle/Tiled/sampleSheet.tsx            
+src/assets/kenney_tiny-dungeon/Tiled/sampleSheet.tsx           
+src/components/Toast.jsx                                       
+src/components/TrainerChat.jsx                                 
+src/features/battle/components/HPBar.jsx                       
+src/features/world/components/EvolutionDetail.jsx              
+src/features/world/components/FountainHeader.jsx               
+src/features/world/components/TreasureFailedView.jsx           
+src/features/world/components/TreasureHuntingView.jsx          
+src/features/world/components/TreasureSuccessView.jsx          
+src/features/world/components/TreasureTutorial.jsx             
+src/features/world/components/WorldTile.jsx                    
+src/features/world/pages/TreasureHuntPage.jsx                  
+src/lib/errorHandler.js                                        
+Unused dependencies (1)
+@dnd-kit/sortable  package.json:19:6
+Unused devDependencies (2)
+eslint-config-prettier  package.json:39:6
+react-test-renderer     package.json:47:6
+Unused exports (19)
+useDomainTown                     src/contexts/DomainContexts.js:19:14       
+gachaTile                         src/features/world/worldAssets.js:55:18    
+artStudioTile                     src/features/world/worldAssets.js:68:17    
+GPS_CONFIG                        src/features/world/worldConstants.js:30:14 
+REWARDS                           src/features/world/worldConstants.js:35:14 
+WEATHER_TYPES                     src/features/world/worldConstants.js:112:14
+ENCOUNTER_CONFIG                  src/features/world/worldConstants.js:119:14
+NPC_POSITIONS                     src/features/world/worldConstants.js:126:14
+QUEST_REQUIREMENTS                src/features/world/worldConstants.js:132:14
+usePokemonDetailsQuery  function  src/hooks/usePokemonQueries.js:25:17       
+getMoveDetails          function  src/lib/api.js:76:23                       
+loadFavorites                     src/lib/favorites.js:8:14                  
+saveFavorites                     src/lib/favorites.js:21:14                 
+setSeed                 function  src/lib/RandomService.js:16:17             
+float                   function  src/lib/RandomService.js:32:17             
+int                     function  src/lib/RandomService.js:39:17             
+bool                    function  src/lib/RandomService.js:46:17             
+pick                    function  src/lib/RandomService.js:53:17             
+summarizeConversation   function  src/lib/services/llmService.js:61:23       
+Configuration hints (1)

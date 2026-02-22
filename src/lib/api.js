@@ -73,23 +73,6 @@ export async function getAllPokemonNames() {
   return data.results.map(p => p.name);
 }
 
-export async function getMoveDetails(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) return null;
-    const data = await response.json();
-    return {
-      name: data.names.find(n => n.language.name === 'es')?.name || data.name,
-      type: data.type.name,
-      power: data.power || 40, // Default to 40 if null (status moves)
-      accuracy: data.accuracy || 100,
-      pp: data.pp,
-    };
-  } catch (error) {
-    console.error('Error fetching move:', error);
-    return null;
-  }
-}
 
 export async function getTrainer(id) {
   const response = await fetch(`${import.meta.env.VITE_DB_URL}/trainers/${id}`);

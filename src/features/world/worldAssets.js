@@ -3,7 +3,6 @@
 import centerImage from '../../assets/kenney_rpg-urban-pack/Tiles/tile_0027.png';
 import gymImage from '../../assets/kenney_rpg-urban-pack/Tiles/tile_0026.png'; // Large building
 import marketImage from '../../assets/kenney_rpg-urban-pack/Tiles/tile_0060.png'; // Stall
-import gachaImage from '../../assets/kenney_rpg-urban-pack/Tiles/tile_0060.png'; // Reusing market for now, consistent with WorldGrid
 import treeImage from '../../assets/kenney_tiny-town/Tiles/tile_0017.png'; // Pine tree
 import waterImage from '../../assets/kenney_tiny-town/Tiles/tile_0032.png';
 import houseImage from '../../assets/kenney_tiny-town/Tiles/tile_0056.png';
@@ -51,9 +50,6 @@ export {
   gymImage,
   gymImage as gymTile,
   marketImage,
-  marketImage as marketTile,
-  marketImage as gachaTile,
-  gachaImage,
   treeImage,
   treeImage as treeTile,
   waterImage,
@@ -65,7 +61,6 @@ export {
   waterEdgeTile,
   waterCenterTile,
   houseTile2,
-  houseTile2 as artStudioTile,
   cityHallTile,
   shopUrbanTile,
   fishermanTile,

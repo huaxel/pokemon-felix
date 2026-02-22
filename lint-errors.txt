@@ -1,0 +1,12 @@
+/home/juan/Projects/pokemon-felix/src/features/battle/TrainerBattlePage.jsx: line 187, col 25, Error - `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`. (react/no-unescaped-entities)
+/home/juan/Projects/pokemon-felix/src/features/battle/TrainerBattlePage.jsx: line 187, col 45, Error - `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`. (react/no-unescaped-entities)
+/home/juan/Projects/pokemon-felix/src/features/battle/TrainerBattlePage.jsx: line 263, col 25, Error - `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`. (react/no-unescaped-entities)
+/home/juan/Projects/pokemon-felix/src/features/battle/TrainerBattlePage.jsx: line 263, col 44, Error - `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`. (react/no-unescaped-entities)
+/home/juan/Projects/pokemon-felix/src/features/battle/TrainerSelectionPage.jsx: line 51, col 58, Error - `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`. (react/no-unescaped-entities)
+/home/juan/Projects/pokemon-felix/src/features/battle/TrainerSelectionPage.jsx: line 51, col 74, Error - `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`. (react/no-unescaped-entities)
+/home/juan/Projects/pokemon-felix/src/features/squad/components/MemberDetailModal.jsx: line 126, col 17, Error - 'careStats' is not defined. (no-undef)
+/home/juan/Projects/pokemon-felix/src/features/squad/components/MemberDetailModal.jsx: line 144, col 5, Error - 'updateCareStats' is not defined. (no-undef)
+/home/juan/Projects/pokemon-felix/src/features/squad/components/MemberDetailModal.jsx: line 161, col 5, Error - 'updateCareStats' is not defined. (no-undef)
+/home/juan/Projects/pokemon-felix/src/features/squad/components/MemberDetailModal.jsx: line 172, col 5, Error - 'updateCareStats' is not defined. (no-undef)
+
+10 problems
