@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { describe, it, expect, vi } from 'vitest';
 import { createContextHook } from '../createContextHook';
 import React, { createContext } from 'react';
@@ -23,7 +22,7 @@ describe('createContextHook', () => {
     const useTestContext = createContextHook(TestContext, 'useTestContext');
 
     // Mock console.error to avoid noise in stderr for expected error
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
 
     expect(() => {
       renderHook(() => useTestContext());
@@ -37,7 +36,7 @@ describe('createContextHook', () => {
     const useCustomContext = createContextHook(TestContext, 'useCustomContext');
 
     // Mock console.error to avoid noise in stderr for expected error
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
 
     expect(() => {
       renderHook(() => useCustomContext());

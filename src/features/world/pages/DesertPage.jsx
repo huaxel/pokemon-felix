@@ -3,7 +3,7 @@ import { useEconomy, useDomainCollection } from '../../../contexts/DomainContext
 import { useToast } from '../../../hooks/useToast';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { getPokemonDetails } from '../../../lib/api';
-import { desertCactusTile, waterImage } from '../worldAssets';
+import { desertCactusTile, waterImage, playerTile } from '../worldAssets';
 import './DesertPage.css';
 
 const DESERT_SIZE = 10;
@@ -20,7 +20,7 @@ const GEOGRAPHY_FACTS = [
 
 export function DesertPage() {
     const { addCoins } = useEconomy();
-  const { toggleOwned } = useDomainCollection();
+    const { toggleOwned } = useDomainCollection();
     const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
     const [encounter, setEncounter] = useState(null);
     const [sandstorm, setSandstorm] = useState(false);

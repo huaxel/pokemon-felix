@@ -10,13 +10,9 @@ import {
   UIProvider,
 } from './DomainProviders';
 import {
-  DataContext,
   EconomyContext,
   ProgressContext,
   CollectionContext,
-  CareContext,
-  ExperienceContext,
-  TownContext,
   UIContext,
 } from './DomainContexts';
 

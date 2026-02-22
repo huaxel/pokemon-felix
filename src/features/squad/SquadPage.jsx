@@ -17,7 +17,7 @@ import { BenchGrid } from './components/BenchGrid';
 import { DroppableSlot } from './DroppableSlot';
 import { useSquadData } from './hooks/useSquadData';
 import { grassTile } from '../world/worldAssets';
-import squadBg from '../../assets/buildings/squad_bg.png';
+
 import './SquadPage.css';
 
 export function SquadPage() {

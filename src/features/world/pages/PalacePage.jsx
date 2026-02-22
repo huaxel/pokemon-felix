@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useEconomy, useDomainCollection } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
-import { Trophy, Gift, Coins } from 'lucide-react';
-import bagIcon from '../../../assets/items/bag_icon.png';
+import { Trophy, Gift } from 'lucide-react';
 import { PalaceLockedView } from '../components/PalaceLockedView';
 import { PalaceChallengeCards } from '../components/PalaceChallengeCards';
 import { PalaceWisdomView } from '../components/PalaceWisdomView';
@@ -15,7 +13,7 @@ import { grassTile } from '../worldAssets';
 import './PalacePage.css';
 
 export function PalacePage() {
-  const { coins, addCoins, spendCoins, addItem } = useEconomy();
+  const { addCoins, spendCoins, addItem } = useEconomy();
   const { ownedIds } = useDomainCollection();
   const [isChampion, setIsChampion] = useState(false);
   const [completedChallenges, setCompletedChallenges] = useState([]);

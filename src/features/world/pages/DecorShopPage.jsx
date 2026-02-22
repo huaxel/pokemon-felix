@@ -3,7 +3,7 @@ import { useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { grassTile, shopUrbanTile } from '../worldAssets';
-import bagIcon from '../../../assets/items/bag_icon.png';
+
 import './DecorShopPage.css';
 
 const DECOR_ITEMS = [

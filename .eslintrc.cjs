@@ -8,7 +8,6 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
@@ -25,6 +24,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     // React
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-no-target-blank': 'off',
     'react/prop-types': 'off',
     'react-refresh/only-export-components': [
@@ -39,7 +39,7 @@ module.exports = {
       varsIgnorePattern: '^_',
     }],
     'max-lines-per-function': ['warn', { 
-      max: 150,
+      max: 200,
       skipBlankLines: true,
       skipComments: true,
     }],

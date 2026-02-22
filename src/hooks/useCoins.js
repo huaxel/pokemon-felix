@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { STORAGE_KEYS } from '../lib/constants';
-import { StandardInterestStrategy } from '../features/world/bank/logic/interestStrategies';
 
 export function useCoins(initialAmount = 500) {
   const [coins, setCoins] = useState(() => {
@@ -13,9 +12,7 @@ export function useCoins(initialAmount = 500) {
     return saved ? parseInt(saved, 10) : 0;
   });
 
-  // Strategy Pattern: Initialize with Standard Strategy
-  // In the future, this could be stateful based on user upgrades (e.g., VIP Account)
-  const interestStrategy = useMemo(() => new StandardInterestStrategy(), []);
+  const INTEREST_RATE = 0.02;
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.COINS, coins.toString());
@@ -83,8 +80,7 @@ export function useCoins(initialAmount = 500) {
     const today = new Date().toDateString();
 
     if (bankBalance > 0 && lastInterestDate !== today) {
-      // Strategy Pattern Usage
-      const interest = interestStrategy.calculate(bankBalance);
+      const interest = Math.floor(bankBalance * INTEREST_RATE);
 
       if (interest > 0) {
         setBankBalance(prev => prev + interest);
@@ -93,7 +89,7 @@ export function useCoins(initialAmount = 500) {
       }
     }
     return 0;
-  }, [bankBalance, interestStrategy]);
+  }, [bankBalance]);
 
   return {
     coins,
@@ -104,6 +100,6 @@ export function useCoins(initialAmount = 500) {
     deposit,
     withdraw,
     calculateDailyInterest,
-    interestRate: interestStrategy.getRate(),
+    interestRate: INTEREST_RATE,
   };
 }

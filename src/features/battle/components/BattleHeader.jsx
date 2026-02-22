@@ -16,12 +16,7 @@ export function BattleHeader({
 
   const hpPercent = (hp, max) => Math.max(0, (hp / max) * 100);
 
-  const getHPColor = (hp, max) => {
-    const percent = hpPercent(hp, max);
-    if (percent > 50) return 'var(--health-good)';
-    if (percent > 20) return 'var(--health-warning)';
-    return 'var(--health-critical)';
-  };
+
 
   const getStatusIcon = s => {
     const map = { burn: '🔥', paralysis: '⚡', freeze: '❄️', poison: '☠️', sleep: '💤' };

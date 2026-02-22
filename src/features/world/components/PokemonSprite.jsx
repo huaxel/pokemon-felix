@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Billboard, useTexture } from '@react-three/drei';
 
 export function PokemonSprite({ pokemon, position, onClick }) {

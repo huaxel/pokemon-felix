@@ -1,4 +1,4 @@
-import { Trophy, MapPin, Navigation, Compass, User } from 'lucide-react';
+import { Trophy, MapPin, Navigation, Compass } from 'lucide-react';
 import { SEASONS } from '../worldConstants';
 import bagImage from '../../../assets/items/bag_icon.png';
 

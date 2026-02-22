@@ -4,7 +4,7 @@ import { useToast } from '../../../hooks/useToast';
 import { getPokemonDetails } from '../../../lib/api';
 
 export function useEncounter({ onBattleEndCustom }) {
-  const { showSuccess, showError, showWarning } = useToast();
+  const { showSuccess, showWarning } = useToast();
   const { addCoins, addItem } = useEconomy();
   const { toggleOwned } = useDomainCollection();
 

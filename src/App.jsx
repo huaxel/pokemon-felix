@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useData, useDomainCollection, useUI } from './contexts/DomainContexts';
 import { addToCollection, removeFromCollection } from './lib/services/collectionService';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
@@ -16,20 +15,6 @@ function App() {
   const { isConsoleOpen, toggleConsole } = useUI();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-
-  // Routes that should NOT scroll (Game Mode - Fixed Viewport)
-  const GAME_ROUTES = [
-    '/adventure',
-    '/battle',
-    '/single-battle',
-    '/trainer-chat',
-    '/desert',
-    '/cave-dungeon',
-    '/secret-cave',
-    '/water-route',
-    '/porygon-lab',
-    '/safari',
-  ];
 
   // Keyboard shortcut for Python Terminal (Ctrl+`)
   useEffect(() => {
