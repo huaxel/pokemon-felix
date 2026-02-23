@@ -41,7 +41,13 @@ export async function removeFromCollection(id) {
 
 export async function setCollection(ids) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    const source = Array.isArray(ids) ? ids : [];
+    const normalizedIds = Array.from(
+      new Set(
+        source.filter(id => typeof id === 'number' && Number.isFinite(id))
+      )
+    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizedIds));
   } catch (error) {
     console.error('Error setting collection:', error);
   }
