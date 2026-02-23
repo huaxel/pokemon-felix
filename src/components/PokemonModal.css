@@ -22,6 +22,7 @@
   max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
+  touch-action: pan-y;
   position: relative;
   padding: 3rem;
   box-shadow:
