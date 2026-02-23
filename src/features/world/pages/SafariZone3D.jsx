@@ -127,10 +127,10 @@ export function SafariZone3D() {
                                 Math.cos(i * 0.5) * 10
                             ]}
                             orbit={{
-                                radius: 1.5,
+                                radius: 1.5 + (i % 3) * 0.4,
                                 speed: 0.5 + i * 0.07,
                                 phase: i * Math.PI * 0.25,
-                                heightOffset: 0
+                                heightOffset: 0.15 * Math.sin(i * 0.8)
                             }}
                             onClick={handlePokemonClick}
                         />
