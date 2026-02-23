@@ -36,7 +36,8 @@ const BUILDING_ASSETS = {
 export function WorldScene3DMain({
     mapGrid,
     onObjectClick,
-    isNight = false
+    isNight = false,
+    enableSky = true
 }) {
     const grassTex = useTexture(grassTile);
     const pathTex = useTexture(pathTile);
@@ -49,6 +50,8 @@ export function WorldScene3DMain({
             if (t) {
                 t.magFilter = THREE.NearestFilter;
                 t.minFilter = THREE.NearestFilter;
+                t.generateMipmaps = false;
+                t.anisotropy = 1;
                 t.wrapS = THREE.RepeatWrapping;
                 t.wrapT = THREE.RepeatWrapping;
                 t.needsUpdate = true;
@@ -86,8 +89,8 @@ export function WorldScene3DMain({
     return (
         <>
             <ambientLight intensity={isNight ? 0.35 : 0.7} />
-            <directionalLight position={[10, 20, 10]} intensity={isNight ? 0.9 : 1.2} castShadow />
-            <Sky sunPosition={[100, 10, 100]} />
+            <directionalLight position={[10, 20, 10]} intensity={isNight ? 0.7 : 1.0} />
+            {enableSky && <Sky sunPosition={[100, 10, 100]} />}
 
             {/* Ground Tiles */}
             {mapGrid.map((row, y) =>
@@ -96,7 +99,7 @@ export function WorldScene3DMain({
                         key={`ground-${x}-${y}`}
                         rotation={[-Math.PI / 2, 0, 0]}
                         position={[x, 0, y]}
-                        receiveShadow
+                        receiveShadow={false}
                         onPointerDown={() => onObjectClick?.(x, y, 'GROUND')}
                     >
                         <planeGeometry args={[1, 1]} />

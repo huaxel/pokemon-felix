@@ -78,6 +78,10 @@ export function SafariZone3D() {
                 dpr={[1, 1.5]}
                 gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
                 camera={{ position: [0, 2, 5], fov: 75 }}
+                onCreated={({ gl }) => {
+                    const canvas = gl.domElement;
+                    canvas.addEventListener('webglcontextlost', (e) => e.preventDefault(), false);
+                }}
             >
                 {/* Only enable movement when not in an encounter */}
                 <Suspense fallback={null}>
@@ -93,12 +97,13 @@ export function SafariZone3D() {
                         />
                     )}
                     <WorldScene3DMain
-                        mapGrid={[]} // Safari uses empty grid for now or we need a real one
+                        mapGrid={[]}
                         onObjectClick={handlePokemonClick}
+                        enableSky={false}
                     />
 
                     {/* Safari Pokémon Sprites */}
-                    {pokemonList.slice(0, 15).map((p, i) => (
+                    {pokemonList.slice(0, 8).map((p, i) => (
                         <PokemonSprite
                             key={`safari-mon-${p.id}-${i}`}
                             pokemon={p}

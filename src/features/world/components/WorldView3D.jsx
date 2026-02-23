@@ -24,6 +24,10 @@ export function WorldView3D({ playerPos, mapGrid, townObjects, handleTileClick, 
                 dpr={[1, 1.5]}
                 gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
                 camera={viewMode === 'first' ? { position: [playerPos.x, 1.6, playerPos.y], fov: 75 } : undefined}
+                onCreated={({ gl }) => {
+                    const canvas = gl.domElement;
+                    canvas.addEventListener('webglcontextlost', (e) => e.preventDefault(), false);
+                }}
             >
                 {viewMode === 'first' ? (
                     <PlayerControls3D
