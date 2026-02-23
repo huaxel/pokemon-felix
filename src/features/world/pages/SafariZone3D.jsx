@@ -153,7 +153,7 @@ export function SafariZone3D() {
                         backgroundColor: 'rgba(0,0,0,0.7)'
                     }}>
                         <EncounterModal
-                            pokemon={encounter}
+                            encounter={encounter}
                             catching={catching}
                             catchMessage={catchMessage}
                             onCatch={handleCatch}
