@@ -38,3 +38,21 @@ export async function removeFromCollection(id) {
     console.error('Error removing from collection:', error);
   }
 }
+
+export async function setCollection(ids) {
+  try {
+    const source = Array.isArray(ids) ? ids : [];
+    const normalizedIds = Array.from(
+      new Set(
+        source.filter(id => typeof id === 'number' && Number.isFinite(id))
+export async function setCollection(ids) {
+  if (!Array.isArray(ids)) {
+    throw new TypeError('ids must be an array');
+  }
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+  } catch (error) {
+    console.error('Error setting collection:', error);
+    throw error;
+  }
+}
