@@ -39,8 +39,9 @@ function App() {
   const handleImportFavorites = async () => {
     try {
       const imported = await importFavoritesFromJson();
-      await setCollection(imported);
-      setOwnedIds(imported);
+      const uniqueImported = Array.from(new Set(imported));
+      await setCollection(uniqueImported);
+      setOwnedIds(uniqueImported);
     } catch (error) {
       console.error('Failed to import favorites:', error);
       // Fallback for top-level error
