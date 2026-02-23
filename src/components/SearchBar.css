@@ -75,7 +75,8 @@
   border-bottom: none;
 }
 
-.suggestions-list li:hover {
+.suggestions-list li:hover,
+.suggestions-list li.selected {
   background-color: rgba(139, 90, 60, 0.1);
   color: var(--color-ui-active-blue-dark);
 }
