@@ -67,7 +67,8 @@
   background: #e8d4a2;
   /* UI Beige */
   border: 4px solid transparent;
-  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-000.png') 12 round;
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-000.png') 12
+    round;
   padding: 1rem;
   cursor: pointer;
   transition: all 0.2s;
@@ -90,7 +91,8 @@
 .ball-option.selected {
   opacity: 1;
   filter: grayscale(0);
-  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-001.png') 12 round;
+  border-image: url('../../assets/kenney_fantasy-ui-borders/PNG/Default/Panel/panel-001.png') 12
+    round;
   /* Highlighted border */
   background: #fff;
   transform: scale(1.05);

@@ -521,7 +521,7 @@ const applyStatusModifier = (damage, attackerStatus, moveCategory) => {
   return { damage, msg: '' };
 };
 
-const applyCriticalModifier = (damage) => {
+const applyCriticalModifier = damage => {
   const isCrit = randomService.bool(0.06); // 6% chance
   if (isCrit) {
     return { damage: Math.floor(damage * 1.5), isCrit: true, msg: ' 🎯 KRITIEK!' };
@@ -535,17 +535,31 @@ const applyRecoil = (damage, moveRecoil) => {
   return {
     damage: damage - recoilDamage,
     recoilDamage: recoilDamage,
-    msg: recoilDamage > 0 ? ` 💥 Split! -${recoilDamage} HP terugslag!` : ''
+    msg: recoilDamage > 0 ? ` 💥 Split! -${recoilDamage} HP terugslag!` : '',
   };
 };
 
-const determineAppliedStatus = (move) => {
+const determineAppliedStatus = move => {
   if (move.status && randomService.bool(move.statusChance || 0.1)) {
-    const statusIcons = { burn: '🔥', paralysis: '⚡', freeze: '❄️', poison: '☠️', sleep: '💤', speed_down: '🐌' };
-    const statusNames = { burn: 'VERBRAND', paralysis: 'VERLAMD', freeze: 'BEVROREN', poison: 'VERGIFTIGD', sleep: 'SLAAP', speed_down: 'SNELHEID OMLAAG' };
+    const statusIcons = {
+      burn: '🔥',
+      paralysis: '⚡',
+      freeze: '❄️',
+      poison: '☠️',
+      sleep: '💤',
+      speed_down: '🐌',
+    };
+    const statusNames = {
+      burn: 'VERBRAND',
+      paralysis: 'VERLAMD',
+      freeze: 'BEVROREN',
+      poison: 'VERGIFTIGD',
+      sleep: 'SLAAP',
+      speed_down: 'SNELHEID OMLAAG',
+    };
     return {
       status: move.status,
-      msg: ` ${statusIcons[move.status] || '✨'} ${statusNames[move.status] || move.status.toUpperCase()}!`
+      msg: ` ${statusIcons[move.status] || '✨'} ${statusNames[move.status] || move.status.toUpperCase()}!`,
     };
   }
   return { status: null, msg: '' };
@@ -559,7 +573,14 @@ export const calculateSmartDamage = (
 ) => {
   // 0. Forced Weakness Damage (Takes Precedence)
   if (isWeakened) {
-    return { damage: 5, recoilDamage: 0, effectiveness: 1, message: ' 😵 Verzwakt! (Max schade)', isCrit: false, appliedStatus: null };
+    return {
+      damage: 5,
+      recoilDamage: 0,
+      effectiveness: 1,
+      message: ' 😵 Verzwakt! (Max schade)',
+      isCrit: false,
+      appliedStatus: null,
+    };
   }
 
   // 1. Calculate Base Damage
@@ -576,7 +597,7 @@ export const calculateSmartDamage = (
   // 3. Specialist & Combo Bonuses
   const isSpecialist = attacker.types?.some(t => t.type.name === move.type);
   if (isSpecialist) currentDamage = Math.floor(currentDamage * 1.5);
-  
+
   if (move.isCombo) currentDamage = Math.floor(currentDamage * 1.2);
 
   // 4. Anti-Spam Penalty

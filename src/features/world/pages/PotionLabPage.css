@@ -41,7 +41,8 @@
 
   /* Kenney Fantasy Border */
   border: 8px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') 8 round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+    8 round;
   image-rendering: pixelated;
   box-shadow: var(--shadow-md);
 }
@@ -104,7 +105,8 @@
 
   /* Kenney Fantasy Border */
   border: 12px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 12 round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png')
+    12 round;
   image-rendering: pixelated;
 }
 

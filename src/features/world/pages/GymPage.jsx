@@ -65,10 +65,7 @@ export function GymPage() {
         className="gym-page battle-view gym-environment-bg"
         style={{ backgroundImage: `url(${grassTile})` }}
       >
-        <div
-          className="gym-battle-header game-panel"
-          style={{ borderColor: selectedGym.color }}
-        >
+        <div className="gym-battle-header game-panel" style={{ borderColor: selectedGym.color }}>
           <h2 className="gym-battle-title">
             Vechten tegen {selectedGym.name} - Fase {currentStage + 1}
           </h2>
@@ -95,17 +92,10 @@ export function GymPage() {
         style={{ backgroundImage: `url(${grassTile})` }}
       >
         <div className="victory-card game-panel">
-          <h1 className="gym-victory-title">
-            Gym van {selectedGym.name} Verslagen!
-          </h1>
+          <h1 className="gym-victory-title">Gym van {selectedGym.name} Verslagen!</h1>
           <div className="reward-info">
             <h2 className="gym-reward-text">
-              Beloning:{' '}
-              <img
-                src={bagIcon}
-                alt="coins"
-                className="gym-reward-icon"
-              />{' '}
+              Beloning: <img src={bagIcon} alt="coins" className="gym-reward-icon" />{' '}
               {selectedGym.reward}
             </h2>
           </div>
@@ -124,10 +114,7 @@ export function GymPage() {
   }
 
   return (
-    <div
-      className="gym-page gym-environment-bg"
-      style={{ backgroundImage: `url(${grassTile})` }}
-    >
+    <div className="gym-page gym-environment-bg" style={{ backgroundImage: `url(${grassTile})` }}>
       <WorldPageHeader title="Pokémon Gyms" icon="🏟️" />
       <div className="gym-content">
         <GymBadgeDisplay badges={badges} gymLeaders={GYM_LEADERS} />

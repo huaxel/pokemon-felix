@@ -6,7 +6,7 @@ describe('promptBuilder', () => {
     id: 'rival-blue',
     name: 'Blue (Rivaal)',
     personality: 'Arrogant and competitive.',
-    pokemon_team: ['Blastoise', 'Arcanine']
+    pokemon_team: ['Blastoise', 'Arcanine'],
   };
 
   const mockRelationship = {
@@ -15,7 +15,7 @@ describe('promptBuilder', () => {
     relationship_type: 'rival',
     history_summary: 'We just met.',
     battles_won: 1,
-    battles_lost: 2
+    battles_lost: 2,
   };
 
   it('correctly includes persona and team in prompt', () => {

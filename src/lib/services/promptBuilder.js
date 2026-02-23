@@ -4,7 +4,14 @@
  */
 export function buildSystemPrompt({ trainer, relationship }) {
   const { personality, pokemon_team, name } = trainer;
-  const { friendship_score, rivalry_score, relationship_type, history_summary, battles_won, battles_lost } = relationship;
+  const {
+    friendship_score,
+    rivalry_score,
+    relationship_type,
+    history_summary,
+    battles_won,
+    battles_lost,
+  } = relationship;
 
   return `
     You are ${name}, a Pokémon trainer in a world played by Felix.

@@ -15,7 +15,8 @@
   display: flex;
   flex-direction: column;
   border: var(--border-slice-width) solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png') var(--border-slice-width) round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-001.png')
+    var(--border-slice-width) round;
   position: relative;
   overflow: hidden;
 }
@@ -37,7 +38,8 @@
 
   /* Kenney Fantasy Border */
   border: var(--border-slice-width) solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') var(--border-slice-width) round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png')
+    var(--border-slice-width) round;
   image-rendering: pixelated;
 
   box-shadow: var(--shadow-md);
@@ -213,7 +215,6 @@
 }
 
 @keyframes vsPulse {
-
   0%,
   100% {
     transform: scale(1);
@@ -252,7 +253,6 @@
 }
 
 @keyframes pulse-weak {
-
   0%,
   100% {
     transform: scale(1);
@@ -283,7 +283,6 @@
 }
 
 @keyframes blink {
-
   0%,
   100% {
     opacity: 1;

@@ -1,10 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import { calculateMaxHP, calculateSmartDamage, getMoves, chooseBestMove } from '../../../lib/battle-logic';
+import {
+  calculateMaxHP,
+  calculateSmartDamage,
+  getMoves,
+  chooseBestMove,
+} from '../../../lib/battle-logic';
 import { useEconomy } from '../../../contexts/DomainContexts'; // still using for now, will refactor this context later
 
 export function useBattleController({ initialFighter1, initialFighter2, onBattleEnd }) {
   const { addCoins } = useEconomy();
-  
+
   const [fighter1, setFighter1] = useState(null);
   const [fighter2, setFighter2] = useState(null);
   const [battleLog, setBattleLog] = useState([]);
@@ -69,49 +74,51 @@ export function useBattleController({ initialFighter1, initialFighter2, onBattle
       const statusStrategies = {
         freeze: {
           execute: () => {
-             if (Math.random() < 0.2) {
-               addLog(`${attacker.name} is ontdooid!`, '#67e8f9');
-               if (isPlayer) setF1Status(null); else setF2Status(null);
-               return true; // Can attack
-             }
-             addLog(`${attacker.name} is bevroren!`, '#67e8f9');
-             return false; // Cannot attack
-          }
+            if (Math.random() < 0.2) {
+              addLog(`${attacker.name} is ontdooid!`, '#67e8f9');
+              if (isPlayer) setF1Status(null);
+              else setF2Status(null);
+              return true; // Can attack
+            }
+            addLog(`${attacker.name} is bevroren!`, '#67e8f9');
+            return false; // Cannot attack
+          },
         },
         sleep: {
           execute: () => {
-             if (Math.random() < 0.33) {
-               addLog(`${attacker.name} is wakker geworden!`, '#fbbf24');
-               if (isPlayer) setF1Status(null); else setF2Status(null);
-               return true;
-             }
-             addLog(`${attacker.name} slaapt...`, '#9ca3af');
-             return false;
-          }
+            if (Math.random() < 0.33) {
+              addLog(`${attacker.name} is wakker geworden!`, '#fbbf24');
+              if (isPlayer) setF1Status(null);
+              else setF2Status(null);
+              return true;
+            }
+            addLog(`${attacker.name} slaapt...`, '#9ca3af');
+            return false;
+          },
         },
         paralysis: {
           execute: () => {
-             if (Math.random() < 0.25) {
-               addLog(`${attacker.name} is verlamd!`, '#facc15');
-               return false;
-             }
-             return true;
-          }
-        }
+            if (Math.random() < 0.25) {
+              addLog(`${attacker.name} is verlamd!`, '#facc15');
+              return false;
+            }
+            return true;
+          },
+        },
       };
 
       if (attackerStatus && statusStrategies[attackerStatus]) {
-         const canAttack = statusStrategies[attackerStatus].execute();
-         if (!canAttack) {
-            if (isPlayer) {
-              setTurn('enemy');
-              setF2Energy(e => Math.min(5, e + 1));
-            } else {
-              setTurn('player');
-              setF1Energy(e => Math.min(5, e + 1));
-            }
-            return;
-         }
+        const canAttack = statusStrategies[attackerStatus].execute();
+        if (!canAttack) {
+          if (isPlayer) {
+            setTurn('enemy');
+            setF2Energy(e => Math.min(5, e + 1));
+          } else {
+            setTurn('player');
+            setF1Energy(e => Math.min(5, e + 1));
+          }
+          return;
+        }
       }
 
       // 1. Deduct Energy
@@ -129,7 +136,7 @@ export function useBattleController({ initialFighter1, initialFighter2, onBattle
       });
       const { damage, recoilDamage, appliedStatus } = result;
       // Using generic logic here since type colors are visual
-      const isCritical = result.message.includes('Voltreffer'); 
+      const isCritical = result.message.includes('Voltreffer');
       const color = isCritical ? '#fbbf24' : '#4ade80';
 
       if (isPlayer) {
@@ -195,7 +202,7 @@ export function useBattleController({ initialFighter1, initialFighter2, onBattle
           currentF2HP = Math.max(0, f2HP - recoilDamage);
           setF2HP(currentF2HP);
           addLog(`Vijand krijgt -${recoilDamage} terugslag schade!`, color);
-          setF2Weakened(true); 
+          setF2Weakened(true);
           if (currentF2HP === 0) {
             endBattle(1);
             return;
@@ -240,7 +247,6 @@ export function useBattleController({ initialFighter1, initialFighter2, onBattle
     return () => clearTimeout(timer);
   }, [turn, isBattling, winner, fighter1, fighter2, executeMove, f2Energy]);
 
-
   return {
     fighter1,
     fighter2,
@@ -260,6 +266,6 @@ export function useBattleController({ initialFighter1, initialFighter2, onBattle
     winner,
     isBattling,
     setIsBattling,
-    executeMove
+    executeMove,
   };
 }

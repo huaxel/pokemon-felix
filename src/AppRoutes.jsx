@@ -48,7 +48,6 @@ import { TrainerChatPage } from './features/chat/TrainerChatPage';
 import { SafariZone3D } from './features/world/pages/SafariZone3D';
 
 export function AppRoutes({
-
   ownedIds,
   toggleOwned,
   pokemonList,
@@ -73,7 +72,10 @@ export function AppRoutes({
         <Route path="/battle-modes" element={<BattleSelectionPage />} />
         <Route path="/single-battle" element={<SingleBattlePage allPokemon={pokemonList} />} />
         <Route path="/trainer-selection" element={<TrainerSelectionPage />} />
-        <Route path="/trainer-battle/:trainerId" element={<TrainerBattlePage allPokemon={pokemonList} />} />
+        <Route
+          path="/trainer-battle/:trainerId"
+          element={<TrainerBattlePage allPokemon={pokemonList} />}
+        />
         <Route path="/trainer-chat/:trainerId" element={<TrainerChatPage />} />
         <Route path="/tournament" element={<TournamentLayout allPokemon={pokemonList} />} />
         <Route path="/gacha" element={<GachaPage />} />

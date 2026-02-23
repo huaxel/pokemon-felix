@@ -10,7 +10,7 @@ const WATER_INTRO_GRID = Array.from({ length: 8 }, (_, y) =>
       return xIndex === 0 || xIndex === 7 ? TILE_TYPES.GRASS : TILE_TYPES.SAND;
     }
     return TILE_TYPES.WATER;
-  }),
+  })
 );
 
 export function WaterIntroView({ onLearn, onExit }) {

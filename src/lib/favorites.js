@@ -1,6 +1,5 @@
 // Utility functions for managing favorites persistence
 
-
 /**
  * Export favorites to a JSON file (downloads to user's computer)
  */

@@ -18,16 +18,15 @@ Instead of hard-coding dialogue, you will create "Character Sheets" for every fr
 Data Structure Example:
 
 {
-  "id": "rival_gary",
-  "name": "Gary",
-  "role": "Rival",
-  "personality": "Arrogant, competitive, secretly respects the player but won't admit it.",
-  "quirks": "Always calls the player 'Gramps' or 'Smell ya later'.",
-  "team": ["Squirtle", "Pidgey"]
+"id": "rival_gary",
+"name": "Gary",
+"role": "Rival",
+"personality": "Arrogant, competitive, secretly respects the player but won't admit it.",
+"quirks": "Always calls the player 'Gramps' or 'Smell ya later'.",
+"team": ["Squirtle", "Pidgey"]
 }
 
-When you send a request to the LLM (like OpenAI's GPT-4o-mini or Anthropic's Haiku—both are fast and cheap), you inject this into the System Prompt.
-2. The Context Layer (Memory & Game State)
+When you send a request to the LLM (like OpenAI's GPT-4o-mini or Anthropic's Haiku—both are fast and cheap), you inject this into the System Prompt. 2. The Context Layer (Memory & Game State)
 
 This is the hardest part. You cannot feed the entire chat history forever because it gets too expensive and confuses the model. You need a Hybrid Memory System.
 A. Short-Term Memory (The Chat Log)
@@ -71,23 +70,24 @@ Step 1: define the Prompt Generator
 You need a function that assembles the prompt dynamically.
 
 function generateSystemPrompt(npc, playerState, memories) {
-  return `
-    You are ${npc.name}.
-    Personality: ${npc.personality}
-    
+return `
+You are ${npc.name}.
+Personality: ${npc.personality}
+
     CURRENT SITUATION:
     - Player Name: Felix
     - Player Badges: ${playerState.badges}
     - Your Current Team: ${npc.team.join(", ")}
-    
+
     PAST MEMORIES:
     ${memories.join("\n")}
-    
+
     INSTRUCTIONS:
     - Keep responses short (under 2 sentences).
     - Be immersive. Do not act like an AI.
     - If the player challenges you, call the 'startBattle' function.
-  `;
+
+`;
 }
 
 Step 2: The API Route (Backend)
@@ -100,48 +100,48 @@ import OpenAI from "openai";
 const openai = new OpenAI();
 
 export async function POST(req) {
-  const { message, npcId, playerState, history } = await req.json();
+const { message, npcId, playerState, history } = await req.json();
 
-  // 1. Fetch NPC definitions and Long-Term Memories from DB
-  const npc = getNPC(npcId); 
-  const memories = getMemories(npcId);
+// 1. Fetch NPC definitions and Long-Term Memories from DB
+const npc = getNPC(npcId);
+const memories = getMemories(npcId);
 
-  // 2. define Tools
-  const tools = [
-    {
-      type: "function",
-      function: {
-        name: "start_battle",
-        description: "Triggers a pokemon battle with the player",
-        parameters: { type: "object", properties: {} },
-      },
-    },
-  ];
+// 2. define Tools
+const tools = [
+{
+type: "function",
+function: {
+name: "start_battle",
+description: "Triggers a pokemon battle with the player",
+parameters: { type: "object", properties: {} },
+},
+},
+];
 
-  // 3. Call LLM
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini", // Fast and cheap
-    messages: [
-      { role: "system", content: generateSystemPrompt(npc, playerState, memories) },
-      ...history, // Previous few chat messages
-      { role: "user", content: message }
-    ],
-    tools: tools,
-    tool_choice: "auto", 
-  });
+// 3. Call LLM
+const completion = await openai.chat.completions.create({
+model: "gpt-4o-mini", // Fast and cheap
+messages: [
+{ role: "system", content: generateSystemPrompt(npc, playerState, memories) },
+...history, // Previous few chat messages
+{ role: "user", content: message }
+],
+tools: tools,
+tool_choice: "auto",
+});
 
-  const responseMessage = completion.choices[0].message;
+const responseMessage = completion.choices[0].message;
 
-  // 4. Check if LLM wants to start a battle (Tool Call)
-  if (responseMessage.tool_calls) {
-     return Response.json({ 
-       text: "You're on!", 
-       action: "START_BATTLE" 
-     });
-  }
+// 4. Check if LLM wants to start a battle (Tool Call)
+if (responseMessage.tool_calls) {
+return Response.json({
+text: "You're on!",
+action: "START_BATTLE"
+});
+}
 
-  // 5. Normal text response
-  return Response.json({ text: responseMessage.content, action: null });
+// 5. Normal text response
+return Response.json({ text: responseMessage.content, action: null });
 }
 
 Step 3: Persistence (Database)

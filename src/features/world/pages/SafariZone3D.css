@@ -1,73 +1,73 @@
 .safari-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #87ceeb;
-    /* Sky blue fallback */
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #87ceeb;
+  /* Sky blue fallback */
 }
 
 .safari-loading {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #1a1a1a;
-    color: white;
-    font-family: "Press Start 2P", cursive;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .safari-ui-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    /* Let clicks pass through to the Canvas by default */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Let clicks pass through to the Canvas by default */
 }
 
 .pointer-events-none {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .pointer-events-auto {
-    pointer-events: auto;
+  pointer-events: auto;
 }
 
 .crosshair {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 2rem;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px black;
-    opacity: 0.8;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+  opacity: 0.8;
 }
 
 .instructions-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .instructions-modal {
-    text-align: center;
-    padding: 3rem;
-    max-width: 500px;
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
 }
 
 .controls-hint {
-    color: #9ca3af;
-    margin-top: 1rem;
-    font-size: 0.9rem;
+  color: #9ca3af;
+  margin-top: 1rem;
+  font-size: 0.9rem;
 }

@@ -42,7 +42,8 @@
 
   /* Kenney Fantasy Border */
   border: 12px solid transparent;
-  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png') 12 round;
+  border-image: url('../../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-015.png')
+    12 round;
   image-rendering: pixelated;
 
   /* Ensure text is readable on light background if using panel-border-015 usually implies a light panel? */

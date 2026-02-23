@@ -246,28 +246,17 @@ export function SchoolPage() {
           <GraduationCap /> Pokémon School
         </h1>
         <div className="coin-display school-coin-display">
-          <img
-            src={bagIcon}
-            alt="coins"
-            className="school-coin-icon"
-          />{' '}
-          {coins}
+          <img src={bagIcon} alt="coins" className="school-coin-icon" /> {coins}
         </div>
       </header>
 
       {view === 'menu' && (
         <div className="school-menu">
           <div className="school-intro-container school-intro-overlay">
-            <img
-              src={professorTile}
-              alt="Professor"
-              className="school-npc school-npc-image"
-            />
+            <img src={professorTile} alt="Professor" className="school-npc school-npc-image" />
             <div className="school-intro">
               <BookOpen size={48} className="intro-icon" color="#fbbf24" />
-              <h2 className="school-greeting-text">
-                Hallo Felix! Welkom in de klas.
-              </h2>
+              <h2 className="school-greeting-text">Hallo Felix! Welkom in de klas.</h2>
               <p className="school-greeting-subtext">
                 Leer over je Pokémon en los problemen op om munten te verdienen.
               </p>
@@ -284,9 +273,7 @@ export function SchoolPage() {
             ))}
           </div>
           <div className="advanced-section">
-            <h3 className="school-advanced-title">
-              🎓 Geavanceerde Lessen
-            </h3>
+            <h3 className="school-advanced-title">🎓 Geavanceerde Lessen</h3>
             <div className="quiz-grid">
               <div
                 className="quiz-card porygon-card porygon-lab-card"
@@ -296,9 +283,7 @@ export function SchoolPage() {
                   <Brain color="#ec4899" />
                 </div>
                 <div className="quiz-info">
-                  <h3 className="porygon-lab-title">
-                    Porygon Laboratorium
-                  </h3>
+                  <h3 className="porygon-lab-title">Porygon Laboratorium</h3>
                   <p>Leer algoritmen door Porygon te programmeren.</p>
                 </div>
                 <button className="start-quiz-btn btn-kenney primary">Naar het Lab</button>

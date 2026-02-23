@@ -73,7 +73,6 @@ export async function getAllPokemonNames() {
   return data.results.map(p => p.name);
 }
 
-
 export async function getTrainer(id) {
   const response = await fetch(`${import.meta.env.VITE_DB_URL}/trainers/${id}`);
   if (!response.ok) return null;
@@ -90,27 +89,32 @@ export async function getRelationship(playerId, trainerId) {
 export async function updateRelationship(playerId, trainerId, delta) {
   const id = `${playerId}-${trainerId}`;
   const current = await getRelationship(playerId, trainerId);
-  
+
   if (!current) return null;
 
   const updated = {
     ...current,
-    friendship_score: Math.max(0, Math.min(100, current.friendship_score + (delta.friendship || 0))),
+    friendship_score: Math.max(
+      0,
+      Math.min(100, current.friendship_score + (delta.friendship || 0))
+    ),
     rivalry_score: Math.max(0, Math.min(100, current.rivalry_score + (delta.rivalry || 0))),
-    last_interaction: new Date().toISOString()
+    last_interaction: new Date().toISOString(),
   };
 
   const response = await fetch(`${import.meta.env.VITE_DB_URL}/relationships/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updated)
+    body: JSON.stringify(updated),
   });
 
   return response.json();
 }
 
 export async function getMessages(playerId, trainerId) {
-  const response = await fetch(`${import.meta.env.VITE_DB_URL}/messages?player_id=${playerId}&trainer_id=${trainerId}`);
+  const response = await fetch(
+    `${import.meta.env.VITE_DB_URL}/messages?player_id=${playerId}&trainer_id=${trainerId}`
+  );
   if (!response.ok) return [];
   return response.json();
 }
@@ -124,8 +128,8 @@ export async function saveMessage(playerId, trainerId, role, content) {
       trainer_id: trainerId,
       role,
       content,
-      timestamp: new Date().toISOString()
-    })
+      timestamp: new Date().toISOString(),
+    }),
   });
   return response.json();
 }
@@ -134,7 +138,7 @@ export async function sendLLMMessage(trainerId, content) {
   const response = await fetch(`${LLM_URL}/api/chat/${trainerId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sender: 'player', content })
+    body: JSON.stringify({ sender: 'player', content }),
   });
   if (!response.ok) throw new Error('Failed to send message to LLM');
   return response.json();

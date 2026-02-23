@@ -10,7 +10,15 @@ import { grassTile } from '../world/worldAssets';
 import './PokedexPage.css';
 
 export function PokedexPage() {
-  const { pokemonList, loading, loadPokemon, allPokemonNames, searchResults, handleSearch, clearSearch } = useData();
+  const {
+    pokemonList,
+    loading,
+    loadPokemon,
+    allPokemonNames,
+    searchResults,
+    handleSearch,
+    clearSearch,
+  } = useData();
   const { ownedIds, toggleOwned } = useDomainCollection();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);

@@ -8,7 +8,7 @@ const CAVE_GRID = Array.from({ length: 8 }, (_, y) =>
     if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.MOUNTAIN;
     if (xIndex === 3 || xIndex === 4) return TILE_TYPES.PATH;
     return TILE_TYPES.SAND;
-  }),
+  })
 );
 
 export function CaveExplorationView({ depth, onExplore, onExit, onReturn }) {

@@ -9,12 +9,7 @@ import {
   TownProvider,
   UIProvider,
 } from './DomainProviders';
-import {
-  EconomyContext,
-  ProgressContext,
-  CollectionContext,
-  UIContext,
-} from './DomainContexts';
+import { EconomyContext, ProgressContext, CollectionContext, UIContext } from './DomainContexts';
 
 import { composeProviders } from '../lib/composeProviders';
 import { BankInterestManager } from '../features/world/bank/components/BankInterestManager';
@@ -105,4 +100,3 @@ function ExperienceProviderWrapper({ children }) {
   const { ownedIds } = useContext(CollectionContext);
   return <ExperienceProvider ownedIds={ownedIds}>{children}</ExperienceProvider>;
 }
-

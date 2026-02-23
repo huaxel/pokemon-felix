@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useEconomy, useCare, useProgress, useDomainCollection } from '../../contexts/DomainContexts';
+import {
+  useEconomy,
+  useCare,
+  useProgress,
+  useDomainCollection,
+} from '../../contexts/DomainContexts';
 import { useTownContext } from '../../hooks/useTownContext';
 import { useOutfitEffects } from '../../hooks/useOutfitEffects';
 import { useGPS } from '../../hooks/useGPS';
@@ -123,7 +128,10 @@ export function WorldPage() {
   useEffect(() => {
     if (squadIds && squadIds.length === 0) {
       setTimeout(() => {
-        showMessage('Welkom! Zoek de eerste Pokéball (rood-wit) op de kaart om te beginnen.', '#3b82f6');
+        showMessage(
+          'Welkom! Zoek de eerste Pokéball (rood-wit) op de kaart om te beginnen.',
+          '#3b82f6'
+        );
       }, 1000);
     }
   }, [squadIds, showMessage]);
@@ -251,7 +259,6 @@ export function WorldPage() {
       className={`world-page ${world.isNight ? 'night-mode' : ''} weather-${world.weather}`}
       style={{ backgroundColor: seasonStyle.bg }}
     >
-
       <WorldWeather weather={world.weather} isNight={world.isNight} />
       <WorldHUD
         seasonIndex={world.seasonIndex}
@@ -284,7 +291,7 @@ export function WorldPage() {
           right: '20px',
           backgroundColor: '#4ade80',
           color: '#064e3b',
-          zIndex: 100
+          zIndex: 100,
         }}
       >
         🏕️ Safari 3D (Beta)
@@ -299,7 +306,7 @@ export function WorldPage() {
           left: '20px',
           backgroundColor: is3DMode ? '#60a5fa' : '#fbbf24',
           color: '#1e3a8a',
-          zIndex: 100
+          zIndex: 100,
         }}
       >
         {is3DMode ? '🌐 View 2D' : '🕶️ View 3D'}
@@ -314,13 +321,12 @@ export function WorldPage() {
             left: '20px',
             backgroundColor: viewMode === 'first' ? '#fbbf24' : '#60a5fa',
             color: '#1e3a8a',
-            zIndex: 100
+            zIndex: 100,
           }}
         >
           {viewMode === 'first' ? '🟦 2.5D' : '🎮 First-Person'}
         </button>
-      )
-      }
+      )}
 
       {activeEffect.name !== 'Normal' && (
         <div
@@ -355,7 +361,10 @@ export function WorldPage() {
           onClose={() => world.setShowPokeballModal(false)}
         />
       </div>
-      <div className="game-container" style={is3DMode ? { width: '100%', height: 'calc(100vh - 120px)', marginTop: '60px' } : {}}>
+      <div
+        className="game-container"
+        style={is3DMode ? { width: '100%', height: 'calc(100vh - 120px)', marginTop: '60px' } : {}}
+      >
         {is3DMode ? (
           <WorldView3D
             playerPos={playerPos}

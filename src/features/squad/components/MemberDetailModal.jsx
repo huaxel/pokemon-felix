@@ -235,13 +235,13 @@ export function MemberDetailModal({ pokemon, onClose }) {
               barClass="info"
               barStyle={{ backgroundColor: '#3b82f6' }}
             />
-          </div >
+          </div>
 
           <ActionButtons onHeal={handleHeal} onFeed={handleFeed} />
 
           <BerrySection inventory={inventory} onUseBerry={handleUseBerry} />
-        </div >
-      </div >
-    </div >
+        </div>
+      </div>
+    </div>
   );
 }

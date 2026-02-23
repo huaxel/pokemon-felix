@@ -52,7 +52,6 @@ export function WorldHUD({
         {autoTime ? '🕐 Auto' : '⏸️ Handmatig'}
       </button>
 
-
       <button className="bag-hud-btn" onClick={() => navigate('/bag')}>
         <img src={bagImage} alt="Tas" />
       </button>

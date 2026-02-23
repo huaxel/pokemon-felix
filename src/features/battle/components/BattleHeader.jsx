@@ -16,8 +16,6 @@ export function BattleHeader({
 
   const hpPercent = (hp, max) => Math.max(0, (hp / max) * 100);
 
-
-
   const getStatusIcon = s => {
     const map = { burn: '🔥', paralysis: '⚡', freeze: '❄️', poison: '☠️', sleep: '💤' };
     return map[s] || s;

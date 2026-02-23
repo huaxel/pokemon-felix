@@ -9,94 +9,91 @@ import * as THREE from 'three';
  * Used for buildings, NPCs, and quest items.
  */
 export function InteractiveBillboard({
-    image,
-    position,
-    scale = [2, 2],
-    label,
-    onClick,
-    labelOffset = [0, 1.2, 0],
-    bobbing = true
+  image,
+  position,
+  scale = [2, 2],
+  label,
+  onClick,
+  labelOffset = [0, 1.2, 0],
+  bobbing = true,
 }) {
-    const [hovered, setHovered] = useState(false);
-    const meshRef = useRef();
-    const groupRef = useRef();
-    const texture = useTexture(image);
+  const [hovered, setHovered] = useState(false);
+  const meshRef = useRef();
+  const groupRef = useRef();
+  const texture = useTexture(image);
 
-    const phase = useMemo(
-        () => (position[0] * 19.19 + position[2] * 47.77) % (Math.PI * 2),
-        [position],
-    );
+  const phase = useMemo(
+    () => (position[0] * 19.19 + position[2] * 47.77) % (Math.PI * 2),
+    [position]
+  );
 
-    React.useLayoutEffect(() => {
-        if (texture) {
-            texture.magFilter = THREE.NearestFilter;
-            texture.minFilter = THREE.NearestFilter;
-            texture.needsUpdate = true;
-        }
-    }, [texture]);
+  React.useLayoutEffect(() => {
+    if (texture) {
+      texture.magFilter = THREE.NearestFilter;
+      texture.minFilter = THREE.NearestFilter;
+      texture.needsUpdate = true;
+    }
+  }, [texture]);
 
-    useFrame((state) => {
-        if (bobbing && groupRef.current) {
-            const t = state.clock.elapsedTime;
-            const lift = Math.sin(t * 1.6 + phase) * 0.08;
-            groupRef.current.position.set(position[0], position[1] + lift, position[2]);
-        }
-    });
+  useFrame(state => {
+    if (bobbing && groupRef.current) {
+      const t = state.clock.elapsedTime;
+      const lift = Math.sin(t * 1.6 + phase) * 0.08;
+      groupRef.current.position.set(position[0], position[1] + lift, position[2]);
+    }
+  });
 
-    const halfHeight = scale[1] / 2;
-    const shadowRadius = scale[0] * 0.5;
+  const halfHeight = scale[1] / 2;
+  const shadowRadius = scale[0] * 0.5;
 
-    return (
-        <group ref={groupRef} position={position}>
-            {/* Optional Label */}
-            {label && (hovered || label.alwaysShow) && (
-                <Billboard position={labelOffset}>
-                    <Text
-                        fontSize={0.2}
-                        color="white"
-                        anchorX="center"
-                        anchorY="middle"
-                        outlineWidth={0.02}
-                        outlineColor="#000000"
-                    >
-                        {label.text || label}
-                    </Text>
-                </Billboard>
-            )}
+  return (
+    <group ref={groupRef} position={position}>
+      {/* Optional Label */}
+      {label && (hovered || label.alwaysShow) && (
+        <Billboard position={labelOffset}>
+          <Text
+            fontSize={0.2}
+            color="white"
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.02}
+            outlineColor="#000000"
+          >
+            {label.text || label}
+          </Text>
+        </Billboard>
+      )}
 
-            <mesh
-                rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, -halfHeight + 0.01, 0]}
-            >
-                <circleGeometry args={[shadowRadius, 24]} />
-                <meshBasicMaterial
-                    color={hovered ? '#111827' : '#000000'}
-                    transparent={true}
-                    opacity={hovered ? 0.5 : 0.35}
-                />
-            </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -halfHeight + 0.01, 0]}>
+        <circleGeometry args={[shadowRadius, 24]} />
+        <meshBasicMaterial
+          color={hovered ? '#111827' : '#000000'}
+          transparent={true}
+          opacity={hovered ? 0.5 : 0.35}
+        />
+      </mesh>
 
-            <Billboard follow={true}>
-                <mesh
-                    ref={meshRef}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onClick?.();
-                    }}
-                    onPointerOver={() => setHovered(true)}
-                    onPointerOut={() => setHovered(false)}
-                    scale={hovered ? 1.05 : 1}
-                >
-                    <planeGeometry args={[scale[0], scale[1]]} />
-                    <meshBasicMaterial
-                        map={texture}
-                        transparent={true}
-                        alphaTest={0.5}
-                        side={THREE.DoubleSide}
-                        color={hovered ? '#ffffff' : '#eeeeee'}
-                    />
-                </mesh>
-            </Billboard>
-        </group>
-    );
+      <Billboard follow={true}>
+        <mesh
+          ref={meshRef}
+          onClick={e => {
+            e.stopPropagation();
+            onClick?.();
+          }}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+          scale={hovered ? 1.05 : 1}
+        >
+          <planeGeometry args={[scale[0], scale[1]]} />
+          <meshBasicMaterial
+            map={texture}
+            transparent={true}
+            alphaTest={0.5}
+            side={THREE.DoubleSide}
+            color={hovered ? '#ffffff' : '#eeeeee'}
+          />
+        </mesh>
+      </Billboard>
+    </group>
+  );
 }

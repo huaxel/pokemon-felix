@@ -92,12 +92,12 @@ Before writing code, align on the objective.
 
 ```markdown
 - [ ] Reviewed `roadmap.md` - Current phase: \_\_\_
-- [ ] Defined Goal: ************\_\_\_************
-- [ ] User Value (for Felix): ********\_********
-- [ ] Educational Value: **********\_**********
+- [ ] Defined Goal: ****\*\*\*\*****\_\_\_****\*\*\*\*****
+- [ ] User Value (for Felix): **\*\*\*\***\_**\*\*\*\***
+- [ ] Educational Value: ****\*\*****\_****\*\*****
 - [ ] Fun Factor Estimate: \_\_\_ (1-10)
 - [ ] Complexity Estimate: \_\_\_ (1-5)
-- [ ] Roles Required: **********\_\_\_\_**********
+- [ ] Roles Required: ****\*\*****\_\_\_\_****\*\*****
 ```
 
 ### Phase 2: Planning

@@ -207,16 +207,18 @@
   right: -10px;
   bottom: -10px;
   left: -10px;
-  background: linear-gradient(45deg,
-      #ff0000,
-      #ff7300,
-      #fffb00,
-      #48ff00,
-      #00ffd5,
-      #002bff,
-      #7a00ff,
-      #ff00c8,
-      #ff0000);
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
   z-index: -1;
   border-radius: 5px;
 }
@@ -263,12 +265,12 @@
 }
 
 .studio-title {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   text-shadow: 2px 2px 0 #000;
 }
 
 .studio-saved-overlay {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   background-color: #22c55e;
   color: #fff;
   padding: 1rem;
@@ -283,7 +285,7 @@
 }
 
 .studio-sidebar-title {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-size: 0.8rem;
   color: #fff;
   margin-bottom: 1rem;
@@ -320,12 +322,12 @@
 }
 
 .studio-empty-state {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   color: #9ca3af;
 }
 
 .studio-artist-signature {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-size: 0.6rem;
   color: #6b7280;
   margin-top: 1rem;

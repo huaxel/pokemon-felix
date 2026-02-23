@@ -7,7 +7,7 @@ const tests = [
     name: 'Valid input',
     sender: 'player',
     content: 'Hello trainer!',
-    expectedValid: true
+    expectedValid: true,
   },
   {
     name: 'Missing content',
@@ -15,7 +15,7 @@ const tests = [
     content: null,
     expectedValid: false,
     expectedStatus: 400,
-    expectedError: 'Sender and content are required'
+    expectedError: 'Sender and content are required',
   },
   {
     name: 'Empty content',
@@ -23,7 +23,7 @@ const tests = [
     content: '',
     expectedValid: false,
     expectedStatus: 400,
-    expectedError: 'Sender and content are required'
+    expectedError: 'Sender and content are required',
   },
   {
     name: 'Whitespace content',
@@ -31,7 +31,7 @@ const tests = [
     content: '   ',
     expectedValid: false,
     expectedStatus: 400,
-    expectedError: 'Content must be a non-empty string'
+    expectedError: 'Content must be a non-empty string',
   },
   {
     name: 'Content too long',
@@ -39,7 +39,7 @@ const tests = [
     content: 'a'.repeat(1001),
     expectedValid: false,
     expectedStatus: 400,
-    expectedError: 'Content is too long (maximum 1000 characters)'
+    expectedError: 'Content is too long (maximum 1000 characters)',
   },
   {
     name: 'Invalid sender',
@@ -47,24 +47,36 @@ const tests = [
     content: 'Hello',
     expectedValid: false,
     expectedStatus: 400,
-    expectedError: 'Invalid sender. Must be "player" or "trainer"'
+    expectedError: 'Invalid sender. Must be "player" or "trainer"',
   },
   {
     name: 'Content is exactly 1000 characters',
     sender: 'player',
     content: 'a'.repeat(1000),
-    expectedValid: true
-  }
+    expectedValid: true,
+  },
 ];
 
 let failures = 0;
 tests.forEach(test => {
   const result = validateChatInput(test.sender, test.content);
   try {
-    assert.strictEqual(result.valid, test.expectedValid, `${test.name} failed: expected valid ${test.expectedValid}, got ${result.valid}`);
+    assert.strictEqual(
+      result.valid,
+      test.expectedValid,
+      `${test.name} failed: expected valid ${test.expectedValid}, got ${result.valid}`
+    );
     if (!test.expectedValid) {
-      assert.strictEqual(result.status, test.expectedStatus, `${test.name} failed: expected status ${test.expectedStatus}, got ${result.status}`);
-      assert.strictEqual(result.error, test.expectedError, `${test.name} failed: expected error "${test.expectedError}", got "${result.error}"`);
+      assert.strictEqual(
+        result.status,
+        test.expectedStatus,
+        `${test.name} failed: expected status ${test.expectedStatus}, got ${result.status}`
+      );
+      assert.strictEqual(
+        result.error,
+        test.expectedError,
+        `${test.name} failed: expected error "${test.expectedError}", got "${result.error}"`
+      );
     }
     console.log(`✅ ${test.name} passed`);
   } catch (err) {

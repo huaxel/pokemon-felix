@@ -409,12 +409,12 @@
 }
 
 .gym-battle-title {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-size: 1rem;
 }
 
 .gym-loading-text {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .centered-view {
@@ -424,14 +424,14 @@
 }
 
 .gym-victory-title {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
   line-height: 1.5;
 }
 
 .gym-reward-text {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-size: 1rem;
   color: #fbbf24;
   display: flex;
@@ -455,4 +455,3 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-

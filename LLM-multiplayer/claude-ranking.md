@@ -139,4 +139,4 @@ Extracted Ranking:
     gemini-3-pro-preview
     kimi-k2.5
     glm-5
-    minimax-m2.5    
+    minimax-m2.5

@@ -25,21 +25,21 @@ Before.chatting, the game needs to know who the characters are. We create a "Rel
 // In a real app, use a database like SQLite or MongoDB
 
 const relationships = {
-    "Felix": {
-        "Rival_Bob": {
-            wins: 3,
-            losses: 0,
-            last_battle: "Bob's Blastoise fainted. Bob was furious.",
-            mood: "hostile", // 'hostile', 'friendly', 'neutral'
-            chat_history: []
-        },
-        "Friend_Alice": {
-            wins: 1,
-            losses: 1,
-            mood: "friendly",
-            chat_history: []
-        }
-    }
+"Felix": {
+"Rival_Bob": {
+wins: 3,
+losses: 0,
+last_battle: "Bob's Blastoise fainted. Bob was furious.",
+mood: "hostile", // 'hostile', 'friendly', 'neutral'
+chat_history: []
+},
+"Friend_Alice": {
+wins: 1,
+losses: 1,
+mood: "friendly",
+chat_history: []
+}
+}
 };
 
 module.exports = relationships;
@@ -60,17 +60,17 @@ const relationships = require("./data/relationships");
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, { cors: { origin: "\*" } });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // 1. Helper to generate the AI "Persona" based on memory
 const buildRivalPrompt = (rivalName, playerName, memory) => {
-    let moodInstruction = "";
-    if (memory.mood === "hostile") {
-        moodInstruction = "You are angry and aggressive because you have lost to the player multiple times.";
-    } else if (memory.mood === "friendly") {
-        moodInstruction = "You are respectful and view the player as a worthy ally.";
-    }
+let moodInstruction = "";
+if (memory.mood === "hostile") {
+moodInstruction = "You are angry and aggressive because you have lost to the player multiple times.";
+} else if (memory.mood === "friendly") {
+moodInstruction = "You are respectful and view the player as a worthy ally.";
+}
 
     return `
     You are ${rivalName}, a famous Pokémon Trainer in the Kanto region.
@@ -79,16 +79,17 @@ const buildRivalPrompt = (rivalName, playerName, memory) => {
     Here is your history with ${playerName}: ${memory.last_battle}.
     Keep your responses short, snappy, and in character. Never break the fourth wall.
     `;
+
 };
 
 // 2. Socket Connection
 io.on('connection', (socket) => {
-    console.log('Trainer connected:', socket.id);
+console.log('Trainer connected:', socket.id);
 
     // Handle incoming messages
     socket.on('send_message', async (data) => {
         const { to, message, from } = data;
-        
+
         console.log(`Message from ${from} to ${to}: ${message}`);
 
         // SCENARIO A: Chatting with a HUMAN Friend
@@ -96,11 +97,11 @@ io.on('connection', (socket) => {
             // Just relay the message to the other person (simplified)
             // In a real app, you'd map 'Friend_Alice' to a Socket ID
             io.emit('receive_message', { from, text: message });
-            
+
             // Also save to memory that they chatted
             relationships[from][to].chat_history.push({ role: "user", content: message });
-        } 
-        
+        }
+
         // SCENARIO B: Chatting with an AI RIVAL
         else if (to.startsWith("Rival_")) {
             const memory = relationships[from][to];
@@ -113,7 +114,7 @@ io.on('connection', (socket) => {
                     messages: [
                         { role: "system", content: systemPrompt },
                         // We can inject the last few messages for context
-                        ...memory.chat_history.slice(-5), 
+                        ...memory.chat_history.slice(-5),
                         { role: "user", content: message }
                     ]
                 });
@@ -138,26 +139,27 @@ io.on('connection', (socket) => {
     socket.on('battle_result', (data) => {
         const { opponent, result } = data; // result = 'win' or 'loss'
         const player = "Felix"; // Hardcoded for now
-        
+
         if (relationships[player][opponent]) {
             if (result === 'win') relationships[player][opponent].wins++;
             else relationships[player][opponent].losses++;
 
-            relationships[player][opponent].last_battle = 
-                result === 'win' 
-                ? `${player} won against ${opponent}. ${opponent} is furious.` 
+            relationships[player][opponent].last_battle =
+                result === 'win'
+                ? `${player} won against ${opponent}. ${opponent} is furious.`
                 : `${opponent} won against ${player}. ${opponent} is mocking you.`;
-            
+
             // Update mood based on wins
-            relationships[player][opponent].mood = 
-                relationships[player][opponent].wins > relationships[player][opponent].losses 
+            relationships[player][opponent].mood =
+                relationships[player][opponent].wins > relationships[player][opponent].losses
                 ? "hostile" : "friendly";
         }
     });
+
 });
 
 server.listen(3000, () => {
-    console.log('Pokémon Server running on port 3000');
+console.log('Pokémon Server running on port 3000');
 });
 
 Step 3: The Frontend (Simple HTML/JS)
@@ -228,6 +230,7 @@ This is a very basic interface to test it.
             box.scrollTop = box.scrollHeight;
         }
     </script>
+
 </body>
 </html>
 

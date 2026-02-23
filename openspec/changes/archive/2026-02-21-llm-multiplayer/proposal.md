@@ -13,6 +13,7 @@ Enhance the player experience for Felix by transforming static NPCs into dynamic
 ## Capabilities
 
 ### New Capabilities
+
 - `trainer-persona`: Define and store NPC traits, speech styles, and backstories.
 - `relationship-tracking`: Maintain friendship and rivalry scores that evolve based on player behavior.
 - `llm-chat`: Real-time, in-character conversation interface.

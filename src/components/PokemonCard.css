@@ -1,7 +1,8 @@
 .pokemon-card {
   background: var(--color-ui-bg-beige);
   border: var(--border-slice-width) solid transparent;
-  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png') var(--border-slice-width) round;
+  border-image: url('../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-000.png')
+    var(--border-slice-width) round;
   image-rendering: pixelated;
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
@@ -254,9 +255,11 @@
 
 /* Dynamic Card Backgrounds */
 .pokemon-card[class*='type-'] {
-  background: radial-gradient(circle at top right,
-      rgba(255, 255, 255, 0.05) 0%,
-      var(--glass-bg) 100%);
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 255, 255, 0.05) 0%,
+    var(--glass-bg) 100%
+  );
 }
 
 @keyframes fadeIn {

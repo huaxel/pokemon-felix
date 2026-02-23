@@ -12,6 +12,7 @@ Chairman: gemini-3-pro-preview
 This is a clear consensus from the Council: this is a brilliant project. To make "LLM Multiplayer" feel real for Felix, you need three things: Persistence (they remember), Agency (they initiate actions like battles), and Personality (they aren't just generic bots).
 
 Based on the most comprehensive technical designs provided by the council (specifically adapting the database schema from Model B and the action logic from Model A), here is the blueprint for building this feature.
+
 1. The Architecture
 
 You need three layers to make an NPC feel like a "player":
@@ -26,29 +27,29 @@ The most critical part is memory. You cannot verify "relationship status" if the
 
 -- 1. The NPCs
 CREATE TABLE trainers (
-  id TEXT PRIMARY KEY,
-  name TEXT,           -- "Gary", "Misty"
-  personality TEXT,    -- "Arrogant, competitive, calls player 'Gramps'"
-  team JSONB           -- ["Squirtle", "Pidgey"]
+id TEXT PRIMARY KEY,
+name TEXT, -- "Gary", "Misty"
+personality TEXT, -- "Arrogant, competitive, calls player 'Gramps'"
+team JSONB -- ["Squirtle", "Pidgey"]
 );
 
 -- 2. Felix's relationship with them
 CREATE TABLE relationships (
-  player_id TEXT,
-  trainer_id TEXT,
-  friendship_score INT DEFAULT 50, -- 0-100
-  rivalry_score INT DEFAULT 50,    -- 0-100
-  battles_won INT DEFAULT 0,
-  history_summary TEXT             -- "Felix won the Badge. Gary is jealous."
+player_id TEXT,
+trainer_id TEXT,
+friendship_score INT DEFAULT 50, -- 0-100
+rivalry_score INT DEFAULT 50, -- 0-100
+battles_won INT DEFAULT 0,
+history_summary TEXT -- "Felix won the Badge. Gary is jealous."
 );
 
 -- 3. Chat Logs (Short-term memory)
 CREATE TABLE chat_logs (
-  id SERIAL PRIMARY KEY,
-  trainer_id TEXT,
-  role TEXT,           -- 'user' or 'assistant'
-  content TEXT,
-  timestamp DATETIME DEFAULT NOW()
+id SERIAL PRIMARY KEY,
+trainer_id TEXT,
+role TEXT, -- 'user' or 'assistant'
+content TEXT,
+timestamp DATETIME DEFAULT NOW()
 );
 
 3. The Implementation (Backend Logic)
@@ -60,70 +61,71 @@ Here is a Node.js/Next.js function that handles the chat logic. It creates a "Sy
 import OpenAI from "openai";
 
 async function handleChat(player, npcId, userMessage) {
-  // 1. Fetch Context from DB
-  const npc = await db.getTrainer(npcId);
-  const relation = await db.getRelationship(player.id, npcId);
-  const recentChat = await db.getRecentLogs(player.id, npcId, 10); // Last 10 msgs
+// 1. Fetch Context from DB
+const npc = await db.getTrainer(npcId);
+const relation = await db.getRelationship(player.id, npcId);
+const recentChat = await db.getRecentLogs(player.id, npcId, 10); // Last 10 msgs
 
-  // 2. Build the "System Prompt" dynamically
-  // This tells the LLM who it is and how it feels about Felix
-  const systemPrompt = `
-    You are ${npc.name}.
-    Personality: ${npc.personality}
-    
+// 2. Build the "System Prompt" dynamically
+// This tells the LLM who it is and how it feels about Felix
+const systemPrompt = `
+You are ${npc.name}.
+Personality: ${npc.personality}
+
     CURRENT RELATIONSHIP STATUS:
     - Friendship: ${relation.friendship_score}/100
     - Rivalry: ${relation.rivalry_score}/100
     - History: ${relation.history_summary}
-    
+
     GAME STATE:
     - Player has ${player.badges} badges.
     - Last battle winner: ${relation.last_winner}.
-    
+
     INSTRUCTIONS:
     - Keep responses short (under 2 sentences).
     - If Rivalry is high (>70), be aggressive.
     - If Felix challenges you, call the 'startBattle' tool.
-  `;
 
-  // 3. Define Game Actions (Tools)
-  const tools = [
-    {
-      type: "function",
-      function: {
-        name: "startBattle",
-        description: "Challenge the player to a pokemon battle immediately.",
-        parameters: { type: "object", properties: {} },
-      },
-    }
-  ];
+`;
 
-  // 4. Call the LLM
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: systemPrompt },
-      ...recentChat,
-      { role: "user", content: userMessage }
-    ],
-    tools: tools, 
-  });
+// 3. Define Game Actions (Tools)
+const tools = [
+{
+type: "function",
+function: {
+name: "startBattle",
+description: "Challenge the player to a pokemon battle immediately.",
+parameters: { type: "object", properties: {} },
+},
+}
+];
 
-  const responseMsg = completion.choices[0].message;
+// 4. Call the LLM
+const completion = await openai.chat.completions.create({
+model: "gpt-4o-mini",
+messages: [
+{ role: "system", content: systemPrompt },
+...recentChat,
+{ role: "user", content: userMessage }
+],
+tools: tools,
+});
 
-  // 5. Check if the AI wants to fight
-  if (responseMsg.tool_calls) {
-    return { 
-      text: "You're on! Let's battle!", 
-      action: "START_BATTLE" 
-    };
-  }
+const responseMsg = completion.choices[0].message;
 
-  // 6. Return normal text
-  return { 
-    text: responseMsg.content, 
-    action: null 
-  };
+// 5. Check if the AI wants to fight
+if (responseMsg.tool_calls) {
+return {
+text: "You're on! Let's battle!",
+action: "START_BATTLE"
+};
+}
+
+// 6. Return normal text
+return {
+text: responseMsg.content,
+action: null
+};
 }
 
 4. Managing Memory (The "Summarization" Trick)

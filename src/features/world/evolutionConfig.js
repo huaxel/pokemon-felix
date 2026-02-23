@@ -1,10 +1,4 @@
-import {
-  fireStone,
-  waterStone,
-  thunderStone,
-  leafStone,
-  moonStone,
-} from './worldAssets';
+import { fireStone, waterStone, thunderStone, leafStone, moonStone } from './worldAssets';
 
 export const EVOLUTION_CHAINS = [
   { id: 1, name: 'Bulbasaur', evo: 'Ivysaur', level: 16, type: 'Grass', method: 'level' },

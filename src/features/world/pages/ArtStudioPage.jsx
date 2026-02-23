@@ -58,9 +58,7 @@ export function ArtStudioPage() {
         <button className="back-btn btn-kenney" onClick={() => navigate('/adventure')}>
           <ArrowLeft size={24} />
         </button>
-        <h1 className="studio-title">
-          Kunstatelier
-        </h1>
+        <h1 className="studio-title">Kunstatelier</h1>
         <div className="studio-controls">
           <button className="save-btn btn-kenney success" onClick={handleSave} disabled={isSaving}>
             {isSaving ? (
@@ -74,17 +72,11 @@ export function ArtStudioPage() {
         </div>
       </div>
 
-      {savedMessage && (
-        <div className="saved-message studio-saved-overlay">
-          {savedMessage}
-        </div>
-      )}
+      {savedMessage && <div className="saved-message studio-saved-overlay">{savedMessage}</div>}
 
       <div className="studio-content">
         <div className="sidebar game-panel-dark studio-sidebar-panel">
-          <h3 className="studio-sidebar-title">
-            Modellen
-          </h3>
+          <h3 className="studio-sidebar-title">Modellen</h3>
           <div className="pokemon-grid">
             {myPokemon.map(p => (
               <div
@@ -97,9 +89,7 @@ export function ArtStudioPage() {
             ))}
           </div>
 
-          <h3 className="studio-sidebar-title">
-            Filters
-          </h3>
+          <h3 className="studio-sidebar-title">Filters</h3>
           <div className="filter-grid">
             {filters.map(f => (
               <button
@@ -112,9 +102,7 @@ export function ArtStudioPage() {
             ))}
           </div>
 
-          <h3 className="studio-sidebar-title">
-            Lijsten
-          </h3>
+          <h3 className="studio-sidebar-title">Lijsten</h3>
           <div className="filter-grid">
             {frames.map(f => (
               <button
@@ -129,7 +117,9 @@ export function ArtStudioPage() {
         </div>
 
         <div className="canvas-area">
-          <div className={`art-canvas studio-canvas-box ${selectedFrame !== 'none' ? `frame-${selectedFrame}` : ''}`}>
+          <div
+            className={`art-canvas studio-canvas-box ${selectedFrame !== 'none' ? `frame-${selectedFrame}` : ''}`}
+          >
             {selectedPokemon ? (
               <div
                 className="canvas-content"
@@ -142,9 +132,7 @@ export function ArtStudioPage() {
                 />
               </div>
             ) : (
-              <div className="empty-state studio-empty-state">
-                Selecteer een Pokémon
-              </div>
+              <div className="empty-state studio-empty-state">Selecteer een Pokémon</div>
             )}
             <div className="artist-signature studio-artist-signature">
               Door {playerName || 'Artiest'}
