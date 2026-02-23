@@ -45,10 +45,14 @@ export async function setCollection(ids) {
     const normalizedIds = Array.from(
       new Set(
         source.filter(id => typeof id === 'number' && Number.isFinite(id))
-      )
-    );
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizedIds));
+export async function setCollection(ids) {
+  if (!Array.isArray(ids)) {
+    throw new TypeError('ids must be an array');
+  }
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
   } catch (error) {
     console.error('Error setting collection:', error);
+    throw error;
   }
 }
