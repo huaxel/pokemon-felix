@@ -336,6 +336,7 @@
   /* Border handled by game-panel-dark class */
   height: 180px;
   overflow-y: auto;
+  touch-action: pan-y;
   box-shadow: var(--shadow-md);
 }
 

@@ -118,6 +118,7 @@
 .inventory-scroll-area {
   flex: 1;
   overflow-y: auto;
+  touch-action: pan-y;
   padding-right: 10px;
 }
 

@@ -25,21 +25,10 @@ function App() {
       }
     };
 
-    // Prevent default touch behavior to stop scrolling/rubber-banding
-    const preventDefaultTouch = e => {
-      // Allow touch on specific scrollable elements if marked with data-scrollable
-      if (e.target.closest('[data-scrollable="true"]')) {
-        return;
-      }
-      e.preventDefault();
-    };
-
     window.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('touchmove', preventDefaultTouch, { passive: false });
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('touchmove', preventDefaultTouch);
     };
   }, [toggleConsole]);
 
