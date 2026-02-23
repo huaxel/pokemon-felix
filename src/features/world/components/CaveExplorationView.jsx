@@ -1,7 +1,35 @@
+import React from 'react';
+import { Canvas } from '@react-three/fiber';
+import { WorldScene3DMain } from './WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
+
+const CAVE_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.MOUNTAIN;
+    if (xIndex === 3 || xIndex === 4) return TILE_TYPES.PATH;
+    return TILE_TYPES.SAND;
+  }),
+);
+
 export function CaveExplorationView({ depth, onExplore, onExit, onReturn }) {
   return (
     <div className="exploration-view">
       <div className="cave-visual">
+        <div className="cave-3d-wrapper">
+          <Canvas
+            shadows={false}
+            dpr={[1, 1.5]}
+            gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+            camera={{ position: [3.5, 4, 7], fov: 55 }}
+          >
+            <WorldScene3DMain
+              mapGrid={CAVE_GRID}
+              onObjectClick={undefined}
+              isNight={true}
+              enableSky={false}
+            />
+          </Canvas>
+        </div>
         <div className={`depth-indicator depth-${Math.min(5, Math.floor(depth / 20))}`}>
           {depth === 0 ? 'Entrance' : `Depth: ${depth}m`}
         </div>
