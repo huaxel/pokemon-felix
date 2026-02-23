@@ -117,7 +117,6 @@ export function SafariZone3D() {
                         enableSky={false}
                     />
 
-                    {/* Safari Pokémon Sprites */}
                     {pokemonList.slice(0, 8).map((p, i) => (
                         <PokemonSprite
                             key={`safari-mon-${p.id}-${i}`}
@@ -127,6 +126,12 @@ export function SafariZone3D() {
                                 1,
                                 Math.cos(i * 0.5) * 10
                             ]}
+                            orbit={{
+                                radius: 1.5,
+                                speed: 0.5 + i * 0.07,
+                                phase: i * Math.PI * 0.25,
+                                heightOffset: 0
+                            }}
                             onClick={handlePokemonClick}
                         />
                     ))}
