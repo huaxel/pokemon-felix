@@ -16,6 +16,26 @@
   padding-bottom: 4rem;
 }
 
+.center-3d-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.center-3d-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.healing-machine-container,
+.nurse-counter,
+.dialog-box {
+  position: relative;
+  z-index: 1;
+}
+
 .healing-machine-container {
   position: relative;
   margin-bottom: 2rem;

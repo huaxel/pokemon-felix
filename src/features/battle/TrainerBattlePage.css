@@ -1,0 +1,127 @@
+.trainer-battle-page {
+  min-height: 100vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* Common background styles */
+  background-color: #2d1810;
+  background-size: 64px;
+  background-repeat: repeat;
+  image-rendering: pixelated;
+}
+
+.trainer-battle-page.loading {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: "Press Start 2P", cursive;
+}
+
+.trainer-battle-page.chat {
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.trainer-battle-page.result {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 2rem;
+}
+
+/* Header Styles */
+.trainer-battle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trainer-battle-header.chat {
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.trainer-battle-header.simple {
+  padding: 1rem;
+}
+
+.trainer-battle-title {
+  font-family: "Press Start 2P", cursive;
+  color: white;
+  text-shadow: 2px 2px 0 #000;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.trainer-battle-close-btn {
+  text-decoration: none;
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Challenge Button */
+.trainer-battle-challenge-btn {
+  margin-top: 2rem;
+}
+
+/* Result Styles */
+.trainer-battle-result-title {
+  font-family: "Press Start 2P", cursive;
+  text-shadow: 2px 2px 0 #000;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.trainer-battle-result-title.victory {
+  color: #fbbf24;
+}
+
+.trainer-battle-result-title.defeat {
+  color: #ef4444;
+}
+
+.trainer-battle-card {
+  text-align: center;
+  padding: 2rem;
+}
+
+.trainer-battle-avatar {
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+}
+
+.trainer-battle-quote {
+  font-family: "Press Start 2P", cursive;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #d1d5db;
+}
+
+.trainer-battle-reward {
+  margin-top: 1rem;
+  color: #fbbf24;
+  font-family: "Press Start 2P", cursive;
+}
+
+.trainer-battle-exp {
+  color: #60a5fa;
+  font-family: "Press Start 2P", cursive;
+}
+
+.trainer-battle-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.trainer-battle-back-btn {
+  text-decoration: none;
+}

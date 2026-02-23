@@ -75,7 +75,7 @@ export function StarterPage() {
 
   const getSprite = id => {
     const p = pokemonList.find(p => p.id === id);
-    return p ? p.sprites.front_default : '';
+    return p?.sprites?.front_default ?? null;
   };
 
   return (

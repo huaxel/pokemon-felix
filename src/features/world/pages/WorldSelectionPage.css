@@ -11,6 +11,20 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.worldselection-3d-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.worldselection-3d-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .selection-header {
   margin-top: 2rem;
   text-align: center;

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useData, useDomainCollection, useUI } from './contexts/DomainContexts';
 import { setCollection } from './lib/services/collectionService';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
+import { useServices } from './modules/services';
+import { errorMessage } from './modules/observability';
 import { Navbar } from './components/Navbar';
 import { GameConsole } from './components/GameConsole';
 import { ToastContainer } from './components/ToastContainer';
@@ -12,7 +14,8 @@ import './App.css';
 function App() {
   const { pokemonList, loadPokemon } = useData();
   const { ownedIds, setOwnedIds, toggleOwned } = useDomainCollection();
-  const { isConsoleOpen, toggleConsole } = useUI();
+  const { isConsoleOpen, toggleConsole, showError } = useUI();
+  const { logger } = useServices();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
@@ -43,9 +46,8 @@ function App() {
       await setCollection(uniqueImported);
       setOwnedIds(uniqueImported);
     } catch (error) {
-      console.error('Failed to import favorites:', error);
-      // Fallback for top-level error
-      console.error('Error al importar favoritos: ' + error.message);
+      logger.error('Failed to import favorites', error);
+      showError(`Failed to import favorites: ${errorMessage(error)}`);
     }
   };
 

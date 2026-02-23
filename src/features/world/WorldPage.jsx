@@ -7,7 +7,7 @@ import { useGPS } from '../../hooks/useGPS';
 import { usePlayer } from '../../hooks/usePlayer';
 import { STORAGE_KEYS } from '../../lib/constants';
 import { useWorldNavigation } from './hooks/useWorldNavigation';
-import { TILE_TYPES, SEASON_STYLES, OUTFIT_COLORS } from './worldConstants';
+import { TILE_TYPES, SEASON_STYLES, OUTFIT_COLORS, WORLDS_CONFIG } from './worldConstants';
 import { QuestLog } from './QuestLog';
 import { WorldGrid } from './components/WorldGrid';
 import { WorldHUD } from './components/WorldHUD';
@@ -23,60 +23,10 @@ import { WorldView3D } from './components/WorldView3D';
 import panelBorder010 from '../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png';
 import './WorldPage.css';
 
-const PLAYER_POS_STORAGE_KEY = 'felix-world-player-pos';
-const WORLDS_CONFIG = {
-  green_valley: [
-    [1, 1, 1, 14, 0, 4, 4, 0, 19, 3],
-    [1, 12, 1, 13, 16, 17, 4, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 25, 1, 1],
-    [0, 0, 0, 0, 1, 0, 0, 0, 9, 6],
-    [4, 4, 0, 0, 1, 0, 23, 10, 10, 18],
-    [0, 0, 0, 0, 1, 1, 10, 10, 10, 0],
-    [0, 0, 7, 0, 1, 11, 10, 10, 10, 20],
-    [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
-    [1, 1, 1, 1, 1, 1, 1, 0, 0, 21],
-    [5, 0, 26, 2, 0, 0, 0, 0, 0, 0],
-    [1, 1, 1, 24, 1, 0, 0, 0, 0, 0],
-  ],
-  desert_oasis: [
-    [27, 27, 27, 1, 27, 27, 27, 28, 28, 28],
-    [27, 1, 1, 1, 27, 27, 27, 27, 28, 27],
-    [27, 1, 25, 1, 27, 10, 10, 27, 27, 27],
-    [27, 1, 1, 1, 27, 10, 11, 10, 27, 27],
-    [27, 27, 27, 27, 27, 10, 10, 27, 27, 27],
-    [28, 28, 27, 27, 27, 27, 27, 27, 27, 27],
-    [28, 28, 28, 27, 4, 4, 27, 27, 5, 27],
-    [27, 27, 27, 27, 4, 4, 27, 27, 27, 27],
-    [27, 27, 27, 27, 27, 27, 27, 27, 27, 27],
-    [27, 3, 27, 27, 27, 27, 24, 27, 27, 27],
-    [27, 27, 27, 27, 27, 27, 27, 27, 27, 27],
-  ],
-  frozen_peak: [
-    [28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
-    [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
-    [28, 1, 7, 1, 28, 28, 28, 28, 28, 28],
-    [28, 1, 1, 1, 28, 28, 28, 28, 28, 28],
-    [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
-    [28, 28, 28, 28, 28, 10, 10, 28, 28, 28],
-    [28, 4, 4, 28, 28, 28, 28, 28, 28, 28],
-    [28, 4, 4, 28, 28, 3, 28, 28, 28, 28],
-    [28, 28, 28, 28, 28, 1, 28, 28, 28, 28],
-    [28, 28, 28, 5, 28, 1, 28, 21, 28, 28],
-    [28, 28, 28, 28, 28, 1, 28, 28, 28, 28],
-  ],
-};
-
-// Map new continents to existing layouts for now
-WORLDS_CONFIG.na = WORLDS_CONFIG.green_valley;
-WORLDS_CONFIG.sa = WORLDS_CONFIG.green_valley;
-WORLDS_CONFIG.eu = WORLDS_CONFIG.green_valley;
-WORLDS_CONFIG.af = WORLDS_CONFIG.desert_oasis;
-WORLDS_CONFIG.as = WORLDS_CONFIG.frozen_peak;
-WORLDS_CONFIG.oc = WORLDS_CONFIG.green_valley;
 
 function getInitialPlayerPos() {
   try {
-    const saved = localStorage.getItem(PLAYER_POS_STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEYS.PLAYER_POS);
     if (saved) {
       const parsed = JSON.parse(saved);
       if (typeof parsed?.x === 'number' && typeof parsed?.y === 'number') return parsed;
@@ -178,7 +128,7 @@ export function WorldPage() {
       const tile = mapGrid[ny][nx];
       if (tile === TILE_TYPES.TREE || tile === TILE_TYPES.HOUSE) return;
       setPlayerPos({ x: nx, y: ny });
-      localStorage.setItem(PLAYER_POS_STORAGE_KEY, JSON.stringify({ x: nx, y: ny }));
+      localStorage.setItem(STORAGE_KEYS.PLAYER_POS, JSON.stringify({ x: nx, y: ny }));
       clearMessage();
       if (targetPos) {
         setGpsDistance(calculateDistance({ x: nx, y: ny }, targetPos));
