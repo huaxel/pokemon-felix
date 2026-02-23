@@ -10,6 +10,21 @@ import { PokemonSprite } from '../components/PokemonSprite';
 import { useEncounter } from '../hooks/useEncounter';
 import { ArrowLeft } from 'lucide-react';
 import './SafariZone3D.css';
+import { TILE_TYPES } from '../worldConstants';
+
+const SAFARI_GRID_SIZE = 10;
+
+const baseSafariGrid = Array.from({ length: SAFARI_GRID_SIZE }, (_, y) =>
+    Array.from({ length: SAFARI_GRID_SIZE }, (_, x) => {
+        const dx = x - SAFARI_GRID_SIZE / 2;
+        const dy = y - SAFARI_GRID_SIZE / 2;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 2.5) return TILE_TYPES.WATER;
+        if (dist < 4) return TILE_TYPES.SAND;
+        return TILE_TYPES.GRASS;
+    }),
+);
 
 export function SafariZone3D() {
     const navigate = useNavigate();
@@ -87,7 +102,7 @@ export function SafariZone3D() {
                 <Suspense fallback={null}>
                     {!encounter && (
                         <PlayerControls3D
-                            mapGrid={[]}
+                            mapGrid={baseSafariGrid}
                             initialPos={{ x: 0, y: 0 }}
                             onLock={() => {
                                 setIsLocked(true);
@@ -97,7 +112,7 @@ export function SafariZone3D() {
                         />
                     )}
                     <WorldScene3DMain
-                        mapGrid={[]}
+                        mapGrid={baseSafariGrid}
                         onObjectClick={handlePokemonClick}
                         enableSky={false}
                     />

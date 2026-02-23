@@ -48,9 +48,13 @@ async function seed() {
       );
     }
 
-    console.log('Seeding completed successfully!');
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('Seeding completed successfully!');
+    }
   } catch (error) {
-    console.error('Seeding failed:', error);
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('Seeding failed:', error);
+    }
   }
 }
 

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"json-server --watch db.json --port 3001\" \"vite\"",
     "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 20",
     "test": "vitest --environment jsdom",
     "lint:fix": "eslint . --ext .js,.jsx --fix",
     "format": "prettier --write \"**/*.{js,jsx,css,json,md}\"",

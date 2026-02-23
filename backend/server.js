@@ -90,5 +90,7 @@ app.post('/api/chat/:trainer_id', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Pokemon Felix Backend running at http://localhost:${port}`);
+  if (process.env.NODE_ENV !== 'test') {
+    console.log(`Pokemon Felix Backend running at http://localhost:${port}`);
+  }
 });
