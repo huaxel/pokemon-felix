@@ -1,26 +1,25 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { Billboard, useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export function PokemonSprite({ pokemon, position, onClick }) {
-    const imageUrl = pokemon.image || pokemon.sprites?.front_default;
+    const imageUrl = useMemo(
+        () => pokemon.image || pokemon.sprites?.front_default || null,
+        [pokemon],
+    );
 
-    if (!imageUrl) {
-        return null;
-    }
-
-    const texture = useTexture(imageUrl);
+    const texture = useTexture(imageUrl || undefined);
     const meshRef = useRef();
 
     // To avoid blurry pixels, set texture filtering safely
     React.useLayoutEffect(() => {
-        if (texture) {
+        if (texture && imageUrl) {
             texture.magFilter = THREE.NearestFilter;
             texture.minFilter = THREE.NearestFilter;
             texture.needsUpdate = true;
         }
-    }, [texture]);
+    }, [texture, imageUrl]);
 
     const [hovered, setHovered] = useState(false);
 
