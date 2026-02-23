@@ -5,6 +5,7 @@ import { useData } from '../../../contexts/DomainContexts';
 import { PlayerControls3D } from '../components/PlayerControls3D';
 import { WorldScene3D } from '../components/WorldScene3D';
 import { EncounterModal } from '../components/EncounterModal';
+import { Pokeball3D } from '../components/Pokeball3D';
 import { useEncounter } from '../hooks/useEncounter';
 import { ArrowLeft } from 'lucide-react';
 import './SafariZone3D.css';
@@ -36,8 +37,25 @@ export function SafariZone3D() {
         }
     });
 
-    const handlePokemonClick = (pokemon) => {
-        // Unlock controls to show the modal properly
+    const [thrownBall, setThrownBall] = useState(null);
+
+    const handlePokemonClick = (pokemon, targetPosition) => {
+        if (thrownBall) return;
+
+        // Start the throwing animation
+        // Camera position is roughly our eyes
+        setThrownBall({
+            target: targetPosition,
+            pokemon: pokemon
+        });
+    };
+
+    const onBallHit = () => {
+        if (!thrownBall) return;
+        const pokemon = thrownBall.pokemon;
+        setThrownBall(null);
+
+        // Original click logic: Unlock controls and show modal
         document.exitPointerLock();
         setIsLocked(false);
         setEncounter(pokemon);
@@ -69,6 +87,15 @@ export function SafariZone3D() {
                     pokemonList={pokemonList}
                     onPokemonClick={handlePokemonClick}
                 />
+
+                {/* 3D Thrown Pokéball */}
+                {thrownBall && (
+                    <Pokeball3D
+                        startPos={[0, 1.6, 0]} // Camera height
+                        targetPos={thrownBall.target}
+                        onHit={onBallHit}
+                    />
+                )}
             </Canvas>
 
             {/* 2D UI Overlay */}

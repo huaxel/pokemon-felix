@@ -19,6 +19,7 @@ import { InteriorModal } from './components/InteriorModal';
 import { PokeballCollectionModal } from './components/PokeballCollectionModal';
 import { useWorldEvents } from './hooks/useWorldEvents';
 import { useWorldState } from './hooks/useWorldState';
+import { WorldView3D } from './components/WorldView3D';
 import panelBorder010 from '../../assets/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-010.png';
 import './WorldPage.css';
 
@@ -129,6 +130,7 @@ export function WorldPage() {
 
   const [isBuildMode, setIsBuildMode] = useState(false);
   const [selectedBuilding, setSelectedBuilding] = useState('house');
+  const [is3DMode, setIs3DMode] = useState(false);
 
   const mapGrid = useMemo(() => {
     const grid = baseGrid.map(row => [...row]);
@@ -286,6 +288,22 @@ export function WorldPage() {
       >
         🏕️ Safari 3D (Beta)
       </button>
+
+      <button
+        className="btn-kenney"
+        onClick={() => setIs3DMode(!is3DMode)}
+        style={{
+          position: 'absolute',
+          top: '130px',
+          left: '20px',
+          backgroundColor: is3DMode ? '#60a5fa' : '#fbbf24',
+          color: '#1e3a8a',
+          zIndex: 100
+        }}
+      >
+        {is3DMode ? '🌐 View 2D' : '🕶️ View 3D'}
+      </button>
+
       {activeEffect.name !== 'Normal' && (
         <div
           className="active-effect-hud dialogue-box-sharp"
@@ -319,31 +337,44 @@ export function WorldPage() {
           onClose={() => world.setShowPokeballModal(false)}
         />
       </div>
-      <div className="game-container">
-        <WorldGrid
-          mapGrid={mapGrid}
-          playerPos={playerPos}
-          playerName={playerName}
-          playerColor={playerColor}
-          treasures={world.treasures}
-          pokeballs={world.pokeballs}
-          isBuildMode={isBuildMode}
-          handleTileClick={handleTileClick}
-          seasonStyle={seasonStyle}
-        />
-        <SeasonHUD
-          seasonIndex={world.seasonIndex}
-          onNext={world.nextSeason}
-          onPrev={world.prevSeason}
-        />
-        <MapLegend />
-        <MovementControls
-          movePlayer={movePlayer}
-          isBuildMode={isBuildMode}
-          setIsBuildMode={setIsBuildMode}
-          selectedBuilding={selectedBuilding}
-          setSelectedBuilding={setSelectedBuilding}
-        />
+      <div className="game-container" style={is3DMode ? { width: '100%', height: 'calc(100vh - 120px)', marginTop: '60px' } : {}}>
+        {is3DMode ? (
+          <WorldView3D
+            playerPos={playerPos}
+            mapGrid={mapGrid}
+            townObjects={townObjects}
+            handleTileClick={handleTileClick}
+          />
+        ) : (
+          <WorldGrid
+            mapGrid={mapGrid}
+            playerPos={playerPos}
+            playerName={playerName}
+            playerColor={playerColor}
+            treasures={world.treasures}
+            pokeballs={world.pokeballs}
+            isBuildMode={isBuildMode}
+            handleTileClick={handleTileClick}
+            seasonStyle={seasonStyle}
+          />
+        )}
+        {!is3DMode && (
+          <>
+            <SeasonHUD
+              seasonIndex={world.seasonIndex}
+              onNext={world.nextSeason}
+              onPrev={world.prevSeason}
+            />
+            <MapLegend />
+            <MovementControls
+              movePlayer={movePlayer}
+              isBuildMode={isBuildMode}
+              setIsBuildMode={setIsBuildMode}
+              selectedBuilding={selectedBuilding}
+              setSelectedBuilding={setSelectedBuilding}
+            />
+          </>
+        )}
       </div>
     </div>
   );

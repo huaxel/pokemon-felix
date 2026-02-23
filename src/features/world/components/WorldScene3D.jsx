@@ -6,13 +6,19 @@ import { PokemonSprite } from './PokemonSprite';
 import grassTileImage from '../../../assets/kenney_tiny-town/Tiles/tile_0000.png';
 
 export function WorldScene3D({ pokemonList, onPokemonClick }) {
-    // Load floor texture and repeat it
+    // Load floor texture and safely configure it
     const grassTexture = useTexture(grassTileImage);
-    grassTexture.wrapS = THREE.RepeatWrapping;
-    grassTexture.wrapT = THREE.RepeatWrapping;
-    grassTexture.repeat.set(50, 50);
-    grassTexture.magFilter = THREE.NearestFilter;
-    grassTexture.minFilter = THREE.NearestFilter;
+
+    React.useLayoutEffect(() => {
+        if (grassTexture) {
+            grassTexture.wrapS = THREE.RepeatWrapping;
+            grassTexture.wrapT = THREE.RepeatWrapping;
+            grassTexture.repeat.set(50, 50);
+            grassTexture.magFilter = THREE.NearestFilter;
+            grassTexture.minFilter = THREE.NearestFilter;
+            grassTexture.needsUpdate = true;
+        }
+    }, [grassTexture]);
 
     // Generate random spawning positions around the player
     const spawnPoints = useMemo(() => {
@@ -71,7 +77,7 @@ export function WorldScene3D({ pokemonList, onPokemonClick }) {
                     key={spawn.id}
                     position={spawn.position}
                     pokemon={spawn.pokemon}
-                    onClick={onPokemonClick}
+                    onClick={(p) => onPokemonClick(p, spawn.position)}
                 />
             ))}
         </>

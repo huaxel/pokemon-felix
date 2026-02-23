@@ -8,6 +8,8 @@ import waterImage from '../../assets/kenney_tiny-town/Tiles/tile_0032.png';
 import houseImage from '../../assets/kenney_tiny-town/Tiles/tile_0056.png';
 import pathTile from '../../assets/kenney_tiny-town/Tiles/tile_0008.png';
 import grassTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png';
+import sandTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png'; // Using grass as base for tinting
+import snowTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png'; // Using grass as base for tinting
 
 // New additions from WorldGrid.jsx
 import waterEdgeTile from '../../assets/kenney_tiny-town/Tiles/tile_0019.png';
@@ -50,6 +52,8 @@ export {
   gymImage,
   gymImage as gymTile,
   marketImage,
+  marketImage as marketTile,
+  marketImage as gachaImage,
   treeImage,
   treeImage as treeTile,
   waterImage,
@@ -58,6 +62,8 @@ export {
   houseImage as houseTile,
   pathTile,
   grassTile,
+  grassTile as sandTile, // Changed sandTile to be an alias of grassTile
+  snowTile,
   waterEdgeTile,
   waterCenterTile,
   houseTile2,
