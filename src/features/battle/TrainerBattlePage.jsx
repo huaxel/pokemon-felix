@@ -7,7 +7,7 @@ import { TRAINERS } from '../../lib/trainers';
 import { useToast } from '../../hooks/useToast';
 import { grassTile } from '../world/worldAssets';
 import TrainerChat from '../chat/TrainerChat';
-import './SingleBattlePage.css';
+import './TrainerBattlePage.css';
 
 export function TrainerBattlePage({ allPokemon }) {
     const { trainerId } = useParams();
@@ -81,19 +81,9 @@ export function TrainerBattlePage({ allPokemon }) {
     if (battleState === 'loading' || !playerPokemon || !opponentPokemon || !trainer) {
         return (
             <div
-                className="single-battle-page loading"
+                className="trainer-battle-page loading"
                 style={{
-                    backgroundColor: '#2d1810',
                     backgroundImage: `url(${grassTile})`,
-                    backgroundSize: '64px',
-                    backgroundRepeat: 'repeat',
-                    imageRendering: 'pixelated',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',
-                    color: 'white',
-                    fontFamily: '"Press Start 2P", cursive',
                 }}
             >
                 Gevecht voorbereiden...
@@ -104,23 +94,13 @@ export function TrainerBattlePage({ allPokemon }) {
     if (battleState === 'chat') {
         return (
             <div
-                className="single-battle-page"
+                className="trainer-battle-page chat"
                 style={{
-                    backgroundColor: '#2d1810',
                     backgroundImage: `url(${grassTile})`,
-                    backgroundSize: '64px',
-                    backgroundRepeat: 'repeat',
-                    imageRendering: 'pixelated',
-                    minHeight: '100vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '2rem'
                 }}
             >
-                <div className="battle-header-simple" style={{ marginBottom: '1rem', width: '100%', maxWidth: '600px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h2 style={{ fontFamily: '"Press Start 2P", cursive', color: 'white', textShadow: '2px 2px 0 #000', fontSize: '1.2rem', margin: 0 }}>
+                <div className="trainer-battle-header chat">
+                    <h2 className="trainer-battle-title">
                         Ontmoeting met {trainer.name}
                     </h2>
                     <Link to="/trainer-selection" className="close-btn btn-kenney neutral">✕</Link>
@@ -129,8 +109,7 @@ export function TrainerBattlePage({ allPokemon }) {
                 <TrainerChat trainer={trainer} onStartBattle={startBattle} />
 
                 <button
-                    className="game-button game-button-danger"
-                    style={{ marginTop: '2rem' }}
+                    className="game-button game-button-danger trainer-battle-challenge-btn"
                     onClick={startBattle}
                 >
                     Daag uit voor gevecht!
@@ -142,71 +121,37 @@ export function TrainerBattlePage({ allPokemon }) {
     if (battleState === 'victory') {
         return (
             <div
-                className="single-battle-page result victory"
+                className="trainer-battle-page result"
                 style={{
-                    backgroundColor: '#2d1810',
                     backgroundImage: `url(${grassTile})`,
-                    backgroundSize: '64px',
-                    backgroundRepeat: 'repeat',
-                    imageRendering: 'pixelated',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',
-                    gap: '2rem',
                 }}
             >
-                <h1
-                    style={{
-                        fontFamily: '"Press Start 2P", cursive',
-                        textShadow: '2px 2px 0 #000',
-                        color: '#fbbf24',
-                        fontSize: '3rem',
-                    }}
-                >
+                <h1 className="trainer-battle-result-title victory">
                     Overwinning!
                 </h1>
-                <div
-                    className="result-card game-panel-dark"
-                    style={{ textAlign: 'center', padding: '2rem' }}
-                >
+                <div className="trainer-battle-card game-panel-dark">
                     <img
                         src={trainer.avatar}
                         alt={trainer.name}
-                        style={{ width: '128px', height: '128px', objectFit: 'contain', filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }}
+                        className="trainer-battle-avatar"
                     />
-                    <p
-                        style={{
-                            fontFamily: '"Press Start 2P", cursive',
-                            marginTop: '1rem',
-                            fontSize: '1rem',
-                            color: '#d1d5db'
-                        }}
-                    >
+                    <p className="trainer-battle-quote">
                         &quot;{trainer.loseQuote}&quot;
                     </p>
-                    <div
-                        className="reward-badge"
-                        style={{ marginTop: '1rem', color: '#fbbf24', fontFamily: '"Press Start 2P", cursive' }}
-                    >
+                    <div className="trainer-battle-reward">
                         +{trainer.reward} Munten
                     </div>
-                    <div
-                        className="reward-badge exp"
-                        style={{ color: '#60a5fa', fontFamily: '"Press Start 2P", cursive' }}
-                    >
+                    <div className="trainer-battle-exp">
                         +100 EXP
                     </div>
                 </div>
-                <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
+                <div className="trainer-battle-actions">
                     <button className="replay-btn btn-kenney primary" onClick={prepareBattle}>
                         Revanche
                     </button>
                     <Link
                         to="/trainer-selection"
-                        className="back-btn btn-kenney neutral"
-                        style={{ textDecoration: 'none' }}
+                        className="back-btn btn-kenney neutral trainer-battle-back-btn"
                     >
                         Terug
                     </Link>
@@ -218,59 +163,31 @@ export function TrainerBattlePage({ allPokemon }) {
     if (battleState === 'defeat') {
         return (
             <div
-                className="single-battle-page result defeat"
+                className="trainer-battle-page result"
                 style={{
-                    backgroundColor: '#2d1810',
                     backgroundImage: `url(${grassTile})`,
-                    backgroundSize: '64px',
-                    backgroundRepeat: 'repeat',
-                    imageRendering: 'pixelated',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: '100vh',
-                    gap: '2rem',
                 }}
             >
-                <h1
-                    style={{
-                        fontFamily: '"Press Start 2P", cursive',
-                        textShadow: '2px 2px 0 #000',
-                        color: '#ef4444',
-                        fontSize: '3rem',
-                    }}
-                >
+                <h1 className="trainer-battle-result-title defeat">
                     Nederlaag
                 </h1>
-                <div
-                    className="result-card game-panel-dark"
-                    style={{ textAlign: 'center', padding: '2rem' }}
-                >
+                <div className="trainer-battle-card game-panel-dark">
                     <img
                         src={trainer.avatar}
                         alt={trainer.name}
-                        style={{ width: '128px', height: '128px', objectFit: 'contain', filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }}
+                        className="trainer-battle-avatar"
                     />
-                    <p
-                        style={{
-                            fontFamily: '"Press Start 2P", cursive',
-                            marginTop: '1rem',
-                            fontSize: '1rem',
-                            color: '#d1d5db'
-                        }}
-                    >
+                    <p className="trainer-battle-quote">
                         &quot;{trainer.winQuote}&quot;
                     </p>
                 </div>
-                <div className="actions" style={{ display: 'flex', gap: '1rem' }}>
+                <div className="trainer-battle-actions">
                     <button className="replay-btn btn-kenney warning" onClick={prepareBattle}>
                         Probeer Opnieuw
                     </button>
                     <Link
                         to="/trainer-selection"
-                        className="back-btn btn-kenney neutral"
-                        style={{ textDecoration: 'none' }}
+                        className="back-btn btn-kenney neutral trainer-battle-back-btn"
                     >
                         Terug
                     </Link>
@@ -281,31 +198,18 @@ export function TrainerBattlePage({ allPokemon }) {
 
     return (
         <div
-            className="single-battle-page"
+            className="trainer-battle-page"
             style={{
-                backgroundColor: '#2d1810',
                 backgroundImage: `url(${grassTile})`,
-                backgroundSize: '64px',
-                backgroundRepeat: 'repeat',
-                imageRendering: 'pixelated',
-                minHeight: '100vh',
             }}
         >
-            <div className="battle-header-simple" style={{ padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2 style={{ fontFamily: '"Press Start 2P", cursive', color: 'white', textShadow: '2px 2px 0 #000', fontSize: '1.2rem', margin: 0 }}>
+            <div className="trainer-battle-header simple">
+                <h2 className="trainer-battle-title">
                     Vs {trainer.name}
                 </h2>
                 <Link
                     to="/trainer-selection"
-                    className="close-btn btn-kenney neutral"
-                    style={{
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        width: '40px',
-                        height: '40px',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
+                    className="close-btn btn-kenney neutral trainer-battle-close-btn"
                 >
                     ✕
                 </Link>
