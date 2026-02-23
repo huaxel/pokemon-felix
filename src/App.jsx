@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useData, useDomainCollection, useUI } from './contexts/DomainContexts';
-import { addToCollection, removeFromCollection } from './lib/services/collectionService';
+import { setCollection } from './lib/services/collectionService';
 import { exportFavoritesToJson, importFavoritesFromJson } from './lib/favorites';
 import { Navbar } from './components/Navbar';
 import { GameConsole } from './components/GameConsole';
@@ -39,15 +39,7 @@ function App() {
   const handleImportFavorites = async () => {
     try {
       const imported = await importFavoritesFromJson();
-      // Sync imported favorites with DB
-      // First, clear existing collection
-      for (const id of ownedIds) {
-        await removeFromCollection(id);
-      }
-      // Then add all imported ones
-      for (const id of imported) {
-        await addToCollection(id);
-      }
+      await setCollection(imported);
       setOwnedIds(imported);
     } catch (error) {
       console.error('Failed to import favorites:', error);

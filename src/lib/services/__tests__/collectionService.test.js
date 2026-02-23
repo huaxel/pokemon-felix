@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { getCollection, addToCollection, removeFromCollection } from '../collectionService';
+import { getCollection, addToCollection, removeFromCollection, setCollection } from '../collectionService';
 import { COLLECTION_STORAGE_KEY } from '../../constants';
 
 describe('collectionService', () => {
@@ -68,6 +68,23 @@ describe('collectionService', () => {
       await removeFromCollection(2);
       const stored = JSON.parse(localStorage.getItem(COLLECTION_STORAGE_KEY));
       expect(stored).toEqual([1, 3]);
+    });
+  });
+
+  describe('setCollection', () => {
+    it('should overwrite the collection with new IDs', async () => {
+      localStorage.setItem(COLLECTION_STORAGE_KEY, JSON.stringify([1, 2]));
+      const newCollection = [3, 4, 5];
+      await setCollection(newCollection);
+      const stored = JSON.parse(localStorage.getItem(COLLECTION_STORAGE_KEY));
+      expect(stored).toEqual(newCollection);
+    });
+
+    it('should set an empty collection', async () => {
+      localStorage.setItem(COLLECTION_STORAGE_KEY, JSON.stringify([1, 2]));
+      await setCollection([]);
+      const stored = JSON.parse(localStorage.getItem(COLLECTION_STORAGE_KEY));
+      expect(stored).toEqual([]);
     });
   });
 });

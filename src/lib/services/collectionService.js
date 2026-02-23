@@ -38,3 +38,11 @@ export async function removeFromCollection(id) {
     console.error('Error removing from collection:', error);
   }
 }
+
+export async function setCollection(ids) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+  } catch (error) {
+    console.error('Error setting collection:', error);
+  }
+}
