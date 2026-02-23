@@ -86,5 +86,21 @@ describe('collectionService', () => {
       const stored = JSON.parse(localStorage.getItem(COLLECTION_STORAGE_KEY));
       expect(stored).toEqual([]);
     });
+
+    it('should remove duplicate IDs when setting the collection', async () => {
+      localStorage.setItem(COLLECTION_STORAGE_KEY, JSON.stringify([1, 2]));
+      const newCollectionWithDuplicates = [1, 2, 2, 3, 1];
+      await setCollection(newCollectionWithDuplicates);
+      const stored = JSON.parse(localStorage.getItem(COLLECTION_STORAGE_KEY));
+      expect(stored).toEqual([1, 2, 3]);
+    });
+
+    it('should ignore non-number entries when setting the collection', async () => {
+      localStorage.setItem(COLLECTION_STORAGE_KEY, JSON.stringify([1, 2]));
+      const newCollectionWithNonNumbers = [1, '2', null, 3, {}, 4];
+      await setCollection(newCollectionWithNonNumbers);
+      const stored = JSON.parse(localStorage.getItem(COLLECTION_STORAGE_KEY));
+      expect(stored).toEqual([1, 3, 4]);
+    });
   });
 });
