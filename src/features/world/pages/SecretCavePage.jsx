@@ -81,7 +81,7 @@ export function SecretCavePage() {
           <button className="discover-btn" onClick={handleDiscover}>
             Enter Cave
           </button>
-          <Link to="/world" className="cancel-btn">
+          <Link to="/adventure" className="cancel-btn">
             Leave it alone
           </Link>
         </div>
@@ -94,7 +94,7 @@ export function SecretCavePage() {
       <WorldPageHeader
         title="Secret Cave"
         icon="🕳️"
-        onBack={() => (encounter ? setEncounter(null) : navigate('/world'))}
+        onBack={() => (encounter ? setEncounter(null) : navigate('/adventure'))}
       />
 
       <main className="cave-main">
@@ -118,7 +118,7 @@ export function SecretCavePage() {
           <CaveExplorationView
             depth={depth}
             onExplore={handleExplore}
-            onExit={() => navigate('/world')}
+            onExit={() => navigate('/adventure')}
             onReturn={() => setDepth(0)}
           />
         )}
