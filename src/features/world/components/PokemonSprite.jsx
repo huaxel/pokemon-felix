@@ -32,7 +32,7 @@ export function PokemonSprite({ pokemon, position, onClick }) {
                 ref={meshRef}
                 onClick={(e) => {
                     e.stopPropagation();
-                    onClick(pokemon);
+                    onClick(pokemon, position);
                 }}
                 onPointerOver={(e) => {
                     e.stopPropagation();

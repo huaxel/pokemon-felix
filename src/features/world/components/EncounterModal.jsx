@@ -65,7 +65,7 @@ export function EncounterModal({
                         </h2>
                         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
                             <img
-                                src={encounter.sprites.front_default}
+                                src={encounter.image || encounter.sprites?.front_default}
                                 alt={encounter.name}
                                 style={{ imageRendering: 'pixelated', width: '128px', height: '128px' }}
                             />

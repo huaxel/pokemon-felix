@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Lazy load components
 const PokemonModal = lazy(() =>
@@ -104,6 +104,9 @@ export function AppRoutes({
         <Route path="/center" element={<PokemonCenterPage />} />
         <Route path="/world-select" element={<WorldSelectionPage />} />
         <Route path="/safari" element={<SafariZone3D />} />
+
+        {/* Legacy redirect */}
+        <Route path="/world" element={<Navigate to="/adventure" replace />} />
       </Routes>
 
       {selectedPokemon && (

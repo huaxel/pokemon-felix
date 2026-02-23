@@ -8,7 +8,7 @@ import { pokeballTile } from '../worldAssets';
  * Pokeball3D
  * A 3D sphere with a Pokéball texture that follows a parabolic path.
  */
-export function Pokeball3D({ startPos, targetPos, onComplete, onHit }) {
+export function Pokeball3D({ startPos = [0, 0, 0], targetPos = [0, 0, 0], onComplete, onHit }) {
     const meshRef = useRef();
     const texture = useTexture(pokeballTile);
 
