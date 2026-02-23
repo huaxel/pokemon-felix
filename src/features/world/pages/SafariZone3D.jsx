@@ -73,7 +73,12 @@ export function SafariZone3D() {
     return (
         <div className="safari-container">
             {/* 3D Canvas */}
-            <Canvas shadows camera={{ position: [0, 2, 5], fov: 75 }}>
+            <Canvas
+                shadows={false}
+                dpr={[1, 1.5]}
+                gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+                camera={{ position: [0, 2, 5], fov: 75 }}
+            >
                 {/* Only enable movement when not in an encounter */}
                 <Suspense fallback={null}>
                     {!encounter && (

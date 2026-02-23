@@ -5,7 +5,12 @@ import * as THREE from 'three';
 
 export function PokemonSprite({ pokemon, position, onClick }) {
     const imageUrl = pokemon.image || pokemon.sprites?.front_default;
-    const texture = useTexture(imageUrl || '');
+
+    if (!imageUrl) {
+        return null;
+    }
+
+    const texture = useTexture(imageUrl);
     const meshRef = useRef();
 
     // To avoid blurry pixels, set texture filtering safely

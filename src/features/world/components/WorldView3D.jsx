@@ -19,7 +19,12 @@ export function WorldView3D({ playerPos, mapGrid, townObjects, handleTileClick, 
             border: '4px solid #475569',
             backgroundColor: '#000'
         }}>
-            <Canvas shadows camera={viewMode === 'first' ? { position: [playerPos.x, 1.6, playerPos.y], fov: 75 } : undefined}>
+            <Canvas
+                shadows={false}
+                dpr={[1, 1.5]}
+                gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+                camera={viewMode === 'first' ? { position: [playerPos.x, 1.6, playerPos.y], fov: 75 } : undefined}
+            >
                 {viewMode === 'first' ? (
                     <PlayerControls3D
                         mapGrid={mapGrid}
