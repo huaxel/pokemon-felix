@@ -61,6 +61,7 @@ export function PokemonSprite({ pokemon, position, onClick, orbit }) {
     const groupRef = useRef();
     const meshRef = useRef();
     const shadowRef = useRef();
+    const clickTimeRef = useRef(null);
 
     // To avoid blurry pixels, set texture filtering safely
     React.useLayoutEffect(() => {
@@ -77,6 +78,19 @@ export function PokemonSprite({ pokemon, position, onClick, orbit }) {
 
     useFrame((state) => {
         const t = state.clock.elapsedTime;
+        const now = performance.now() / 1000;
+
+        let clickOffset = 0;
+        if (clickTimeRef.current !== null) {
+            const dt = now - clickTimeRef.current;
+            const duration = 0.4;
+            if (dt < duration) {
+                const phase = (dt / duration) * Math.PI;
+                clickOffset = Math.sin(phase) * 0.18 * motionProfile.ampJitter;
+            } else {
+                clickTimeRef.current = null;
+            }
+        }
 
         if (groupRef.current) {
             let baseX = position[0];
@@ -97,7 +111,7 @@ export function PokemonSprite({ pokemon, position, onClick, orbit }) {
             const bobOffset = Math.sin(t * 3 + motionProfile.phase1) * 0.1 * motionProfile.ampJitter;
             groupRef.current.position.set(
                 baseX,
-                baseY + bobOffset,
+                baseY + bobOffset + clickOffset,
                 baseZ,
             );
         }
@@ -138,7 +152,10 @@ export function PokemonSprite({ pokemon, position, onClick, orbit }) {
                     ref={meshRef}
                     onClick={(e) => {
                         e.stopPropagation();
-                        onClick(pokemon, position);
+                        clickTimeRef.current = performance.now() / 1000;
+                        if (onClick) {
+                            onClick(pokemon, position);
+                        }
                     }}
                     onPointerOver={(e) => {
                         e.stopPropagation();

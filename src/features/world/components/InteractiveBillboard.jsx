@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { Billboard, useTexture, Text } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -19,7 +19,13 @@ export function InteractiveBillboard({
 }) {
     const [hovered, setHovered] = useState(false);
     const meshRef = useRef();
+    const groupRef = useRef();
     const texture = useTexture(image);
+
+    const phase = useMemo(
+        () => (position[0] * 19.19 + position[2] * 47.77) % (Math.PI * 2),
+        [position],
+    );
 
     React.useLayoutEffect(() => {
         if (texture) {
@@ -30,14 +36,18 @@ export function InteractiveBillboard({
     }, [texture]);
 
     useFrame((state) => {
-        if (bobbing && meshRef.current) {
-            // Subtle sine wave for a "floating" look
-            meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 2) * 0.05;
+        if (bobbing && groupRef.current) {
+            const t = state.clock.elapsedTime;
+            const lift = Math.sin(t * 1.6 + phase) * 0.08;
+            groupRef.current.position.set(position[0], position[1] + lift, position[2]);
         }
     });
 
+    const halfHeight = scale[1] / 2;
+    const shadowRadius = scale[0] * 0.5;
+
     return (
-        <group position={position}>
+        <group ref={groupRef} position={position}>
             {/* Optional Label */}
             {label && (hovered || label.alwaysShow) && (
                 <Billboard position={labelOffset}>
@@ -54,7 +64,18 @@ export function InteractiveBillboard({
                 </Billboard>
             )}
 
-            {/* Main Sprite */}
+            <mesh
+                rotation={[-Math.PI / 2, 0, 0]}
+                position={[0, -halfHeight + 0.01, 0]}
+            >
+                <circleGeometry args={[shadowRadius, 24]} />
+                <meshBasicMaterial
+                    color={hovered ? '#111827' : '#000000'}
+                    transparent={true}
+                    opacity={hovered ? 0.5 : 0.35}
+                />
+            </mesh>
+
             <Billboard follow={true}>
                 <mesh
                     ref={meshRef}
