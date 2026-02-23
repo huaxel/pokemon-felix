@@ -131,6 +131,7 @@ export function WorldPage() {
   const [isBuildMode, setIsBuildMode] = useState(false);
   const [selectedBuilding, setSelectedBuilding] = useState('house');
   const [is3DMode, setIs3DMode] = useState(false);
+  const [viewMode, setViewMode] = useState('first');
 
   const mapGrid = useMemo(() => {
     const grid = baseGrid.map(row => [...row]);
@@ -303,6 +304,23 @@ export function WorldPage() {
       >
         {is3DMode ? '🌐 View 2D' : '🕶️ View 3D'}
       </button>
+      {is3DMode && (
+        <button
+          className="btn-kenney"
+          onClick={() => setViewMode(viewMode === 'first' ? 'isometric' : 'first')}
+          style={{
+            position: 'absolute',
+            top: '180px',
+            left: '20px',
+            backgroundColor: viewMode === 'first' ? '#fbbf24' : '#60a5fa',
+            color: '#1e3a8a',
+            zIndex: 100
+          }}
+        >
+          {viewMode === 'first' ? '🟦 2.5D' : '🎮 First-Person'}
+        </button>
+      )
+      }
 
       {activeEffect.name !== 'Normal' && (
         <div
@@ -344,6 +362,8 @@ export function WorldPage() {
             mapGrid={mapGrid}
             townObjects={townObjects}
             handleTileClick={handleTileClick}
+            viewMode={viewMode}
+            isNight={world.isNight}
           />
         ) : (
           <WorldGrid

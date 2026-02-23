@@ -35,7 +35,8 @@ const BUILDING_ASSETS = {
 
 export function WorldScene3DMain({
     mapGrid,
-    onObjectClick
+    onObjectClick,
+    isNight = false
 }) {
     const grassTex = useTexture(grassTile);
     const pathTex = useTexture(pathTile);
@@ -84,14 +85,20 @@ export function WorldScene3DMain({
 
     return (
         <>
-            <ambientLight intensity={0.7} />
-            <directionalLight position={[10, 20, 10]} intensity={1.2} castShadow />
+            <ambientLight intensity={isNight ? 0.35 : 0.7} />
+            <directionalLight position={[10, 20, 10]} intensity={isNight ? 0.9 : 1.2} castShadow />
             <Sky sunPosition={[100, 10, 100]} />
 
             {/* Ground Tiles */}
             {mapGrid.map((row, y) =>
                 row.map((tile, x) => (
-                    <mesh key={`ground-${x}-${y}`} rotation={[-Math.PI / 2, 0, 0]} position={[x, 0, y]} receiveShadow>
+                    <mesh
+                        key={`ground-${x}-${y}`}
+                        rotation={[-Math.PI / 2, 0, 0]}
+                        position={[x, 0, y]}
+                        receiveShadow
+                        onPointerDown={() => onObjectClick?.(x, y, 'GROUND')}
+                    >
                         <planeGeometry args={[1, 1]} />
                         {getGroundMaterial(tile)}
                     </mesh>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
-import * as THREE from 'three';
+import { OrthographicCamera } from '@react-three/drei';
 import { PlayerControls3D } from './PlayerControls3D';
 import { WorldScene3DMain } from './WorldScene3DMain';
 
@@ -8,7 +8,7 @@ import { WorldScene3DMain } from './WorldScene3DMain';
  * WorldView3D
  * Standardized 3D viewport for the main adventure map.
  */
-export function WorldView3D({ playerPos, mapGrid, townObjects, handleTileClick }) {
+export function WorldView3D({ playerPos, mapGrid, townObjects, handleTileClick, viewMode = 'first', isNight = false }) {
     return (
         <div style={{
             width: '100%',
@@ -19,19 +19,28 @@ export function WorldView3D({ playerPos, mapGrid, townObjects, handleTileClick }
             border: '4px solid #475569',
             backgroundColor: '#000'
         }}>
-            <Canvas shadows camera={{ position: [playerPos.x, 1.6, playerPos.y], fov: 75 }}>
-                <PlayerControls3D
-                    mapGrid={mapGrid}
-                    initialPos={playerPos}
-                    onPositionChange={(newPos) => {
-                        // Update the actual game state when moving in 3D
-                        handleTileClick(newPos.x, newPos.y);
-                    }}
-                />
+            <Canvas shadows camera={viewMode === 'first' ? { position: [playerPos.x, 1.6, playerPos.y], fov: 75 } : undefined}>
+                {viewMode === 'first' ? (
+                    <PlayerControls3D
+                        mapGrid={mapGrid}
+                        initialPos={playerPos}
+                        onPositionChange={(newPos) => {
+                            handleTileClick(newPos.x, newPos.y);
+                        }}
+                    />
+                ) : (
+                    <OrthographicCamera
+                        makeDefault
+                        position={[playerPos.x, 12, playerPos.y]}
+                        rotation={[-Math.PI / 4, 0, 0]}
+                        zoom={50}
+                    />
+                )}
                 <WorldScene3DMain
                     mapGrid={mapGrid}
                     townObjects={townObjects}
                     onObjectClick={(x, y) => handleTileClick(x, y)}
+                    isNight={isNight}
                 />
             </Canvas>
 
@@ -63,7 +72,9 @@ export function WorldView3D({ playerPos, mapGrid, townObjects, handleTileClick }
                 border: '1px solid rgba(255,255,255,0.1)'
             }}>
                 <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>⌨️ Bediening:</div>
-                WASD om te lopen • Muis om te kijken • Klik om te ontgrendelen • Klik op gebouw om binnen te gaan
+                {viewMode === 'first'
+                    ? 'WASD om te lopen • Muis om te kijken • Klik om te ontgrendelen • Klik op gebouw om binnen te gaan'
+                    : 'Klik op tegels/gebouwen om te interacteren • Pijltjestoetsen bewegen de speler'}
             </div>
         </div>
     );

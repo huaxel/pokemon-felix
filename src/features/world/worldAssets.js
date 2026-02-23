@@ -8,7 +8,6 @@ import waterImage from '../../assets/kenney_tiny-town/Tiles/tile_0032.png';
 import houseImage from '../../assets/kenney_tiny-town/Tiles/tile_0056.png';
 import pathTile from '../../assets/kenney_tiny-town/Tiles/tile_0008.png';
 import grassTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png';
-import sandTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png'; // Using grass as base for tinting
 import snowTile from '../../assets/kenney_tiny-town/Tiles/tile_0000.png'; // Using grass as base for tinting
 
 // New additions from WorldGrid.jsx
