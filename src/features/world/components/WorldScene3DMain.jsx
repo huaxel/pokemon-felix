@@ -48,7 +48,7 @@ export function WorldScene3DMain({
     const sandTex = useTexture(sandTile);
     const snowTex = useTexture(snowTile);
 
-    React.useLayoutEffect(() => {
+    useEffect(() => {
         [grassTex, pathTex, waterTex, sandTex, snowTex].forEach(t => {
             if (t) {
                 t.magFilter = THREE.NearestFilter;

@@ -12,7 +12,7 @@ export function Pokeball3D({ startPos = [0, 0, 0], targetPos = [0, 0, 0], onComp
     const meshRef = useRef();
     const texture = useTexture(pokeballTile);
 
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         if (texture) {
             texture.magFilter = THREE.NearestFilter;
             texture.minFilter = THREE.NearestFilter;

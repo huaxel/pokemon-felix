@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PokemonProvider } from './contexts/PokemonProvider';
 import { PlayerProvider } from './contexts/PlayerProvider';
+import { ServicesProvider, createDefaultServices } from './modules/services';
 import App from './App.jsx';
 import './index.css';
 import './styles/game-ui.css';
@@ -19,16 +20,20 @@ const queryClient = new QueryClient({
   },
 });
 
+const services = createDefaultServices();
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <HashRouter>
-        <PlayerProvider>
-          <PokemonProvider>
-            <App />
-          </PokemonProvider>
-        </PlayerProvider>
-      </HashRouter>
-    </QueryClientProvider>
+    <ServicesProvider services={services}>
+      <QueryClientProvider client={queryClient}>
+        <HashRouter>
+          <PlayerProvider>
+            <PokemonProvider>
+              <App />
+            </PokemonProvider>
+          </PlayerProvider>
+        </HashRouter>
+      </QueryClientProvider>
+    </ServicesProvider>
   </React.StrictMode>
 );

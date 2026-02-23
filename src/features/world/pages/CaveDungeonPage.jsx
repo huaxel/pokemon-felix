@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy, useDomainCollection, useData } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { WorldPageHeader } from '../components/WorldPageHeader';
@@ -7,6 +8,8 @@ import { caveEntranceTile } from '../worldAssets';
 import { EncounterModal } from '../components/EncounterModal';
 import { useEncounter } from '../hooks/useEncounter';
 import { PuzzleView } from '../components/PuzzleView';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import './CaveDungeonPage.css';
 
 const CAVE_POKEMON = [41, 42, 74, 75, 95, 35, 36];
@@ -25,6 +28,16 @@ const PUZZLES = {
   3: { type: 'dark', description: 'Navigeer in het donker', moves: 5, target: 5 },
   4: { type: 'ice', description: 'Glijd over het ijs naar de uitgang', slides: 4, target: 4 },
 };
+
+const CAVE_DUNGEON_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.MOUNTAIN;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.CAVE_DUNGEON;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.CAVE_DUNGEON;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    return TILE_TYPES.SAND;
+  }),
+);
 
 export function CaveDungeonPage() {
   const { showSuccess, showInfo, showWarning } = useToast();
@@ -95,6 +108,22 @@ export function CaveDungeonPage() {
       }}
     >
       <WorldPageHeader title="Donkere Kerker" icon="🕳️" />
+
+      <div className="cavedungeon-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={CAVE_DUNGEON_GRID}
+            onObjectClick={undefined}
+            isNight={true}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <div
         className="cave-info game-panel"

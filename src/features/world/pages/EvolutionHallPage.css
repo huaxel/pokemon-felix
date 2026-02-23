@@ -8,6 +8,24 @@
   color: white;
 }
 
+.evolutionhall-3d-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  height: 260px;
+  margin: 20px auto 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 3px solid rgba(217, 70, 239, 0.85);
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.9);
+  background-color: #020617;
+}
+
+.evolutionhall-3d-wrapper canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .evolution-header {
   display: flex;
   justify-content: space-between;
