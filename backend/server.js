@@ -69,7 +69,7 @@ app.get('/api/chat/:trainer_id', (req, res) => {
 import { getTrainerResponse } from './services/llmService.js';
 
 app.post('/api/chat/:trainer_id', async (req, res) => {
-  const { sender, content } = req.body;
+  const { content } = req.body;
   const { trainer_id } = req.params;
   
   try {
@@ -77,7 +77,7 @@ app.post('/api/chat/:trainer_id', async (req, res) => {
     db.prepare(`
       INSERT INTO chat_history (trainer_id, sender, content)
       VALUES (?, ?, ?)
-    `).run(trainer_id, sender, content);
+    `).run(trainer_id, 'player', content);
 
     // 2. Get AI Response
     const { reply, action } = await getTrainerResponse(trainer_id, content);
