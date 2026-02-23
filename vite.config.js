@@ -11,4 +11,7 @@ export default defineConfig({
       path: '/pokemon-felix/',
     },
   },
+  optimizeDeps: {
+    include: ['three', '@react-three/fiber', '@react-three/drei'],
+  },
 });

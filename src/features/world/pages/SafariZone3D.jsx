@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
+import * as THREE from 'three';
 import { useData } from '../../../contexts/DomainContexts';
 import { PlayerControls3D } from '../components/PlayerControls3D';
-import { WorldScene3D } from '../components/WorldScene3D';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { EncounterModal } from '../components/EncounterModal';
 import { Pokeball3D } from '../components/Pokeball3D';
 import { useEncounter } from '../hooks/useEncounter';
@@ -83,9 +84,9 @@ export function SafariZone3D() {
                         onUnlock={() => setIsLocked(false)}
                     />
                 )}
-                <WorldScene3D
-                    pokemonList={pokemonList}
-                    onPokemonClick={handlePokemonClick}
+                <WorldScene3DMain
+                    mapGrid={[]} // Safari uses empty grid for now or we need a real one
+                    onObjectClick={handlePokemonClick}
                 />
 
                 {/* 3D Thrown Pokéball */}
@@ -107,9 +108,9 @@ export function SafariZone3D() {
                 {!isLocked && !encounter && (
                     <button
                         className="btn-kenney back-btn pointer-events-auto"
-                        onClick={() => navigate('/world')}
-                        style={{ position: 'absolute', top: 20, left: 20 }}
-                    >
+                        onClick={() => navigate('/adventure')}
+                        style={{ position: 'absolute', top: 20, left: 20 }}>
+
                         <ArrowLeft size={24} /> Verlaten
                     </button>
                 )}

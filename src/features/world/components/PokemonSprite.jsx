@@ -1,21 +1,20 @@
 import React, { useState, useRef } from 'react';
 import { Billboard, useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 
 export function PokemonSprite({ pokemon, position, onClick }) {
-    // const texture = useTexture(pokemon.image);
+    const texture = useTexture(pokemon.image);
     const meshRef = useRef();
 
     // To avoid blurry pixels, set texture filtering safely
-    /*
     React.useLayoutEffect(() => {
         if (texture) {
-            texture.magFilter = 1003; // THREE.NearestFilter
-            texture.minFilter = 1003; // THREE.NearestFilter
+            texture.magFilter = THREE.NearestFilter;
+            texture.minFilter = THREE.NearestFilter;
             texture.needsUpdate = true;
         }
     }, [texture]);
-    */
 
     const [hovered, setHovered] = useState(false);
 
@@ -47,7 +46,7 @@ export function PokemonSprite({ pokemon, position, onClick }) {
             >
                 <planeGeometry args={[2, 2]} />
                 <meshBasicMaterial
-                    color="red"
+                    map={texture}
                     transparent={true}
                     alphaTest={0.5}
                     side={2} // THREE.DoubleSide

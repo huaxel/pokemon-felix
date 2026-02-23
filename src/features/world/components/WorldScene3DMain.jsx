@@ -43,22 +43,26 @@ export function WorldScene3DMain({
     const sandTex = useTexture(sandTile);
     const snowTex = useTexture(snowTile);
 
+    React.useLayoutEffect(() => {
+        [grassTex, pathTex, waterTex, sandTex, snowTex].forEach(t => {
+            if (t) {
+                t.magFilter = THREE.NearestFilter;
+                t.minFilter = THREE.NearestFilter;
+                t.wrapS = THREE.RepeatWrapping;
+                t.wrapT = THREE.RepeatWrapping;
+                t.needsUpdate = true;
+            }
+        });
+    }, [grassTex, pathTex, waterTex, sandTex, snowTex]);
+
     const loadedTextures = useMemo(() => {
-        const textures = {
+        return {
             [TILE_TYPES.GRASS]: grassTex,
             [TILE_TYPES.PATH]: pathTex,
             [TILE_TYPES.WATER]: waterTex,
             [TILE_TYPES.SAND]: sandTex,
             [TILE_TYPES.SNOW]: snowTex,
         };
-
-        Object.values(textures).forEach(t => {
-            t.magFilter = THREE.NearestFilter;
-            t.minFilter = THREE.NearestFilter;
-            t.wrapS = THREE.RepeatWrapping;
-            t.wrapT = THREE.RepeatWrapping;
-        });
-        return textures;
     }, [grassTex, pathTex, waterTex, sandTex, snowTex]);
 
     const getGroundMaterial = (type) => {

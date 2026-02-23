@@ -1,3 +1,4 @@
+import React from 'react';
 import { Billboard, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -9,11 +10,13 @@ import * as THREE from 'three';
 export function StaticBillboard({ image, position, scale = [1, 1], alphaTest = 0.5 }) {
     const texture = useTexture(image);
 
-    // Ensure the texture is pixelated for that retro look
-    if (texture) {
-        texture.magFilter = THREE.NearestFilter;
-        texture.minFilter = THREE.NearestFilter;
-    }
+    React.useLayoutEffect(() => {
+        if (texture) {
+            texture.magFilter = THREE.NearestFilter;
+            texture.minFilter = THREE.NearestFilter;
+            texture.needsUpdate = true;
+        }
+    }, [texture]);
 
     return (
         <Billboard position={position} follow={true}>

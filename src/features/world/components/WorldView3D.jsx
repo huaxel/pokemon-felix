@@ -1,5 +1,6 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
+import * as THREE from 'three';
 import { PlayerControls3D } from './PlayerControls3D';
 import { WorldScene3DMain } from './WorldScene3DMain';
 

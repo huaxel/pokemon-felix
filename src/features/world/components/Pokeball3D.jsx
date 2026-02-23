@@ -12,12 +12,18 @@ export function Pokeball3D({ startPos, targetPos, onComplete, onHit }) {
     const meshRef = useRef();
     const texture = useTexture(pokeballTile);
 
-    if (texture) {
-        texture.magFilter = THREE.NearestFilter;
-        texture.minFilter = THREE.NearestFilter;
-    }
+    React.useLayoutEffect(() => {
+        if (texture) {
+            texture.magFilter = THREE.NearestFilter;
+            texture.minFilter = THREE.NearestFilter;
+            texture.needsUpdate = true;
+        }
+    }, [texture]);
 
     const startTime = useRef(Date.now());
+    const startVec = React.useMemo(() => new THREE.Vector3(...startPos), [startPos]);
+    const targetVec = React.useMemo(() => new THREE.Vector3(...targetPos), [targetPos]);
+    const currentVec = React.useMemo(() => new THREE.Vector3(), []);
     const duration = 1000; // 1 second flight
 
     useFrame(() => {
@@ -27,17 +33,13 @@ export function Pokeball3D({ startPos, targetPos, onComplete, onHit }) {
         const t = Math.min(elapsed / duration, 1);
 
         // Parabolic interpolation
-        const currentPos = new THREE.Vector3().lerpVectors(
-            new THREE.Vector3(...startPos),
-            new THREE.Vector3(...targetPos),
-            t
-        );
+        currentVec.lerpVectors(startVec, targetVec, t);
 
         // Add height arc
         const height = Math.sin(t * Math.PI) * 2;
-        currentPos.y += height;
+        currentVec.y += height;
 
-        meshRef.current.position.copy(currentPos);
+        meshRef.current.position.copy(currentVec);
 
         // Rotate while flying
         meshRef.current.rotation.x += 0.1;

@@ -101,7 +101,7 @@ export function PlayerControls3D({ onLock, onUnlock, mapGrid, initialPos, onPosi
         const gridZ = Math.round(nextZ);
 
         // Check bounds
-        const isOutOfBounds = gridX < 0 || gridX >= mapGrid[0].length || gridZ < 0 || gridZ >= mapGrid.length;
+        const isOutOfBounds = !mapGrid || !mapGrid[0] || gridX < 0 || gridX >= mapGrid[0].length || gridZ < 0 || gridZ >= mapGrid.length;
 
         let shouldBounce = isOutOfBounds;
         if (!isOutOfBounds) {

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Billboard, useTexture, Text } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -21,10 +21,13 @@ export function InteractiveBillboard({
     const meshRef = useRef();
     const texture = useTexture(image);
 
-    if (texture) {
-        texture.magFilter = THREE.NearestFilter;
-        texture.minFilter = THREE.NearestFilter;
-    }
+    React.useLayoutEffect(() => {
+        if (texture) {
+            texture.magFilter = THREE.NearestFilter;
+            texture.minFilter = THREE.NearestFilter;
+            texture.needsUpdate = true;
+        }
+    }, [texture]);
 
     useFrame((state) => {
         if (bobbing && meshRef.current) {
