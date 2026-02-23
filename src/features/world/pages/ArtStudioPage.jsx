@@ -55,7 +55,7 @@ export function ArtStudioPage() {
       style={{ backgroundImage: `url(${grassTile})` }}
     >
       <div className="studio-header">
-        <button className="back-btn btn-kenney" onClick={() => navigate('/world')}>
+        <button className="back-btn btn-kenney" onClick={() => navigate('/adventure')}>
           <ArrowLeft size={24} />
         </button>
         <h1 className="studio-title">

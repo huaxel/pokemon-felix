@@ -41,7 +41,7 @@ export function PokemonCenterPage() {
         imageRendering: 'pixelated',
       }}
     >
-      <WorldPageHeader title="Pokémon Center" icon="🏥" backPath="/world" />
+      <WorldPageHeader title="Pokémon Center" icon="🏥" backPath="/adventure" />
 
       <div className="center-content">
         <div className="healing-machine-container">
@@ -97,7 +97,7 @@ export function PokemonCenterPage() {
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <button
                   className="btn-kenney primary heal-btn"
-                  onClick={() => navigate('/world')}
+                  onClick={() => navigate('/adventure')}
                   style={{ fontSize: '0.8rem', padding: '1rem' }}
                 >
                   Bedankt!

@@ -3,7 +3,7 @@ import { useEconomy } from '../../../contexts/DomainContexts';
 import bagIcon from '../../../assets/items/bag_icon.png';
 import './WorldPageHeader.css';
 
-export function WorldPageHeader({ title, backPath = '/world', icon, onBack }) {
+export function WorldPageHeader({ title, backPath = '/adventure', icon, onBack }) {
   const { coins } = useEconomy();
 
   return (
