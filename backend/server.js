@@ -67,10 +67,17 @@ app.get('/api/chat/:trainer_id', (req, res) => {
 });
 
 import { getTrainerResponse } from './services/llmService.js';
+import { validateChatInput } from './utils/validation.js';
 
 app.post('/api/chat/:trainer_id', async (req, res) => {
   const { sender, content } = req.body;
   const { trainer_id } = req.params;
+
+  // Input validation
+  const validation = validateChatInput(sender, content);
+  if (!validation.valid) {
+    return res.status(validation.status).json({ error: validation.error });
+  }
   
   try {
     // 1. Save user message
