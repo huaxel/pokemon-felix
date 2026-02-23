@@ -1,0 +1,27 @@
+
+> pokemon-felix@0.2.0 build
+> vite build
+
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 2561 modules transformed.
+✗ Build failed in 2.21s
+error during build:
+node_modules/three-mesh-bvh/src/utils/ExtensionUtilities.js (1:46): "BatchedMesh" is not exported by "node_modules/three/build/three.module.js", imported by "node_modules/three-mesh-bvh/src/utils/ExtensionUtilities.js".
+file: /home/juan/Projects/pokemon-felix/node_modules/three-mesh-bvh/src/utils/ExtensionUtilities.js:1:46
+
+1: import { Ray, Matrix4, Mesh, Vector3, Sphere, BatchedMesh, REVISION } from 'three';
+                                                 ^
+2: import { convertRaycastIntersect } from './GeometryRayIntersectUtilities.js';
+3: import { MeshBVH } from '../core/MeshBVH.js';
+
+    at getRollupError (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/parseAst.js:402:41)
+    at error (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/parseAst.js:398:42)
+    at Module.error (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:17040:16)
+    at Module.traceVariable (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:17452:29)
+    at ModuleScope.findVariable (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:15070:39)
+    at MemberExpression.bind (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:7392:49)
+    at VariableDeclarator.bind (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:2829:23)
+    at VariableDeclaration.bind (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at Program.bind (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at Module.bindReferences (file:///home/juan/Projects/pokemon-felix/node_modules/rollup/dist/es/shared/node-entry.js:17019:18)

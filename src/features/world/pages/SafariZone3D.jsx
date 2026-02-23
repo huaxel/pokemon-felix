@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
-import * as THREE from 'three';
 import { useData } from '../../../contexts/DomainContexts';
 import { PlayerControls3D } from '../components/PlayerControls3D';
 import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { EncounterModal } from '../components/EncounterModal';
 import { Pokeball3D } from '../components/Pokeball3D';
+import { PokemonSprite } from '../components/PokemonSprite';
 import { useEncounter } from '../hooks/useEncounter';
 import { ArrowLeft } from 'lucide-react';
 import './SafariZone3D.css';
@@ -75,28 +75,46 @@ export function SafariZone3D() {
             {/* 3D Canvas */}
             <Canvas shadows camera={{ position: [0, 2, 5], fov: 75 }}>
                 {/* Only enable movement when not in an encounter */}
-                {!encounter && (
-                    <PlayerControls3D
-                        onLock={() => {
-                            setIsLocked(true);
-                            setShowInstructions(false);
-                        }}
-                        onUnlock={() => setIsLocked(false)}
+                <Suspense fallback={null}>
+                    {!encounter && (
+                        <PlayerControls3D
+                            mapGrid={[]}
+                            initialPos={{ x: 0, y: 0 }}
+                            onLock={() => {
+                                setIsLocked(true);
+                                setShowInstructions(false);
+                            }}
+                            onUnlock={() => setIsLocked(false)}
+                        />
+                    )}
+                    <WorldScene3DMain
+                        mapGrid={[]} // Safari uses empty grid for now or we need a real one
+                        onObjectClick={handlePokemonClick}
                     />
-                )}
-                <WorldScene3DMain
-                    mapGrid={[]} // Safari uses empty grid for now or we need a real one
-                    onObjectClick={handlePokemonClick}
-                />
 
-                {/* 3D Thrown Pokéball */}
-                {thrownBall && (
-                    <Pokeball3D
-                        startPos={[0, 1.6, 0]} // Camera height
-                        targetPos={thrownBall.target}
-                        onHit={onBallHit}
-                    />
-                )}
+                    {/* Safari Pokémon Sprites */}
+                    {pokemonList.slice(0, 15).map((p, i) => (
+                        <PokemonSprite
+                            key={`safari-mon-${p.id}-${i}`}
+                            pokemon={p}
+                            position={[
+                                Math.sin(i * 0.5) * 10,
+                                1,
+                                Math.cos(i * 0.5) * 10
+                            ]}
+                            onClick={handlePokemonClick}
+                        />
+                    ))}
+
+                    {/* 3D Thrown Pokéball */}
+                    {thrownBall && (
+                        <Pokeball3D
+                            startPos={[0, 1.6, 0]} // Camera height
+                            targetPos={thrownBall.target}
+                            onHit={onBallHit}
+                        />
+                    )}
+                </Suspense>
             </Canvas>
 
             {/* 2D UI Overlay */}

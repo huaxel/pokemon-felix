@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 import { TILE_TYPES } from '../worldConstants';
 
-export function PlayerControls3D({ onLock, onUnlock, mapGrid, initialPos, onPositionChange }) {
+export function PlayerControls3D({ onLock, onUnlock, mapGrid = [], initialPos, onPositionChange }) {
     const { camera } = useThree();
     const controlsRef = useRef();
     const lastGridPos = useRef({ x: Math.round(initialPos?.x || 0), y: Math.round(initialPos?.y || 0) });

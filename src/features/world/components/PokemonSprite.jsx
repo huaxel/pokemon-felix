@@ -4,7 +4,8 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export function PokemonSprite({ pokemon, position, onClick }) {
-    const texture = useTexture(pokemon.image);
+    const imageUrl = pokemon.image || pokemon.sprites?.front_default;
+    const texture = useTexture(imageUrl || '');
     const meshRef = useRef();
 
     // To avoid blurry pixels, set texture filtering safely
