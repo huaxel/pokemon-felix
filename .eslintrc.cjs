@@ -53,5 +53,18 @@ module.exports = {
     'no-var': 'error',
     'prefer-const': 'warn',
     'prefer-arrow-callback': 'warn',
+
+    // Architecture
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['**/modules/*/**', '!**/modules/*', '!**/modules/*/index.*'],
+            message: 'Import from a module public entry point only.',
+          },
+        ],
+      },
+    ],
   },
 }

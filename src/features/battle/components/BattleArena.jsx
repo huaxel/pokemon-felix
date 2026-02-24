@@ -1,8 +1,20 @@
+import { Canvas } from '@react-three/fiber';
 import { getTypeColor } from '../../../lib/battle-logic';
 import { BattleHeader } from './BattleHeader';
 import { BattleControls } from './BattleControls';
 import { useBattleController } from '../hooks/useBattleController';
+import { WorldScene3DMain } from '../../world/components/WorldScene3DMain';
+import { TILE_TYPES } from '../../world/worldConstants';
 import './BattleArena.css';
+
+const BATTLE_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y >= 5) return TILE_TYPES.GRASS;
+    if (y === 4) return xIndex === 0 || xIndex === 7 ? TILE_TYPES.GRASS : TILE_TYPES.PATH;
+    if (y === 3) return TILE_TYPES.PATH;
+    return TILE_TYPES.SAND;
+  }),
+);
 
 export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
   const {
@@ -42,23 +54,44 @@ export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
         f2Weakened={f2Weakened}
       />
       <div className="battle-visuals">
-        <div
-          className={`fighter-sprite f1 ${turn === 'player' ? 'active' : ''} ${f1Weakened ? 'weakened' : ''}`}
-        >
-          <img
-            src={fighter1.sprites?.front_default}
-            alt={fighter1.name}
-            style={{ imageRendering: 'pixelated' }}
-          />
+        <div className="battle-3d-wrapper">
+          <Canvas
+            shadows={false}
+            dpr={[1, 1.5]}
+            gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+            camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+          >
+            <WorldScene3DMain
+              mapGrid={BATTLE_GRID}
+              onObjectClick={undefined}
+              isNight={false}
+              enableSky={false}
+            />
+          </Canvas>
         </div>
-        <div
-          className={`fighter-sprite f2 ${turn === 'enemy' ? 'active' : ''} ${f2Weakened ? 'weakened' : ''}`}
-        >
-          <img
-            src={fighter2.sprites?.front_default}
-            alt={fighter2.name}
-            style={{ imageRendering: 'pixelated' }}
-          />
+        <div className="battle-visuals-inner">
+          <div
+            className={`fighter-sprite f1 ${turn === 'player' ? 'active' : ''} ${
+              f1Weakened ? 'weakened' : ''
+            }`}
+          >
+            <img
+              src={fighter1.sprites?.front_default}
+              alt={fighter1.name}
+              style={{ imageRendering: 'pixelated' }}
+            />
+          </div>
+          <div
+            className={`fighter-sprite f2 ${turn === 'enemy' ? 'active' : ''} ${
+              f2Weakened ? 'weakened' : ''
+            }`}
+          >
+            <img
+              src={fighter2.sprites?.front_default}
+              alt={fighter2.name}
+              style={{ imageRendering: 'pixelated' }}
+            />
+          </div>
         </div>
       </div>
       {!isBattling && !winner && (

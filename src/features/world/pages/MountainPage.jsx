@@ -1,12 +1,27 @@
 import { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy } from '../../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../../lib/api';
 import { MountainEntryView } from '../components/MountainEntryView';
 import { MountainHikeView } from '../components/MountainHikeView';
 import { ALTITUDE_STAGES } from '../mountainConfig';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile } from '../worldAssets';
 import './MountainPage.css';
+
+const MOUNTAIN_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y <= 2) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.MOUNTAIN;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.MOUNTAIN;
+    if (y >= 6) return TILE_TYPES.SNOW;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function MountainPage() {
   const { inventory, addItem, addCoins } = useEconomy();
@@ -50,6 +65,23 @@ export function MountainPage() {
         style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}
       >
         <WorldPageHeader title="Bergtoppen" icon="⛰️" />
+        <div className="mountain-3d-strip">
+          <div className="mountain-3d-wrapper">
+            <Canvas
+              shadows={false}
+              dpr={[1, 1.5]}
+              gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+              camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+            >
+              <WorldScene3DMain
+                mapGrid={MOUNTAIN_GRID}
+                onObjectClick={undefined}
+                isNight={false}
+                enableSky={false}
+              />
+            </Canvas>
+          </div>
+        </div>
         <MountainEntryView
           hasBoots={inventory?.hiking_boots}
           zones={ALTITUDE_STAGES}
@@ -65,6 +97,23 @@ export function MountainPage() {
         style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}
       >
         <WorldPageHeader title="Bergtoppen" icon="⛰️" />
+        <div className="mountain-3d-strip">
+          <div className="mountain-3d-wrapper">
+            <Canvas
+              shadows={false}
+              dpr={[1, 1.5]}
+              gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+              camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+            >
+              <WorldScene3DMain
+                mapGrid={MOUNTAIN_GRID}
+                onObjectClick={undefined}
+                isNight={false}
+                enableSky={false}
+              />
+            </Canvas>
+          </div>
+        </div>
         <MountainHikeView
           altitude={altitude}
           tiredness={tiredness}
@@ -91,6 +140,23 @@ export function MountainPage() {
         style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}
       >
         <WorldPageHeader title="Bergtoppen" icon="⛰️" />
+        <div className="mountain-3d-strip">
+          <div className="mountain-3d-wrapper">
+            <Canvas
+              shadows={false}
+              dpr={[1, 1.5]}
+              gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+              camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+            >
+              <WorldScene3DMain
+                mapGrid={MOUNTAIN_GRID}
+                onObjectClick={undefined}
+                isNight={false}
+                enableSky={false}
+              />
+            </Canvas>
+          </div>
+        </div>
         <div className="rest-scene">
           <h2>😴 Rusten</h2>
           <div className="rest-progress">
@@ -120,6 +186,23 @@ export function MountainPage() {
         style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}
       >
         <WorldPageHeader title="Bergtoppen" icon="⛰️" />
+        <div className="mountain-3d-strip">
+          <div className="mountain-3d-wrapper">
+            <Canvas
+              shadows={false}
+              dpr={[1, 1.5]}
+              gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+              camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+            >
+              <WorldScene3DMain
+                mapGrid={MOUNTAIN_GRID}
+                onObjectClick={undefined}
+                isNight={false}
+                enableSky={false}
+              />
+            </Canvas>
+          </div>
+        </div>
         <div className="summit-scene">
           <h1>🏔️ Top Bereikt!</h1>
           <div className="rewards">

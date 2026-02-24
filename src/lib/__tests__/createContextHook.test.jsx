@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createContextHook } from '../createContextHook';
+import { createContextHook } from '../../modules/reactContext';
 import React, { createContext } from 'react';
 import { renderHook } from '@testing-library/react';
 

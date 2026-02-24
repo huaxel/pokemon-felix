@@ -1,14 +1,27 @@
 import { useState, useEffect } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy, useDomainCollection } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { getPokemonDetails } from '../../../lib/api';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import { desertCactusTile, waterImage, playerTile } from '../worldAssets';
 import './DesertPage.css';
 
 const DESERT_SIZE = 10;
 const DESERT_POKEMON = [27, 28, 50, 51, 74, 75, 95, 104, 105, 111]; // Sandshrew, Diglett, Geodude, Cubone, Rhyhorn
 const OASIS_POKEMON = [60, 61, 116, 117, 129]; // Poliwag, Horsea, Magikarp (water types in oasis)
+
+const DESERT_GRID_3D = Array.from({ length: 8 }, (_, y) =>
+    Array.from({ length: 8 }, (_x, xIndex) => {
+        if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.MOUNTAIN;
+        if (y === 3 && xIndex === 4) return TILE_TYPES.DESERT;
+        if (y === 4 && xIndex === 4) return TILE_TYPES.DESERT;
+        if (xIndex === 4) return TILE_TYPES.PATH;
+        return TILE_TYPES.SAND;
+    }),
+);
 
 const GEOGRAPHY_FACTS = [
     "🏜️ Woestijnen bedekken ongeveer 1/3 van het landoppervlak.",
@@ -122,6 +135,22 @@ export function DesertPage() {
         }}>
             <WorldPageHeader title="Mysterieuze Woestijn" icon="🏜️" />
 
+            <div className="desert-3d-wrapper">
+                <Canvas
+                    shadows={false}
+                    dpr={[1, 1.5]}
+                    gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+                    camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+                >
+                    <WorldScene3DMain
+                        mapGrid={DESERT_GRID_3D}
+                        onObjectClick={undefined}
+                        isNight={false}
+                        enableSky={false}
+                    />
+                </Canvas>
+            </div>
+
             {sandstorm && (
                 <div className="sandstorm-warning" style={{ backgroundColor: 'rgba(251, 191, 36, 0.8)', color: '#000', padding: '0.5rem', textAlign: 'center', fontWeight: 'bold' }}>
                     ⚠️ Zandstorm! Het zicht is beperkt.
@@ -194,4 +223,3 @@ export function DesertPage() {
         </div>
     );
 }
-

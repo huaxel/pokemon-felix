@@ -46,11 +46,19 @@ export function EncounterModal({
                 {showReward ? (
                     <BattleRewardModal pokemon={encounter} onChoice={onRewardChoice} />
                 ) : battleMode ? (
-                    <BattleArena
-                        initialFighter1={pokemonList.find(p => p.id === squadIds[0])}
-                        initialFighter2={encounter}
-                        onBattleEnd={onBattleEnd}
-                    />
+                    (() => {
+                        const playerPokemon = pokemonList.find(p => p.id === squadIds[0]);
+                        if (!playerPokemon) {
+                            return <div style={{ textAlign: 'center', padding: '1rem', fontFamily: '"Press Start 2P", cursive' }}>Je hebt geen Pokémon in je team om mee te vechten!</div>
+                        }
+                        return (
+                            <BattleArena
+                                initialFighter1={playerPokemon}
+                                initialFighter2={encounter}
+                                onBattleEnd={onBattleEnd}
+                            />
+                        );
+                    })()
                 ) : (
                     <>
                         <h2
