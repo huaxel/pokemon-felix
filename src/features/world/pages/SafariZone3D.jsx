@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
-import { useData } from '../../../contexts/DomainContexts';
+import { useData, useDomainCollection } from '../../../contexts/DomainContexts';
 import { PlayerControls3D } from '../components/PlayerControls3D';
 import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { EncounterModal } from '../components/EncounterModal';
@@ -29,6 +29,7 @@ const baseSafariGrid = Array.from({ length: SAFARI_GRID_SIZE }, (_, y) =>
 export function SafariZone3D() {
     const navigate = useNavigate();
     const { pokemonList, loading } = useData();
+    const { squadIds } = useDomainCollection();
     const [isLocked, setIsLocked] = useState(false);
     const [showInstructions, setShowInstructions] = useState(true);
 
@@ -36,10 +37,16 @@ export function SafariZone3D() {
     const {
         encounter,
         setEncounter,
+        battleMode,
+        setBattleMode,
+        showReward,
+        isBoss,
         catching,
         catchMessage,
         handleCatch,
         handleFlee,
+        handleBattleEnd,
+        handleRewardChoice
     } = useEncounter({
         onFleeCustom: () => {
             // Small delay on flee before letting them walk again
@@ -193,6 +200,14 @@ export function SafariZone3D() {
                             catchMessage={catchMessage}
                             onCatch={handleCatch}
                             onFlee={handleFlee}
+                            onFight={() => setBattleMode(true)}
+                            battleMode={battleMode}
+                            showReward={showReward}
+                            isBoss={isBoss}
+                            onBattleEnd={handleBattleEnd}
+                            onRewardChoice={handleRewardChoice}
+                            pokemonList={pokemonList}
+                            squadIds={squadIds}
                         />
                     </div>
                 )}
