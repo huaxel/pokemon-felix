@@ -1,9 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useDeferredValue, useMemo } from 'react';
 import './SearchBar.css';
 
 export function SearchBar({ allPokemon, onSearch }) {
   const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+  // Use deferred value to deprioritize the filtering operation
+  const deferredQuery = useDeferredValue(query);
+
+  // Memoize the expensive filtering based on the deferred query
+  const suggestions = useMemo(() => {
+    if (!deferredQuery || deferredQuery.length <= 1) {
+      return [];
+    }
+    return allPokemon
+      .filter(name => name.toLowerCase().includes(deferredQuery.toLowerCase()))
+      .slice(0, 10); // Limit to 10 suggestions
+  }, [deferredQuery, allPokemon]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const wrapperRef = useRef(null);
@@ -27,13 +39,8 @@ export function SearchBar({ allPokemon, onSearch }) {
     setActiveIndex(-1);
 
     if (value.length > 1) {
-      const filtered = allPokemon
-        .filter(name => name.toLowerCase().includes(value.toLowerCase()))
-        .slice(0, 10); // Limit to 10 suggestions
-      setSuggestions(filtered);
       setIsOpen(true);
     } else {
-      setSuggestions([]);
       setIsOpen(false);
     }
   };

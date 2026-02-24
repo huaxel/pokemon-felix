@@ -23,7 +23,7 @@ const baseSafariGrid = Array.from({ length: SAFARI_GRID_SIZE }, (_, y) =>
         if (dist < 2.5) return TILE_TYPES.WATER;
         if (dist < 4) return TILE_TYPES.SAND;
         return TILE_TYPES.GRASS;
-    }),
+    })
 );
 
 export function SafariZone3D() {

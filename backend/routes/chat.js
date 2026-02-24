@@ -26,11 +26,11 @@ export function createChatRouter({ db, getTrainerResponse }) {
   router.post(
     '/api/chat/:trainer_id',
     asyncHandler(async (req, res) => {
-      const { sender, content } = req.body || {};
+      const { content } = req.body || {};
       const { trainer_id } = req.params;
 
-      if (!sender || !content) {
-        throw badRequest('sender and content are required');
+      if (!content) {
+        throw badRequest('content is required');
       }
 
       db.prepare(
@@ -38,7 +38,7 @@ export function createChatRouter({ db, getTrainerResponse }) {
       INSERT INTO chat_history (trainer_id, sender, content)
       VALUES (?, ?, ?)
     `
-      ).run(trainer_id, sender, content);
+      ).run(trainer_id, 'player', content);
 
       const { reply, action } = await getTrainerResponse(trainer_id, content);
 
