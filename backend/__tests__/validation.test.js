@@ -2,69 +2,48 @@ import { describe, it, expect } from 'vitest';
 import { validateChatInput } from '../utils/validation.js';
 
 describe('validateChatInput', () => {
-  const tests = [
-    {
-      name: 'Valid input',
-      sender: 'player',
-      content: 'Hello trainer!',
-      expectedValid: true
-    },
-    {
-      name: 'Missing content',
-      sender: 'player',
-      content: null,
-      expectedValid: false,
-      expectedStatus: 400,
-      expectedError: 'Sender and content are required'
-    },
-    {
-      name: 'Empty content',
-      sender: 'player',
-      content: '',
-      expectedValid: false,
-      expectedStatus: 400,
-      expectedError: 'Sender and content are required'
-    },
-    {
-      name: 'Whitespace content',
-      sender: 'player',
-      content: '   ',
-      expectedValid: false,
-      expectedStatus: 400,
-      expectedError: 'Content must be a non-empty string'
-    },
-    {
-      name: 'Content too long',
-      sender: 'player',
-      content: 'a'.repeat(1001),
-      expectedValid: false,
-      expectedStatus: 400,
-      expectedError: 'Content is too long (maximum 1000 characters)'
-    },
-    {
-      name: 'Invalid sender',
-      sender: 'invalid',
-      content: 'Hello',
-      expectedValid: false,
-      expectedStatus: 400,
-      expectedError: 'Invalid sender. Must be "player" or "trainer"'
-    },
-    {
-      name: 'Content is exactly 1000 characters',
-      sender: 'player',
-      content: 'a'.repeat(1000),
-      expectedValid: true
-    }
-  ];
+  it('should accept valid input', () => {
+    const result = validateChatInput('player', 'Hello trainer!');
+    expect(result.valid).toBe(true);
+  });
 
-  tests.forEach(test => {
-    it(test.name, () => {
-      const result = validateChatInput(test.sender, test.content);
-      expect(result.valid).toBe(test.expectedValid);
-      if (!test.expectedValid) {
-        expect(result.status).toBe(test.expectedStatus);
-        expect(result.error).toBe(test.expectedError);
-      }
-    });
+  it('should reject missing content', () => {
+    const result = validateChatInput('player', null);
+    expect(result.valid).toBe(false);
+    expect(result.status).toBe(400);
+    expect(result.error).toBe('Sender and content are required');
+  });
+
+  it('should reject empty content', () => {
+    const result = validateChatInput('player', '');
+    expect(result.valid).toBe(false);
+    expect(result.status).toBe(400);
+    expect(result.error).toBe('Sender and content are required');
+  });
+
+  it('should reject whitespace content', () => {
+    const result = validateChatInput('player', '   ');
+    expect(result.valid).toBe(false);
+    expect(result.status).toBe(400);
+    expect(result.error).toBe('Content must be a non-empty string');
+  });
+
+  it('should reject content that is too long', () => {
+    const result = validateChatInput('player', 'a'.repeat(1001));
+    expect(result.valid).toBe(false);
+    expect(result.status).toBe(400);
+    expect(result.error).toBe('Content is too long (maximum 1000 characters)');
+  });
+
+  it('should reject invalid sender', () => {
+    const result = validateChatInput('invalid', 'Hello');
+    expect(result.valid).toBe(false);
+    expect(result.status).toBe(400);
+    expect(result.error).toBe('Invalid sender. Must be "player" or "trainer"');
+  });
+
+  it('should accept content that is exactly 1000 characters', () => {
+    const result = validateChatInput('player', 'a'.repeat(1000));
+    expect(result.valid).toBe(true);
   });
 });
