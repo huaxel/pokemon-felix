@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, useCallback, useMemo } from 'react';
 import { useData, useDomainCollection } from '../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../lib/api';
 import { SearchBar } from '../../components/SearchBar';
@@ -15,7 +15,11 @@ export function PokedexPage() {
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
-  const handleCardClick = async pokemon => {
+  // Optimization: Memoize ownedIds into a Set for O(1) lookup
+  const ownedIdsSet = useMemo(() => new Set(ownedIds), [ownedIds]);
+
+  // Optimization: Memoize handleCardClick to prevent re-renders of all cards
+  const handleCardClick = useCallback(async pokemon => {
     if (pokemon.speciesData) {
       setSelectedPokemon(pokemon);
     } else {
@@ -26,7 +30,7 @@ export function PokedexPage() {
         console.error('Failed to load details', error);
       }
     }
-  };
+  }, []);
 
   const displayList = searchResults && searchResults.length > 0 ? searchResults : pokemonList;
 
@@ -65,7 +69,7 @@ export function PokedexPage() {
             key={pokemon.id}
             index={index}
             pokemon={pokemon}
-            isOwned={ownedIds.includes(pokemon.id)}
+            isOwned={ownedIdsSet.has(pokemon.id)}
             onToggleOwned={toggleOwned}
             onClick={handleCardClick}
           />
@@ -85,7 +89,7 @@ export function PokedexPage() {
           <PokemonModal
             pokemon={selectedPokemon}
             onClose={() => setSelectedPokemon(null)}
-            isOwned={ownedIds.includes(selectedPokemon.id)}
+            isOwned={ownedIdsSet.has(selectedPokemon.id)}
             onToggleOwned={toggleOwned}
           />
         </Suspense>
