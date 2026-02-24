@@ -49,7 +49,7 @@ export function StarterPage() {
     if (!hasProfile) {
       navigate('/character-creation');
     } else if (ownedIds.length > 0) {
-      navigate('/adventure');
+      navigate('/safari');
     }
   }, [ownedIds, hasProfile, navigate]);
 
@@ -69,7 +69,7 @@ export function StarterPage() {
 
     // Go straight to the world map to start exploring
     setTimeout(() => {
-      navigate('/adventure');
+      navigate('/safari');
     }, 1500);
   };
 

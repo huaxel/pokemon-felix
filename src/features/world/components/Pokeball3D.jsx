@@ -21,8 +21,14 @@ export function Pokeball3D({ startPos = [0, 0, 0], targetPos = [0, 0, 0], onComp
     }, [texture]);
 
     const startTime = useRef(Date.now());
-    const startVec = React.useMemo(() => new THREE.Vector3(...startPos), [startPos]);
-    const targetVec = React.useMemo(() => new THREE.Vector3(...targetPos), [targetPos]);
+    const startVec = React.useMemo(() => {
+        const pos = Array.isArray(startPos) ? startPos : [0, 0, 0];
+        return new THREE.Vector3(...pos);
+    }, [startPos]);
+    const targetVec = React.useMemo(() => {
+        const pos = Array.isArray(targetPos) ? targetPos : [0, 0, 0];
+        return new THREE.Vector3(...pos);
+    }, [targetPos]);
     const currentVec = React.useMemo(() => new THREE.Vector3(), []);
     const duration = 1000; // 1 second flight
 

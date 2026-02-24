@@ -55,14 +55,19 @@ export function SafariZone3D() {
 
     const [thrownBall, setThrownBall] = useState(null);
 
-    const handlePokemonClick = (pokemon, targetPosition) => {
+    const handlePokemonClick = (pokemonOrX, targetPositionOrY, _maybeType) => {
         if (thrownBall) return;
 
+        // If it's a Pokemon sprite, pokemonOrX will be an object with an 'id' or 'image'
+        // If it's from WorldScene3DMain ground, pokemonOrX will be a number (x coordinate)
+        const isPokemon = typeof pokemonOrX === 'object' && (pokemonOrX.id || pokemonOrX.image);
+
+        if (!isPokemon) return;
+
         // Start the throwing animation
-        // Camera position is roughly our eyes
         setThrownBall({
-            target: targetPosition,
-            pokemon: pokemon
+            target: targetPositionOrY,
+            pokemon: pokemonOrX
         });
     };
 
