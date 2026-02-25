@@ -49,13 +49,13 @@ describe('ToastContainer', () => {
 
     // toast 2 is error -> alert (assertive)
     const alert = screen.getByRole('alert');
-    expect(alert).toBeInTheDocument();
-    expect(alert).toHaveTextContent('Error!');
+    expect(alert).toBeTruthy();
+    expect(alert.textContent).toContain('Error!');
 
     // toast 1 is success -> status (polite)
     const status = screen.getByRole('status');
-    expect(status).toBeInTheDocument();
-    expect(status).toHaveTextContent('Success!');
+    expect(status).toBeTruthy();
+    expect(status.textContent).toContain('Success!');
   });
 
   it('auto-dismisses toasts after duration', () => {
