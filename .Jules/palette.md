@@ -6,3 +6,7 @@
 ## 2025-05-24 - Toast Notifications Accessibility
 **Learning:** The `ToastContainer` was implemented with plain `div`s and `onClick` handlers, making notifications inaccessible to keyboard users and lacking auto-dismissal.
 **Action:** Use `role="alert"` (error) or `role="status"` (info), ensure keyboard dismissal (Enter/Space), and implement auto-dismissal with pause-on-hover.
+
+## 2025-05-24 - Modal Accessibility Improvements
+**Learning:** The detailed view modal was completely inaccessible to keyboard and screen reader users, lacking `role="dialog"`, focus management, and accessible labels on icon-only buttons.
+**Action:** Always ensure modals have `role="dialog"`, `aria-modal="true"`, focus trapping (or at least initial focus), and handle the Escape key.
