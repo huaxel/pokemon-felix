@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler.js';
 import { badRequest } from '../lib/httpError.js';
+import { validateChatInput } from '../utils/validation.js';
 
 export function createChatRouter({ db, getTrainerResponse }) {
   const router = Router();
@@ -28,9 +29,15 @@ export function createChatRouter({ db, getTrainerResponse }) {
     asyncHandler(async (req, res) => {
       const { content } = req.body || {};
       const { trainer_id } = req.params;
+      const sender = 'player';
 
-      if (!content) {
-        throw badRequest('content is required');
+      const validation = validateChatInput(sender, content);
+      if (!validation.valid) {
+        const errorMessage =
+          validation.error === 'Sender and content are required'
+            ? 'Content is required'
+            : validation.error;
+        throw badRequest(errorMessage);
       }
 
       db.prepare(
