@@ -19,12 +19,14 @@ const allowedOrigins = allowedOriginsEnv.length > 0 ? allowedOriginsEnv : defaul
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+    // Enforce CORS for all requests by requiring a valid Origin header
+    if (!origin) {
+      return callback(new Error('Not allowed by CORS'), false);
+    }
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      console.warn(`CORS origin rejected: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS'), false);
     }
   }
 };
