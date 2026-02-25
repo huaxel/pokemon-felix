@@ -12,3 +12,7 @@ export function notFound(message = 'Not found') {
 export function badRequest(message = 'Bad request') {
   return new HttpError(400, message);
 }
+
+export function tooManyRequests(message = 'Too many requests') {
+  return new HttpError(429, message);
+}

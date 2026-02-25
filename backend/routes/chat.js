@@ -2,9 +2,13 @@ import { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler.js';
 import { badRequest } from '../lib/httpError.js';
 import { validateChatInput } from '../utils/validation.js';
+import { rateLimit } from '../middleware/rateLimiter.js';
 
 export function createChatRouter({ db, getTrainerResponse }) {
   const router = Router();
+
+  // Rate limiter: 5 requests per minute per IP to prevent LLM abuse
+  const chatLimiter = rateLimit({ windowMs: 60 * 1000, max: 5 });
 
   router.get(
     '/api/chat/:trainer_id',
@@ -26,6 +30,7 @@ export function createChatRouter({ db, getTrainerResponse }) {
 
   router.post(
     '/api/chat/:trainer_id',
+    chatLimiter,
     asyncHandler(async (req, res) => {
       const { content } = req.body || {};
       const { trainer_id } = req.params;
