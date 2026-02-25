@@ -51,8 +51,8 @@ describe('ToastContainer', () => {
     expect(alert).toBeInTheDocument();
 
     // toast 1 is success -> status (polite)
-    const status = screen.getByRole('status');
-    expect(status.textContent).toBe('Success!');
+    const status = screen.getByRole('status', { name: 'Success!' });
+    expect(status).toBeInTheDocument();
   });
 
   it('auto-dismisses toasts after duration', () => {
