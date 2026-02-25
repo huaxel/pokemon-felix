@@ -9,10 +9,12 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Secure CORS configuration
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+const defaultAllowedOrigins = ['http://localhost:3000'];
+const allowedOriginsEnv = (process.env.ALLOWED_ORIGINS || '')
   .split(',')
   .map(origin => origin.trim())
   .filter(Boolean);
+const allowedOrigins = allowedOriginsEnv.length > 0 ? allowedOriginsEnv : defaultAllowedOrigins;
 
 const corsOptions = {
   origin: function (origin, callback) {
