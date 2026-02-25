@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useRef, useEffect } from 'react';
 import { useCollection } from '../hooks/useCollection';
 import { useCoins } from '../hooks/useCoins';
 import { useSquad } from '../hooks/useSquad';
@@ -135,15 +135,24 @@ export function CollectionProvider({ children, onCatch }) {
   const collection = useCollection();
   const squad = useSquad();
 
+  // Create a ref to access the latest collection without re-creating the callback
+  const collectionRef = useRef(collection);
+
+  // Update ref on every render
+  useEffect(() => {
+    collectionRef.current = collection;
+  });
+
   const toggleOwned = useCallback(
     id => {
-      const wasOwned = collection.ownedIds.includes(id);
-      collection.toggleOwned(id);
+      const currentCollection = collectionRef.current;
+      const wasOwned = currentCollection.ownedIds.includes(id);
+      currentCollection.toggleOwned(id);
       if (!wasOwned && onCatch) {
         onCatch(id);
       }
     },
-    [collection, onCatch]
+    [onCatch]
   );
 
   const value = useMemo(
