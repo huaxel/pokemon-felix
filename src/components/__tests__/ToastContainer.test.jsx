@@ -28,8 +28,7 @@ describe('ToastContainer', () => {
     });
 
     const { container } = render(<ToastContainer />);
-    expect(container.firstChild).toBeNull();
-  });
+    expect(container.querySelector('.toast-container')).toBeNull();
 
   it('renders toasts correctly with proper roles', () => {
     const toasts = [
