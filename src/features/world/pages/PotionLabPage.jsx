@@ -1,13 +1,27 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { Trophy, RotateCcw, Sparkles } from 'lucide-react';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
 import { PotionIngredientsPanel } from '../components/PotionIngredientsPanel';
 import { PotionBrewingStation } from '../components/PotionBrewingStation';
 import { scientistTile } from '../worldAssets';
+import { TILE_TYPES } from '../worldConstants';
 import { INGREDIENTS, DIFFICULTIES } from '../potionConfig';
 import './PotionLabPage.css';
+
+const POTION_LAB_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.POTION_LAB;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.POTION_LAB;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    if (y === 5 && (xIndex === 2 || xIndex === 6)) return TILE_TYPES.TREE;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function PotionLabPage() {
   const { addCoins } = useEconomy();
@@ -52,6 +66,21 @@ export function PotionLabPage() {
   return (
     <div className="potion-lab-page">
       <WorldPageHeader title="Lab" icon="🧪" />
+      <div className="potionlab-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={POTION_LAB_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
       <div className="stats-bar">
         <div className="stat-item">
           <Trophy size={20} />

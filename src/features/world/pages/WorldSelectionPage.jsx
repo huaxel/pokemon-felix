@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Globe, Volume2, VolumeX, ArrowLeft } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import './WorldSelectionPage.css';
 
 // Continent Data with simplified paths for a 1000x500 map
@@ -55,6 +58,16 @@ export function WorldSelectionPage() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const audioRef = useRef(null);
 
+  const mapGrid = Array.from({ length: 8 }, (_, y) =>
+    Array.from({ length: 8 }, (_x, xIndex) => {
+      if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.WATER;
+      if (y <= 2 && xIndex <= 3) return TILE_TYPES.GRASS;
+      if (y >= 5 && xIndex >= 4) return TILE_TYPES.SAND;
+      if (xIndex === 4) return TILE_TYPES.PATH;
+      return TILE_TYPES.GRASS;
+    }),
+  );
+
   // Initialize simplified audio (placeholder)
   useEffect(() => {
     // In a real app, we would load an actual audio file here
@@ -106,6 +119,21 @@ export function WorldSelectionPage() {
 
   return (
     <div className="world-selection-page">
+      <div className="worldselection-3d-bg">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={mapGrid}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
       <div className="cloud cloud-1"></div>
       <div className="cloud cloud-2"></div>
       <div className="cloud cloud-3"></div>

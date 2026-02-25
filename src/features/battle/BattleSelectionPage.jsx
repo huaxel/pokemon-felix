@@ -240,7 +240,7 @@ export function BattleSelectionPage() {
 
       <div style={{ textAlign: 'center', marginTop: '3rem' }}>
         <Link
-          to="/adventure"
+          to="/safari"
           className="btn-kenney neutral"
           style={{ textDecoration: 'none', display: 'inline-block' }}
         >

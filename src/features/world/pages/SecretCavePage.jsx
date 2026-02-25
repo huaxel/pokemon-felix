@@ -1,13 +1,27 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Canvas } from '@react-three/fiber';
 import { useDomainCollection, useData } from '../../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../../lib/api';
 import { CaveLockedView } from '../components/CaveLockedView';
 import { CaveExplorationView } from '../components/CaveExplorationView';
 import { EncounterModal } from '../components/EncounterModal';
 import { useEncounter } from '../hooks/useEncounter';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
+import { TILE_TYPES } from '../worldConstants';
 import './SecretCavePage.css';
+
+const SECRET_CAVE_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.SECRET_CAVE;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.SECRET_CAVE;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    if ((y === 2 && xIndex === 3) || (y === 2 && xIndex === 5)) return TILE_TYPES.TREE;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function SecretCavePage() {
   const navigate = useNavigate();
@@ -74,6 +88,21 @@ export function SecretCavePage() {
     return (
       <div className="cave-page entry">
         <WorldPageHeader title="Secret Cave" icon="🕳️" />
+        <div className="secretcave-3d-wrapper">
+          <Canvas
+            shadows={false}
+            dpr={[1, 1.5]}
+            gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+            camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+          >
+            <WorldScene3DMain
+              mapGrid={SECRET_CAVE_GRID}
+              onObjectClick={undefined}
+              isNight={true}
+              enableSky={false}
+            />
+          </Canvas>
+        </div>
         <div className="discovery-screen">
           <div className="discovery-visual">🕳️</div>
           <h2>You found a hidden entrance!</h2>
@@ -96,6 +125,21 @@ export function SecretCavePage() {
         icon="🕳️"
         onBack={() => (encounter ? setEncounter(null) : navigate('/adventure'))}
       />
+      <div className="secretcave-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={SECRET_CAVE_GRID}
+            onObjectClick={undefined}
+            isNight={true}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <main className="cave-main">
         {encounter ? (

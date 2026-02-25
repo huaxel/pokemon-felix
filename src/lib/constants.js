@@ -12,6 +12,7 @@ export const STORAGE_KEYS = {
   COMPLETED_QUIZZES: 'felix-completed-quizzes',
   BANK_BALANCE: 'felix-bank-balance',
   BANK_LAST_INTEREST: 'felix-bank-last-interest',
+  PLAYER_POS: 'felix-world-player-pos',
 };
 
 // Battle configuration constants

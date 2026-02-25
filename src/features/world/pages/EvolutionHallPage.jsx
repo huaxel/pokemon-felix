@@ -1,12 +1,26 @@
 import { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { useData, useDomainCollection, useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { Download, Upload } from 'lucide-react';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile } from '../worldAssets';
 import { EVOLUTION_CHAINS, STONES } from '../evolutionConfig';
 
 import './EvolutionHallPage.css';
+
+const EVOLUTION_HALL_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.EVOLUTION_HALL;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.EVOLUTION_HALL;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    if (y === 5 && (xIndex === 2 || xIndex === 6)) return TILE_TYPES.TREE;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function EvolutionHallPage() {
   const { pokemonList } = useData();
@@ -71,6 +85,22 @@ export function EvolutionHallPage() {
       }}
     >
       <WorldPageHeader title="Evolutiehal" icon="✨" />
+
+      <div className="evolutionhall-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={EVOLUTION_HALL_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <div
         className="evolution-chamber game-panel"

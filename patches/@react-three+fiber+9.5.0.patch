@@ -1,0 +1,19 @@
+diff --git a/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js b/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js
+index e907a7f..3c79d8d 100644
+--- a/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js
++++ b/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js
+@@ -680,7 +680,13 @@ function createEvents(store) {
+           let extractEventProps = {};
+           // This iterates over the event's properties including the inherited ones. Native PointerEvents have most of their props as getters which are inherited, but polyfilled PointerEvents have them all as their own properties (i.e. not inherited). We can't use Object.keys() or Object.entries() as they only return "own" properties; nor Object.getPrototypeOf(event) as that *doesn't* return "own" properties, only inherited ones.
+           for (let prop in event) {
+-            let property = event[prop];
++            if (prop === 'mozPressure' || prop === 'mozInputSource') continue;
++            let property;
++            try {
++              property = event[prop];
++            } catch (_e) {
++              continue;
++            }
+             // Only copy over atomics, leave functions alone as these should be
+             // called as event.nativeEvent.fn()
+             if (typeof property !== 'function') extractEventProps[prop] = property;

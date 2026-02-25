@@ -1,10 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Camera } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
 import { useData, useDomainCollection } from '../../../contexts/DomainContexts';
 import { usePlayer } from '../../../hooks/usePlayer';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile } from '../worldAssets';
 import './ArtStudioPage.css';
+
+const ART_STUDIO_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.ART_STUDIO;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.ART_STUDIO;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    if (y === 5 && (xIndex === 2 || xIndex === 6)) return TILE_TYPES.TREE;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function ArtStudioPage() {
   const navigate = useNavigate();
@@ -73,6 +87,22 @@ export function ArtStudioPage() {
       </div>
 
       {savedMessage && <div className="saved-message studio-saved-overlay">{savedMessage}</div>}
+
+      <div className="studio-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={ART_STUDIO_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <div className="studio-content">
         <div className="sidebar game-panel-dark studio-sidebar-panel">
