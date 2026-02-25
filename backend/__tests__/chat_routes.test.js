@@ -1,7 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createChatRouter } from '../routes/chat.js';
-import express from 'express';
-import { badRequest } from '../lib/httpError.js';
 
 // Mock express
 vi.mock('express', () => {
