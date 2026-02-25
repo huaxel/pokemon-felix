@@ -29,6 +29,7 @@ describe('ToastContainer', () => {
 
     const { container } = render(<ToastContainer />);
     expect(container.querySelector('.toast-container')).toBeNull();
+  });
 
   it('renders toasts correctly with proper roles', () => {
     const toasts = [
@@ -47,12 +48,14 @@ describe('ToastContainer', () => {
     expect(screen.getByText('Error!')).toBeTruthy();
 
     // toast 2 is error -> alert (assertive)
-    const alert = screen.getByRole('alert', { name: 'Error!' });
+    const alert = screen.getByRole('alert');
     expect(alert).toBeInTheDocument();
+    expect(alert).toHaveTextContent('Error!');
 
     // toast 1 is success -> status (polite)
-    const status = screen.getByRole('status', { name: 'Success!' });
+    const status = screen.getByRole('status');
     expect(status).toBeInTheDocument();
+    expect(status).toHaveTextContent('Success!');
   });
 
   it('auto-dismisses toasts after duration', () => {
