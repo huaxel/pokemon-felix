@@ -33,7 +33,11 @@ export function createChatRouter({ db, getTrainerResponse }) {
 
       const validation = validateChatInput(sender, content);
       if (!validation.valid) {
-        throw badRequest(validation.error);
+        const errorMessage =
+          validation.error === 'Sender and content are required'
+            ? 'Content is required'
+            : validation.error;
+        throw badRequest(errorMessage);
       }
 
       db.prepare(
