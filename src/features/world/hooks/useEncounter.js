@@ -3,7 +3,7 @@ import { useEconomy, useDomainCollection } from '../../../contexts/DomainContext
 import { useToast } from '../../../hooks/useToast';
 import { getPokemonDetails } from '../../../lib/api';
 
-export function useEncounter({ onBattleEndCustom }) {
+export function useEncounter({ onFleeCustom, onBattleEndCustom }) {
   const { showSuccess, showWarning } = useToast();
   const { addCoins, addItem } = useEconomy();
   const { toggleOwned } = useDomainCollection();
@@ -56,6 +56,11 @@ export function useEncounter({ onBattleEndCustom }) {
     }, 1500);
   }, [encounter, isBoss, toggleOwned, addCoins, addItem, clearEncounter]);
 
+  const handleFlee = useCallback(() => {
+    clearEncounter();
+    if (onFleeCustom) onFleeCustom();
+  }, [clearEncounter, onFleeCustom]);
+
   const handleBattleEnd = useCallback((winner) => {
     if (winner && winner.name !== encounter?.name) {
       setShowReward(true);
@@ -88,6 +93,7 @@ export function useEncounter({ onBattleEndCustom }) {
     triggerEncounter,
     clearEncounter,
     handleCatch,
+    handleFlee,
     handleBattleEnd,
     handleRewardChoice
   };

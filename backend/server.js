@@ -1,14 +1,37 @@
-import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './db/database.js';
+import { createApp } from './app.js';
+import { createLogger } from './lib/logger.js';
+import { getTrainerResponse } from './services/llmService.js';
 
 dotenv.config();
 
-const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
+// Secure CORS configuration
+const defaultAllowedOrigins = ['http://localhost:3000'];
+const allowedOriginsEnv = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = allowedOriginsEnv.length > 0 ? allowedOriginsEnv : defaultAllowedOrigins;
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    // Enforce CORS for all requests by requiring a valid Origin header
+    if (!origin) {
+      return callback(new Error('Not allowed by CORS'), false);
+    }
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'), false);
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
@@ -69,7 +92,7 @@ app.get('/api/chat/:trainer_id', (req, res) => {
 import { getTrainerResponse } from './services/llmService.js';
 
 app.post('/api/chat/:trainer_id', async (req, res) => {
-  const { sender, content } = req.body;
+  const { content } = req.body;
   const { trainer_id } = req.params;
   
   try {
@@ -77,7 +100,7 @@ app.post('/api/chat/:trainer_id', async (req, res) => {
     db.prepare(`
       INSERT INTO chat_history (trainer_id, sender, content)
       VALUES (?, ?, ?)
-    `).run(trainer_id, sender, content);
+    `).run(trainer_id, 'player', content);
 
     // 2. Get AI Response
     const { reply, action } = await getTrainerResponse(trainer_id, content);
@@ -90,5 +113,7 @@ app.post('/api/chat/:trainer_id', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Pokemon Felix Backend running at http://localhost:${port}`);
+  if (process.env.NODE_ENV !== 'test') {
+    logger.info(`Pokemon Felix Backend running at http://localhost:${port}`);
+  }
 });

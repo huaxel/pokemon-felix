@@ -1,10 +1,24 @@
 import { useNavigate } from 'react-router-dom';
+import { Canvas } from '@react-three/fiber';
 import { useDomainCollection, useEconomy, useProgress } from '../../../contexts/DomainContexts';
 import { usePlayer } from '../../../hooks/usePlayer';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile, mayorTile } from '../worldAssets';
 import bagIcon from '../../../assets/items/bag_icon.png';
 import './CityHallPage.css';
+
+const CITY_HALL_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.CITY_HALL;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.CITY_HALL;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    if (y === 4 && xIndex >= 2 && xIndex <= 6) return TILE_TYPES.PATH;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function CityHallPage() {
   const navigate = useNavigate();
@@ -33,6 +47,22 @@ export function CityHallPage() {
       }}
     >
       <WorldPageHeader title="Gemeentehuis" icon="🏛️" />
+
+      <div className="cityhall-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={CITY_HALL_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <main className="hall-content">
         <div

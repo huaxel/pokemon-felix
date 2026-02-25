@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { createContextHook } from '../lib/createContextHook';
+import { createContextHook } from '../modules/reactContext';
 
 export const DataContext = createContext(null);
 export const EconomyContext = createContext(null);

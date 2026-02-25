@@ -1,14 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTrainer, getRelationship, updateRelationship, getMessages, saveMessage } from '../../lib/api';
-import { fetchChatResponse } from '../../lib/services/llmService';
 import { buildSystemPrompt } from '../../lib/services/promptBuilder';
 import { RelationshipBar } from '../../components/RelationshipBar';
+import { useServices } from '../../modules/services';
+import { useUI } from '../../contexts/DomainContexts';
+import { errorMessage } from '../../modules/observability';
 import './TrainerChatPage.css';
 
 export function TrainerChatPage() {
     const { trainerId } = useParams();
     const navigate = useNavigate();
+    const { llmProvider, logger } = useServices();
+    const { showError } = useUI();
 
     const [trainer, setTrainer] = useState(null);
     const [relationship, setRelationship] = useState(null);
@@ -61,10 +65,10 @@ export function TrainerChatPage() {
 
         try {
             const systemPrompt = buildSystemPrompt({ trainer, relationship });
-            const completion = await fetchChatResponse(
-                systemPrompt,
-                userMessage,
-                messages.map(m => ({ role: m.role, content: m.content }))
+            const completion = await llmProvider.fetchChatResponse(
+              systemPrompt,
+              userMessage,
+              messages.map(m => ({ role: m.role, content: m.content }))
             );
 
             // Save assistant message
@@ -84,7 +88,8 @@ export function TrainerChatPage() {
                 }, 1500);
             }
         } catch (error) {
-            console.error('LLM Error:', error);
+            logger.error('LLM Error', error);
+            showError(`LLM Error: ${errorMessage(error)}`);
         } finally {
             setIsTyping(false);
         }

@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy, useDomainCollection } from '../../../contexts/DomainContexts';
 import { getPokemonDetails } from '../../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { WaterIntroView } from '../components/WaterIntroView';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import './WaterRoutePage.css';
 
 const WATER_POKEMON = [
@@ -22,6 +25,15 @@ const WATER_POKEMON = [
   'vaporeon',
   'gyarados',
 ];
+
+const WATER_ROUTE_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.WATER;
+    if (y === 5 && xIndex >= 2 && xIndex <= 5) return TILE_TYPES.PATH;
+    if (y === 4 && xIndex === 3) return TILE_TYPES.FISHERMAN;
+    return TILE_TYPES.WATER;
+  }),
+);
 
 export function WaterRoutePage() {
   const navigate = useNavigate();
@@ -86,6 +98,21 @@ export function WaterRoutePage() {
 
   return (
     <div className="water-route-page surfing">
+      <div className="waterroute-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={WATER_ROUTE_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
       <div className="water-header">
         <h2>🌊 Water Route</h2>
         <button className="exit-btn" onClick={() => navigate('/adventure')}>

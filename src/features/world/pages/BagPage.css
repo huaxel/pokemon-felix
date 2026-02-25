@@ -32,6 +32,19 @@
   overflow: hidden;
 }
 
+.bag-3d-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.bag-3d-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .backpack-frame {
   position: relative;
   display: flex;
@@ -118,6 +131,7 @@
 .inventory-scroll-area {
   flex: 1;
   overflow-y: auto;
+  touch-action: pan-y;
   padding-right: 10px;
 }
 

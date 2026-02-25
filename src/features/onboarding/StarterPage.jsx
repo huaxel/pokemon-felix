@@ -49,7 +49,7 @@ export function StarterPage() {
     if (!hasProfile) {
       navigate('/character-creation');
     } else if (ownedIds.length > 0) {
-      navigate('/adventure');
+      navigate('/safari');
     }
   }, [ownedIds, hasProfile, navigate]);
 
@@ -69,13 +69,13 @@ export function StarterPage() {
 
     // Go straight to the world map to start exploring
     setTimeout(() => {
-      navigate('/adventure');
+      navigate('/safari');
     }, 1500);
   };
 
   const getSprite = id => {
     const p = pokemonList.find(p => p.id === id);
-    return p ? p.sprites.front_default : '';
+    return p?.sprites?.front_default ?? null;
   };
 
   return (

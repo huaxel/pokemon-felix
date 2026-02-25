@@ -1,12 +1,25 @@
 import { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy, useUI } from '../../../contexts/DomainContexts';
 import { PiggyBank, TrendingUp, Calendar } from 'lucide-react';
 import { BankTransactionSection } from '../components/BankTransactionSection';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile, bagIcon } from '../worldAssets';
 import './BankPage.css';
 
 const MIN_DEPOSIT = 10;
+
+const BANK_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.BANK;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.BANK;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function BankPage() {
   const { coins, deposit, withdraw, interestRate, bankBalance } = useEconomy();
@@ -50,6 +63,22 @@ export function BankPage() {
       }}
     >
       <WorldPageHeader title="Pokémon Bank" icon={<PiggyBank size={24} />} />
+
+      <div className="bank-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={BANK_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <div
         className="bank-content"

@@ -37,8 +37,8 @@ export function Navbar({ onExport, onImport }) {
 
         <div className="nav-navigation-pill">
           <Link
-            to="/adventure"
-            className={`nav-item ${location.pathname === '/adventure' ? 'active' : ''}`}
+            to="/safari"
+            className={`nav-item ${location.pathname === '/safari' ? 'active' : ''}`}
           >
             <Map size={18} className="nav-icon globe" />
             <span>Wereld</span>
