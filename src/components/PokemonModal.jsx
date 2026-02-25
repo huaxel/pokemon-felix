@@ -1,9 +1,38 @@
-import { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { typeTranslations } from '../lib/utils';
 import './PokemonModal.css';
 
 export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
   const [language, setLanguage] = useState('en'); // Default to English (no Dutch in PokeAPI)
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    // Focus the modal content or close button when opened
+    if (pokemon) {
+      // Small timeout to ensure DOM is ready and prevent immediate closing if triggered by keyboard
+      const timer = setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [pokemon]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (pokemon) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [pokemon, onClose]);
 
   if (!pokemon) return null;
 
@@ -39,21 +68,38 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
+    <div
+      className="modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div
+        className="modal-content"
+        onClick={e => e.stopPropagation()}
+        ref={modalRef}
+      >
+        <button
+          className="modal-close"
+          onClick={onClose}
+          aria-label="Close modal"
+          ref={closeButtonRef}
+        >
           &times;
         </button>
 
         <div className="modal-header">
-          <h2>
+          <h2 id="modal-title">
             {currentName} <span className="modal-id">#{String(pokemon.id).padStart(3, '0')}</span>
           </h2>
-          <div className="language-selector">
+          <div className="language-selector" role="group" aria-label="Select language">
             <button
               className={language === 'en' ? 'active' : ''}
               onClick={() => setLanguage('en')}
               title="English"
+              aria-label="View in English"
+              aria-pressed={language === 'en'}
             >
               🇺🇸
             </button>
@@ -61,6 +107,8 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
               className={language === 'fr' ? 'active' : ''}
               onClick={() => setLanguage('fr')}
               title="Français"
+              aria-label="View in French"
+              aria-pressed={language === 'fr'}
             >
               🇫🇷
             </button>
@@ -68,6 +116,8 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
               className={language === 'es' ? 'active' : ''}
               onClick={() => setLanguage('es')}
               title="Español"
+              aria-label="View in Spanish"
+              aria-pressed={language === 'es'}
             >
               🇪🇸
             </button>
@@ -86,6 +136,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
             <button
               className={`btn-kenney primary collection-btn ${isOwned ? 'owned' : ''}`}
               onClick={() => onToggleOwned(pokemon.id)}
+              aria-pressed={isOwned}
             >
               {isOwned ? 'In collectie' : 'Toevoegen aan collectie'}
             </button>
