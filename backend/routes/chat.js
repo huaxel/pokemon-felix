@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler.js';
 import { badRequest } from '../lib/httpError.js';
+import { validateChatInput } from '../utils/validation.js';
 
 export function createChatRouter({ db, getTrainerResponse }) {
   const router = Router();
@@ -26,11 +27,17 @@ export function createChatRouter({ db, getTrainerResponse }) {
   router.post(
     '/api/chat/:trainer_id',
     asyncHandler(async (req, res) => {
-      const { sender, content } = req.body || {};
+      const { content } = req.body || {};
       const { trainer_id } = req.params;
+      const sender = 'player';
 
-      if (!sender || !content) {
-        throw badRequest('sender and content are required');
+      const validation = validateChatInput(sender, content);
+      if (!validation.valid) {
+        const errorMessage =
+          validation.error === 'Sender and content are required'
+            ? 'Content is required'
+            : validation.error;
+        throw badRequest(errorMessage);
       }
 
       db.prepare(
