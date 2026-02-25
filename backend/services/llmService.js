@@ -60,20 +60,24 @@ Guidelines:
 - Keep responses relatively short (2-3 sentences), suitable for a 7-year-old child.
 - You can talk about your Pokemon team: ${trainer.pokemon_team}.
 - If the player wants to battle, use the 'start_battle' tool. Respond verbally as well.
-
-Chat history:
-${history.map(h => `${h.sender}: ${h.content}`).join('\n')}
 `;
 
-  // 5. Call LLM
+  // 5. Build Messages Array
+  const messages = history.map(h => ({
+    role: h.sender === 'player' ? 'user' : 'assistant',
+    content: h.content
+  }));
+
+  // Append current user message
+  messages.push({ role: "user", content: playerMessage });
+
+  // 6. Call LLM
   const response = await anthropic.messages.create({
     model: "claude-3-haiku-20240307",
     max_tokens: 500,
     system: systemPrompt,
     tools: tools,
-    messages: [
-      { role: "user", content: playerMessage }
-    ],
+    messages: messages,
   });
 
   let trainerReply = "";
