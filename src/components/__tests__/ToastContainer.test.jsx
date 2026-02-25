@@ -47,8 +47,8 @@ describe('ToastContainer', () => {
     expect(screen.getByText('Error!')).toBeTruthy();
 
     // toast 2 is error -> alert (assertive)
-    const alert = screen.getByRole('alert');
-    expect(alert.textContent).toBe('Error!');
+    const alert = screen.getByRole('alert', { name: 'Error!' });
+    expect(alert).toBeInTheDocument();
 
     // toast 1 is success -> status (polite)
     const status = screen.getByRole('status');
