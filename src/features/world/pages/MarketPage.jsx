@@ -81,7 +81,6 @@ function ShopSection({ category, setCategory, items, onBuy, discount, getPrice }
                 src={item.image}
                 alt={item.name}
                 className="shop-item-img"
-                style={{ imageRendering: 'pixelated' }}
               />
             </div>
             <h3>{item.name}</h3>
@@ -92,11 +91,10 @@ function ShopSection({ category, setCategory, items, onBuy, discount, getPrice }
                 src={bagIcon}
                 alt="coins"
                 className="coin-icon-inline"
-                style={{ imageRendering: 'pixelated' }}
               />
               {discount > 0 ? (
                 <span>
-                  <s style={{ opacity: 0.6 }}>{item.price}</s> <b>{getPrice(item.price)}</b>
+                  <span className="original-price">{item.price}</span> <b>{getPrice(item.price)}</b>
                 </span>
               ) : (
                 item.price
@@ -194,14 +192,7 @@ export function MarketPage() {
   return (
     <div
       className="market-page"
-      style={{
-        backgroundColor: '#2d1810',
-        backgroundImage: `url(${grassTile})`,
-        backgroundSize: '64px',
-        backgroundRepeat: 'repeat',
-        imageRendering: 'pixelated',
-        minHeight: '100vh',
-      }}
+      style={{ "--market-bg": `url(${grassTile})` }}
     >
       <WorldPageHeader title="Pokémon Markt" icon="🏪" />
 

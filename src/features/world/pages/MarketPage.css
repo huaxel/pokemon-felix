@@ -1,9 +1,12 @@
 .market-page {
+  background-color: #2d1810;
+  background-image: var(--market-bg);
+  background-size: 64px;
+  background-repeat: repeat;
+  image-rendering: pixelated;
   padding: 2rem;
   padding-bottom: 6rem;
   min-height: 100vh;
-  background: var(--bg-dark);
-  background-image: radial-gradient(circle at center, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
   color: white;
 }
 
@@ -226,6 +229,7 @@
 }
 
 .coin-icon-inline {
+  image-rendering: pixelated;
   width: 16px;
   height: 16px;
 }
@@ -352,4 +356,9 @@
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.original-price {
+  opacity: 0.6;
+  text-decoration: line-through;
 }
