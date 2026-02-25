@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
-import { useData } from '../../../contexts/DomainContexts';
+import { useData, useDomainCollection } from '../../../contexts/DomainContexts';
 import { PlayerControls3D } from '../components/PlayerControls3D';
 import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { EncounterModal } from '../components/EncounterModal';
@@ -10,10 +10,26 @@ import { PokemonSprite } from '../components/PokemonSprite';
 import { useEncounter } from '../hooks/useEncounter';
 import { ArrowLeft } from 'lucide-react';
 import './SafariZone3D.css';
+import { TILE_TYPES } from '../worldConstants';
+
+const SAFARI_GRID_SIZE = 10;
+
+const baseSafariGrid = Array.from({ length: SAFARI_GRID_SIZE }, (_, y) =>
+    Array.from({ length: SAFARI_GRID_SIZE }, (_, x) => {
+        const dx = x - SAFARI_GRID_SIZE / 2;
+        const dy = y - SAFARI_GRID_SIZE / 2;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 2.5) return TILE_TYPES.WATER;
+        if (dist < 4) return TILE_TYPES.SAND;
+        return TILE_TYPES.GRASS;
+    }),
+);
 
 export function SafariZone3D() {
     const navigate = useNavigate();
     const { pokemonList, loading } = useData();
+    const { squadIds } = useDomainCollection();
     const [isLocked, setIsLocked] = useState(false);
     const [showInstructions, setShowInstructions] = useState(true);
 
@@ -21,10 +37,16 @@ export function SafariZone3D() {
     const {
         encounter,
         setEncounter,
+        battleMode,
+        setBattleMode,
+        showReward,
+        isBoss,
         catching,
         catchMessage,
         handleCatch,
         handleFlee,
+        handleBattleEnd,
+        handleRewardChoice
     } = useEncounter({
         onFleeCustom: () => {
             // Small delay on flee before letting them walk again
@@ -40,14 +62,19 @@ export function SafariZone3D() {
 
     const [thrownBall, setThrownBall] = useState(null);
 
-    const handlePokemonClick = (pokemon, targetPosition) => {
+    const handlePokemonClick = (pokemonOrX, targetPositionOrY, _maybeType) => {
         if (thrownBall) return;
 
+        // If it's a Pokemon sprite, pokemonOrX will be an object with an 'id' or 'image'
+        // If it's from WorldScene3DMain ground, pokemonOrX will be a number (x coordinate)
+        const isPokemon = typeof pokemonOrX === 'object' && (pokemonOrX.id || pokemonOrX.image);
+
+        if (!isPokemon) return;
+
         // Start the throwing animation
-        // Camera position is roughly our eyes
         setThrownBall({
-            target: targetPosition,
-            pokemon: pokemon
+            target: targetPositionOrY,
+            pokemon: pokemonOrX
         });
     };
 
@@ -73,12 +100,21 @@ export function SafariZone3D() {
     return (
         <div className="safari-container">
             {/* 3D Canvas */}
-            <Canvas shadows camera={{ position: [0, 2, 5], fov: 75 }}>
+            <Canvas
+                shadows={false}
+                dpr={[1, 1.5]}
+                gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+                camera={{ position: [0, 2, 5], fov: 75 }}
+                onCreated={({ gl }) => {
+                    const canvas = gl.domElement;
+                    canvas.addEventListener('webglcontextlost', (e) => e.preventDefault(), false);
+                }}
+            >
                 {/* Only enable movement when not in an encounter */}
                 <Suspense fallback={null}>
                     {!encounter && (
                         <PlayerControls3D
-                            mapGrid={[]}
+                            mapGrid={baseSafariGrid}
                             initialPos={{ x: 0, y: 0 }}
                             onLock={() => {
                                 setIsLocked(true);
@@ -88,12 +124,12 @@ export function SafariZone3D() {
                         />
                     )}
                     <WorldScene3DMain
-                        mapGrid={[]} // Safari uses empty grid for now or we need a real one
+                        mapGrid={baseSafariGrid}
                         onObjectClick={handlePokemonClick}
+                        enableSky={false}
                     />
 
-                    {/* Safari Pokémon Sprites */}
-                    {pokemonList.slice(0, 15).map((p, i) => (
+                    {pokemonList.slice(0, 8).map((p, i) => (
                         <PokemonSprite
                             key={`safari-mon-${p.id}-${i}`}
                             pokemon={p}
@@ -102,6 +138,12 @@ export function SafariZone3D() {
                                 1,
                                 Math.cos(i * 0.5) * 10
                             ]}
+                            orbit={{
+                                radius: 1.5 + (i % 3) * 0.4,
+                                speed: 0.5 + i * 0.07,
+                                phase: i * Math.PI * 0.25,
+                                heightOffset: 0.15 * Math.sin(i * 0.8)
+                            }}
                             onClick={handlePokemonClick}
                         />
                     ))}
@@ -158,6 +200,14 @@ export function SafariZone3D() {
                             catchMessage={catchMessage}
                             onCatch={handleCatch}
                             onFlee={handleFlee}
+                            onFight={() => setBattleMode(true)}
+                            battleMode={battleMode}
+                            showReward={showReward}
+                            isBoss={isBoss}
+                            onBattleEnd={handleBattleEnd}
+                            onRewardChoice={handleRewardChoice}
+                            pokemonList={pokemonList}
+                            squadIds={squadIds}
                         />
                     </div>
                 )}

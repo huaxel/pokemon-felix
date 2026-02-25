@@ -1,3 +1,17 @@
+import React from 'react';
+import { Canvas } from '@react-three/fiber';
+import { WorldScene3DMain } from './WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
+
+const MOUNTAIN_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y >= 5) return TILE_TYPES.GRASS;
+    if (y === 4) return xIndex === 0 || xIndex === 7 ? TILE_TYPES.GRASS : TILE_TYPES.PATH;
+    if (y === 3) return TILE_TYPES.PATH;
+    return TILE_TYPES.MOUNTAIN;
+  }),
+);
+
 export function MountainHikeView({
   altitude,
   tiredness,
@@ -14,6 +28,23 @@ export function MountainHikeView({
 
   return (
     <div className="mountain-page hiking">
+      <div className="mountain-3d-strip">
+        <div className="mountain-3d-wrapper">
+          <Canvas
+            shadows={false}
+            dpr={[1, 1.5]}
+            gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+            camera={{ position: [3.5, 5, 8], fov: 55 }}
+          >
+            <WorldScene3DMain
+              mapGrid={MOUNTAIN_GRID}
+              onObjectClick={undefined}
+              isNight={false}
+              enableSky={false}
+            />
+          </Canvas>
+        </div>
+      </div>
       <div className="hiking-header">
         <h2>⛰️ Berg Beklimmen</h2>
         <button className="exit-btn btn-kenney neutral" onClick={onExit}>

@@ -1,11 +1,11 @@
-import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './db/database.js';
+import { createApp } from './app.js';
+import { createLogger } from './lib/logger.js';
+import { getTrainerResponse } from './services/llmService.js';
 
 dotenv.config();
 
-const app = express();
 const port = process.env.PORT || 3001;
 
 // Secure CORS configuration
@@ -113,5 +113,7 @@ app.post('/api/chat/:trainer_id', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Pokemon Felix Backend running at http://localhost:${port}`);
+  if (process.env.NODE_ENV !== 'test') {
+    logger.info(`Pokemon Felix Backend running at http://localhost:${port}`);
+  }
 });

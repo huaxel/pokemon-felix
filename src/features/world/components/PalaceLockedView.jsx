@@ -1,6 +1,19 @@
 import { Crown, Trophy } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
 import { WorldPageHeader } from './WorldPageHeader';
+import { WorldScene3DMain } from './WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile } from '../worldAssets';
+
+const PALACE_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y >= 6) return TILE_TYPES.GRASS;
+    if (y === 5) return TILE_TYPES.PATH;
+    if (y === 2 && xIndex >= 2 && xIndex <= 5) return TILE_TYPES.PALACE;
+    if (y === 3 && (xIndex === 2 || xIndex === 5)) return TILE_TYPES.PALACE;
+    return TILE_TYPES.SAND;
+  }),
+);
 
 export function PalaceLockedView({ ownedCount }) {
   return (
@@ -9,6 +22,22 @@ export function PalaceLockedView({ ownedCount }) {
       style={{ backgroundImage: `url(${grassTile})`, imageRendering: 'pixelated' }}
     >
       <WorldPageHeader title="Paleis van de Kampioen" icon="👑" />
+
+      <div className="palace-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={PALACE_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <div className="locked-content">
         <Crown size={120} className="locked-icon" />

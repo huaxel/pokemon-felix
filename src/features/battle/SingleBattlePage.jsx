@@ -188,7 +188,7 @@ export function SingleBattlePage({ allPokemon }) {
             Nog een keer
           </button>
           <Link
-            to="/adventure"
+            to="/safari"
             className="back-btn btn-kenney neutral"
             style={{ textDecoration: 'none' }}
           >
@@ -251,7 +251,7 @@ export function SingleBattlePage({ allPokemon }) {
             Probeer Opnieuw
           </button>
           <Link
-            to="/adventure"
+            to="/safari"
             className="back-btn btn-kenney neutral"
             style={{ textDecoration: 'none' }}
           >
@@ -276,7 +276,7 @@ export function SingleBattlePage({ allPokemon }) {
     >
       <div className="battle-header-simple" style={{ padding: '1rem' }}>
         <Link
-          to="/adventure"
+          to="/safari"
           className="close-btn btn-kenney neutral"
           style={{
             textDecoration: 'none',

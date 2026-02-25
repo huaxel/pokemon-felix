@@ -1,11 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
 import { useCare } from '../../../contexts/DomainContexts';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile, nurseTile } from '../worldAssets';
 import healingMachineImage from '../../../assets/buildings/healing_machine.png';
 import './PokemonCenterPage.css';
+
+const CENTER_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.CENTER;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.CENTER;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function PokemonCenterPage() {
   const navigate = useNavigate();
@@ -44,6 +57,21 @@ export function PokemonCenterPage() {
       <WorldPageHeader title="Pokémon Center" icon="🏥" backPath="/adventure" />
 
       <div className="center-content">
+        <div className="center-3d-bg">
+          <Canvas
+            shadows={false}
+            dpr={[1, 1.5]}
+            gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+            camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+          >
+            <WorldScene3DMain
+              mapGrid={CENTER_GRID}
+              onObjectClick={undefined}
+              isNight={false}
+              enableSky={false}
+            />
+          </Canvas>
+        </div>
         <div className="healing-machine-container">
           <img
             src={healingMachineImage}

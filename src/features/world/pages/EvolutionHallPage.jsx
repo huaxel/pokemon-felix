@@ -1,58 +1,26 @@
 import { useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { useData, useDomainCollection, useEconomy } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
 import { Download, Upload } from 'lucide-react';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { WorldPageHeader } from '../components/WorldPageHeader';
-import {
-  grassTile,
-  fireStone,
-  waterStone,
-  thunderStone,
-  leafStone,
-  moonStone,
-} from '../worldAssets';
+import { TILE_TYPES } from '../worldConstants';
+import { grassTile } from '../worldAssets';
+import { EVOLUTION_CHAINS, STONES } from '../evolutionConfig';
 
 import './EvolutionHallPage.css';
 
-const EVOLUTION_CHAINS = [
-  { id: 1, name: 'Bulbasaur', evo: 'Ivysaur', level: 16, type: 'Grass', method: 'level' },
-  { id: 4, name: 'Charmander', evo: 'Charmeleon', level: 16, type: 'Fire', method: 'level' },
-  { id: 7, name: 'Squirtle', evo: 'Wartortle', level: 16, type: 'Water', method: 'level' },
-  {
-    id: 25,
-    name: 'Pikachu',
-    evo: 'Raichu',
-    item: 'thunder_stone',
-    type: 'Electric',
-    method: 'stone',
-  },
-  {
-    id: 39,
-    name: 'Jigglypuff',
-    evo: 'Wigglytuff',
-    item: 'moon_stone',
-    type: 'Normal',
-    method: 'stone',
-  },
-  { id: 133, name: 'Eevee', evo: 'Vaporeon', item: 'water_stone', type: 'Normal', method: 'stone' },
-  {
-    id: 133,
-    name: 'Eevee',
-    evo: 'Jolteon',
-    item: 'thunder_stone',
-    type: 'Normal',
-    method: 'stone',
-  },
-  { id: 133, name: 'Eevee', evo: 'Flareon', item: 'fire_stone', type: 'Normal', method: 'stone' },
-];
-
-const STONES = [
-  { id: 'fire_stone', name: 'Vuursteen', price: 2000, img: fireStone, color: '#ef4444' },
-  { id: 'water_stone', name: 'Watersteen', price: 2000, img: waterStone, color: '#3b82f6' },
-  { id: 'thunder_stone', name: 'Dondersteen', price: 2000, img: thunderStone, color: '#eab308' },
-  { id: 'leaf_stone', name: 'Bladsteen', price: 2000, img: leafStone, color: '#22c55e' },
-  { id: 'moon_stone', name: 'Maansteen', price: 3000, img: moonStone, color: '#a855f7' },
-];
+const EVOLUTION_HALL_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.EVOLUTION_HALL;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.EVOLUTION_HALL;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    if (y === 5 && (xIndex === 2 || xIndex === 6)) return TILE_TYPES.TREE;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function EvolutionHallPage() {
   const { pokemonList } = useData();
@@ -117,6 +85,22 @@ export function EvolutionHallPage() {
       }}
     >
       <WorldPageHeader title="Evolutiehal" icon="✨" />
+
+      <div className="evolutionhall-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={EVOLUTION_HALL_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       <div
         className="evolution-chamber game-panel"

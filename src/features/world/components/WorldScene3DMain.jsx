@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Sky, useTexture } from '@react-three/drei';
+import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { TILE_TYPES } from '../worldConstants';
 import {
@@ -36,19 +37,24 @@ const BUILDING_ASSETS = {
 export function WorldScene3DMain({
     mapGrid,
     onObjectClick,
-    isNight = false
+    isNight = false,
+    enableSky = true
 }) {
+    const { scene } = useThree();
+
     const grassTex = useTexture(grassTile);
     const pathTex = useTexture(pathTile);
     const waterTex = useTexture(waterCenterTile);
     const sandTex = useTexture(sandTile);
     const snowTex = useTexture(snowTile);
 
-    React.useLayoutEffect(() => {
+    useEffect(() => {
         [grassTex, pathTex, waterTex, sandTex, snowTex].forEach(t => {
             if (t) {
                 t.magFilter = THREE.NearestFilter;
                 t.minFilter = THREE.NearestFilter;
+                t.generateMipmaps = false;
+                t.anisotropy = 1;
                 t.wrapS = THREE.RepeatWrapping;
                 t.wrapT = THREE.RepeatWrapping;
                 t.needsUpdate = true;
@@ -65,6 +71,14 @@ export function WorldScene3DMain({
             [TILE_TYPES.SNOW]: snowTex,
         };
     }, [grassTex, pathTex, waterTex, sandTex, snowTex]);
+
+    useEffect(() => {
+        const fogColor = isNight ? new THREE.Color('#020617') : new THREE.Color('#0f172a');
+        scene.fog = new THREE.FogExp2(fogColor, isNight ? 0.08 : 0.035);
+        return () => {
+            scene.fog = null;
+        };
+    }, [scene, isNight]);
 
     const getGroundMaterial = (type) => {
         const texture = loadedTextures[type] || loadedTextures[TILE_TYPES.GRASS];
@@ -85,9 +99,16 @@ export function WorldScene3DMain({
 
     return (
         <>
-            <ambientLight intensity={isNight ? 0.35 : 0.7} />
-            <directionalLight position={[10, 20, 10]} intensity={isNight ? 0.9 : 1.2} castShadow />
-            <Sky sunPosition={[100, 10, 100]} />
+            <ambientLight
+                intensity={isNight ? 0.25 : 0.7}
+                color={isNight ? '#0f172a' : '#ffffff'}
+            />
+            <directionalLight
+                position={[10, 20, 10]}
+                intensity={isNight ? 0.7 : 1.0}
+                color={isNight ? '#bae6fd' : '#ffe4b5'}
+            />
+            {enableSky && <Sky sunPosition={[100, 10, 100]} />}
 
             {/* Ground Tiles */}
             {mapGrid.map((row, y) =>
@@ -96,7 +117,7 @@ export function WorldScene3DMain({
                         key={`ground-${x}-${y}`}
                         rotation={[-Math.PI / 2, 0, 0]}
                         position={[x, 0, y]}
-                        receiveShadow
+                        receiveShadow={false}
                         onPointerDown={() => onObjectClick?.(x, y, 'GROUND')}
                     >
                         <planeGeometry args={[1, 1]} />

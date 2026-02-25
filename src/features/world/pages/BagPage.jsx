@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy, useCare } from '../../../contexts/DomainContexts';
 import { useToast } from '../../../hooks/useToast';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import { grassTile } from '../worldAssets';
 import bagImage from '../../../assets/items/bag_icon.png';
 import candyImage from '../../../assets/items/rare_candy.png';
@@ -12,6 +15,16 @@ import berryImage from '../../../assets/items/berry.png';
 import sitrusImage from '../../../assets/items/sitrus_berry.png';
 import razzImage from '../../../assets/items/razz_berry.png';
 import './BagPage.css';
+
+const BAG_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 3) return TILE_TYPES.TREE;
+    if (y === 2 && xIndex === 5) return TILE_TYPES.TREE;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 export function BagPage() {
   const { inventory, removeItem, coins } = useEconomy();
@@ -111,6 +124,21 @@ export function BagPage() {
             border: '4px solid #4a3b32',
           }}
         >
+          <div className="bag-3d-bg">
+            <Canvas
+              shadows={false}
+              dpr={[1, 1.5]}
+              gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+              camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+            >
+              <WorldScene3DMain
+                mapGrid={BAG_GRID}
+                onObjectClick={undefined}
+                isNight={false}
+                enableSky={false}
+              />
+            </Canvas>
+          </div>
           <div className="backpack-frame">
             <img
               src={bagImage}

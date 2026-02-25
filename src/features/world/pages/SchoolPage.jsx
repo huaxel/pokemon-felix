@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Canvas } from '@react-three/fiber';
 import { useEconomy, useProgress } from '../../../contexts/DomainContexts';
 import { STORAGE_KEYS } from '../../../lib/constants';
 import { GraduationCap, BookOpen, Brain } from 'lucide-react';
@@ -9,7 +10,20 @@ import { SchoolQuizCard } from '../components/SchoolQuizCard';
 import { SchoolQuizView } from '../components/SchoolQuizView';
 import { SchoolResultView } from '../components/SchoolResultView';
 import { SchoolCertificate } from '../components/SchoolCertificate';
+import { WorldScene3DMain } from '../components/WorldScene3DMain';
+import { TILE_TYPES } from '../worldConstants';
 import './SchoolPage.css';
+
+const SCHOOL_GRID = Array.from({ length: 8 }, (_, y) =>
+  Array.from({ length: 8 }, (_x, xIndex) => {
+    if (y === 0 || y === 7 || xIndex === 0 || xIndex === 7) return TILE_TYPES.GRASS;
+    if (y === 3 && xIndex === 4) return TILE_TYPES.SCHOOL;
+    if (y === 4 && xIndex === 4) return TILE_TYPES.SCHOOL;
+    if (xIndex === 4) return TILE_TYPES.PATH;
+    if (y === 5 && (xIndex === 2 || xIndex === 6)) return TILE_TYPES.TREE;
+    return TILE_TYPES.GRASS;
+  }),
+);
 
 const QUIZZES = [
   {
@@ -254,6 +268,22 @@ export function SchoolPage() {
           {coins}
         </div>
       </header>
+
+      <div className="school-3d-wrapper">
+        <Canvas
+          shadows={false}
+          dpr={[1, 1.5]}
+          gl={{ powerPreference: 'low-power', antialias: false, alpha: false }}
+          camera={{ position: [3.5, 4.5, 8], fov: 55 }}
+        >
+          <WorldScene3DMain
+            mapGrid={SCHOOL_GRID}
+            onObjectClick={undefined}
+            isNight={false}
+            enableSky={false}
+          />
+        </Canvas>
+      </div>
 
       {view === 'menu' && (
         <div className="school-menu">
