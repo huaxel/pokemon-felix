@@ -7,7 +7,10 @@ import { WorldScene3DMain } from '../components/WorldScene3DMain';
 import { EncounterModal } from '../components/EncounterModal';
 import { Pokeball3D } from '../components/Pokeball3D';
 import { PokemonSprite } from '../components/PokemonSprite';
+import { InteractiveBillboard } from '../components/InteractiveBillboard';
+import { scientistTile, mayorTile } from '../worldAssets';
 import { useEncounter } from '../hooks/useEncounter';
+import { useToast } from '../../../hooks/useToast';
 import { ArrowLeft } from 'lucide-react';
 import './SafariZone3D.css';
 import { TILE_TYPES } from '../worldConstants';
@@ -20,14 +23,16 @@ const baseSafariGrid = Array.from({ length: SAFARI_GRID_SIZE }, (_, y) =>
         const dy = y - SAFARI_GRID_SIZE / 2;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 2.5) return TILE_TYPES.WATER;
-        if (dist < 4) return TILE_TYPES.SAND;
+        if (dist < 1.2) return TILE_TYPES.GRASS; // Center island for the "guy"
+        if (dist < 3.5) return TILE_TYPES.WATER;
+        if (dist < 5) return TILE_TYPES.SAND;
         return TILE_TYPES.GRASS;
     })
 );
 
 export function SafariZone3D() {
     const navigate = useNavigate();
+    const { showInfo } = useToast();
     const { pokemonList, loading } = useData();
     const { squadIds } = useDomainCollection();
     const [isLocked, setIsLocked] = useState(false);
@@ -64,6 +69,21 @@ export function SafariZone3D() {
 
     const handlePokemonClick = (pokemonOrX, targetPositionOrY, _maybeType) => {
         if (thrownBall) return;
+
+        if (_maybeType === 'NPC_PROFESSOR') {
+            showInfo("Prof. Felix: Welkom in de Safari Zone! Kun je ze allemaal vangen?");
+            return;
+        }
+
+        if (_maybeType === 'NPC_SCIENTIST') {
+            showInfo("Wetenschapper: Ik bestudeer de ecosystemen in deze 3D wereld. Fascinerend!");
+            return;
+        }
+
+        if (_maybeType === 'NPC_MAYOR') {
+            showInfo("Burgemeester: Welkom in onze prachtige Safari Zone! Geniet van het uitzicht.");
+            return;
+        }
 
         // If it's a Pokemon sprite, pokemonOrX will be an object with an 'id' or 'image'
         // If it's from WorldScene3DMain ground, pokemonOrX will be a number (x coordinate)
@@ -126,7 +146,26 @@ export function SafariZone3D() {
                     <WorldScene3DMain
                         mapGrid={baseSafariGrid}
                         onObjectClick={handlePokemonClick}
-                        enableSky={false}
+                        enableSky={true}
+                    />
+
+                    {/* Additional NPCs (Guys) */}
+                    <InteractiveBillboard
+                        key="npc-scientist"
+                        image={scientistTile}
+                        position={[2, 0.6, 2]}
+                        scale={[1, 1]}
+                        label="Wetenschapper"
+                        onClick={() => handlePokemonClick(2, 2, 'NPC_SCIENTIST')}
+                    />
+
+                    <InteractiveBillboard
+                        key="npc-mayor"
+                        image={mayorTile}
+                        position={[8, 0.6, 8]}
+                        scale={[1, 1]}
+                        label="Burgemeester"
+                        onClick={() => handlePokemonClick(8, 8, 'NPC_MAYOR')}
                     />
 
                     {pokemonList.slice(0, 8).map((p, i) => (

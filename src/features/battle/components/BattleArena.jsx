@@ -65,15 +65,14 @@ export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
               mapGrid={BATTLE_GRID}
               onObjectClick={undefined}
               isNight={false}
-              enableSky={false}
+              enableSky={true}
             />
           </Canvas>
         </div>
         <div className="battle-visuals-inner">
           <div
-            className={`fighter-sprite f1 ${turn === 'player' ? 'active' : ''} ${
-              f1Weakened ? 'weakened' : ''
-            }`}
+            className={`fighter-sprite f1 ${turn === 'player' ? 'active' : ''} ${f1Weakened ? 'weakened' : ''
+              }`}
           >
             <img
               src={fighter1.sprites?.front_default}
@@ -82,9 +81,8 @@ export function BattleArena({ initialFighter1, initialFighter2, onBattleEnd }) {
             />
           </div>
           <div
-            className={`fighter-sprite f2 ${turn === 'enemy' ? 'active' : ''} ${
-              f2Weakened ? 'weakened' : ''
-            }`}
+            className={`fighter-sprite f2 ${turn === 'enemy' ? 'active' : ''} ${f2Weakened ? 'weakened' : ''
+              }`}
           >
             <img
               src={fighter2.sprites?.front_default}
