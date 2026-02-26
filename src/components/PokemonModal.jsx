@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { typeTranslations } from '../lib/utils';
 import './PokemonModal.css';
 
 export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
   const [language, setLanguage] = useState('en'); // Default to English (no Dutch in PokeAPI)
+
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   if (!pokemon) return null;
 
@@ -39,9 +49,9 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
       <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
+        <button className="modal-close" onClick={onClose} aria-label="Close modal">
           &times;
         </button>
 
@@ -54,6 +64,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
               className={language === 'en' ? 'active' : ''}
               onClick={() => setLanguage('en')}
               title="English"
+              aria-label="Switch to English"
             >
               🇺🇸
             </button>
@@ -61,6 +72,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
               className={language === 'fr' ? 'active' : ''}
               onClick={() => setLanguage('fr')}
               title="Français"
+              aria-label="Switch to French"
             >
               🇫🇷
             </button>
@@ -68,6 +80,7 @@ export function PokemonModal({ pokemon, onClose, isOwned, onToggleOwned }) {
               className={language === 'es' ? 'active' : ''}
               onClick={() => setLanguage('es')}
               title="Español"
+              aria-label="Switch to Spanish"
             >
               🇪🇸
             </button>
