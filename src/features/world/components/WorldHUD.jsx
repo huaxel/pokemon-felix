@@ -26,13 +26,23 @@ export function WorldHUD({
 }) {
   return (
     <div className="season-hud">
-      <button className="arrow-btn" onClick={prevSeason}>
+      <button
+        className="arrow-btn"
+        onClick={prevSeason}
+        aria-label="Vorig seizoen"
+        title="Vorig seizoen"
+      >
         &lt;
       </button>
       <div className="season-display">
         <span className="season-name">{SEASONS[seasonIndex]}</span>
       </div>
-      <button className="arrow-btn" onClick={nextSeason}>
+      <button
+        className="arrow-btn"
+        onClick={nextSeason}
+        aria-label="Volgend seizoen"
+        title="Volgend seizoen"
+      >
         &gt;
       </button>
 
@@ -40,6 +50,7 @@ export function WorldHUD({
         className={`day-night-toggle ${isNight ? 'night' : 'day'} ${autoTime ? 'auto' : ''}`}
         onClick={toggleDayNight}
         title={autoTime ? 'Auto (Real Time)' : 'Handmatige Wissel'}
+        aria-label="Schakel dag/nacht"
       >
         {isNight ? '🌙' : '☀️'}
       </button>
@@ -48,14 +59,25 @@ export function WorldHUD({
         className={`auto-time-btn ${autoTime ? 'active' : ''}`}
         onClick={toggleAutoTime}
         title="Wissel Real-Time Klok"
+        aria-label="Schakel automatische tijd"
       >
         {autoTime ? '🕐 Auto' : '⏸️ Handmatig'}
       </button>
 
-      <button className="bag-hud-btn" onClick={() => navigate('/bag')}>
+      <button
+        className="bag-hud-btn"
+        onClick={() => navigate('/bag')}
+        aria-label="Open Tas"
+        title="Open Tas"
+      >
         <img src={bagImage} alt="Tas" />
       </button>
-      <button className="quest-hud-btn" onClick={() => setShowQuestLog(true)}>
+      <button
+        className="quest-hud-btn"
+        onClick={() => setShowQuestLog(true)}
+        aria-label="Open Missies"
+        title="Open Missies"
+      >
         <Trophy size={20} color="#92400e" />
         {quests && quests.some(q => !q.completed && q.progress >= q.target) && (
           <span className="quest-dot">!</span>
@@ -87,6 +109,8 @@ export function WorldHUD({
               setGpsDirection(getDirectionHint(playerPos, target));
               showMessage(`Zoek de schat op X: ${target.x}, Y: ${target.y}!`, '#3b82f6');
             }}
+            aria-label="Start GPS Missie"
+            title="Start GPS Missie"
           >
             <Compass size={18} />
             <span>GPS Missie</span>
