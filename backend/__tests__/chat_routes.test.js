@@ -44,10 +44,11 @@ describe('Chat Routes Security Test', () => {
     // Create router
     router = createChatRouter({ db, getTrainerResponse });
 
-    // Get the POST handler
+    // Get the POST handler. Because we added a rateLimiter middleware,
+    // the actual async handler is the 3rd argument.
     const postCall = router.post.mock.calls.find(call => call[0] === '/api/chat/:trainer_id');
     if (postCall) {
-      postHandler = postCall[1];
+      postHandler = postCall[2];
     }
   });
 

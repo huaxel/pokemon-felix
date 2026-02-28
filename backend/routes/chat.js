@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { asyncHandler } from '../lib/asyncHandler.js';
 import { badRequest } from '../lib/httpError.js';
 import { validateChatInput } from '../utils/validation.js';
+import { createRateLimiter } from '../middleware/rateLimiter.js';
 
 export function createChatRouter({ db, getTrainerResponse }) {
   const router = Router();
@@ -24,8 +25,14 @@ export function createChatRouter({ db, getTrainerResponse }) {
     })
   );
 
+  const chatRateLimiter = createRateLimiter({
+    windowMs: 60000, // 1 minute
+    max: 10, // 10 requests per window
+  });
+
   router.post(
     '/api/chat/:trainer_id',
+    chatRateLimiter,
     asyncHandler(async (req, res) => {
       const { content } = req.body || {};
       const { trainer_id } = req.params;
