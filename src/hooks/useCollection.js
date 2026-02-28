@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
   getCollection,
   addToCollection,
@@ -12,6 +12,10 @@ import {
 export function useCollection() {
   const [ownedIds, setOwnedIds] = useState([]);
 
+  // Optimization: use a ref to hold the latest state synchronously,
+  // preventing race conditions with rapid toggles
+  const ownedIdsRef = useRef(ownedIds);
+
   useEffect(() => {
     let ignore = false;
     const loadCollection = async () => {
@@ -19,6 +23,7 @@ export function useCollection() {
         const ids = await getCollection();
         if (!ignore) {
           setOwnedIds(ids);
+          ownedIdsRef.current = ids;
         }
       } catch (error) {
         console.error('Failed to load collection', error);
@@ -32,8 +37,17 @@ export function useCollection() {
 
   const toggleOwned = useCallback(
     async id => {
-      const isOwned = ownedIds.includes(id);
-      setOwnedIds(prev => (isOwned ? prev.filter(pId => pId !== id) : [...prev, id]));
+      const isOwned = ownedIdsRef.current.includes(id);
+
+      // Update ref synchronously
+      if (isOwned) {
+        ownedIdsRef.current = ownedIdsRef.current.filter(pId => pId !== id);
+      } else {
+        ownedIdsRef.current = [...ownedIdsRef.current, id];
+      }
+
+      // Update React state
+      setOwnedIds(ownedIdsRef.current);
 
       try {
         if (isOwned) {
@@ -44,10 +58,15 @@ export function useCollection() {
       } catch (error) {
         console.error('Failed to update collection', error);
         // Revert on error
-        setOwnedIds(prev => (isOwned ? [...prev, id] : prev.filter(pId => pId !== id)));
+        if (isOwned) {
+          ownedIdsRef.current = [...ownedIdsRef.current, id];
+        } else {
+          ownedIdsRef.current = ownedIdsRef.current.filter(pId => pId !== id);
+        }
+        setOwnedIds(ownedIdsRef.current);
       }
     },
-    [ownedIds]
+    []
   );
 
   return useMemo(

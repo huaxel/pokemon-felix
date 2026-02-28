@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useRef, useLayoutEffect } from 'react';
 import { useCollection } from '../hooks/useCollection';
 import { useCoins } from '../hooks/useCoins';
 import { useSquad } from '../hooks/useSquad';
@@ -135,15 +135,25 @@ export function CollectionProvider({ children, onCatch }) {
   const collection = useCollection();
   const squad = useSquad();
 
+  // Optimization: Keep refs to latest collection values to avoid recreating toggleOwned
+  const ownedIdsRef = useRef(collection.ownedIds);
+  const onCatchRef = useRef(onCatch);
+
+  // Update refs on every render safely
+  useLayoutEffect(() => {
+    ownedIdsRef.current = collection.ownedIds;
+    onCatchRef.current = onCatch;
+  });
+
   const toggleOwned = useCallback(
     id => {
-      const wasOwned = collection.ownedIds.includes(id);
+      const wasOwned = ownedIdsRef.current.includes(id);
       collection.toggleOwned(id);
-      if (!wasOwned && onCatch) {
-        onCatch(id);
+      if (!wasOwned && onCatchRef.current) {
+        onCatchRef.current(id);
       }
     },
-    [collection, onCatch]
+    [collection]
   );
 
   const value = useMemo(
@@ -153,7 +163,7 @@ export function CollectionProvider({ children, onCatch }) {
       toggleOwned,
       ...squad,
     }),
-    [collection, toggleOwned, squad]
+    [collection.ownedIds, collection.setOwnedIds, toggleOwned, squad]
   );
 
   return <CollectionContext.Provider value={value}>{children}</CollectionContext.Provider>;
