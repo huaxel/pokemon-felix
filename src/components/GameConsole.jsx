@@ -119,9 +119,15 @@ export function GameConsole({ onClose }) {
 
   return (
     <div className="console-overlay" onClick={onClose}>
-      <div className="console-window" onClick={e => e.stopPropagation()}>
+      <div
+        className="console-window"
+        onClick={e => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="console-title"
+      >
         <div className="console-header">
-          <div className="console-title">
+          <div className="console-title" id="console-title">
             <Terminal size={20} />
             <span>Python Terminal</span>
           </div>
